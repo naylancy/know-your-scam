@@ -341,31 +341,28 @@ class AuthManager {
     }
   }
 
-  // Ensure game_scores structure exists for per-game tracking
+  // Ensure game_scores structure exists for per-game tracking (4 core games only)
   ensureGameScores(user) {
     if (!user) return;
-    if (!user.game_scores || typeof user.game_scores !== 'object') {
-      const total = parseInt(user.score) || 500;
+    const raw = user.game_scores || {};
+    const total = parseInt(user.score) || 500;
+    if (!user.game_scores || typeof user.game_scores !== 'object' || Object.keys(user.game_scores).length === 0) {
       user.game_scores = {
-        kasus: Math.round(total * 0.30),
+        kasus: Math.round(total * 0.35),
         diff: Math.round(total * 0.25),
         criminal: Math.round(total * 0.25),
-        deeplearn: Math.round(total * 0.14),
-        scanner: Math.round(total * 0.03),
-        checker: Math.round(total * 0.03)
+        deeplearn: Math.round(total * 0.15)
       };
     } else {
       user.game_scores = {
-        kasus: parseInt(user.game_scores.kasus) || 0,
-        diff: parseInt(user.game_scores.diff) || 0,
-        criminal: parseInt(user.game_scores.criminal) || 0,
-        deeplearn: parseInt(user.game_scores.deeplearn) || 0,
-        scanner: parseInt(user.game_scores.scanner) || 0,
-        checker: parseInt(user.game_scores.checker) || 0
+        kasus: parseInt(raw.kasus) || 0,
+        diff: parseInt(raw.diff) || 0,
+        criminal: parseInt(raw.criminal) || 0,
+        deeplearn: parseInt(raw.deeplearn) || 0
       };
     }
-    // Recompute total score strictly from sum of game scores
-    user.score = Object.values(user.game_scores).reduce((a, b) => a + b, 0);
+    // Recompute total score strictly from sum of 4 core game scores
+    user.score = user.game_scores.kasus + user.game_scores.diff + user.game_scores.criminal + user.game_scores.deeplearn;
   }
 
   // Recalculate rank tier
@@ -454,11 +451,11 @@ class AuthManager {
     }
   }
 
-  // Real-time update for in-game score badges across all active games
+  // Real-time update for in-game score badges across all active games (4 core games)
   updateInGameScoreHUD(gameKey = null) {
     if (!this.currentUser) return;
     this.ensureGameScores(this.currentUser);
-    const keys = gameKey ? [gameKey] : ['kasus', 'diff', 'criminal', 'deeplearn', 'scanner', 'checker'];
+    const keys = gameKey ? [gameKey] : ['kasus', 'diff', 'criminal', 'deeplearn'];
     
     keys.forEach(k => {
       const gScore = this.currentUser.game_scores?.[k] || 0;
@@ -485,26 +482,26 @@ class AuthManager {
 
     this.ensureGameScores(this.currentUser);
 
-    // Identify target game category
+    // Identify target game category (4 core games only)
     const modLower = (moduleName || '').toLowerCase();
     let targetGame = gameKey;
     if (!targetGame) {
       if (modLower.includes('kasus') || modLower.includes('case')) targetGame = 'kasus';
       else if (modLower.includes('diff')) targetGame = 'diff';
       else if (modLower.includes('criminal')) targetGame = 'criminal';
-      else if (modLower.includes('deep')) targetGame = 'deeplearn';
-      else if (modLower.includes('scan')) targetGame = 'scanner';
-      else if (modLower.includes('check')) targetGame = 'checker';
-      else targetGame = 'kasus';
+      else if (modLower.includes('deep') || modLower.includes('analyz')) targetGame = 'deeplearn';
+      else targetGame = null;
     }
 
-    // 1. Update score for the specific game
-    const previousGameScore = this.currentUser.game_scores[targetGame] || 0;
-    this.currentUser.game_scores[targetGame] = Math.max(0, previousGameScore + scoreDelta);
+    // 1. Update score for the specific game if valid
+    if (targetGame && this.currentUser.game_scores[targetGame] !== undefined) {
+      const previousGameScore = this.currentUser.game_scores[targetGame] || 0;
+      this.currentUser.game_scores[targetGame] = Math.max(0, previousGameScore + scoreDelta);
+    }
 
-    // 2. Total score is the exact sum of all game scores
-    const previousTotal = this.currentUser.score;
-    this.currentUser.score = Object.values(this.currentUser.game_scores).reduce((a, b) => a + b, 0);
+    // 2. Total score is strictly the exact sum of the 4 core game scores
+    const gs = this.currentUser.game_scores;
+    this.currentUser.score = (parseInt(gs.kasus) || 0) + (parseInt(gs.diff) || 0) + (parseInt(gs.criminal) || 0) + (parseInt(gs.deeplearn) || 0);
 
     // 3. Update vulnerability & rank
     this.currentUser.vulnerability = Math.max(1.0, Math.min(10.0, +(this.currentUser.vulnerability + vulnDelta).toFixed(1)));

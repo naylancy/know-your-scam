@@ -49,10 +49,10 @@ class ModuleDeepLearning {
     const current = this.cases[this.currentIndex];
     this.selectedThreatLevel = null;
 
-    // Briefing and Real-Time Live HUD
-    const hasSeenBriefing = window.gameBriefing?.hasSeen('deeplearn');
-    const briefingHtml = window.gameBriefing?.renderBriefingHTML('deeplearn') || '';
-    const hudBarHtml = window.gameBriefing?.renderHUDBar('deeplearn') || '';
+    // Two-Page System: Page Start (Briefing & Tutorial) vs Page Game (Arena)
+    const isPlaying = window.gameBriefing?.isPlaying('deeplearn');
+    const startScreenHtml = window.gameBriefing?.renderStartScreenHTML('deeplearn') || '';
+    const hudBarHtml = window.gameBriefing?.renderGameHUDBar('deeplearn') || '';
 
     // Hint system
     window.hintSystem?.setHints([
@@ -70,8 +70,8 @@ class ModuleDeepLearning {
     `).join('');
 
     container.innerHTML = `
-      ${briefingHtml}
-      <div id="game-content-deeplearn" class="holo-enter" style="${hasSeenBriefing ? 'display:block;' : 'display:none;'}">
+      ${startScreenHtml}
+      <div id="view-game-deeplearn" class="game-page-arena holo-enter" style="${isPlaying ? 'display:block;' : 'display:none;'}">
         ${hudBarHtml}
 
         <!-- Sub Header & Progress -->

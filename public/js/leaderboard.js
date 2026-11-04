@@ -45,12 +45,10 @@ class LeaderboardManager {
     let gameScores = typeof rawScores === 'object' && rawScores !== null ? rawScores : {};
     if (Object.keys(gameScores).length === 0 && total > 0) {
       gameScores = {
-        kasus: Math.round(total * 0.30),
+        kasus: Math.round(total * 0.35),
         diff: Math.round(total * 0.25),
         criminal: Math.round(total * 0.25),
-        deeplearn: Math.round(total * 0.14),
-        scanner: Math.round(total * 0.03),
-        checker: Math.round(total * 0.03)
+        deeplearn: Math.round(total * 0.15)
       };
     }
 
@@ -58,13 +56,11 @@ class LeaderboardManager {
       kasus: parseInt(gameScores.kasus) || 0,
       diff: parseInt(gameScores.diff) || 0,
       criminal: parseInt(gameScores.criminal) || 0,
-      deeplearn: parseInt(gameScores.deeplearn) || 0,
-      scanner: parseInt(gameScores.scanner) || 0,
-      checker: parseInt(gameScores.checker) || 0
+      deeplearn: parseInt(gameScores.deeplearn) || 0
     };
 
-    // Total score is strictly the sum of all game scores
-    const computedTotal = Object.values(normalizedScores).reduce((a, b) => a + b, 0);
+    // Total score is strictly the exact sum of the 4 core games (kasus, diff, criminal, deeplearn)
+    const computedTotal = normalizedScores.kasus + normalizedScores.diff + normalizedScores.criminal + normalizedScores.deeplearn;
 
     return {
       ...u,
@@ -189,11 +185,11 @@ class LeaderboardManager {
                     `#${rankNum}`;
 
       const v = parseFloat(u.vulnerability).toFixed(1);
-      const gs = u.game_scores || { kasus: 0, diff: 0, criminal: 0, deeplearn: 0, scanner: 0, checker: 0 };
+      const gs = u.game_scores || { kasus: 0, diff: 0, criminal: 0, deeplearn: 0 };
       const isExpanded = this.expandedUserId === u.id;
 
       if (isDetailView) {
-        // Detailed Columns View
+        // Detailed Columns View (4 Core Games Only - Clickable to navigate)
         return `
           <tr style="${isMe ? 'background: rgba(0, 243, 255, 0.12); border-left: 3px solid var(--neon-cyan);' : ''}">
             <td style="font-weight: 700; width: 55px; text-align: center;">${medal}</td>
@@ -210,28 +206,30 @@ class LeaderboardManager {
                 </div>
               </div>
             </td>
-            <!-- TOTAL SCORE (Sum of All Games) -->
+            <!-- TOTAL SCORE (Sum of 4 Games) -->
             <td style="color: var(--neon-cyan); font-weight: 800; font-size: 1.05rem; white-space: nowrap; text-align: right; padding-right: 18px;">
               ${u.score.toLocaleString()} XP
             </td>
-            <!-- Individual Game Breakdown Columns -->
-            <td style="text-align: center; color: var(--text-main); font-family: var(--font-mono); font-size: 0.85rem;">
-              <span class="cyber-tag" style="padding:2px 8px; font-size:0.75rem; border-color:rgba(255,184,0,0.4);">${gs.kasus}</span>
+            <!-- Individual 4 Game Breakdown Columns (Click to navigate to respective game) -->
+            <td style="text-align: center; cursor: pointer;" onclick="window.app.navigateTo('kasus')" title="Mainkan Kasus Simulasi">
+              <span class="cyber-tag" style="padding:3px 10px; font-size:0.78rem; border-color:rgba(255,184,0,0.5); color:var(--neon-amber); transition: transform 0.2s;">
+                ${gs.kasus} XP ↗
+              </span>
             </td>
-            <td style="text-align: center; color: var(--text-main); font-family: var(--font-mono); font-size: 0.85rem;">
-              <span class="cyber-tag" style="padding:2px 8px; font-size:0.75rem; border-color:rgba(189,0,255,0.4);">${gs.diff}</span>
+            <td style="text-align: center; cursor: pointer;" onclick="window.app.navigateTo('diff')" title="Mainkan Finding Diff">
+              <span class="cyber-tag" style="padding:3px 10px; font-size:0.78rem; border-color:rgba(189,0,255,0.5); color:var(--neon-magenta); transition: transform 0.2s;">
+                ${gs.diff} XP ↗
+              </span>
             </td>
-            <td style="text-align: center; color: var(--text-main); font-family: var(--font-mono); font-size: 0.85rem;">
-              <span class="cyber-tag" style="padding:2px 8px; font-size:0.75rem; border-color:rgba(255,0,85,0.4);">${gs.criminal}</span>
+            <td style="text-align: center; cursor: pointer;" onclick="window.app.navigateTo('criminal')" title="Mainkan Criminal Case">
+              <span class="cyber-tag" style="padding:3px 10px; font-size:0.78rem; border-color:rgba(255,0,85,0.5); color:var(--neon-red); transition: transform 0.2s;">
+                ${gs.criminal} XP ↗
+              </span>
             </td>
-            <td style="text-align: center; color: var(--text-main); font-family: var(--font-mono); font-size: 0.85rem;">
-              <span class="cyber-tag" style="padding:2px 8px; font-size:0.75rem; border-color:rgba(0,255,157,0.4);">${gs.deeplearn}</span>
-            </td>
-            <td style="text-align: center; color: var(--text-main); font-family: var(--font-mono); font-size: 0.85rem;">
-              <span class="cyber-tag" style="padding:2px 8px; font-size:0.75rem; border-color:rgba(0,243,255,0.4);">${gs.scanner}</span>
-            </td>
-            <td style="text-align: center; color: var(--text-main); font-family: var(--font-mono); font-size: 0.85rem;">
-              <span class="cyber-tag" style="padding:2px 8px; font-size:0.75rem; border-color:rgba(255,184,0,0.4);">${gs.checker}</span>
+            <td style="text-align: center; cursor: pointer;" onclick="window.app.navigateTo('deeplearn')" title="Mainkan AI Analyzer">
+              <span class="cyber-tag" style="padding:3px 10px; font-size:0.78rem; border-color:rgba(0,255,157,0.5); color:var(--neon-green); transition: transform 0.2s;">
+                ${gs.deeplearn} XP ↗
+              </span>
             </td>
             <td style="text-align: center;">
               <span class="cyber-tag ${v <= 2.5 ? 'tag-green' : v <= 5.5 ? 'tag-amber' : 'tag-red'}" style="font-size:0.75rem;">
@@ -267,7 +265,7 @@ class LeaderboardManager {
             <td style="color: var(--neon-cyan); font-weight: 800; font-size: 1.05rem;">
               <div>${u.score.toLocaleString()} XP</div>
               <div style="font-size: 0.7rem; color: var(--text-muted); font-family: var(--font-mono); font-weight: normal;">
-                TOTAL SEMUA GAME
+                TOTAL 4 GAME
               </div>
             </td>
             <td style="text-align: center;">
@@ -290,7 +288,7 @@ class LeaderboardManager {
             </td>
           </tr>
 
-          <!-- Expandable Row: Per-Game Score Breakdown Card -->
+          <!-- Expandable Row: Per-Game Score Breakdown Card (4 Core Games Only) -->
           ${isExpanded ? `
             <tr style="background: rgba(14, 18, 36, 0.95); border-bottom: 2px solid var(--border-cyan);">
               <td colspan="7" style="padding: 16px 22px;">
@@ -304,30 +302,49 @@ class LeaderboardManager {
                     </div>
                   </div>
 
-                  <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-top: 4px;">
-                    <div style="background:rgba(5,5,10,0.7); border:1px solid rgba(255,184,0,0.3); border-radius:6px; padding:10px; text-align:center;">
-                      <div style="font-size:0.7rem; color:var(--text-muted); margin-bottom:2px;">📜 KASUS MULTI-POV</div>
-                      <strong style="color:var(--neon-amber); font-size:1.15rem;">${gs.kasus} XP</strong>
+                  <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 6px;">
+                    <!-- Game 1: Kasus -->
+                    <div style="background:rgba(5,5,10,0.85); border:1px solid rgba(255,184,0,0.4); border-radius:8px; padding:12px; text-align:center; display:flex; flex-direction:column; justify-content:space-between;">
+                      <div>
+                        <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px;">📜 KASUS MULTI-POV</div>
+                        <strong style="color:var(--neon-amber); font-size:1.25rem;">${gs.kasus} XP</strong>
+                      </div>
+                      <button class="cyber-btn" style="width:100%; font-size:0.72rem; padding:6px; margin-top:10px; border-color:var(--neon-amber);" onclick="window.app.navigateTo('kasus')">
+                        ⚡ MAIN KASUS ➔
+                      </button>
                     </div>
-                    <div style="background:rgba(5,5,10,0.7); border:1px solid rgba(189,0,255,0.3); border-radius:6px; padding:10px; text-align:center;">
-                      <div style="font-size:0.7rem; color:var(--text-muted); margin-bottom:2px;">⚖️ FINDING DIFF</div>
-                      <strong style="color:var(--neon-magenta); font-size:1.15rem;">${gs.diff} XP</strong>
+
+                    <!-- Game 2: Finding Diff -->
+                    <div style="background:rgba(5,5,10,0.85); border:1px solid rgba(189,0,255,0.4); border-radius:8px; padding:12px; text-align:center; display:flex; flex-direction:column; justify-content:space-between;">
+                      <div>
+                        <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px;">⚖️ FINDING DIFF</div>
+                        <strong style="color:var(--neon-magenta); font-size:1.25rem;">${gs.diff} XP</strong>
+                      </div>
+                      <button class="cyber-btn btn-magenta" style="width:100%; font-size:0.72rem; padding:6px; margin-top:10px;" onclick="window.app.navigateTo('diff')">
+                        ⚡ MAIN DIFF ➔
+                      </button>
                     </div>
-                    <div style="background:rgba(5,5,10,0.7); border:1px solid rgba(255,0,85,0.3); border-radius:6px; padding:10px; text-align:center;">
-                      <div style="font-size:0.7rem; color:var(--text-muted); margin-bottom:2px;">🕵️ CRIMINAL CASE</div>
-                      <strong style="color:var(--neon-red); font-size:1.15rem;">${gs.criminal} XP</strong>
+
+                    <!-- Game 3: Criminal Case -->
+                    <div style="background:rgba(5,5,10,0.85); border:1px solid rgba(255,0,85,0.4); border-radius:8px; padding:12px; text-align:center; display:flex; flex-direction:column; justify-content:space-between;">
+                      <div>
+                        <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px;">🕵️ CRIMINAL CASE</div>
+                        <strong style="color:var(--neon-red); font-size:1.25rem;">${gs.criminal} XP</strong>
+                      </div>
+                      <button class="cyber-btn" style="width:100%; font-size:0.72rem; padding:6px; margin-top:10px; border-color:var(--neon-red); color:var(--neon-red);" onclick="window.app.navigateTo('criminal')">
+                        ⚡ INVESTIGASI ➔
+                      </button>
                     </div>
-                    <div style="background:rgba(5,5,10,0.7); border:1px solid rgba(0,255,157,0.3); border-radius:6px; padding:10px; text-align:center;">
-                      <div style="font-size:0.7rem; color:var(--text-muted); margin-bottom:2px;">🧠 DEEP LEARNING</div>
-                      <strong style="color:var(--neon-green); font-size:1.15rem;">${gs.deeplearn} XP</strong>
-                    </div>
-                    <div style="background:rgba(5,5,10,0.7); border:1px solid rgba(0,243,255,0.3); border-radius:6px; padding:10px; text-align:center;">
-                      <div style="font-size:0.7rem; color:var(--text-muted); margin-bottom:2px;">🔗 LINK SCANNER</div>
-                      <strong style="color:var(--neon-cyan); font-size:1.15rem;">${gs.scanner} XP</strong>
-                    </div>
-                    <div style="background:rgba(5,5,10,0.7); border:1px solid rgba(255,184,0,0.3); border-radius:6px; padding:10px; text-align:center;">
-                      <div style="font-size:0.7rem; color:var(--text-muted); margin-bottom:2px;">🛡️ THREAT CHECKER</div>
-                      <strong style="color:var(--neon-amber); font-size:1.15rem;">${gs.checker} XP</strong>
+
+                    <!-- Game 4: AI Analyzer -->
+                    <div style="background:rgba(5,5,10,0.85); border:1px solid rgba(0,255,157,0.4); border-radius:8px; padding:12px; text-align:center; display:flex; flex-direction:column; justify-content:space-between;">
+                      <div>
+                        <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px;">🧠 AI ANALYZER</div>
+                        <strong style="color:var(--neon-green); font-size:1.25rem;">${gs.deeplearn} XP</strong>
+                      </div>
+                      <button class="cyber-btn" style="width:100%; font-size:0.72rem; padding:6px; margin-top:10px; border-color:var(--neon-green); color:var(--neon-green);" onclick="window.app.navigateTo('deeplearn')">
+                        ⚡ ANALYZER ➔
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -413,12 +430,18 @@ class LeaderboardManager {
                   <th style="width: 55px; text-align: center;">POSISI</th>
                   <th>OPERATOR SIBER</th>
                   <th style="text-align: right; padding-right: 18px; color:var(--neon-cyan);">TOTAL XP</th>
-                  <th style="text-align: center; color:var(--neon-amber);">📜 KASUS</th>
-                  <th style="text-align: center; color:var(--neon-magenta);">⚖️ DIFF</th>
-                  <th style="text-align: center; color:var(--neon-red);">🕵️ CRIM</th>
-                  <th style="text-align: center; color:var(--neon-green);">🧠 DEEP</th>
-                  <th style="text-align: center; color:var(--neon-cyan);">🔗 SCAN</th>
-                  <th style="text-align: center; color:var(--neon-amber);">🛡️ CHECK</th>
+                  <th style="text-align: center; color:var(--neon-amber); cursor:pointer;" onclick="window.app.navigateTo('kasus')" title="Klik untuk mainkan game Kasus">
+                    📜 KASUS ↗
+                  </th>
+                  <th style="text-align: center; color:var(--neon-magenta); cursor:pointer;" onclick="window.app.navigateTo('diff')" title="Klik untuk mainkan game Finding Diff">
+                    ⚖️ DIFF ↗
+                  </th>
+                  <th style="text-align: center; color:var(--neon-red); cursor:pointer;" onclick="window.app.navigateTo('criminal')" title="Klik untuk mainkan game Criminal Case">
+                    🕵️ CRIMINAL ↗
+                  </th>
+                  <th style="text-align: center; color:var(--neon-green); cursor:pointer;" onclick="window.app.navigateTo('deeplearn')" title="Klik untuk mainkan game AI Analyzer">
+                    🧠 ANALYZER ↗
+                  </th>
                   <th style="text-align: center;">VULNERABILITY</th>
                 </tr>
               ` : `

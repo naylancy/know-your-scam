@@ -154,10 +154,61 @@ class GuardianApp {
   }
 
   navigateTo(route) {
+    this.toggleMobileSidebar(true);
     window.location.hash = '#' + route;
   }
 
+  toggleMobileSidebar(forceClose = false) {
+    const drawer = document.getElementById('mobile-sidebar-drawer');
+    const backdrop = document.getElementById('mobile-sidebar-backdrop');
+    if (!drawer || !backdrop) return;
+
+    if (forceClose) {
+      drawer.classList.remove('open');
+      backdrop.classList.remove('open');
+      return;
+    }
+
+    const isOpen = drawer.classList.contains('open');
+    if (isOpen) {
+      drawer.classList.remove('open');
+      backdrop.classList.remove('open');
+    } else {
+      drawer.classList.add('open');
+      backdrop.classList.add('open');
+      window.cyberAudio?.playClick();
+      this.syncMobileSidebarProfile();
+    }
+  }
+
+  syncMobileSidebarProfile() {
+    const user = window.authManager?.currentUser;
+    const banner = document.getElementById('mobile-user-profile-banner');
+    const guestActions = document.getElementById('mobile-guest-actions');
+    const authActions = document.getElementById('mobile-auth-actions');
+    const adminLi = document.getElementById('mobile-admin-link-li');
+
+    if (user) {
+      if (banner) banner.style.display = 'flex';
+      const nameEl = document.getElementById('mobile-user-name');
+      const scoreEl = document.getElementById('mobile-user-score');
+      const vulnEl = document.getElementById('mobile-user-vuln');
+      if (nameEl) nameEl.textContent = user.name;
+      if (scoreEl) scoreEl.textContent = `${user.score} XP`;
+      if (vulnEl) vulnEl.textContent = `VULN: ${parseFloat(user.vulnerability || 5.0).toFixed(1)}/10`;
+      if (guestActions) guestActions.style.display = 'none';
+      if (authActions) authActions.style.display = 'block';
+      if (adminLi) adminLi.style.display = user.role === 'admin' ? 'block' : 'none';
+    } else {
+      if (banner) banner.style.display = 'none';
+      if (guestActions) guestActions.style.display = 'block';
+      if (authActions) authActions.style.display = 'none';
+      if (adminLi) adminLi.style.display = 'none';
+    }
+  }
+
   handleRoute() {
+    this.toggleMobileSidebar(true);
     const rawHash = window.location.hash.replace('#', '') || 'welcome';
 
     // Route Guard 1: Guests cannot access game modules or admin
@@ -185,6 +236,12 @@ class GuardianApp {
 
     // Highlight nav
     document.querySelectorAll('.nav-link').forEach(link => {
+      const href = link.getAttribute('href') || '';
+      link.classList.toggle('active', href === '#' + rawHash);
+    });
+
+    // Highlight mobile sidebar links
+    document.querySelectorAll('.mobile-nav-link').forEach(link => {
       const href = link.getAttribute('href') || '';
       link.classList.toggle('active', href === '#' + rawHash);
     });

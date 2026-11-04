@@ -5,12 +5,61 @@
 
 .edu-w3-wrapper {
   display: flex;
+  flex-direction: column;
   min-height: calc(100vh - 160px);
   background: var(--bg-surface);
   border: 1px solid var(--border-cyan);
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 0 40px rgba(0, 243, 255, 0.08);
+  position: relative;
+}
+
+/* W3Schools Top Category Bar (Like HTML / CSS / JAVASCRIPT) */
+.w3-top-nav-bar {
+  display: flex;
+  gap: 2px;
+  background: #282A35;
+  border-bottom: 1px solid rgba(0, 243, 255, 0.25);
+  overflow-x: auto;
+  padding: 0 8px;
+  white-space: nowrap;
+  scrollbar-width: thin;
+  z-index: 10;
+}
+
+.w3-top-tab {
+  background: transparent;
+  border: none;
+  color: #E2E8F0;
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 12px 18px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 3px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.w3-top-tab:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
+}
+
+.w3-top-tab.active {
+  background: #04AA6D !important;
+  color: #FFFFFF !important;
+  border-bottom-color: #04AA6D !important;
+}
+
+/* Main Layout Body: Sidebar on Left, Content on Right */
+.edu-w3-main-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
   position: relative;
 }
 
@@ -27,61 +76,66 @@
   z-index: 20;
 }
 
-/* Sidebar Navigation */
+/* Sidebar Navigation (W3Schools Style) */
 .edu-sidebar {
   width: 290px;
   flex-shrink: 0;
-  background: rgba(8, 12, 26, 0.95);
+  background: rgba(8, 12, 26, 0.98);
   border-right: 1px solid var(--border-cyan);
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  max-height: calc(100vh - 160px);
+  max-height: calc(100vh - 210px);
 }
 
 .edu-sidebar-header {
-  padding: 18px 16px 14px 16px;
-  border-bottom: 1px solid rgba(0, 243, 255, 0.15);
-  background: rgba(0, 243, 255, 0.03);
+  padding: 14px 18px 8px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 243, 255, 0.02);
 }
 
-.edu-sidebar-logo {
+.w3-sidebar-title {
   font-family: var(--font-display);
-  font-size: 0.95rem;
+  font-size: 0.74rem;
   font-weight: 700;
-  color: var(--neon-cyan);
-  letter-spacing: 1px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.edu-sidebar-sub {
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  color: var(--text-muted);
-  letter-spacing: 0.5px;
-  margin-top: 3px;
+  color: #94A3B8;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
 }
 
 .edu-sidebar-list {
-  padding: 12px 0;
+  padding: 8px 0 20px 0;
   flex: 1;
 }
 
-.edu-sidebar-group {
-  margin-bottom: 14px;
+.w3-sidebar-group {
+  margin-bottom: 6px;
 }
 
-.edu-category-label {
+.w3-accordion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
   font-family: var(--font-display);
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 700;
   color: var(--neon-cyan);
-  letter-spacing: 1px;
-  padding: 8px 18px 4px 18px;
-  text-transform: uppercase;
-  opacity: 0.85;
+  letter-spacing: 0.8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.w3-accordion-header:hover {
+  background: rgba(0, 243, 255, 0.06);
+  color: var(--text-highlight);
+}
+
+.w3-chevron {
+  font-size: 0.62rem;
+  color: #94A3B8;
+  transition: transform 0.2s ease;
 }
 
 .edu-cat-items {
@@ -94,39 +148,39 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 18px;
+  padding: 7px 16px 7px 22px;
   color: var(--text-muted);
   text-decoration: none;
   font-size: 0.84rem;
-  transition: all 0.2s ease;
-  border-left: 3px solid transparent;
+  transition: all 0.15s ease;
+  border-left: 4px solid transparent;
 }
 
 .edu-sidebar-item:hover {
-  background: rgba(0, 243, 255, 0.07);
+  background: rgba(0, 243, 255, 0.08);
   color: var(--text-highlight);
-  border-left-color: rgba(0, 243, 255, 0.4);
 }
 
+/* Iconic W3Schools Active Item: Green Left Bar + Highlight Background */
 .edu-sidebar-item.active {
-  background: rgba(0, 243, 255, 0.12);
-  color: var(--neon-cyan);
-  font-weight: 600;
-  border-left-color: var(--neon-cyan);
+  background: rgba(4, 170, 109, 0.16) !important;
+  color: #00FF9D !important;
+  font-weight: 700 !important;
+  border-left: 4px solid #04AA6D !important;
 }
 
 .item-badge {
   font-family: var(--font-mono);
-  font-size: 0.68rem;
-  padding: 2px 6px;
+  font-size: 0.65rem;
+  padding: 1px 5px;
   border-radius: 3px;
   background: rgba(255, 255, 255, 0.06);
   color: var(--text-muted);
 }
 
 .edu-sidebar-item.active .item-badge {
-  background: rgba(0, 243, 255, 0.2);
-  color: var(--neon-cyan);
+  background: rgba(4, 170, 109, 0.3);
+  color: #00FF9D;
 }
 
 /* Main Content Styling */
@@ -134,7 +188,7 @@
   flex: 1;
   padding: 24px 32px 40px 32px;
   overflow-y: auto;
-  max-height: calc(100vh - 160px);
+  max-height: calc(100vh - 210px);
   background: rgba(10, 14, 30, 0.6);
 }
 
@@ -619,3 +673,61 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Light Mode Adaptations for W3Schools Edukasi */
+[data-theme="light"] .w3-top-nav-bar {
+  background: #282A35;
+}
+
+[data-theme="light"] .w3-top-tab {
+  color: #F8FAFC;
+}
+
+[data-theme="light"] .w3-top-tab.active {
+  background: #04AA6D !important;
+  color: #FFFFFF !important;
+}
+
+[data-theme="light"] .edu-sidebar {
+  background: #F8FAFC;
+  border-right: 1px solid #E2E8F0;
+}
+
+[data-theme="light"] .w3-sidebar-title {
+  color: #64748B;
+}
+
+[data-theme="light"] .w3-accordion-header {
+  color: #0F172A;
+}
+
+[data-theme="light"] .w3-accordion-header:hover {
+  background: #E2E8F0;
+}
+
+[data-theme="light"] .edu-sidebar-item {
+  color: #334155;
+}
+
+[data-theme="light"] .edu-sidebar-item:hover {
+  background: #E2E8F0;
+  color: #0F172A;
+}
+
+[data-theme="light"] .edu-sidebar-item.active {
+  background: #E7E9EB !important;
+  color: #0F172A !important;
+  border-left: 4px solid #04AA6D !important;
+}
+
+[data-theme="light"] .edu-main-content {
+  background: #FFFFFF;
+}
+
+.w3-nav-btn {
+  font-weight: 700 !important;
+  padding: 8px 18px !important;
+  font-size: 0.85rem !important;
+  border-radius: 4px !important;
+}
+

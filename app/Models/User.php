@@ -60,7 +60,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Accessor for game_scores: guarantee complete map of per-game scores
+     * Accessor for game_scores: guarantee complete map of 4 core game scores
      */
     public function getGameScoresAttribute($value)
     {
@@ -68,27 +68,23 @@ class User extends Authenticatable
         if (!is_array($decoded) || empty($decoded)) {
             $total = (int) ($this->attributes['score'] ?? 500);
             return [
-                'kasus' => (int) round($total * 0.30),
+                'kasus' => (int) round($total * 0.35),
                 'diff' => (int) round($total * 0.25),
                 'criminal' => (int) round($total * 0.25),
-                'deeplearn' => (int) round($total * 0.14),
-                'scanner' => (int) round($total * 0.03),
-                'checker' => (int) round($total * 0.03),
+                'deeplearn' => (int) round($total * 0.15),
             ];
         }
 
-        return array_merge([
-            'kasus' => 0,
-            'diff' => 0,
-            'criminal' => 0,
-            'deeplearn' => 0,
-            'scanner' => 0,
-            'checker' => 0,
-        ], $decoded);
+        return [
+            'kasus' => (int) ($decoded['kasus'] ?? 0),
+            'diff' => (int) ($decoded['diff'] ?? 0),
+            'criminal' => (int) ($decoded['criminal'] ?? 0),
+            'deeplearn' => (int) ($decoded['deeplearn'] ?? 0),
+        ];
     }
 
     /**
-     * Update score for a specific game and recalculate total score
+     * Update score for a specific game and recalculate total score (4 core games only)
      */
     public function updateGameScore(string $game, int $scoreDelta, float $vulnDelta = 0.0): void
     {
@@ -106,19 +102,26 @@ class User extends Authenticatable
             'deeplearn' => 'deeplearn',
             'deep learning' => 'deeplearn',
             'deep_learning' => 'deeplearn',
-            'scanner' => 'scanner',
-            'link scanner' => 'scanner',
-            'checker' => 'checker',
-            'multi-threat checker' => 'checker',
-            'threat checker' => 'checker'
+            'analyzer' => 'deeplearn',
+            'ai analyzer' => 'deeplearn'
         ];
 
-        $targetKey = $validMap[$gameKey] ?? 'kasus';
-        $scores[$targetKey] = max(0, ($scores[$targetKey] ?? 0) + $scoreDelta);
-        $this->game_scores = $scores;
+        $targetKey = $validMap[$gameKey] ?? null;
+        if ($targetKey && isset($scores[$targetKey])) {
+            $scores[$targetKey] = max(0, $scores[$targetKey] + $scoreDelta);
+        }
 
-        // Total score is the exact sum of all game scores
-        $this->score = array_sum($scores);
+        // Keep strictly only the 4 core games
+        $cleanScores = [
+            'kasus' => (int) ($scores['kasus'] ?? 0),
+            'diff' => (int) ($scores['diff'] ?? 0),
+            'criminal' => (int) ($scores['criminal'] ?? 0),
+            'deeplearn' => (int) ($scores['deeplearn'] ?? 0),
+        ];
+        $this->game_scores = $cleanScores;
+
+        // Total score is strictly the exact sum of the 4 core game scores
+        $this->score = array_sum($cleanScores);
 
         if ($vulnDelta != 0.0) {
             $this->vulnerability = max(1.0, min(10.0, round($this->vulnerability + $vulnDelta, 1)));

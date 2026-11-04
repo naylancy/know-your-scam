@@ -43,10 +43,10 @@ class ModuleKasus {
     const currentCase = this.cases[this.currentCaseIndex] || this.cases[0];
     const currentStep = currentCase.story_steps[this.currentStepIndex] || currentCase.story_steps[0];
 
-    // Briefing and Real-Time Live HUD
-    const hasSeenBriefing = window.gameBriefing?.hasSeen('kasus');
-    const briefingHtml = window.gameBriefing?.renderBriefingHTML('kasus') || '';
-    const hudBarHtml = window.gameBriefing?.renderHUDBar('kasus') || '';
+    // Two-Page System: Page Start (Briefing & Tutorial) vs Page Game (Arena)
+    const isPlaying = window.gameBriefing?.isPlaying('kasus');
+    const startScreenHtml = window.gameBriefing?.renderStartScreenHTML('kasus') || '';
+    const hudBarHtml = window.gameBriefing?.renderGameHUDBar('kasus') || '';
 
     // Set hints for hint system
     window.hintSystem?.setHints(currentStep.clues || []);
@@ -99,8 +99,8 @@ class ModuleKasus {
     `).join('');
 
     container.innerHTML = `
-      ${briefingHtml}
-      <div id="game-content-kasus" class="holo-enter" style="${hasSeenBriefing ? 'display:block;' : 'display:none;'}">
+      ${startScreenHtml}
+      <div id="view-game-kasus" class="game-page-arena holo-enter" style="display: ${isPlaying ? 'block' : 'none'};">
         ${hudBarHtml}
 
         <!-- Sub Header & Case Nav -->

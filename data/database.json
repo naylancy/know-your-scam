@@ -12,14 +12,12 @@
             "password": "admin123",
             "name": "Commander Vektor",
             "role": "admin",
-            "score": 1250,
+            "score": 1170,
             "game_scores": {
                 "kasus": 380,
                 "diff": 320,
                 "criminal": 300,
-                "deeplearn": 170,
-                "scanner": 40,
-                "checker": 40
+                "deeplearn": 170
             },
             "vulnerability": 1.2,
             "rank": "Grand Cyber Sentinel",
@@ -31,14 +29,12 @@
             "password": "cadet123",
             "name": "Cadet Aris",
             "role": "user",
-            "score": 680,
+            "score": 630,
             "game_scores": {
                 "kasus": 220,
                 "diff": 180,
                 "criminal": 150,
-                "deeplearn": 80,
-                "scanner": 25,
-                "checker": 25
+                "deeplearn": 80
             },
             "vulnerability": 4.5,
             "rank": "Security Cadet",
@@ -50,14 +46,12 @@
             "password": "kira123",
             "name": "Sgt. Kira Thorne",
             "role": "user",
-            "score": 1120,
+            "score": 1060,
             "game_scores": {
                 "kasus": 350,
                 "diff": 290,
                 "criminal": 270,
-                "deeplearn": 150,
-                "scanner": 30,
-                "checker": 30
+                "deeplearn": 150
             },
             "vulnerability": 1.8,
             "rank": "Elite Vanguard",
@@ -68,14 +62,12 @@
             "username": "nyx_shadow",
             "name": "Specialist Nyx",
             "role": "user",
-            "score": 940,
+            "score": 890,
             "game_scores": {
                 "kasus": 300,
                 "diff": 250,
                 "criminal": 220,
-                "deeplearn": 120,
-                "scanner": 25,
-                "checker": 25
+                "deeplearn": 120
             },
             "vulnerability": 2.4,
             "rank": "Threat Hunter",
@@ -86,14 +78,12 @@
             "username": "cipher_zero",
             "name": "Analyst Zero",
             "role": "user",
-            "score": 810,
+            "score": 770,
             "game_scores": {
                 "kasus": 260,
                 "diff": 220,
                 "criminal": 190,
-                "deeplearn": 100,
-                "scanner": 20,
-                "checker": 20
+                "deeplearn": 100
             },
             "vulnerability": 3.1,
             "rank": "Incident Responder",
@@ -115,9 +105,26 @@
                 "kasus": 0,
                 "diff": 0,
                 "criminal": 0,
-                "deeplearn": 0,
-                "scanner": 0,
-                "checker": 0
+                "deeplearn": 0
+            }
+        },
+        {
+            "id": "USR-858",
+            "user_code": "USR-858",
+            "name": "Baru 1",
+            "username": "satu",
+            "email": "satu@gmail.com",
+            "password": "$2y$12$tyCP6JYuG5bKhNSEO2yDvOvNlRG.st5rXuH8wnqxWNjOiAj0DQEwu",
+            "role": "user",
+            "score": 0,
+            "vulnerability": 5,
+            "rank": "Cyber Trainee",
+            "modules_completed": 0,
+            "game_scores": {
+                "kasus": 0,
+                "diff": 0,
+                "criminal": 0,
+                "deeplearn": 0
             }
         }
     ],

@@ -12,19 +12,22 @@
     box-shadow: 0 0 100px rgba(0, 0, 0, 0.8);
   }
   .main-viewport {
-    padding: 30px 40px 80px 40px;
+    padding: 88px 40px 64px 40px !important;
   }
 }
 
 /* --- 1025px - 1440px (Standard Laptops & Desktops) --- */
 @media (max-width: 1440px) and (min-width: 1025px) {
   .main-viewport {
-    padding: 24px 30px 80px 30px;
+    padding: 88px 30px 64px 30px !important;
   }
 }
 
 /* --- 769px - 1024px (Tablets & Netbooks) --- */
 @media (max-width: 1024px) {
+  .main-viewport {
+    padding: 84px 24px 60px 24px !important;
+  }
   .diff-split-grid {
     grid-template-columns: 1fr;
     gap: 16px;
@@ -48,39 +51,42 @@
 /* --- 481px - 768px (Large Phones Landscape & Small Tablets) --- */
 @media (max-width: 768px) {
   .hud-header {
-    padding: 8px 12px;
+    height: 60px;
+    padding: 0 14px;
   }
   .hud-header-inner {
-    flex-wrap: wrap;
-    gap: 8px;
+    flex-wrap: nowrap;
+    gap: 10px;
   }
   
   /* Brand title shrink */
   .brand-text h1 {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     letter-spacing: 1px;
   }
   .brand-text .subtext {
-    font-size: 0.58rem;
+    font-size: 0.55rem;
   }
   .brand-icon {
-    font-size: 1.4rem;
+    font-size: 1.25rem;
+    width: 32px;
+    height: 32px;
   }
 
-  /* Navigation Bar becomes scrollable row */
-  .hud-nav {
-    order: 3;
-    width: 100%;
-    overflow-x: auto;
-    white-space: nowrap;
-    padding: 6px 0;
-    gap: 4px;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
+  /* Desktop Navigation hidden on mobile; mobile drawer takes over */
+  .hud-nav, 
+  .hud-header nav {
+    display: none !important;
   }
-  .nav-link {
-    font-size: 0.76rem;
-    padding: 6px 10px;
+
+  /* Show Hamburger Button */
+  .mobile-nav-hamburger {
+    display: flex !important;
+  }
+
+  /* Ensure viewport has proper top padding to avoid header overlapping */
+  .main-viewport {
+    padding: 76px 14px 60px 14px !important;
   }
 
   /* Right controls shrink */
@@ -94,8 +100,8 @@
     padding: 3px 6px;
   }
   .theme-toggle-btn {
-    padding: 5px 8px;
-    font-size: 0.72rem;
+    padding: 4px 8px;
+    font-size: 0.7rem;
   }
 
   /* Hero Section */
@@ -156,7 +162,7 @@
   }
 
   .main-viewport {
-    padding: 14px 10px 70px 10px;
+    padding: 76px 12px 70px 12px !important;
   }
 
   /* Footer */
@@ -170,7 +176,8 @@
 /* --- 320px - 480px (Small Mobile Phones) --- */
 @media (max-width: 480px) {
   .hud-header {
-    padding: 6px 8px;
+    height: 56px;
+    padding: 0 10px;
   }
   
   .brand-text h1 {
@@ -180,7 +187,13 @@
     display: none;
   }
   .brand-icon {
-    font-size: 1.25rem;
+    font-size: 1.15rem;
+    width: 30px;
+    height: 30px;
+  }
+
+  .main-viewport {
+    padding: 72px 10px 70px 10px !important;
   }
 
   .nav-link {

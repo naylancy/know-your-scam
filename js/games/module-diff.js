@@ -60,14 +60,14 @@ class ModuleDiff {
     const leftActive = this.selectedSide === 'left';
     const rightActive = this.selectedSide === 'right';
 
-    // Briefing and Real-Time Live HUD
-    const hasSeenBriefing = window.gameBriefing?.hasSeen('diff');
-    const briefingHtml = window.gameBriefing?.renderBriefingHTML('diff') || '';
-    const hudBarHtml = window.gameBriefing?.renderHUDBar('diff') || '';
+    // Two-Page System: Page Start (Briefing & Tutorial) vs Page Game (Arena)
+    const isPlaying = window.gameBriefing?.isPlaying('diff');
+    const startScreenHtml = window.gameBriefing?.renderStartScreenHTML('diff') || '';
+    const hudBarHtml = window.gameBriefing?.renderGameHUDBar('diff') || '';
 
     container.innerHTML = `
-      ${briefingHtml}
-      <div id="game-content-diff" class="holo-enter diff-container" style="${hasSeenBriefing ? 'display:block;' : 'display:none;'}">
+      ${startScreenHtml}
+      <div id="view-game-diff" class="game-page-arena holo-enter diff-container" style="${isPlaying ? 'display:block;' : 'display:none;'}">
         ${hudBarHtml}
 
         <!-- Sub Header -->

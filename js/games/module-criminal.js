@@ -254,19 +254,21 @@ class ModuleCriminal {
 
     const isCustomCase = currentCase.is_custom;
 
-    // Briefing and Real-Time Live HUD
-    const hasSeenBriefing = window.gameBriefing?.hasSeen('criminal');
-    const briefingHtml = window.gameBriefing?.renderBriefingHTML('criminal') || '';
-    const hudBarHtml = window.gameBriefing?.renderHUDBar('criminal') || '';
+    // Two-Page System: Page Start (Briefing & Tutorial) vs Page Game (Arena)
+    const isPlaying = window.gameBriefing?.isPlaying('criminal');
+    const startScreenHtml = window.gameBriefing?.renderStartScreenHTML('criminal') || '';
+    const hudBarHtml = window.gameBriefing?.renderGameHUDBar('criminal') || '';
 
-    // If briefing was just dismissed and route is active, start timer
-    if (hasSeenBriefing && !this.isTimerRunning && !this.isTimedOut && window.app?.currentRoute === 'criminal') {
+    // If on Page Game, route is active, and timer is not running, start timer
+    if (isPlaying && !this.isTimerRunning && !this.isTimedOut && window.app?.currentRoute === 'criminal') {
       this.startTimer();
+    } else if (!isPlaying && this.isTimerRunning) {
+      this.stopTimer();
     }
 
     container.innerHTML = `
-      ${briefingHtml}
-      <div id="game-content-criminal" class="holo-enter" style="${hasSeenBriefing ? 'display:block;' : 'display:none;'}">
+      ${startScreenHtml}
+      <div id="view-game-criminal" class="game-page-arena holo-enter" style="${isPlaying ? 'display:block;' : 'display:none;'}">
         ${hudBarHtml}
 
         <!-- Sub Header -->

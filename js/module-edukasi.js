@@ -514,6 +514,8 @@
       this.topics = topicsData;
       this.currentTopicId = 'intro';
       this.sidebarOpenMobile = false;
+      this.collapsedGroups = {};
+      this.activeTopCategory = '1. PENDAHULUAN';
     }
 
     init() {
@@ -527,57 +529,73 @@
     renderLayout(container) {
       container.innerHTML = `
         <div class="edu-w3-wrapper">
-          <!-- Mobile Toggle Bar -->
-          <div class="edu-mobile-bar">
-            <button class="cyber-btn btn-ghost" onclick="window.edukasiManager.toggleMobileSidebar()">
-              <span>☰</span> PILIH MATERI PANDUAN
+          <!-- W3Schools Top Category Bar (Like HTML / CSS / JAVASCRIPT in W3Schools) -->
+          <div class="w3-top-nav-bar">
+            <button class="w3-top-tab active" data-cat="1. PENDAHULUAN" onclick="window.edukasiManager.switchCategory('1. PENDAHULUAN')">
+              🛡️ PENDAHULUAN
             </button>
-            <span id="edu-mobile-current-title" style="font-size: 0.82rem; color: var(--neon-cyan); font-weight: 700;">
-              Lanskap Ancaman Siber
-            </span>
+            <button class="w3-top-tab" data-cat="2. ANATOMI PENIPUAN SIBER" onclick="window.edukasiManager.switchCategory('2. ANATOMI PENIPUAN SIBER')">
+              🎯 ANATOMI PENIPUAN
+            </button>
+            <button class="w3-top-tab" data-cat="3. KEPUTUSAN & PERLINDUNGAN DIRI" onclick="window.edukasiManager.switchCategory('3. KEPUTUSAN & PERLINDUNGAN DIRI')">
+              ⚖️ KEPUTUSAN AMAN
+            </button>
+            <button class="w3-top-tab" data-cat="4. RESPON & TINDAKAN DARURAT" onclick="window.edukasiManager.switchCategory('4. RESPON & TINDAKAN DARURAT')">
+              🚨 RESPON & DARURAT
+            </button>
           </div>
 
-          <!-- W3Schools Styled Sidebar -->
-          <aside class="edu-sidebar" id="edu-sidebar-nav">
-            <div class="edu-sidebar-header">
-              <div class="edu-sidebar-logo">
-                <span>📚</span> PANDUAN EDUKASI SIBER
+          <!-- Main Layout Body (Sidebar + Content) -->
+          <div class="edu-w3-main-body">
+            <!-- Mobile Toggle Bar -->
+            <div class="edu-mobile-bar">
+              <button class="cyber-btn btn-ghost" onclick="window.edukasiManager.toggleMobileSidebar()">
+                <span>☰</span> DAFTAR MATERI
+              </button>
+              <span id="edu-mobile-current-title" style="font-size: 0.82rem; color: var(--neon-cyan); font-weight: 700;">
+                Lanskap Ancaman Siber
+              </span>
+            </div>
+
+            <!-- W3Schools Styled Sidebar Navigation -->
+            <aside class="edu-sidebar" id="edu-sidebar-nav">
+              <div class="edu-sidebar-header">
+                <div class="w3-sidebar-title">CYBER DEFENSE TUTORIAL</div>
               </div>
-              <div class="edu-sidebar-sub">KNOW YOUR SCAM ACADEMY</div>
-            </div>
 
-            <div class="edu-sidebar-list" id="edu-sidebar-links">
-              <!-- Dynamically populated categories & items -->
-            </div>
-          </aside>
-
-          <!-- Main Content Area -->
-          <main class="edu-main-content">
-            <div class="edu-content-top-nav">
-              <button class="cyber-btn btn-ghost" id="btn-edu-prev" onclick="window.edukasiManager.prevTopic()">
-                ❮ SEBELUMNYA
-              </button>
-              <div class="edu-progress-tag" id="edu-topic-indicator">
-                Topik 1 dari 11
+              <div class="edu-sidebar-list" id="edu-sidebar-links">
+                <!-- Dynamically populated categories & items -->
               </div>
-              <button class="cyber-btn btn-ghost" id="btn-edu-next" onclick="window.edukasiManager.nextTopic()">
-                SELANJUTNYA ❯
-              </button>
-            </div>
+            </aside>
 
-            <div id="edu-article-container" class="edu-article-wrapper">
-              <!-- Article Content Injected Here -->
-            </div>
+            <!-- Main Article Content Area -->
+            <main class="edu-main-content">
+              <div class="edu-content-top-nav">
+                <button class="cyber-btn btn-ghost w3-nav-btn" id="btn-edu-prev" onclick="window.edukasiManager.prevTopic()">
+                  ❮ Previous
+                </button>
+                <div class="edu-progress-tag" id="edu-topic-indicator">
+                  Topik 1 dari 11
+                </div>
+                <button class="cyber-btn btn-ghost w3-nav-btn" id="btn-edu-next" onclick="window.edukasiManager.nextTopic()">
+                  Next ❯
+                </button>
+              </div>
 
-            <div class="edu-content-bottom-nav">
-              <button class="cyber-btn btn-ghost" id="btn-edu-prev-bottom" onclick="window.edukasiManager.prevTopic()">
-                ❮ SEBELUMNYA
-              </button>
-              <button class="cyber-btn" id="btn-edu-next-bottom" onclick="window.edukasiManager.nextTopic()">
-                SELANJUTNYA ❯
-              </button>
-            </div>
-          </main>
+              <div id="edu-article-container" class="edu-article-wrapper">
+                <!-- Article Content Injected Here -->
+              </div>
+
+              <div class="edu-content-bottom-nav">
+                <button class="cyber-btn btn-ghost w3-nav-btn" id="btn-edu-prev-bottom" onclick="window.edukasiManager.prevTopic()">
+                  ❮ Previous
+                </button>
+                <button class="cyber-btn w3-nav-btn" style="background:#04AA6D; border-color:#04AA6D; color:#FFFFFF;" id="btn-edu-next-bottom" onclick="window.edukasiManager.nextTopic()">
+                  Next ❯
+                </button>
+              </div>
+            </main>
+          </div>
         </div>
       `;
 
@@ -597,10 +615,14 @@
 
       let html = '';
       for (const [catName, items] of Object.entries(grouped)) {
+        const isCollapsed = !!this.collapsedGroups[catName];
         html += `
-          <div class="edu-sidebar-group">
-            <div class="edu-category-label">${catName}</div>
-            <ul class="edu-cat-items">
+          <div class="w3-sidebar-group ${isCollapsed ? 'collapsed' : ''}" data-cat-name="${catName}">
+            <div class="w3-accordion-header" onclick="window.edukasiManager.toggleGroup('${catName}')">
+              <span class="cat-label-text">${catName}</span>
+              <span class="w3-chevron">${isCollapsed ? '▶' : '▼'}</span>
+            </div>
+            <ul class="edu-cat-items" style="${isCollapsed ? 'display:none;' : 'display:block;'}">
               ${items.map(item => `
                 <li>
                   <a href="javascript:void(0)" 
@@ -620,6 +642,31 @@
       listContainer.innerHTML = html;
     }
 
+    toggleGroup(catName) {
+      window.cyberAudio?.playClick();
+      this.collapsedGroups[catName] = !this.collapsedGroups[catName];
+      this.renderSidebar();
+    }
+
+    switchCategory(catName) {
+      window.cyberAudio?.playClick();
+      this.activeTopCategory = catName;
+      this.collapsedGroups[catName] = false;
+
+      // Update top tabs active state
+      document.querySelectorAll('.w3-top-tab').forEach(t => {
+        t.classList.toggle('active', t.getAttribute('data-cat') === catName);
+      });
+
+      this.renderSidebar();
+
+      // Find first topic in this category and load it
+      const targetTopic = this.topics.find(t => t.category === catName);
+      if (targetTopic) {
+        this.loadTopic(targetTopic.id);
+      }
+    }
+
     loadTopic(topicId) {
       const topic = this.topics.find(t => t.id === topicId) || this.topics[0];
       this.currentTopicId = topic.id;
@@ -632,6 +679,11 @@
       // Update mobile title
       const mobTitle = document.getElementById('edu-mobile-current-title');
       if (mobTitle) mobTitle.textContent = topic.title;
+
+      // Update top category tabs to highlight the active category
+      document.querySelectorAll('.w3-top-tab').forEach(t => {
+        t.classList.toggle('active', t.getAttribute('data-cat') === topic.category);
+      });
 
       // Update indicators
       const curIdx = this.topics.findIndex(t => t.id === topic.id);
@@ -719,3 +771,4 @@
 
   window.edukasiManager = new EdukasiManager();
 })();
+

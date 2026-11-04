@@ -114,9 +114,121 @@
               <span>⏻</span> KELUAR
             </button>
           </div>
+
+          <!-- Mobile Hamburger Toggle Button -->
+          <button id="btn-mobile-sidebar-toggle" class="mobile-nav-hamburger" onclick="window.app.toggleMobileSidebar()" aria-label="Buka Menu Navigasi" title="Menu Navigasi Seluler">
+            ☰
+          </button>
         </div>
       </div>
     </header>
+
+    <!-- ========================================================
+         MOBILE SIDEBAR NAVIGATION DRAWER (OFF-CANVAS)
+         ======================================================== -->
+    <aside id="mobile-sidebar-drawer" class="mobile-sidebar-drawer" aria-label="Menu Navigasi Seluler">
+      <div class="mobile-sidebar-header">
+        <a href="#welcome" class="brand-container" onclick="window.app.toggleMobileSidebar(true)" style="text-decoration:none;">
+          <div class="brand-icon">🛡️</div>
+          <div class="brand-text">
+            <h2 style="font-size: 1rem; margin:0; line-height:1.1; color:var(--text-highlight);">KNOW YOUR SCAM</h2>
+            <div class="subtext">CYBER DEFENSE</div>
+          </div>
+        </a>
+        <button class="mobile-sidebar-close" onclick="window.app.toggleMobileSidebar(true)" aria-label="Tutup Menu">✕</button>
+      </div>
+
+      <div class="mobile-sidebar-body">
+        <!-- Mobile Profile Banner (Visible when logged in) -->
+        <div id="mobile-user-profile-banner" class="mobile-user-banner" style="display:none;">
+          <div id="mobile-user-avatar" class="mobile-user-avatar">⚡</div>
+          <div class="mobile-user-info">
+            <strong id="mobile-user-name" class="mobile-name">Cadet Aris</strong>
+            <div class="mobile-stats">
+              <span id="mobile-user-score" class="mobile-score">680 XP</span> &bull; 
+              <span id="mobile-user-vuln" class="mobile-vuln">VULN: 4.5/10</span>
+            </div>
+          </div>
+        </div>
+
+        <ul class="mobile-nav-list">
+          <li>
+            <a href="#welcome" class="mobile-nav-link" onclick="window.app.navigateTo('welcome'); window.app.toggleMobileSidebar(true);">
+              <span>🚀</span> BERANDA
+            </a>
+          </li>
+
+          <!-- Games Section -->
+          <li class="mobile-nav-section-title">🎮 SIMULASI TAKTIS (GAMES)</li>
+          <li class="mobile-nav-subitem">
+            <a href="#kasus" class="mobile-nav-link" onclick="window.app.navigateTo('kasus'); window.app.toggleMobileSidebar(true);">
+              <span>📜</span> Kasus Simulasi (Multi-POV)
+            </a>
+          </li>
+          <li class="mobile-nav-subitem">
+            <a href="#diff" class="mobile-nav-link" onclick="window.app.navigateTo('diff'); window.app.toggleMobileSidebar(true);">
+              <span>⚖️</span> Finding Diff (Real vs Fake)
+            </a>
+          </li>
+          <li class="mobile-nav-subitem">
+            <a href="#criminal" class="mobile-nav-link" onclick="window.app.navigateTo('criminal'); window.app.toggleMobileSidebar(true);">
+              <span>🕵️</span> Criminal Case (Investigasi)
+            </a>
+          </li>
+          <li class="mobile-nav-subitem">
+            <a href="#deeplearn" class="mobile-nav-link" onclick="window.app.navigateTo('deeplearn'); window.app.toggleMobileSidebar(true);">
+              <span>🧠</span> AI Analyzer (Evaluator)
+            </a>
+          </li>
+
+          <!-- Detektor Section -->
+          <li class="mobile-nav-section-title">🛡️ DETEKTOR HIBRIDA</li>
+          <li class="mobile-nav-subitem">
+            <a href="#scanner" class="mobile-nav-link" onclick="window.app.navigateTo('scanner'); window.app.toggleMobileSidebar(true);">
+              <span>🔗</span> Link Scanner
+            </a>
+          </li>
+          <li class="mobile-nav-subitem">
+            <a href="#checker" class="mobile-nav-link" onclick="window.app.navigateTo('checker'); window.app.toggleMobileSidebar(true);">
+              <span>🛡️</span> Legit Checker
+            </a>
+          </li>
+
+          <!-- Edukasi, Leaderboard & Admin Section -->
+          <li class="mobile-nav-section-title">📚 EDUKASI & PERINGKAT</li>
+          <li>
+            <a href="#edukasi" class="mobile-nav-link" onclick="window.app.navigateTo('edukasi'); window.app.toggleMobileSidebar(true);">
+              <span>📚</span> Modul Edukasi Anti-Scam
+            </a>
+          </li>
+          <li>
+            <a href="#leaderboard" class="mobile-nav-link" onclick="window.app.navigateTo('leaderboard'); window.app.toggleMobileSidebar(true);">
+              <span>🏆</span> Live Leaderboard
+            </a>
+          </li>
+          <li id="mobile-admin-link-li" style="display:none;">
+            <a href="#admin" class="mobile-nav-link" onclick="window.app.navigateTo('admin'); window.app.toggleMobileSidebar(true);">
+              <span>🛡️</span> Panel Admin
+            </a>
+          </li>
+        </ul>
+
+        <!-- Mobile Drawer Footer Actions -->
+        <div class="mobile-sidebar-footer">
+          <div id="mobile-guest-actions">
+            <button class="cyber-btn" style="width:100%; font-size:0.85rem; padding:10px;" onclick="window.authManager.openLoginModal(); window.app.toggleMobileSidebar(true);">
+              <span>🔑</span> MASUK / DAFTAR AKUN
+            </button>
+          </div>
+          <div id="mobile-auth-actions" style="display:none;">
+            <button class="cyber-btn btn-ghost" style="width:100%; font-size:0.85rem; padding:10px; border-color:rgba(255,0,85,0.4); color:var(--neon-red);" onclick="window.authManager.logout(); window.app.toggleMobileSidebar(true);">
+              <span>⏻</span> KELUAR DARI AKUN
+            </button>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <div id="mobile-sidebar-backdrop" class="mobile-sidebar-backdrop" onclick="window.app.toggleMobileSidebar(true)"></div>
 
     <!-- MAIN VIEWPORT -->
     <main class="main-viewport">
@@ -445,67 +557,23 @@
         </div>
       </section>
 
-      <!-- PAGE 2: MODUL 1 - KASUS -->
+      <!-- PAGE 2: MODUL 1 - KASUS (SEPARATED PAGE START & PAGE GAME) -->
       <section id="page-kasus" class="page-view">
-        <div class="sub-hud-bar">
-          <div class="sub-hud-left">
-            <span style="font-size: 1.5rem;">📜</span>
-            <div class="sub-hud-title">PROTOKOL KASUS: MULTI-POV SIMULATION</div>
-          </div>
-          <div class="sub-hud-right">
-            <button class="btn-intel-hint" onclick="window.hintSystem.openHintModal()">
-              <span>💡</span> MINTA INTEL / HINT
-            </button>
-          </div>
-        </div>
         <div id="kasus-module-container"></div>
       </section>
 
-      <!-- PAGE 3: MODUL 2 - FINDING DIFF -->
+      <!-- PAGE 3: MODUL 2 - FINDING DIFF (SEPARATED PAGE START & PAGE GAME) -->
       <section id="page-diff" class="page-view">
-        <div class="sub-hud-bar">
-          <div class="sub-hud-left">
-            <span style="font-size: 1.5rem;">⚖️</span>
-            <div class="sub-hud-title">PROTOKOL FINDING DIFF: JUDGE REAL VS FAKE</div>
-          </div>
-          <div class="sub-hud-right">
-            <button class="btn-intel-hint" onclick="window.hintSystem.openHintModal()">
-              <span>💡</span> MINTA INTEL / HINT
-            </button>
-          </div>
-        </div>
         <div id="diff-module-container"></div>
       </section>
 
-      <!-- PAGE 4: MODUL 3 - CRIMINAL CASE -->
+      <!-- PAGE 4: MODUL 3 - CRIMINAL CASE (SEPARATED PAGE START & PAGE GAME) -->
       <section id="page-criminal" class="page-view">
-        <div class="sub-hud-bar">
-          <div class="sub-hud-left">
-            <span style="font-size: 1.5rem;">🕵️</span>
-            <div class="sub-hud-title">PROTOKOL CRIMINAL CASE: INVESTIGASI FORENSIK</div>
-          </div>
-          <div class="sub-hud-right">
-            <button class="btn-intel-hint" onclick="window.hintSystem.openHintModal()">
-              <span>💡</span> MINTA INTEL / HINT
-            </button>
-          </div>
-        </div>
         <div id="criminal-module-container"></div>
       </section>
 
-      <!-- PAGE 5: MODUL 4 - ANALYZER -->
+      <!-- PAGE 5: MODUL 4 - ANALYZER (SEPARATED PAGE START & PAGE GAME) -->
       <section id="page-deeplearn" class="page-view">
-        <div class="sub-hud-bar">
-          <div class="sub-hud-left">
-            <span style="font-size: 1.5rem;">🧠</span>
-            <div class="sub-hud-title">PROTOKOL ANALYZER: EVALUASI SEMANTIK AI</div>
-          </div>
-          <div class="sub-hud-right">
-            <button class="btn-intel-hint" onclick="window.hintSystem.openHintModal()">
-              <span>💡</span> MINTA INTEL / HINT
-            </button>
-          </div>
-        </div>
         <div id="deeplearn-module-container"></div>
       </section>
 

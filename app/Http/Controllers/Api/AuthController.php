@@ -385,6 +385,46 @@ class AuthController extends Controller
             }
         } catch (\Throwable $e) {}
 
+        // JSON file storage fallback
+        $paths = [base_path('data/database.json'), public_path('data/database.json')];
+        foreach ($paths as $path) {
+            if (File::exists($path)) {
+                try {
+                    $json = json_decode(File::get($path), true);
+                    if ($json && isset($json['users'])) {
+                        foreach ($json['users'] as &$u) {
+                            if (($u['id'] ?? '') === $userId || ($u['username'] ?? '') === $userId || ($u['user_code'] ?? '') === $userId) {
+                                $gs = $u['game_scores'] ?? [];
+                                $gk = strtolower(trim($game));
+                                if (str_contains($gk, 'kasus') || str_contains($gk, 'case')) $key = 'kasus';
+                                elseif (str_contains($gk, 'diff')) $key = 'diff';
+                                elseif (str_contains($gk, 'criminal')) $key = 'criminal';
+                                elseif (str_contains($gk, 'deep') || str_contains($gk, 'analyz')) $key = 'deeplearn';
+                                else $key = null;
+
+                                if ($key) {
+                                    $gs[$key] = max(0, ($gs[$key] ?? 0) + $scoreDelta);
+                                }
+                                $u['game_scores'] = [
+                                    'kasus' => (int)($gs['kasus'] ?? 0),
+                                    'diff' => (int)($gs['diff'] ?? 0),
+                                    'criminal' => (int)($gs['criminal'] ?? 0),
+                                    'deeplearn' => (int)($gs['deeplearn'] ?? 0)
+                                ];
+                                $u['score'] = $u['game_scores']['kasus'] + $u['game_scores']['diff'] + $u['game_scores']['criminal'] + $u['game_scores']['deeplearn'];
+                                if ($vulnDelta != 0.0) {
+                                    $u['vulnerability'] = max(1.0, min(10.0, round(($u['vulnerability'] ?? 5.0) + $vulnDelta, 1)));
+                                }
+                                $u['modules_completed'] = ($u['modules_completed'] ?? 0) + 1;
+                                break;
+                            }
+                        }
+                        File::put($path, json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+                    }
+                } catch (\Throwable $err) {}
+            }
+        }
+
         return response()->json([
             'status' => 'success'
         ]);
