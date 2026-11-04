@@ -1,74 +1,262 @@
 /* ========================================================
-   KNOW YOUR SCAM: ANTI-GRAVITY DEFENSE
-   Responsive Styles
+   KNOW YOUR SCAM: ANTI-GRAVITY CYBER DEFENSE
+   Comprehensive Pixel-Based Responsive Styles
+   Breakpoints: 320px, 480px, 768px, 1024px, 1440px+
    ======================================================== */
 
+/* --- 1440px+ (Ultra-Wide Screens) --- */
+@media (min-width: 1441px) {
+  .app-wrapper {
+    max-width: 1600px;
+    margin: 0 auto;
+    box-shadow: 0 0 100px rgba(0, 0, 0, 0.8);
+  }
+  .main-viewport {
+    padding: 30px 40px 80px 40px;
+  }
+}
+
+/* --- 1025px - 1440px (Standard Laptops & Desktops) --- */
+@media (max-width: 1440px) and (min-width: 1025px) {
+  .main-viewport {
+    padding: 24px 30px 80px 30px;
+  }
+}
+
+/* --- 769px - 1024px (Tablets & Netbooks) --- */
 @media (max-width: 1024px) {
   .diff-split-grid {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
   .crim-board-grid {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
   .deep-eval-grid {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
   .hero-title {
     font-size: 2.8rem;
   }
+  .games-hub-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
+/* --- 481px - 768px (Large Phones Landscape & Small Tablets) --- */
 @media (max-width: 768px) {
   .hud-header {
-    padding: 10px 14px;
+    padding: 8px 12px;
   }
   .hud-header-inner {
     flex-wrap: wrap;
+    gap: 8px;
   }
+  
+  /* Brand title shrink */
+  .brand-text h1 {
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+  }
+  .brand-text .subtext {
+    font-size: 0.58rem;
+  }
+  .brand-icon {
+    font-size: 1.4rem;
+  }
+
+  /* Navigation Bar becomes scrollable row */
   .hud-nav {
     order: 3;
     width: 100%;
     overflow-x: auto;
-    padding-top: 8px;
-    padding-bottom: 4px;
+    white-space: nowrap;
+    padding: 6px 0;
+    gap: 4px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
   }
   .nav-link {
-    font-size: 0.8rem;
+    font-size: 0.76rem;
     padding: 6px 10px;
-    white-space: nowrap;
   }
+
+  /* Right controls shrink */
+  .hud-right-controls {
+    gap: 6px;
+  }
+  .audio-vol-slider {
+    display: none;
+  }
+  .audio-ctrl-capsule {
+    padding: 3px 6px;
+  }
+  .theme-toggle-btn {
+    padding: 5px 8px;
+    font-size: 0.72rem;
+  }
+
+  /* Hero Section */
   .hero-title {
     font-size: 2.1rem;
-    letter-spacing: 2px;
+    letter-spacing: 1.5px;
   }
   .hero-subtitle {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
   }
-  .hero-cta-btn {
-    width: 100%;
+  .hero-desc {
+    font-size: 0.88rem;
+    padding: 0 10px;
   }
-  .demo-account-pills {
+  .hero-cta-group {
     flex-direction: column;
     width: 100%;
+    padding: 0 16px;
   }
+  .hero-cta-group .cyber-btn {
+    width: 100%;
+  }
+
+  /* Games Hub */
+  .games-hub-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Modals */
+  .cyber-modal-box {
+    width: 95% !important;
+    max-width: 95% !important;
+    padding: 16px !important;
+    margin: 10px auto;
+  }
+
+  /* Game Views & Docks */
   .diff-bottom-dock {
     flex-direction: column;
-    gap: 16px;
-    padding: 14px;
+    gap: 12px;
+    padding: 12px;
   }
   .btn-large-decision {
     width: 100%;
-    font-size: 1.15rem;
-    padding: 14px 20px;
+    font-size: 1.05rem;
+    padding: 12px 16px;
   }
+
+  /* Scanner & Checker Groups */
   .scanner-input-group {
     flex-direction: column;
+  }
+  .scanner-input-group .cyber-btn {
+    width: 100%;
   }
   .threat-rating-group {
     grid-template-columns: 1fr;
   }
+
   .main-viewport {
-    padding: 16px 12px 60px 12px;
+    padding: 14px 10px 70px 10px;
+  }
+
+  /* Footer */
+  .hud-footer-inner {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
   }
 }
 
+/* --- 320px - 480px (Small Mobile Phones) --- */
+@media (max-width: 480px) {
+  .hud-header {
+    padding: 6px 8px;
+  }
+  
+  .brand-text h1 {
+    font-size: 0.95rem;
+  }
+  .brand-text .subtext {
+    display: none;
+  }
+  .brand-icon {
+    font-size: 1.25rem;
+  }
+
+  .nav-link {
+    font-size: 0.72rem;
+    padding: 5px 8px;
+    gap: 4px;
+  }
+
+  .user-capsule {
+    padding: 3px 6px;
+  }
+  .user-avatar {
+    width: 24px;
+    height: 24px;
+    font-size: 0.8rem;
+  }
+  .user-stats-mini {
+    display: none;
+  }
+  .user-name {
+    font-size: 0.75rem;
+  }
+
+  .hero-title {
+    font-size: 1.65rem;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .hero-subtitle {
+    font-size: 0.75rem;
+    margin-bottom: 14px;
+  }
+  .hero-desc {
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+
+  .game-live-hud-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 8px 12px;
+    gap: 6px;
+  }
+
+  .game-briefing-overlay {
+    padding: 18px 14px;
+  }
+  .game-briefing-title {
+    font-size: 1.25rem;
+  }
+
+  .edu-content-top-nav,
+  .edu-content-bottom-nav {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .edu-content-top-nav .cyber-btn,
+  .edu-content-bottom-nav .cyber-btn {
+    font-size: 0.75rem;
+    padding: 6px 10px;
+  }
+  .edu-header-box h2 {
+    font-size: 1.35rem;
+  }
+  .edu-lead {
+    font-size: 0.92rem;
+  }
+
+  /* Leaderboard Table Responsive Scroll */
+  .leaderboard-table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .cyber-table th, 
+  .cyber-table td {
+    padding: 8px 6px;
+    font-size: 0.75rem;
+  }
+}

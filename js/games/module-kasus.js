@@ -43,6 +43,11 @@ class ModuleKasus {
     const currentCase = this.cases[this.currentCaseIndex] || this.cases[0];
     const currentStep = currentCase.story_steps[this.currentStepIndex] || currentCase.story_steps[0];
 
+    // Briefing and Real-Time Live HUD
+    const hasSeenBriefing = window.gameBriefing?.hasSeen('kasus');
+    const briefingHtml = window.gameBriefing?.renderBriefingHTML('kasus') || '';
+    const hudBarHtml = window.gameBriefing?.renderHUDBar('kasus') || '';
+
     // Set hints for hint system
     window.hintSystem?.setHints(currentStep.clues || []);
 
@@ -94,7 +99,10 @@ class ModuleKasus {
     `).join('');
 
     container.innerHTML = `
-      <div class="holo-enter">
+      ${briefingHtml}
+      <div id="game-content-kasus" class="holo-enter" style="${hasSeenBriefing ? 'display:block;' : 'display:none;'}">
+        ${hudBarHtml}
+
         <!-- Sub Header & Case Nav -->
         <div class="story-case-header">
           <div style="display:flex; gap: 8px; flex-wrap: wrap;">
@@ -176,6 +184,7 @@ class ModuleKasus {
           </div>
         </div>
       </div>
+      </div>
     `;
   }
 
@@ -192,13 +201,14 @@ class ModuleKasus {
       window.cyberAudio?.playError();
     }
 
-    // Record user action & score
+    // Record user action & score (Live Game Tracking)
     window.authManager?.recordResult(
       choice.score,
       choice.vulnerability_delta,
       `KASUS (${currentCase.type.toUpperCase()})`,
       `Pilihan [${choice.id}]: ${choice.text.substring(0, 40)}...`,
-      choice.status
+      choice.status,
+      'kasus'
     );
 
     // Show debrief modal with result and next step

@@ -94,7 +94,6 @@ class AuthController extends Controller
     {
         $username = strtolower(trim($request->input('username', '')));
         $password = trim($request->input('password', ''));
-        $role = $request->input('role', null);
 
         if (empty($username)) {
             return response()->json([
@@ -103,66 +102,51 @@ class AuthController extends Controller
             ], 422);
         }
 
-        // Standard test credential mappings
-        $validCredentials = [
-            'admin' => ['admin123', 'password123'],
-            'cadet' => ['cadet123', 'password123'],
-            'kira_t' => ['kira123', 'password123'],
-        ];
+        if (empty($password)) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Sandi siber wajib diisi.'
+            ], 422);
+        }
 
         try {
-            // Find user by username
+            // Find user in database by username
             $user = User::where('username', $username)->first();
 
-            if ($user) {
-                $isPasswordValid = false;
+            if (!$user) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Username atau sandi yang Anda masukkan tidak valid.'
+                ], 401);
+            }
 
-                // 1. Check Laravel Hash
-                if (!empty($user->password) && Hash::check($password, $user->password)) {
+            // Verify password using Bcrypt Hash (or fallback check)
+            $isPasswordValid = false;
+            if (!empty($user->password)) {
+                if (Hash::check($password, $user->password) || $password === $user->password) {
                     $isPasswordValid = true;
                 }
-                // 2. Check predefined demo passwords
-                elseif (isset($validCredentials[$username]) && in_array($password, $validCredentials[$username])) {
-                    $isPasswordValid = true;
-                }
-                // 3. Permissive demo fallback if password empty or generic
-                elseif (empty($password) || $password === 'admin123' || $password === 'cadet123' || $password === 'password123') {
-                    $isPasswordValid = true;
-                }
+            }
 
-                if (!$isPasswordValid) {
-                    return response()->json([
-                        'status' => 'error',
-                        'message' => 'Sandi tidak valid. Gunakan sandi "cadet123" untuk akun Cadet Aris atau "admin123" untuk Commander Vektor.'
-                    ], 401);
-                }
-            } else {
-                // Register new on-the-fly cadet if not exists
-                $userRole = ($role === 'admin' || $username === 'admin') ? 'admin' : 'user';
-                $user = User::create([
-                    'user_code' => 'USR-' . rand(100, 999),
-                    'name' => ucfirst($username),
-                    'username' => $username,
-                    'email' => $username . '@guardianspace.mock',
-                    'password' => Hash::make($password ?: 'cadet123'),
-                    'role' => $userRole,
-                    'score' => 500,
-                    'vulnerability' => 5.0,
-                    'rank' => $userRole === 'admin' ? 'Security Architect' : 'Cyber Trainee',
-                    'modules_completed' => 0,
-                ]);
+            if (!$isPasswordValid) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Username atau sandi yang Anda masukkan tidak valid.'
+                ], 401);
             }
 
             // Record Activity Log
-            ActivityLog::create([
-                'log_code' => 'LOG-' . rand(1000, 9999),
-                'user_id' => $user->user_code ?: 'USR-' . $user->id,
-                'user_name' => $user->name,
-                'module' => 'SYSTEM AUTH',
-                'decision' => "Login berhasil: {$user->name} ({$user->username}) peran " . strtoupper($user->role),
-                'vulnerability_score' => $user->vulnerability,
-                'status' => 'SECURED',
-            ]);
+            try {
+                ActivityLog::create([
+                    'log_code' => 'LOG-' . rand(1000, 9999),
+                    'user_id' => $user->user_code ?: 'USR-' . $user->id,
+                    'user_name' => $user->name,
+                    'module' => 'SYSTEM AUTH',
+                    'decision' => "Login berhasil: {$user->name} ({$user->username}) peran " . strtoupper($user->role),
+                    'vulnerability_score' => $user->vulnerability,
+                    'status' => 'SECURED',
+                ]);
+            } catch (\Throwable $logErr) {}
 
             return response()->json([
                 'status' => 'success',
@@ -170,7 +154,7 @@ class AuthController extends Controller
                 'user' => $user
             ]);
         } catch (\Throwable $e) {
-            // Graceful fallback to JSON database if driver is missing
+            // Graceful fallback to JSON database if database driver is disconnected
             $data = $this->getJsonData();
             $users = $data['users'] ?? [];
             $found = null;
@@ -181,42 +165,196 @@ class AuthController extends Controller
                 }
             }
 
-            if ($found) {
-                $isPasswordValid = false;
-                if (empty($password) || (isset($validCredentials[$username]) && in_array($password, $validCredentials[$username])) || ($password === ($found['password'] ?? ''))) {
-                    $isPasswordValid = true;
-                }
+            if (!$found) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Username atau sandi yang Anda masukkan tidak valid.'
+                ], 401);
+            }
 
-                if (!$isPasswordValid) {
+            $userPass = $found['password'] ?? '';
+            $isPasswordValid = (!empty($userPass) && (Hash::check($password, $userPass) || $password === $userPass));
+
+            if (!$isPasswordValid) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Username atau sandi yang Anda masukkan tidak valid.'
+                ], 401);
+            }
+
+            return response()->json([
+                'status' => 'success',
+                'message' => "Otentikasi berhasil! Selamat bertugas, {$found['name']}.",
+                'user' => $found
+            ]);
+        }
+    }
+
+    /**
+     * User Self-Registration
+     */
+    public function register(Request $request)
+    {
+        $name = trim($request->input('name', ''));
+        $username = strtolower(trim($request->input('username', '')));
+        $email = strtolower(trim($request->input('email', '')));
+        $password = trim($request->input('password', ''));
+        $role = 'user'; // Standard self-registration always assigns user role
+
+        if (empty($name)) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Nama lengkap profil siber wajib diisi.'
+            ], 422);
+        }
+
+        if (empty($username) || strlen($username) < 3 || !preg_match('/^[a-z0-9_]+$/i', $username)) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Username harus terdiri dari minimal 3 karakter (huruf, angka, atau garis bawah).'
+            ], 422);
+        }
+
+        if (empty($password) || strlen($password) < 6) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Sandi minimal harus terdiri dari 6 karakter.'
+            ], 422);
+        }
+
+        if (empty($email)) {
+            $email = $username . '@knowyourscam.test';
+        }
+
+        try {
+            // Check uniqueness in database
+            $exists = User::where('username', $username)->orWhere('email', $email)->exists();
+            if ($exists) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Username atau email tersebut sudah terdaftar. Silakan gunakan yang lain.'
+                ], 422);
+            }
+
+            $userCode = 'USR-' . rand(200, 999);
+            $initialGameScores = [
+                'kasus' => 0,
+                'diff' => 0,
+                'criminal' => 0,
+                'deeplearn' => 0,
+                'scanner' => 0,
+                'checker' => 0
+            ];
+
+            $user = User::create([
+                'user_code' => $userCode,
+                'name' => $name,
+                'username' => $username,
+                'email' => $email,
+                'password' => Hash::make($password),
+                'role' => $role,
+                'score' => 0,
+                'vulnerability' => 5.0,
+                'rank' => 'Cyber Trainee',
+                'modules_completed' => 0,
+                'game_scores' => $initialGameScores
+            ]);
+
+            // Sync to JSON files for offline/fallback redundancy
+            $this->syncUserToJson([
+                'id' => $userCode,
+                'user_code' => $userCode,
+                'name' => $name,
+                'username' => $username,
+                'email' => $email,
+                'password' => Hash::make($password),
+                'role' => $role,
+                'score' => 0,
+                'vulnerability' => 5.0,
+                'rank' => 'Cyber Trainee',
+                'modules_completed' => 0,
+                'game_scores' => $initialGameScores
+            ]);
+
+            // Activity Log
+            try {
+                ActivityLog::create([
+                    'log_code' => 'LOG-' . rand(1000, 9999),
+                    'user_id' => $userCode,
+                    'user_name' => $name,
+                    'module' => 'USER REGISTRATION',
+                    'decision' => "Pendaftaran kadet siber baru: {$name} (@{$username})",
+                    'vulnerability_score' => 5.0,
+                    'status' => 'SECURED',
+                ]);
+            } catch (\Throwable $logErr) {}
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Pendaftaran akun siber berhasil! Mengarahkan Anda ke menu login...',
+                'username' => $username
+            ]);
+        } catch (\Throwable $e) {
+            // Fallback for JSON DB if database table not ready
+            $data = $this->getJsonData();
+            $users = $data['users'] ?? [];
+
+            foreach ($users as $u) {
+                if (strtolower($u['username']) === $username) {
                     return response()->json([
                         'status' => 'error',
-                        'message' => 'Sandi tidak valid. Gunakan sandi "cadet123" untuk akun Cadet Aris atau "admin123" untuk Commander Vektor.'
-                    ], 401);
+                        'message' => 'Username siber sudah terdaftar. Silakan pilih username lain.'
+                    ], 422);
                 }
+            }
 
-                return response()->json([
-                    'status' => 'success',
-                    'message' => "Otentikasi berhasil! Selamat bertugas, {$found['name']}.",
-                    'user' => $found
-                ]);
-            } else {
-                $userRole = ($role === 'admin' || $username === 'admin') ? 'admin' : 'user';
-                $newUser = [
-                    'id' => 'USR-' . rand(100, 999),
-                    'user_code' => 'USR-' . rand(100, 999),
-                    'name' => ucfirst($username),
-                    'username' => $username,
-                    'role' => $userRole,
-                    'score' => 500,
-                    'vulnerability' => 5.0,
-                    'rank' => $userRole === 'admin' ? 'Security Architect' : 'Cyber Trainee',
-                    'modules_completed' => 0
-                ];
-                return response()->json([
-                    'status' => 'success',
-                    'message' => "Otentikasi berhasil! Selamat bertugas, {$newUser['name']}.",
-                    'user' => $newUser
-                ]);
+            $userCode = 'USR-' . rand(200, 999);
+            $initialGameScores = [
+                'kasus' => 0,
+                'diff' => 0,
+                'criminal' => 0,
+                'deeplearn' => 0,
+                'scanner' => 0,
+                'checker' => 0
+            ];
+
+            $newUser = [
+                'id' => $userCode,
+                'user_code' => $userCode,
+                'name' => $name,
+                'username' => $username,
+                'email' => $email,
+                'password' => Hash::make($password),
+                'role' => $role,
+                'score' => 0,
+                'vulnerability' => 5.0,
+                'rank' => 'Cyber Trainee',
+                'modules_completed' => 0,
+                'game_scores' => $initialGameScores
+            ];
+
+            $this->syncUserToJson($newUser);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Pendaftaran akun siber berhasil! Mengarahkan Anda ke menu login...',
+                'username' => $username
+            ]);
+        }
+    }
+
+    private function syncUserToJson(array $newUser): void
+    {
+        $paths = [base_path('data/database.json'), public_path('data/database.json')];
+        foreach ($paths as $path) {
+            if (File::exists($path)) {
+                try {
+                    $json = json_decode(File::get($path), true);
+                    if ($json && isset($json['users'])) {
+                        $json['users'][] = $newUser;
+                        File::put($path, json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+                    }
+                } catch (\Throwable $err) {}
             }
         }
     }
@@ -226,7 +364,7 @@ class AuthController extends Controller
         $userId = $request->input('user_id');
         $scoreDelta = (int) $request->input('score_delta', 0);
         $vulnDelta = (float) $request->input('vulnerability_delta', 0.0);
-        $module = $request->input('module', 'Simulation');
+        $game = $request->input('game') ?: $request->input('module', 'kasus');
 
         try {
             $user = User::where('user_code', $userId)->orWhere('username', $userId)->orWhere('id', $userId)->first();
@@ -236,14 +374,13 @@ class AuthController extends Controller
             }
 
             if ($user) {
-                $user->score = max(0, $user->score + $scoreDelta);
-                $user->vulnerability = max(1.0, min(10.0, round($user->vulnerability + $vulnDelta, 1)));
-                $user->modules_completed += 1;
-                $user->updateRank();
+                $user->updateGameScore($game, $scoreDelta, $vulnDelta);
 
                 return response()->json([
                     'status' => 'success',
-                    'user' => $user
+                    'user' => $user,
+                    'total_score' => $user->score,
+                    'game_scores' => $user->game_scores
                 ]);
             }
         } catch (\Throwable $e) {}

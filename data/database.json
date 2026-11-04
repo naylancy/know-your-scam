@@ -13,6 +13,14 @@
             "name": "Commander Vektor",
             "role": "admin",
             "score": 1250,
+            "game_scores": {
+                "kasus": 380,
+                "diff": 320,
+                "criminal": 300,
+                "deeplearn": 170,
+                "scanner": 40,
+                "checker": 40
+            },
             "vulnerability": 1.2,
             "rank": "Grand Cyber Sentinel",
             "modules_completed": 15
@@ -24,6 +32,14 @@
             "name": "Cadet Aris",
             "role": "user",
             "score": 680,
+            "game_scores": {
+                "kasus": 220,
+                "diff": 180,
+                "criminal": 150,
+                "deeplearn": 80,
+                "scanner": 25,
+                "checker": 25
+            },
             "vulnerability": 4.5,
             "rank": "Security Cadet",
             "modules_completed": 5
@@ -35,6 +51,14 @@
             "name": "Sgt. Kira Thorne",
             "role": "user",
             "score": 1120,
+            "game_scores": {
+                "kasus": 350,
+                "diff": 290,
+                "criminal": 270,
+                "deeplearn": 150,
+                "scanner": 30,
+                "checker": 30
+            },
             "vulnerability": 1.8,
             "rank": "Elite Vanguard",
             "modules_completed": 12
@@ -45,6 +69,14 @@
             "name": "Specialist Nyx",
             "role": "user",
             "score": 940,
+            "game_scores": {
+                "kasus": 300,
+                "diff": 250,
+                "criminal": 220,
+                "deeplearn": 120,
+                "scanner": 25,
+                "checker": 25
+            },
             "vulnerability": 2.4,
             "rank": "Threat Hunter",
             "modules_completed": 9
@@ -55,9 +87,38 @@
             "name": "Analyst Zero",
             "role": "user",
             "score": 810,
+            "game_scores": {
+                "kasus": 260,
+                "diff": 220,
+                "criminal": 190,
+                "deeplearn": 100,
+                "scanner": 20,
+                "checker": 20
+            },
             "vulnerability": 3.1,
             "rank": "Incident Responder",
             "modules_completed": 7
+        },
+        {
+            "id": "USR-679",
+            "user_code": "USR-679",
+            "name": "Kadet Penguji",
+            "username": "kadet_uji_91",
+            "email": "kadet_uji_91@knowyourscam.test",
+            "password": "$2y$12$m2uNwSEnjTmDHgQmTSAjvOGXvFH88snBqe.9Q3EFTMrDCCLFYardi",
+            "role": "user",
+            "score": 0,
+            "vulnerability": 5,
+            "rank": "Cyber Trainee",
+            "modules_completed": 0,
+            "game_scores": {
+                "kasus": 0,
+                "diff": 0,
+                "criminal": 0,
+                "deeplearn": 0,
+                "scanner": 0,
+                "checker": 0
+            }
         }
     ],
     "cases_kasus": [
@@ -71,12 +132,12 @@
                 {
                     "id": "victim",
                     "label": "Sudut Pandang Korban (Mahasiswa)",
-                    "avatar": "👤"
+                    "avatar": "\ud83d\udc64"
                 },
                 {
                     "id": "hunter",
                     "label": "Sudut Pandang Investigator Siber",
-                    "avatar": "🕵️"
+                    "avatar": "\ud83d\udd75\ufe0f"
                 }
             ],
             "story_steps": [
@@ -157,12 +218,12 @@
                 {
                     "id": "victim",
                     "label": "Sudut Pandang Target (Korban)",
-                    "avatar": "💖"
+                    "avatar": "\ud83d\udc96"
                 },
                 {
                     "id": "hunter",
                     "label": "Sudut Pandang Profiler Ancaman",
-                    "avatar": "🔍"
+                    "avatar": "\ud83d\udd0d"
                 }
             ],
             "story_steps": [
@@ -236,12 +297,12 @@
                 {
                     "id": "victim",
                     "label": "Sudut Pandang Pencari Kerja",
-                    "avatar": "💼"
+                    "avatar": "\ud83d\udcbc"
                 },
                 {
                     "id": "hunter",
                     "label": "Sudut Pandang Auditor Tenaga Kerja",
-                    "avatar": "📑"
+                    "avatar": "\ud83d\udcd1"
                 }
             ],
             "story_steps": [
@@ -617,6 +678,44 @@
             "security_hints": [
                 "Pastikan informasi agenda sesuai jadwal akademik resmi"
             ]
+        }
+    ],
+    "cases_checker": [
+        {
+            "icon": "\ud83d\udc94",
+            "type": "love_scam",
+            "title": "Love Scam: Koper Hadiah Emas Tertahan Bea Cukai",
+            "text": "Halo sayangku, koper berisi hadiah emas, berlian, dan dokumen penting dari luar negeri tertahan di bea cukai bandara internasional. Petugas meminta biaya tebusan administrasi darurat 5 juta rupiah ke rekening pribadi petugas, tolong transfer sekarang agar paket tidak disita."
+        },
+        {
+            "icon": "\ud83d\udce2",
+            "type": "hoax",
+            "title": "Hoax Viral: Sebarkan Sebelum Dihapus",
+            "text": "SEBARKAN SEBELUM DIHAPUS PEMERINTAH! Rahasia dokter spesialis terbongkar, jangan pernah mengonsumsi makanan kemasan ini karena terbukti secara gaib dan konspirasi mengandung racun sintetis berbahaya. Viralkan pesan ini ke 10 grup WhatsApp demi keselamatan keluarga!"
+        },
+        {
+            "icon": "\ud83d\udcbc",
+            "type": "job_scam",
+            "title": "Job Scam: Kerja Paruh Waktu Like YouTube & Deposit Telegram",
+            "text": "Lowongan kerja paruh waktu resmi online tanpa syarat keahlian! Cukup like dan subscribe video YouTube dapat komisi 300 ribu hingga 1 juta rupiah per hari. Gabung grup tugas Telegram kami sekarang dan lakukan deposit awal 150 ribu rupiah untuk aktivasi ID member VIP Anda."
+        },
+        {
+            "icon": "\ud83d\udce6",
+            "type": "malware",
+            "title": "Malware APK: Surat Undangan / Resi Kurir Paket",
+            "text": "Selamat siang kak, mohon maaf paket kiriman Anda tertahan di kurir karena nomor rumah tidak jelas. Silakan unduh dan pasang aplikasi Surat-Undangan-Paket.apk ini di ponsel Android Anda untuk melihat detail resi foto paket secara langsung."
+        },
+        {
+            "icon": "\ud83c\udfe6",
+            "type": "phishing",
+            "title": "Phishing: Ancaman Pemblokiran Rekening Darurat",
+            "text": "Pemberitahuan Darurat Bank: Rekening Anda terindikasi aktivitas mencurigakan dan akan diblokir dalam 30 menit. Segera perbarui data kredensial serta nomor kartu debit Anda melalui formulir verifikasi: https://bca-klik-promo2026.xyz/login"
+        },
+        {
+            "icon": "\ud83c\udfdb\ufe0f",
+            "type": "official",
+            "title": "Info Resmi: Siaran Pers Imunisasi Nasional Kemkes",
+            "text": "Kementerian Kesehatan Republik Indonesia (Kemenkes RI) mengumumkan pembukaan posko Pekan Imunisasi Nasional untuk seluruh balita secara serentak di Puskesmas terdekat tanpa dipungut biaya. Kunjungi portal resmi kemkes.go.id untuk jadwal dan lokasi lengkap."
         }
     ],
     "activity_logs": [

@@ -42,7 +42,8 @@ class ModuleCriminal {
     if (!window.authManager?.isLoggedIn()) return;
     if (window.app?.currentRoute !== 'criminal') return;
 
-    if (!this.isTimerRunning && !this.isTimedOut) {
+    const hasSeenBriefing = window.gameBriefing?.hasSeen('criminal');
+    if (hasSeenBriefing && !this.isTimerRunning && !this.isTimedOut) {
       this.startTimer();
     }
     this.render();
@@ -142,7 +143,8 @@ class ModuleCriminal {
       2.0, 
       'CRIMINAL CASE', 
       'Waktu investigasi habis! Korban mengalami kerugian finansial akibat transfer sindikat.', 
-      'COMPROMISED'
+      'COMPROMISED',
+      'criminal'
     );
 
     // Show in-card game over banner instead of intrusive window.alert()
@@ -252,8 +254,21 @@ class ModuleCriminal {
 
     const isCustomCase = currentCase.is_custom;
 
+    // Briefing and Real-Time Live HUD
+    const hasSeenBriefing = window.gameBriefing?.hasSeen('criminal');
+    const briefingHtml = window.gameBriefing?.renderBriefingHTML('criminal') || '';
+    const hudBarHtml = window.gameBriefing?.renderHUDBar('criminal') || '';
+
+    // If briefing was just dismissed and route is active, start timer
+    if (hasSeenBriefing && !this.isTimerRunning && !this.isTimedOut && window.app?.currentRoute === 'criminal') {
+      this.startTimer();
+    }
+
     container.innerHTML = `
-      <div class="holo-enter">
+      ${briefingHtml}
+      <div id="game-content-criminal" class="holo-enter" style="${hasSeenBriefing ? 'display:block;' : 'display:none;'}">
+        ${hudBarHtml}
+
         <!-- Sub Header -->
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom: 20px;">
           <div style="display:flex; gap: 8px; flex-wrap: wrap;">
@@ -358,6 +373,7 @@ class ModuleCriminal {
           </div>
         </div>
       </div>
+      </div>
     `;
   }
 
@@ -447,7 +463,8 @@ class ModuleCriminal {
       vulnDelta,
       'CRIMINAL CASE (Forensics)',
       `Dakwaan berkas ${currentCase.id}: ${correctCount}/4 bukti tepat`,
-      isAllCorrect ? 'BREACH_PREVENTED' : 'INVESTIGATION_INCOMPLETE'
+      isAllCorrect ? 'BREACH_PREVENTED' : 'INVESTIGATION_INCOMPLETE',
+      'criminal'
     );
 
     // Show debrief modal

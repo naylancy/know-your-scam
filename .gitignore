@@ -8,6 +8,8 @@ auth.json
 
 # Environment & Credentials (Crucial)
 .env
+.env.example
+.env.local
 .env.backup
 .env.bak
 .env.production
@@ -61,3 +63,4 @@ ehthumbs.db
 Thumbs.db
 desktop.ini
 
+.neon

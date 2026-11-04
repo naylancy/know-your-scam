@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="{{ asset('css/cyber-theme.css') }}">
   <link rel="stylesheet" href="{{ asset('css/hud-layout.css') }}">
   <link rel="stylesheet" href="{{ asset('css/games.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/edukasi.css') }}">
   <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
@@ -41,11 +42,30 @@
         <nav>
           <ul class="hud-nav" id="hud-nav-links">
             <li><a href="#welcome" class="nav-link active"><span>🚀</span> BERANDA</a></li>
-            <li class="nav-item-game"><a href="#kasus" class="nav-link"><span>📜</span> KASUS</a></li>
-            <li class="nav-item-game"><a href="#diff" class="nav-link"><span>⚖️</span> FINDING DIFF</a></li>
-            <li class="nav-item-game"><a href="#criminal" class="nav-link"><span>🕵️</span> CRIMINAL CASE</a></li>
-            <li class="nav-item-game"><a href="#deeplearn" class="nav-link"><span>🧠</span> DEEP LEARNING</a></li>
-            <li class="nav-item-game"><a href="#scanner" class="nav-link"><span>🔗</span> LINK SCANNER</a></li>
+            
+            <!-- Combined GAMES Menu with Dropdown -->
+            <li class="nav-item-game dropdown-nav-item">
+              <a href="#games" class="nav-link dropdown-toggle" id="nav-games-link"><span>🎮</span> GAMES ▾</a>
+              <ul class="dropdown-menu">
+                <li><a href="#kasus" class="dropdown-link"><span>📜</span> KASUS SIMULASI</a></li>
+                <li><a href="#diff" class="dropdown-link"><span>⚖️</span> FINDING DIFF</a></li>
+                <li><a href="#criminal" class="dropdown-link"><span>🕵️</span> CRIMINAL CASE</a></li>
+                <li><a href="#deeplearn" class="dropdown-link"><span>🧠</span> ANALYZER</a></li>
+              </ul>
+            </li>
+
+            <!-- Combined DETEKTOR Menu (Link Scanner & Legit Checker) -->
+            <li class="nav-item-game dropdown-nav-item">
+              <a href="#scanner" class="nav-link dropdown-toggle" id="nav-detector-link"><span>🛡️</span> DETEKTOR ▾</a>
+              <ul class="dropdown-menu">
+                <li><a href="#scanner" class="dropdown-link"><span>🔗</span> LINK SCANNER</a></li>
+                <li><a href="#checker" class="dropdown-link"><span>🛡️</span> LEGIT CHECKER</a></li>
+              </ul>
+            </li>
+
+            <!-- W3Schools-Style Edukasi Menu -->
+            <li class="nav-item-game"><a href="#edukasi" class="nav-link" id="nav-edukasi-link"><span>📚</span> EDUKASI</a></li>
+
             <li class="nav-item-game"><a href="#leaderboard" class="nav-link"><span>🏆</span> LEADERBOARD</a></li>
             <li class="nav-item-game"><a href="#admin" id="nav-admin-link" class="nav-link"><span>🛡️</span> ADMIN</a></li>
           </ul>
@@ -69,10 +89,10 @@
             <input id="audio-volume-slider" type="range" class="audio-vol-slider" min="0" max="1" step="0.05" value="0.5" title="Volume Suara">
           </div>
 
-          <!-- GUEST VIEW: MASUK / UJI LOGIN BUTTON -->
+          <!-- GUEST VIEW: MASUK / DAFTAR AKUN BUTTON -->
           <div id="hud-guest-actions" class="hud-guest-actions">
             <button id="btn-header-login" class="cyber-btn" onclick="window.authManager.openLoginModal()" style="padding: 7px 16px; font-size: 0.8rem; box-shadow: 0 0 15px var(--neon-cyan-dim);">
-              <span>🔑</span> MASUK / UJI LOGIN
+              <span>🔑</span> MASUK / DAFTAR
             </button>
           </div>
 
@@ -115,123 +135,63 @@
           <div class="hero-subtitle">ANTI-GRAVITY CYBER DEFENSE // REKAYASA SOSIAL & DETEKSI PENIPUAN</div>
 
           <p class="hero-desc">
-            Pusat simulasi dan edukasi taktis pertahanan siber generasi baru bertenaga Laravel Eloquent ORM. Lakukan uji coba peran akun (User atau Admin) pada konsol di bawah dan telusuri ringkasan spesifikasi protokol misi pertahanan siber.
+            Pusat simulasi dan edukasi taktis pertahanan siber generasi baru bertenaga Laravel dan Artificial Intelligence. Lindungi diri Anda dari ancaman manipulasi psikologis, deteksi keaslian informasi digital, dan uji ketangguhan nalar Anda melalui skenario interaktif.
           </p>
 
-          <!-- Hero Actions: Account Testing & Menu Summaries (No direct game trial) -->
+          <!-- Hero Actions: Authentication & Navigation -->
           <div class="hero-cta-group">
             <button class="cyber-btn hero-cta-btn" onclick="window.authManager.openLoginModal()">
-              <span>🔑</span> MASUK / UJI LOGIN
+              <span>🔑</span> MASUK / DAFTAR AKUN
             </button>
-            <button class="cyber-btn btn-ghost" style="font-size: 1.05rem; padding: 16px 28px;" onclick="window.welcomeInteractive.scrollToAccountTest()">
-              <span>⚡</span> KONSOL PROFIL & SANDI
+            <button class="cyber-btn btn-ghost" style="font-size: 1.05rem; padding: 16px 28px;" onclick="window.app.navigateTo('edukasi')">
+              <span>📚</span> JELAJAHI MATERI EDUKASI
             </button>
             <button class="cyber-btn btn-ghost" style="font-size: 1.05rem; padding: 16px 28px;" onclick="document.getElementById('menu-summary-section').scrollIntoView({behavior:'smooth'})">
-              <span>📜</span> RINGKASAN MENU MODUL
+              <span>📜</span> RINGKASAN MENU MISI
             </button>
           </div>
 
           <!-- ========================================================
-               KONSOL UJI COBA AKUN SIBER (INTERACTIVE ACCOUNT TESTING)
+               KAPABILITAS SISTEM PERTAHANAN SIBER (PROFESSIONAL SHOWCASE)
                ======================================================== -->
-          <div id="account-test-console" class="account-test-console">
+          <div class="account-test-console" style="border-color: var(--border-cyan); margin-top: 36px;">
             <div class="account-test-header">
               <div style="display:flex; align-items:center; gap: 10px;">
-                <span style="font-size: 1.5rem;">⚡</span>
+                <span style="font-size: 1.5rem;">🛡️</span>
                 <div>
                   <h3 style="font-size: 1.25rem; color: var(--text-highlight); letter-spacing: 1px;">
-                    KONSOL UJI COBA AKUN SIBER (ACCOUNT TESTING CONSOLE)
+                    ARSITEKTUR PERTAHANAN ZERO-TRUST
                   </h3>
                   <div style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--neon-cyan);">
-                    GUNAKAN KREDENSIAL PROFIL & SANDI RESMI DI BAWAH UNTUK MEMBUKA AKSES MODUL
+                    STANDAR EDUKASI & SIMULASI REKAYASA SOSIAL INDONESIA
                   </div>
                 </div>
               </div>
-              <div id="test-active-badge" class="cyber-tag tag-amber">
-                STATUS: BELUM LOGIN (MODE TAMU)
+              <div class="cyber-tag tag-green">
+                SISTEM SIAP DIGUNAKAN
               </div>
             </div>
 
-            <!-- Side-by-Side Pods: User Pod vs Admin Pod -->
-            <div class="account-test-grid">
-              <!-- POD A: USER (KADET SIBER) -->
-              <div id="pod-test-user" class="account-test-pod" style="border-color: var(--neon-cyan); box-shadow: 0 0 15px var(--neon-cyan-dim);">
-                <div>
-                  <div class="pod-title-bar">
-                    <div style="display:flex; align-items:center; gap: 8px;">
-                      <span style="font-size: 1.6rem;">👤</span>
-                      <div>
-                        <h4 style="font-size: 1.1rem; color: var(--neon-cyan);">KADET SIBER (USER / MAHASISWA)</h4>
-                        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">PERAN: PESERTA EDUKASI & SIMULASI</div>
-                      </div>
-                    </div>
-                    <span class="cyber-tag">ROLE: USER</span>
-                  </div>
-
-                  <div class="pod-credentials-box">
-                    <span>NAMA PROFIL: <strong>Cadet Aris</strong></span>
-                    <span>USERNAME: <code>cadet</code></span>
-                    <span>SANDI / PASSWORD: <code style="color: var(--neon-green); font-weight: bold;">cadet123</code></span>
-                    <span style="color: var(--text-muted); font-size: 0.72rem;">STATISTIK: 680 XP | VULN: 4.5/10 (Security Cadet)</span>
-                  </div>
-
-                  <ul class="pod-permissions-list">
-                    <li style="color: var(--text-main);"><span style="color: var(--neon-green);">✓</span> Mengakses 5 Modul Game & Skenario Simulasi</li>
-                    <li style="color: var(--text-main);"><span style="color: var(--neon-green);">✓</span> Menerima Evaluasi Indikator Skor Kerentanan (1–10)</li>
-                    <li style="color: var(--text-main);"><span style="color: var(--neon-green);">✓</span> Memperoleh Poin XP & Tercatat di Leaderboard Global</li>
-                    <li style="color: var(--text-muted);"><span style="color: var(--neon-red);">✗</span> Akses Panel Kontrol & Log Telemetri Terbatas</li>
-                  </ul>
-                </div>
-
-                <button class="cyber-btn" style="width: 100%; font-size: 0.92rem; padding: 12px 16px;" onclick="window.welcomeInteractive.testAccount('user')">
-                  ⚡ LOGIN SEBAGAI CADET ARIS (USER)
-                </button>
+            <div class="edu-grid-cards" style="margin: 10px 0;">
+              <div class="edu-card">
+                <div class="card-icon">🎮</div>
+                <h4 style="color:var(--neon-cyan);">4 Modul Simulasi (Games)</h4>
+                <p>Kasus Multi-POV, Finding Diff, Criminal Case, dan AI Analyzer untuk melatih ketajaman deteksi penipuan siber.</p>
               </div>
-
-              <!-- POD B: ADMIN (PUSAT KOMANDO SIBER) -->
-              <div id="pod-test-admin" class="account-test-pod pod-admin" style="border-color: rgba(255,255,255,0.15);">
-                <div>
-                  <div class="pod-title-bar">
-                    <div style="display:flex; align-items:center; gap: 8px;">
-                      <span style="font-size: 1.6rem;">🛡️</span>
-                      <div>
-                        <h4 style="font-size: 1.1rem; color: var(--neon-magenta);">KOMANDAN SISTEM (ADMINISTRATOR)</h4>
-                        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">PERAN: PENGELOLA WEBSITE & PEMBUAT GIM</div>
-                      </div>
-                    </div>
-                    <span class="cyber-tag tag-magenta">ROLE: ADMIN</span>
-                  </div>
-
-                  <div class="pod-credentials-box" style="border-color: rgba(189,0,255,0.3);">
-                    <span>NAMA PROFIL: <strong>Commander Vektor</strong></span>
-                    <span>USERNAME: <code>admin</code></span>
-                    <span>SANDI / PASSWORD: <code style="color: var(--neon-magenta); font-weight: bold;">admin123</code></span>
-                    <span style="color: var(--text-muted); font-size: 0.72rem;">STATISTIK: 1250 XP | VULN: 1.2/10 (Grand Sentinel)</span>
-                  </div>
-
-                  <ul class="pod-permissions-list">
-                    <li style="color: var(--text-main);"><span style="color: var(--neon-green);">✓</span> Hak Penuh Panel Kontrol & Manajemen Kasus (CRUD)</li>
-                    <li style="color: var(--text-main);"><span style="color: var(--neon-green);">✓</span> Dashboard Telemetri Log Aktivitas Real-time</li>
-                    <li style="color: var(--text-main);"><span style="color: var(--neon-green);">✓</span> Fasilitas Ekspor Laporan Audit & Pembersihan Log</li>
-                    <li style="color: var(--text-main);"><span style="color: var(--neon-green);">✓</span> Menguji Seluruh Skenario Modul dengan Elevasi Penuh</li>
-                  </ul>
-                </div>
-
-                <button class="cyber-btn btn-magenta" style="width: 100%; font-size: 0.92rem; padding: 12px 16px;" onclick="window.welcomeInteractive.testAccount('admin')">
-                  🛡️ LOGIN SEBAGAI COMMANDER VEKTOR (ADMIN)
-                </button>
+              <div class="edu-card">
+                <div class="card-icon">🛡️</div>
+                <h4 style="color:var(--neon-magenta);">Detektor Cerdas Hibrida</h4>
+                <p>Link Scanner dan Legit Checker bertenaga Rule Heuristics + Google Gemini AI Cloud untuk validasi multi-ancaman.</p>
               </div>
-            </div>
-
-            <!-- Real-time Test Feedback Status Bar -->
-            <div class="account-test-feedback-bar">
-              <div id="test-terminal-status">
-                <span style="color: var(--neon-cyan);">⚡ MODE TAMU: Pilih salah satu akun uji coba di atas untuk membuka navigasi modul pertahanan.</span>
+              <div class="edu-card">
+                <div class="card-icon">📚</div>
+                <h4 style="color:var(--neon-green);">Pusat Edukasi Interaktif</h4>
+                <p>Panduan lengkap mitigasi rekayasa sosial, etika digital, dan langkah respon darurat dengan antarmuka navigasi sidebar.</p>
               </div>
-              <div id="test-unlocked-launchers" style="display: flex; gap: 10px; flex-wrap: wrap;">
-                <button class="cyber-btn" onclick="window.authManager.openLoginModal()" style="padding: 8px 18px; font-size: 0.85rem;">
-                  <span>🔑</span> MASUK DENGAN AKUN UJI COBA
-                </button>
+              <div class="edu-card">
+                <div class="card-icon">🏆</div>
+                <h4 style="color:var(--neon-amber);">Live Leaderboard</h4>
+                <p>Pemantauan skor per game dan total XP secara real-time tanpa refresh untuk kompetisi kompetensi siber sehat.</p>
               </div>
             </div>
           </div>
@@ -307,17 +267,17 @@
               </div>
             </div>
 
-            <!-- 4. DEEP LEARNING -->
+            <!-- 4. ANALYZER -->
             <div class="menu-summary-card" onclick="window.welcomeInteractive.openMenuSummary('deeplearn')">
               <div>
                 <div class="menu-summary-badge-bar">
                   <span class="cyber-tag">MODUL 4</span>
-                  <span class="cyber-tag tag-green">AI EVALUATION</span>
+                  <span class="cyber-tag tag-green">HYBRID AI EVALUATION</span>
                 </div>
                 <div class="menu-summary-icon">🧠</div>
-                <h4 style="font-size: 1.15rem; color: var(--text-highlight); margin-bottom: 6px;">DEEP LEARNING</h4>
+                <h4 style="font-size: 1.15rem; color: var(--text-highlight); margin-bottom: 6px;">ANALYZER (AI EVALUATOR)</h4>
                 <p class="menu-summary-teaser">
-                  Evaluasi kritis ancaman Zero-Day di mana penalaran tertulis Anda dievaluasi secara mendalam oleh AI Know Your Scam dengan animasi gelombang siber neural matrix.
+                  Evaluasi kritis ancaman Zero-Day di mana penalaran tertulis Anda dievaluasi secara mendalam oleh Google Gemini AI dan Neural Matrix Know Your Scam.
                 </p>
               </div>
               <div class="menu-summary-inspect-link">
@@ -325,17 +285,35 @@
               </div>
             </div>
 
-            <!-- 5. LINK & NEWS SCANNER -->
+            <!-- 5. LINK SCANNER -->
             <div class="menu-summary-card" onclick="window.welcomeInteractive.openMenuSummary('scanner')">
               <div>
                 <div class="menu-summary-badge-bar">
-                  <span class="cyber-tag">MODUL 5</span>
+                  <span class="cyber-tag">DETEKTOR 1</span>
                   <span class="cyber-tag">SECURITY UTILITY</span>
                 </div>
                 <div class="menu-summary-icon">🔗</div>
                 <h4 style="font-size: 1.15rem; color: var(--text-highlight); margin-bottom: 6px;">NEWS & LINK SCANNER</h4>
                 <p class="menu-summary-teaser">
-                  Utilitas mandiri untuk memindai keabsahan URL dan teks berita dengan skor kerentanan neon 1–10, transparansi pemrosesan AI, dan petunjuk keamanan interaktif.
+                  Utilitas pemindaian keabsahan URL dan teks berita dengan skor kerentanan neon 1–10, transparansi pemrosesan AI, dan petunjuk keamanan interaktif.
+                </p>
+              </div>
+              <div class="menu-summary-inspect-link">
+                <span>🔍</span> BACA RINGKASAN PROTOKOL ➔
+              </div>
+            </div>
+
+            <!-- 6. LEGIT CHECKER -->
+            <div class="menu-summary-card" onclick="window.welcomeInteractive.openMenuSummary('checker')">
+              <div>
+                <div class="menu-summary-badge-bar">
+                  <span class="cyber-tag">DETEKTOR 2</span>
+                  <span class="cyber-tag tag-magenta">OMNI-THREAT AI</span>
+                </div>
+                <div class="menu-summary-icon">🛡️</div>
+                <h4 style="font-size: 1.15rem; color: var(--text-highlight); margin-bottom: 6px;">LEGIT CHECKER</h4>
+                <p class="menu-summary-teaser">
+                  Pusat validasi keaslian multi-vektor untuk menguji chat love scam, hoax viral, tawaran kerja bodong, investasi palsu, hingga malware APK dengan arsitektur hybrid.
                 </p>
               </div>
               <div class="menu-summary-inspect-link">
@@ -376,6 +354,91 @@
               </div>
               <div class="menu-summary-inspect-link">
                 <span>🔍</span> BACA RINGKASAN PROTOKOL ➔
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================
+           PAGE: GAMES HUB (PUSAT SIMULASI GIM TAKTIS)
+           ======================================================== -->
+      <section id="page-games" class="page-view">
+        <div class="holo-enter">
+          <div style="text-align: center; margin-bottom: 24px;">
+            <span class="cyber-tag tag-cyan" style="font-size: 0.82rem; padding: 6px 16px;">
+              PUSAT MISI PERTAHANAN SIBER
+            </span>
+            <h2 style="font-size: 1.85rem; color: var(--text-highlight); margin: 8px 0;">
+              PILIH MODUL SIMULASI TAKTIS (GAMES)
+            </h2>
+            <p style="font-size: 0.95rem; color: var(--text-muted); max-width: 700px; margin: 0 auto;">
+              Pilih salah satu arena simulasi di bawah untuk mengasah naluri deteksi penipuan siber Anda. Skor dari setiap permainan dihitung secara real-time dan terakumulasi ke Leaderboard Global.
+            </p>
+          </div>
+
+          <div class="games-hub-grid">
+            <!-- Game 1: Kasus -->
+            <div class="game-hub-card">
+              <div>
+                <div class="game-hub-badge">MODUL 1 // MULTI-POV</div>
+                <h3 class="game-hub-title">📜 Kasus Simulasi</h3>
+                <p class="game-hub-desc">
+                  Simulasi interaktif berganti sudut pandang antara Korban dan Pemburu Ancaman. Pecahkan kasus phishing, love scam, dan job scam dengan pilihan respon mitigasi taktis.
+                </p>
+              </div>
+              <div>
+                <button class="cyber-btn" style="width:100%; font-size:0.92rem; padding:12px;" onclick="window.app.navigateTo('kasus')">
+                  <span>⚡</span> MAINKAN KASUS ➔
+                </button>
+              </div>
+            </div>
+
+            <!-- Game 2: Finding Diff -->
+            <div class="game-hub-card">
+              <div>
+                <div class="game-hub-badge">MODUL 2 // JUDGE REAL VS FAKE</div>
+                <h3 class="game-hub-title">⚖️ Finding Diff</h3>
+                <p class="game-hub-desc">
+                  Uji ketelitian visual Anda sebagai Hakim Siber membandingkan dua dokumen/situs web berdampingan dengan lensa pembesar (Zoom Lens) untuk menentukan Real vs Fake.
+                </p>
+              </div>
+              <div>
+                <button class="cyber-btn" style="width:100%; font-size:0.92rem; padding:12px;" onclick="window.app.navigateTo('diff')">
+                  <span>⚡</span> MAINKAN FINDING DIFF ➔
+                </button>
+              </div>
+            </div>
+
+            <!-- Game 3: Criminal Case -->
+            <div class="game-hub-card card-magenta">
+              <div>
+                <div class="game-hub-badge" style="color:var(--neon-magenta); background:rgba(189,0,255,0.1);">MODUL 3 // FORENSIC PUZZLE</div>
+                <h3 class="game-hub-title">🕵️ Criminal Case</h3>
+                <p class="game-hub-desc">
+                  Teka-teki investigasi sindikat siber drag-and-drop. Analisis log server, rekening penampung, dan taktik penipuan sebelum batas waktu panik habis.
+                </p>
+              </div>
+              <div>
+                <button class="cyber-btn btn-magenta" style="width:100%; font-size:0.92rem; padding:12px;" onclick="window.app.navigateTo('criminal')">
+                  <span>⚡</span> MULAI INVESTIGASI ➔
+                </button>
+              </div>
+            </div>
+
+            <!-- Game 4: Analyzer -->
+            <div class="game-hub-card">
+              <div>
+                <div class="game-hub-badge" style="color:var(--neon-green); background:rgba(0,255,136,0.1);">MODUL 4 // HYBRID AI EVALUATOR</div>
+                <h3 class="game-hub-title">🧠 AI Analyzer</h3>
+                <p class="game-hub-desc">
+                  Tuliskan penalaran kritis Anda terhadap ancaman Zero-Day. Evaluator AI (Google Gemini Cloud + Neural Core) akan membaca dan mengulas kualitas analisis Anda.
+                </p>
+              </div>
+              <div>
+                <button class="cyber-btn" style="width:100%; font-size:0.92rem; padding:12px;" onclick="window.app.navigateTo('deeplearn')">
+                  <span>⚡</span> BUKA ANALYZER ➔
+                </button>
               </div>
             </div>
           </div>
@@ -430,12 +493,12 @@
         <div id="criminal-module-container"></div>
       </section>
 
-      <!-- PAGE 5: MODUL 4 - DEEP LEARNING -->
+      <!-- PAGE 5: MODUL 4 - ANALYZER -->
       <section id="page-deeplearn" class="page-view">
         <div class="sub-hud-bar">
           <div class="sub-hud-left">
             <span style="font-size: 1.5rem;">🧠</span>
-            <div class="sub-hud-title">PROTOKOL DEEP LEARNING: EVALUASI SEMANTIK AI</div>
+            <div class="sub-hud-title">PROTOKOL ANALYZER: EVALUASI SEMANTIK AI</div>
           </div>
           <div class="sub-hud-right">
             <button class="btn-intel-hint" onclick="window.hintSystem.openHintModal()">
@@ -448,10 +511,16 @@
 
       <!-- PAGE 6: MODUL 5 - LLM NEWS / LINK SCANNER -->
       <section id="page-scanner" class="page-view">
+        <!-- Unified Detector Sub-Navigation Tabs -->
+        <div class="detector-tab-bar" style="display:flex; gap:10px; margin-bottom:18px; border-bottom:1px solid var(--border-cyan); padding-bottom:12px;">
+          <a href="#scanner" class="cyber-btn" id="det-tab-scanner" style="padding: 8px 20px; font-size: 0.85rem;"><span>🔗</span> LINK SCANNER</a>
+          <a href="#checker" class="cyber-btn btn-ghost" id="det-tab-checker" style="padding: 8px 20px; font-size: 0.85rem;"><span>🛡️</span> LEGIT CHECKER</a>
+        </div>
+
         <div class="sub-hud-bar">
           <div class="sub-hud-left">
             <span style="font-size: 1.5rem;">🔗</span>
-            <div class="sub-hud-title">LLM NEWS & URL SCANNER TOOL</div>
+            <div class="sub-hud-title">LINK & NEWS SCANNER (HYBRID DETECTOR)</div>
           </div>
           <div class="sub-hud-right">
             <button class="btn-intel-hint" onclick="window.hintSystem.openHintModal()">
@@ -460,6 +529,33 @@
           </div>
         </div>
         <div id="scanner-module-container"></div>
+      </section>
+
+      <!-- PAGE 7: MODUL 6 - LEGIT CHECKER -->
+      <section id="page-checker" class="page-view">
+        <!-- Unified Detector Sub-Navigation Tabs -->
+        <div class="detector-tab-bar" style="display:flex; gap:10px; margin-bottom:18px; border-bottom:1px solid var(--border-cyan); padding-bottom:12px;">
+          <a href="#scanner" class="cyber-btn btn-ghost" id="det-tab-scanner-alt" style="padding: 8px 20px; font-size: 0.85rem;"><span>🔗</span> LINK SCANNER</a>
+          <a href="#checker" class="cyber-btn" id="det-tab-checker-alt" style="padding: 8px 20px; font-size: 0.85rem;"><span>🛡️</span> LEGIT CHECKER</a>
+        </div>
+
+        <div class="sub-hud-bar">
+          <div class="sub-hud-left">
+            <span style="font-size: 1.5rem;">🛡️</span>
+            <div class="sub-hud-title">LEGIT CHECKER: VALIDASI KEASLIAN MULTI-ANCAMAN</div>
+          </div>
+          <div class="sub-hud-right">
+            <button class="btn-intel-hint" onclick="window.hintSystem.openHintModal()">
+              <span>💡</span> MINTA INTEL / HINT
+            </button>
+          </div>
+        </div>
+        <div id="checker-module-container"></div>
+      </section>
+
+      <!-- PAGE: EDUKASI (W3SCHOOLS STYLE SIDEBAR HUB) -->
+      <section id="page-edukasi" class="page-view">
+        <div id="edukasi-container"></div>
       </section>
 
       <!-- PAGE 7: LEADERBOARD -->
@@ -502,91 +598,109 @@
   <!-- MODAL: CYBER LOGIN & TEST ACCOUNTS -->
   <div id="modal-auth-box" class="cyber-modal-backdrop">
     <div class="cyber-modal-box" style="max-width: 650px; border-color: var(--neon-cyan); box-shadow: 0 0 50px var(--neon-cyan-dim);">
-      <!-- Header -->
+      <!-- Modal Header -->
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 18px; border-bottom: 1px solid rgba(0,243,255,0.2); padding-bottom: 12px;">
         <div style="display:flex; align-items:center; gap: 12px;">
           <div style="font-size: 2rem;">🛡️</div>
           <div>
             <span class="cyber-tag tag-cyan">GATEWAY OTENTIKASI SIBER</span>
-            <h3 style="font-size: 1.35rem; color: var(--text-highlight); margin-top: 4px;">MASUK KE KNOW YOUR SCAM</h3>
+            <h3 style="font-size: 1.35rem; color: var(--text-highlight); margin-top: 4px;">KNOW YOUR SCAM DEFENSE</h3>
           </div>
         </div>
         <button class="modal-close-btn" onclick="window.authManager.closeLoginModal()" style="background:none; border:none; color:var(--text-muted); font-size:1.6rem; cursor:pointer; line-height:1;">&times;</button>
       </div>
 
-      <!-- Quick Test Accounts Cheat Sheet (Cards with Profiles & Sandi) -->
-      <div style="margin-bottom: 20px;">
-        <div style="font-family: var(--font-display); font-size: 0.82rem; color: var(--neon-cyan); letter-spacing: 1px; margin-bottom: 10px; display:flex; align-items:center; gap:6px;">
-          <span>⚡</span> PILIH AKUN UJI COBA (KLIK UNTUK ISI PROFIL & SANDI OTOMATIS):
-        </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-          <!-- User Test Card -->
-          <div class="auth-test-card" onclick="window.authManager.quickFillAndLogin('cadet', 'cadet123')" style="background: rgba(14,18,36,0.85); border: 1px solid var(--border-cyan); border-radius: 8px; padding: 12px; cursor: pointer;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px;">
-              <div style="font-weight:700; color:var(--neon-cyan); font-size:0.92rem;">👤 Cadet Aris</div>
-              <span class="cyber-tag" style="font-size:0.65rem;">ROLE: USER</span>
-            </div>
-            <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-main); display:flex; flex-direction:column; gap:3px;">
-              <div>Username: <strong style="color:var(--text-highlight);">cadet</strong></div>
-              <div>Sandi: <strong style="color:var(--neon-green);">cadet123</strong></div>
-              <div style="color: var(--text-muted); font-size: 0.7rem;">Pangkat: Security Cadet (680 XP)</div>
-            </div>
-            <div style="margin-top: 10px; font-size: 0.72rem; color: var(--neon-cyan); font-family: var(--font-display); font-weight: 700; display:flex; align-items:center; gap:4px;">
-              <span>⚡</span> KLIK UNTUK MASUK SEBAGAI CADET ➔
-            </div>
-          </div>
-
-          <!-- Admin Test Card -->
-          <div class="auth-test-card" onclick="window.authManager.quickFillAndLogin('admin', 'admin123')" style="background: rgba(25,12,36,0.85); border: 1px solid rgba(189,0,255,0.4); border-radius: 8px; padding: 12px; cursor: pointer;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px;">
-              <div style="font-weight:700; color:var(--neon-magenta); font-size:0.92rem;">🛡️ Commander Vektor</div>
-              <span class="cyber-tag tag-magenta" style="font-size:0.65rem;">ROLE: ADMIN</span>
-            </div>
-            <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-main); display:flex; flex-direction:column; gap:3px;">
-              <div>Username: <strong style="color:var(--text-highlight);">admin</strong></div>
-              <div>Sandi: <strong style="color:var(--neon-magenta);">admin123</strong></div>
-              <div style="color: var(--text-muted); font-size: 0.7rem;">Pangkat: Sentinel (1250 XP)</div>
-            </div>
-            <div style="margin-top: 10px; font-size: 0.72rem; color: var(--neon-magenta); font-family: var(--font-display); font-weight: 700; display:flex; align-items:center; gap:4px;">
-              <span>🛡️</span> KLIK UNTUK MASUK SEBAGAI ADMIN ➔
-            </div>
-          </div>
-        </div>
+      <!-- Professional Cyber Tabs: MASUK (LOGIN) vs DAFTAR AKUN (REGISTER) -->
+      <div style="display:flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
+        <button type="button" id="tab-btn-login" class="cyber-btn active" style="flex:1; padding: 10px; font-size: 0.9rem;" onclick="window.authManager.switchTab('login')">
+          <span>🔑</span> MASUK (LOGIN)
+        </button>
+        <button type="button" id="tab-btn-register" class="cyber-btn btn-ghost" style="flex:1; padding: 10px; font-size: 0.9rem;" onclick="window.authManager.switchTab('register')">
+          <span>⚡</span> DAFTAR AKUN BARU
+        </button>
       </div>
 
-      <!-- Divider -->
-      <div style="text-align:center; position:relative; margin: 18px 0;">
-        <span style="background: var(--bg-surface); padding: 0 12px; font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); position:relative; z-index:1;">
-          ATAU MASUKKAN USERNAME & SANDI MANUAL
-        </span>
-        <div style="position:absolute; top:50%; left:0; right:0; height:1px; background:rgba(255,255,255,0.1); z-index:0;"></div>
-      </div>
+      <!-- Feedback Alerts -->
+      <div id="auth-form-success" style="display:none; background:rgba(0,255,136,0.15); border:1px solid var(--neon-green); border-radius:4px; padding:10px 14px; margin-bottom:14px; font-size:0.85rem; color:var(--neon-green);"></div>
+      <div id="auth-form-error" style="display:none; background:rgba(255,0,85,0.15); border:1px solid var(--neon-red); border-radius:4px; padding:10px 14px; margin-bottom:14px; font-size:0.85rem; color:var(--neon-red);"></div>
 
-      <!-- Manual Input Form -->
+      <!-- FORM 1: MASUK (LOGIN) -->
       <form id="auth-manual-form" onsubmit="window.authManager.handleFormSubmit(event)">
-        <!-- Error Alert Container -->
-        <div id="auth-form-error" style="display:none; background:rgba(255,0,85,0.15); border:1px solid var(--neon-red); border-radius:4px; padding:10px 14px; margin-bottom:14px; font-size:0.82rem; color:var(--neon-red);"></div>
-
         <div style="margin-bottom: 14px;">
           <label style="display:block; font-family:var(--font-display); font-size:0.8rem; color:var(--text-muted); margin-bottom:6px;">USERNAME SIBER</label>
-          <input type="text" id="auth-input-username" class="cyber-input" placeholder="contoh: cadet atau admin" style="width:100%; padding:10px 14px; font-family:var(--font-mono); font-size:0.9rem;" required autocomplete="username">
+          <input type="text" id="auth-input-username" class="cyber-input" placeholder="Masukkan username Anda" style="width:100%; padding:10px 14px; font-family:var(--font-mono); font-size:0.9rem;" required autocomplete="username">
         </div>
 
         <div style="margin-bottom: 20px;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
             <label style="font-family:var(--font-display); font-size:0.8rem; color:var(--text-muted);">SANDI / PASSWORD</label>
-            <span style="font-size:0.72rem; color:var(--neon-cyan); cursor:pointer;" onclick="window.authManager.togglePasswordVisibility()">👁️ Tampilkan Sandi</span>
+            <span style="font-size:0.72rem; color:var(--neon-cyan); cursor:pointer;" onclick="window.authManager.togglePasswordVisibility('auth-input-password')">👁️ Tampilkan Sandi</span>
           </div>
-          <input type="password" id="auth-input-password" class="cyber-input" placeholder="contoh: cadet123 atau admin123" style="width:100%; padding:10px 14px; font-family:var(--font-mono); font-size:0.9rem;" required autocomplete="current-password">
+          <input type="password" id="auth-input-password" class="cyber-input" placeholder="Masukkan sandi Anda" style="width:100%; padding:10px 14px; font-family:var(--font-mono); font-size:0.9rem;" required autocomplete="current-password">
         </div>
 
-        <div style="display:flex; justify-content:flex-end; gap:12px;">
-          <button type="button" class="cyber-btn btn-ghost" onclick="window.authManager.closeLoginModal()">
-            BATAL
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <button type="button" class="cyber-btn btn-ghost" onclick="window.authManager.switchTab('register')" style="font-size:0.8rem; padding:8px 14px;">
+            Belum punya akun? Daftar
           </button>
-          <button type="submit" id="btn-submit-login" class="cyber-btn" style="padding:10px 24px; font-size:0.95rem;">
-            <span>⚡</span> OTENTIKASI & MASUK MISI
+          <div style="display:flex; gap:10px;">
+            <button type="button" class="cyber-btn btn-ghost" onclick="window.authManager.closeLoginModal()">
+              BATAL
+            </button>
+            <button type="submit" id="btn-submit-login" class="cyber-btn" style="padding:10px 24px; font-size:0.95rem;">
+              <span>⚡</span> OTENTIKASI & MASUK MISI
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <!-- FORM 2: DAFTAR AKUN BARU (REGISTER) -->
+      <form id="auth-register-form" style="display:none;" onsubmit="window.authManager.handleRegisterSubmit(event)">
+        <div style="margin-bottom: 14px;">
+          <label style="display:block; font-family:var(--font-display); font-size:0.8rem; color:var(--text-muted); margin-bottom:6px;">NAMA LENGKAP PROFIL</label>
+          <input type="text" id="reg-input-name" class="cyber-input" placeholder="Contoh: Aris Setiawan" style="width:100%; padding:10px 14px; font-family:var(--font-mono); font-size:0.9rem;" required>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+          <div>
+            <label style="display:block; font-family:var(--font-display); font-size:0.8rem; color:var(--text-muted); margin-bottom:6px;">USERNAME SIBER</label>
+            <input type="text" id="reg-input-username" class="cyber-input" placeholder="contoh: aris_cyber" style="width:100%; padding:10px 14px; font-family:var(--font-mono); font-size:0.9rem;" required autocomplete="username">
+          </div>
+          <div>
+            <label style="display:block; font-family:var(--font-display); font-size:0.8rem; color:var(--text-muted); margin-bottom:6px;">EMAIL (OPSIONAL)</label>
+            <input type="email" id="reg-input-email" class="cyber-input" placeholder="contoh: aris@email.com" style="width:100%; padding:10px 14px; font-family:var(--font-mono); font-size:0.9rem;">
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <label style="font-family:var(--font-display); font-size:0.8rem; color:var(--text-muted);">SANDI BARU</label>
+              <span style="font-size:0.7rem; color:var(--neon-cyan); cursor:pointer;" onclick="window.authManager.togglePasswordVisibility('reg-input-password')">👁️</span>
+            </div>
+            <input type="password" id="reg-input-password" class="cyber-input" placeholder="Minimal 6 karakter" style="width:100%; padding:10px 14px; font-family:var(--font-mono); font-size:0.9rem;" required autocomplete="new-password">
+          </div>
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <label style="font-family:var(--font-display); font-size:0.8rem; color:var(--text-muted);">KONFIRMASI SANDI</label>
+              <span style="font-size:0.7rem; color:var(--neon-cyan); cursor:pointer;" onclick="window.authManager.togglePasswordVisibility('reg-input-password-confirm')">👁️</span>
+            </div>
+            <input type="password" id="reg-input-password-confirm" class="cyber-input" placeholder="Ulangi sandi" style="width:100%; padding:10px 14px; font-family:var(--font-mono); font-size:0.9rem;" required autocomplete="new-password">
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <button type="button" class="cyber-btn btn-ghost" onclick="window.authManager.switchTab('login')" style="font-size:0.8rem; padding:8px 14px;">
+            Sudah punya akun? Masuk
           </button>
+          <div style="display:flex; gap:10px;">
+            <button type="button" class="cyber-btn btn-ghost" onclick="window.authManager.closeLoginModal()">
+              BATAL
+            </button>
+            <button type="submit" id="btn-submit-register" class="cyber-btn btn-green" style="padding:10px 24px; font-size:0.95rem;">
+              <span>⚡</span> DAFTAR & AKTIFKAN AKUN
+            </button>
+          </div>
         </div>
       </form>
     </div>
@@ -661,6 +775,7 @@
       cases_criminal: {!! json_encode($casesCriminal) !!},
       cases_deeplearn: {!! json_encode($casesDeeplearn) !!},
       cases_scanner: {!! json_encode($casesScanner) !!},
+      cases_checker: {!! json_encode($casesChecker) !!},
       users: {!! json_encode($users) !!},
       activity_logs: {!! json_encode($activityLogs->map(function($l) {
         $l = (object) $l;
@@ -689,8 +804,10 @@
   <script src="{{ asset('js/particle-canvas.js') }}"></script>
   <script src="{{ asset('js/ai-wave-canvas.js') }}"></script>
   <script src="{{ asset('js/hint-system.js') }}"></script>
+  <script src="{{ asset('js/game-briefing.js') }}"></script>
   <script src="{{ asset('js/auth.js') }}"></script>
   <script src="{{ asset('js/welcome-interactive.js') }}"></script>
+  <script src="{{ asset('js/module-edukasi.js') }}"></script>
   <script src="{{ asset('js/leaderboard.js') }}"></script>
   <script src="{{ asset('js/admin.js') }}"></script>
 
@@ -700,6 +817,7 @@
   <script src="{{ asset('js/games/module-criminal.js') }}"></script>
   <script src="{{ asset('js/games/module-deeplearn.js') }}"></script>
   <script src="{{ asset('js/games/module-scanner.js') }}"></script>
+  <script src="{{ asset('js/games/module-checker.js') }}"></script>
 
   <!-- Application Main Controller -->
   <script src="{{ asset('js/app.js') }}"></script>

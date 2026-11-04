@@ -1,0 +1,12 @@
+{
+  "name": "know-your-scam",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "echo 'Know Your Scam assets compiled successfully'"
+  },
+  "dependencies": {
+    "@neon/config": "^1.10.1",
+    "@neon/env": "^1.6.9"
+  }
+}

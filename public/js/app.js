@@ -91,6 +91,8 @@ class GuardianApp {
       window.moduleCriminal?.init(this.db.cases_criminal);
       window.moduleDeepLearning?.init(this.db.cases_deeplearn);
       window.moduleScanner?.init(this.db.cases_scanner);
+      window.moduleChecker?.init(this.db.cases_checker);
+      window.edukasiManager?.init();
       window.leaderboardManager?.init(this.db.users);
       window.adminManager?.init();
     }
@@ -187,6 +189,17 @@ class GuardianApp {
       link.classList.toggle('active', href === '#' + rawHash);
     });
 
+    // Parent Dropdown Highlighting
+    const gamesSubroutes = ['games', 'kasus', 'diff', 'criminal', 'deeplearn'];
+    const detectorSubroutes = ['scanner', 'checker'];
+    const gamesNav = document.getElementById('nav-games-link');
+    const detectorNav = document.getElementById('nav-detector-link');
+    const edukasiNav = document.getElementById('nav-edukasi-link');
+
+    if (gamesNav) gamesNav.classList.toggle('active', gamesSubroutes.includes(rawHash));
+    if (detectorNav) detectorNav.classList.toggle('active', detectorSubroutes.includes(rawHash));
+    if (edukasiNav) edukasiNav.classList.toggle('active', rawHash === 'edukasi');
+
     // Show active page
     const activePage = document.getElementById(`page-${rawHash}`);
     if (activePage) {
@@ -195,6 +208,9 @@ class GuardianApp {
       void activePage.offsetWidth; // trigger reflow
       activePage.classList.add('holo-enter');
     }
+
+    // Update Live In-Game Score HUD
+    window.authManager?.updateInGameScoreHUD(rawHash);
 
     // Ensure Criminal Case timer only runs while inside #criminal
     if (rawHash === 'criminal') {
@@ -214,8 +230,12 @@ class GuardianApp {
       window.moduleDeepLearning?.render();
     } else if (rawHash === 'scanner') {
       window.moduleScanner?.render();
+    } else if (rawHash === 'checker') {
+      window.moduleChecker?.render();
+    } else if (rawHash === 'edukasi') {
+      window.edukasiManager?.init();
     } else if (rawHash === 'leaderboard') {
-      window.leaderboardManager?.render();
+      window.leaderboardManager?.fetchLive();
     } else if (rawHash === 'admin') {
       window.adminManager?.render();
     }

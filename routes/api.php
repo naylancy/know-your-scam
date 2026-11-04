@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\ActivityLogController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ScannerController;
 use App\Http\Controllers\Api\DeepLearnController;
+use App\Http\Controllers\Api\CheckerController;
 use App\Models\User;
 use App\Models\GameCase;
 use App\Models\ActivityLog;
@@ -40,6 +41,7 @@ Route::get('/get_all', function() {
                 'cases_criminal' => GameCase::category('criminal')->active()->get()->pluck('scenario_data'),
                 'cases_deeplearn' => GameCase::category('deeplearn')->active()->get()->pluck('scenario_data'),
                 'cases_scanner' => GameCase::category('scanner')->active()->get()->pluck('scenario_data'),
+                'cases_checker' => GameCase::category('checker')->active()->get()->pluck('scenario_data'),
                 'activity_logs' => ActivityLog::latest()->take(60)->get()->map(function($l) {
                     $ts = now()->toDateTimeString();
                     if (!empty($l->created_at)) {
@@ -93,8 +95,9 @@ Route::post('/log_activity', [ActivityLogController::class, 'store']);
 Route::post('/clear_logs', [ActivityLogController::class, 'clear']);
 
 // 5. Auth API
-Route::post('/auth/demo/{role}', [AuthController::class, 'loginDemo']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/update_score', [AuthController::class, 'updateScore']);
 
 // 6. Scanner API
@@ -102,6 +105,9 @@ Route::post('/scanner/scan', [ScannerController::class, 'scan']);
 
 // 7. Deep Learning LLM Evaluation API
 Route::post('/deeplearn/evaluate', [DeepLearnController::class, 'evaluate']);
+
+// 8. Multi-Threat & Authenticity Checker API
+Route::post('/checker/check', [CheckerController::class, 'check']);
 
 // 7. Leaderboard API
 Route::get('/leaderboard', function() {

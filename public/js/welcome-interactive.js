@@ -82,6 +82,21 @@ class WelcomeInteractive {
         ],
         accessRole: 'Tersedia untuk Semua Akun (User & Admin)'
       },
+      checker: {
+        id: 'checker',
+        title: 'MODUL 6: MULTI-THREAT & AUTHENTICITY CHECKER',
+        icon: '🛡️',
+        category: 'Omni-Channel Digital Threat & Authenticity Checker',
+        difficulty: 'Alat Mandiri (Hybrid AI)',
+        threats: ['Phishing & Credential Harvest', 'Love Scam & Grooming Asmara', 'Hoax & Misinformasi Viral', 'Job Scam & Investasi Bodong', 'APK Malware'],
+        description: 'Pusat validasi keaslian multi-vektor untuk memverifikasi teks pesan, chat penawaran, klaim berita, lowongan kerja paruh waktu, hingga rayuan asmara daring. Menggabungkan analisis heuristik multi-vektor (40%) dan LLM Threat Intelligence (60%) untuk membedakan fakta dengan manipulasi rekayasa sosial.',
+        objectives: [
+          'Memvalidasi keaslian pesan dan klaim digital lintas platform',
+          'Mendeteksi red flag manipulasi afektif (Love Scam) dan janji komisi instan',
+          'Menerima rekomendasi mitigasi taktis sebelum menindaklanjuti komunikasi'
+        ],
+        accessRole: 'Tersedia untuk Semua Akun (User & Admin)'
+      },
       leaderboard: {
         id: 'leaderboard',
         title: 'PAPAN PERINGKAT GLOBAL (LEADERBOARD)',

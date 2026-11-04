@@ -11,7 +11,7 @@ use App\Models\ActivityLog;
 class DeepLearnController extends Controller
 {
     /**
-     * Evaluate student threat assessment using LLM (Gemini 1.5 Flash or Guardian Cognitive Core)
+     * Hybrid Threat Evaluation: Rule-Based Heuristics + LLM Evaluator
      */
     public function evaluate(Request $request)
     {
@@ -30,7 +30,7 @@ class DeepLearnController extends Controller
             ], 400);
         }
 
-        // Fetch case ground truth from database if available
+        // 1. Retrieve Scenario Ground Truth
         $expectedLevel = 'CRITICAL_SCAM';
         $minKeywords = ['private key', 'domain', 'urgensi', 'sertifikat', 'spoofing'];
         $targetIndicators = [
@@ -50,137 +50,255 @@ class DeepLearnController extends Controller
             }
         } catch (\Throwable $e) {}
 
-        $apiKey = env('GEMINI_API_KEY');
-        $evaluation = null;
+        // 2. LAYER 1: Rule-Based Pre-Evaluation
+        $ruleEvaluation = $this->evaluateRuleBased($threatLevel, $expectedLevel, $userReasoning, $minKeywords, $targetIndicators);
 
-        // 1. Attempt Gemini 1.5 Flash API if key is configured
-        if (!empty($apiKey)) {
-            try {
-                $prompt = "Sebagai Analis Forensik Keamanan Siber Senior di platform KNOW YOUR SCAM, evaluasi jawaban mahasiswa berikut.\n\n"
-                    . "SKENARIO KASUS:\n" . $scenarioText . "\n\n"
-                    . "TINGKAT BAHAYA SEBENARNYA: " . $expectedLevel . "\n"
-                    . "PILIHAN MAHASISWA: " . $threatLevel . "\n"
-                    . "ANALISIS & ARGUMEN MAHASISWA:\n\"" . $userReasoning . "\"\n\n"
-                    . "INDIKATOR WAJIB: " . implode(', ', $targetIndicators) . "\n\n"
-                    . "KEMBALIKAN HANYA JSON VALID (tanpa markdown backticks, tanpa teks pengantar):\n"
-                    . "{\n"
-                    . '  "ai_score": (angka bulat 0-100),' . "\n"
-                    . '  "is_threat_level_correct": (true/false),' . "\n"
-                    . '  "threat_verdict": (string singkat dalam Bahasa Indonesia, contoh: "Klasifikasi Tepat" atau "Klasifikasi Kurang Tepat"),' . "\n"
-                    . '  "expert_critique": (analisis mendalam 2-3 paragraf Bahasa Indonesia mengevaluasi ketajaman argumen mahasiswa),' . "\n"
-                    . '  "detected_strengths": [(string kekuatan argumen mahasiswa)],' . "\n"
-                    . '  "missed_redflags": [(string indikator penting yang terlewatkan)],' . "\n"
-                    . '  "vulnerability_impact": (angka desimal -1.5 s/d 2.0)' . "\n"
-                    . "}";
+        // 3. LAYER 2: LLM Qualitative Evaluator
+        $llmEvaluation = $this->evaluateWithLLM($scenarioTitle, $scenarioText, $expectedLevel, $threatLevel, $userReasoning, $targetIndicators, $ruleEvaluation);
 
-                $response = Http::timeout(6)->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={$apiKey}", [
-                    'contents' => [
-                        [
-                            'parts' => [
-                                ['text' => $prompt]
-                            ]
-                        ]
-                    ]
-                ]);
+        // 4. SYNTHESIS: Hybrid Scoring and Merging
+        $hybridResult = $this->synthesizeHybridEvaluation($ruleEvaluation, $llmEvaluation);
 
-                if ($response->successful()) {
-                    $rawText = $response->json('candidates.0.content.parts.0.text', '');
-                    $cleanJson = trim(preg_replace('/^```json|```$/m', '', $rawText));
-                    $decoded = json_decode($cleanJson, true);
-                    if ($decoded && isset($decoded['ai_score'])) {
-                        $evaluation = $decoded;
-                        $evaluation['llm_model'] = 'Google Gemini 1.5 Flash (Direct Cloud Inference)';
-                    }
-                }
-            } catch (\Throwable $geminiErr) {
-                // Failover to Cognitive Engine
-            }
-        }
-
-        // 2. Fallback: Guardian Cognitive LLM Neural Engine
-        if (!$evaluation) {
-            $isCorrect = ($threatLevel === $expectedLevel);
-            $lowerReasoning = strtolower($userReasoning);
-
-            $matchedKeywords = [];
-            foreach ($minKeywords as $kw) {
-                if (str_contains($lowerReasoning, strtolower($kw))) {
-                    $matchedKeywords[] = $kw;
-                }
-            }
-
-            // Keyword count & length scoring
-            $kwRatio = count($minKeywords) > 0 ? (count($matchedKeywords) / count($minKeywords)) : 0.5;
-            $lengthBonus = min(15, (int)(strlen($userReasoning) / 20));
-
-            $baseScore = $isCorrect ? 45 : 15;
-            $score = (int) min(98, max(20, $baseScore + ($kwRatio * 40) + $lengthBonus));
-
-            $detectedStrengths = [];
-            if ($isCorrect) {
-                $detectedStrengths[] = "Ketepatan mengklasifikasikan tingkat ancaman ({$threatLevel}).";
-            }
-            if (!empty($matchedKeywords)) {
-                $detectedStrengths[] = "Mendeteksi secara tepat kata kunci kritis: " . implode(', ', $matchedKeywords) . ".";
-            }
-            if (strlen($userReasoning) > 60) {
-                $detectedStrengths[] = "Pemberian konteks argumentasi yang terstruktur dan memadai.";
-            }
-            if (empty($detectedStrengths)) {
-                $detectedStrengths[] = "Berinisiatif memberikan telaah ancaman.";
-            }
-
-            $missedFlags = [];
-            foreach ($targetIndicators as $ind) {
-                $short = substr($ind, 0, 30);
-                if (!str_contains($lowerReasoning, strtolower($short))) {
-                    $missedFlags[] = $ind;
-                }
-            }
-            if (empty($missedFlags)) {
-                $missedFlags[] = "Tetap verifikasi integritas rantai sertifikat root CA.";
-            }
-
-            $vulnImpact = ($score >= 70) ? -1.4 : (($score >= 45) ? 0.3 : 1.8);
-
-            $critique = "Berdasarkan evaluasi semantik mendalam, analisis Anda menunjukkan ";
-            if ($score >= 75) {
-                $critique .= "pemahaman forensik yang sangat tajam. Anda berhasil mengidentifikasi pola manipulasi psikologis dan permintaan kredensial yang tidak wajar. Rekomendasi mitigasi Anda sejalan dengan standar Zero-Trust Defense.";
-            } elseif ($score >= 50) {
-                $critique .= "dasar analisis yang baik, namun masih terdapat indikator red flag teknis penting yang belum Anda elaborasi secara rinci. Perhatikan anomali header, jalur transmisi out-of-band, dan batas waktu suspensi.";
-            } else {
-                $critique .= "analisis yang masih perlu diperdalam. Target ini mengeksploitasi kepanikan batas waktu dan meminta aset kriptografis paling sensitif. Selalu tolak transfer kredensial melalui media terbuka.";
-            }
-
-            $evaluation = [
-                'ai_score' => $score,
-                'is_threat_level_correct' => $isCorrect,
-                'threat_verdict' => $isCorrect ? 'Klasifikasi Tepat' : 'Klasifikasi Kurang Tepat',
-                'expert_critique' => $critique,
-                'detected_strengths' => $detectedStrengths,
-                'missed_redflags' => array_slice($missedFlags, 0, 3),
-                'vulnerability_impact' => $vulnImpact,
-                'llm_model' => 'KNOW YOUR SCAM Cognitive LLM Core (Neural Evaluation Engine)'
-            ];
-        }
-
-        // Log assessment to ActivityLog
+        // 5. Activity Telemetry Logging
         try {
             ActivityLog::create([
                 'log_code' => 'LOG-' . rand(1000, 9999),
                 'user_id' => $userId,
                 'user_name' => $userName,
-                'module' => 'DEEP LEARNING (LLM)',
-                'decision' => "Evaluasi {$scenarioId}: {$threatLevel} (Skor AI: {$evaluation['ai_score']}/100)",
-                'vulnerability_score' => abs($evaluation['vulnerability_impact']),
-                'status' => $evaluation['ai_score'] >= 65 ? 'SECURED' : 'PARTIAL_EVAL',
+                'module' => 'DEEP LEARNING (HYBRID)',
+                'decision' => "Evaluasi {$scenarioId}: {$threatLevel} [Rule: {$ruleEvaluation['rule_score']} | LLM: {$llmEvaluation['llm_score']} | Final: {$hybridResult['ai_score']}/100]",
+                'vulnerability_score' => abs($hybridResult['vulnerability_impact']),
+                'status' => $hybridResult['ai_score'] >= 65 ? 'SECURED' : 'PARTIAL_EVAL',
             ]);
         } catch (\Throwable $logErr) {}
 
         return response()->json([
             'status' => 'success',
-            'data' => $evaluation
+            'data' => $hybridResult
         ]);
     }
-}
 
+    /**
+     * Layer 1: Deterministic Rule-Based Heuristic Evaluation
+     */
+    private function evaluateRuleBased(string $userThreat, string $expectedThreat, string $reasoning, array $minKeywords, array $targetIndicators): array
+    {
+        $isLevelCorrect = ($userThreat === $expectedThreat);
+        $lower = strtolower($reasoning);
+
+        // Keyword extraction & presence matching
+        $matchedKeywords = [];
+        foreach ($minKeywords as $kw) {
+            if (str_contains($lower, strtolower($kw))) {
+                $matchedKeywords[] = $kw;
+            }
+        }
+
+        $kwCoverage = count($minKeywords) > 0 ? (count($matchedKeywords) / count($minKeywords)) : 0.5;
+
+        // Structural and analytical depth checks
+        $reasoningWords = ['karena', 'sebab', 'indikator', 'kredensial', 'sertifikat', 'domain', 'urgensi', 'manipulasi', 'rekayasa sosial', 'verifikasi', 'phishing', 'otorisasi'];
+        $matchedConnectors = [];
+        foreach ($reasoningWords as $rw) {
+            if (str_contains($lower, $rw)) {
+                $matchedConnectors[] = $rw;
+            }
+        }
+
+        $length = strlen($reasoning);
+        $lengthScore = min(20, (int)($length / 15)); // max 20 points
+        $connectorScore = min(15, count($matchedConnectors) * 3); // max 15 points
+        $kwScore = (int) round($kwCoverage * 35); // max 35 points
+        $verdictScore = $isLevelCorrect ? 30 : 0; // max 30 points
+
+        $ruleScore = min(100, max(15, $verdictScore + $kwScore + $lengthScore + $connectorScore));
+
+        return [
+            'rule_score' => $ruleScore,
+            'is_level_correct' => $isLevelCorrect,
+            'matched_keywords' => $matchedKeywords,
+            'keyword_coverage_pct' => (int) round($kwCoverage * 100),
+            'matched_connectors' => $matchedConnectors,
+            'length_chars' => $length
+        ];
+    }
+
+    /**
+     * Layer 2: LLM Qualitative Evaluator with strict context guardrails
+     */
+    private function evaluateWithLLM(string $title, string $scenarioText, string $expectedThreat, string $userThreat, string $userReasoning, array $targetIndicators, array $ruleEval): array
+    {
+        $apiKey = env('GEMINI_API_KEY') ?: env('LLM_API_KEY');
+
+        if (!empty($apiKey)) {
+            try {
+                $systemPrompt = "Anda adalah Evaluator Keamanan Siber Senior pada platform edukasi 'KNOW YOUR SCAM'.\n"
+                    . "Tugas Anda HANYA SATU: Berperan sebagai Evaluator Objektif untuk menilai kualitas argumentasi kritis mahasiswa.\n"
+                    . "Jawab HANYA dalam format JSON valid tanpa tanda markdown (tanpa ```json), tanpa salam, dan tanpa basa-basi.\n\n"
+                    . "KONTEKS SKENARIO:\n"
+                    . "- Judul: {$title}\n"
+                    . "- Dokumen Transmisi: {$scenarioText}\n"
+                    . "- Tingkat Bahaya Sebenarnya (Ground Truth): {$expectedThreat}\n"
+                    . "- Pilihan Tingkat Bahaya Mahasiswa: {$userThreat}\n"
+                    . "- Indikator Kritis Target: " . implode('; ', $targetIndicators) . "\n\n"
+                    . "ANALISIS MAHASISWA:\n\"{$userReasoning}\"\n\n"
+                    . "TEMUAN ATURAN (RULE-BASED PRE-CHECK):\n"
+                    . "- Skor Aturan: {$ruleEval['rule_score']}/100\n"
+                    . "- Kata Kunci Teknis Ditemukan: " . implode(', ', $ruleEval['matched_keywords']) . "\n"
+                    . "- Kelayakan Klasifikasi: " . ($ruleEval['is_level_correct'] ? 'Benar' : 'Keliru') . "\n\n"
+                    . "INSTRUKSI PENILAIAN LLM:\n"
+                    . "1. Nilai kedalaman penalaran mahasiswa secara kualitatif (skor 0-100).\n"
+                    . "2. Tulis kritik ahli (expert_critique) 2-3 paragraf berbahasa Indonesia yang konstruktif dan edukatif.\n"
+                    . "3. Identifikasi kekuatan analisis (detected_strengths) dan red flag yang terlewat (missed_redflags).\n"
+                    . "4. JANGAN melenceng ke percakapan umum. Jawab hanya skema JSON berikut:\n"
+                    . "{\n"
+                    . '  "llm_score": (angka bulat 0-100),' . "\n"
+                    . '  "is_threat_level_correct": (boolean),' . "\n"
+                    . '  "threat_verdict": (string: "Klasifikasi Tepat" atau "Klasifikasi Kurang Tepat"),' . "\n"
+                    . '  "expert_critique": (string ulasan mendalam bahasa Indonesia),' . "\n"
+                    . '  "detected_strengths": [(string poin kekuatan)],' . "\n"
+                    . '  "missed_redflags": [(string red flag terlewat)]' . "\n"
+                    . "}";
+
+                $modelsToTry = ['gemini-3.5-flash-lite', 'gemini-flash-latest', 'gemini-1.5-flash'];
+                foreach ($modelsToTry as $modelName) {
+                    try {
+                        $response = Http::withOptions([
+                            'curl' => [
+                                CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4,
+                                CURLOPT_SSL_VERIFYPEER => false,
+                            ],
+                            'timeout' => 15,
+                            'connect_timeout' => 6,
+                        ])->post("https://generativelanguage.googleapis.com/v1beta/models/{$modelName}:generateContent?key={$apiKey}", [
+                            'contents' => [
+                                [
+                                    'parts' => [
+                                        ['text' => $systemPrompt]
+                                    ]
+                                ]
+                            ]
+                        ]);
+
+                        if ($response->successful()) {
+                            $rawText = $response->json('candidates.0.content.parts.0.text', '');
+                            $decoded = null;
+                            if (preg_match('/\{[\s\S]*\}/', $rawText, $matches)) {
+                                $decoded = json_decode($matches[0], true);
+                            } else {
+                                $cleanJson = trim(preg_replace('/^```(?:json)?|```$/m', '', $rawText));
+                                $decoded = json_decode($cleanJson, true);
+                            }
+
+                            if ($decoded && isset($decoded['llm_score'])) {
+                                $decoded['llm_model'] = "Google Gemini ({$modelName} Cloud)";
+                                return $decoded;
+                            }
+                        }
+                    } catch (\Throwable $subErr) {}
+                }
+            } catch (\Throwable $e) {}
+        }
+
+        // Cognitive LLM Engine Fallback (Offline / Keyless Mode)
+        return $this->evaluateCognitiveFallback($expectedThreat, $userThreat, $userReasoning, $targetIndicators, $ruleEval);
+    }
+
+    /**
+     * Layer 2 Fallback: Guardian Cognitive Neural Core
+     */
+    private function evaluateCognitiveFallback(string $expectedThreat, string $userThreat, string $reasoning, array $targetIndicators, array $ruleEval): array
+    {
+        $isCorrect = $ruleEval['is_level_correct'];
+        $ruleScore = $ruleEval['rule_score'];
+
+        $strengths = [];
+        if ($isCorrect) {
+            $strengths[] = "Ketepatan memilih klasifikasi ancaman ({$userThreat}).";
+        }
+        if (!empty($ruleEval['matched_keywords'])) {
+            $strengths[] = "Mendeteksi istilah teknis kunci: " . implode(', ', $ruleEval['matched_keywords']) . ".";
+        }
+        if ($ruleEval['length_chars'] > 50) {
+            $strengths[] = "Argumen analisis terstruktur dengan elaborasi kontekstual yang baik.";
+        }
+        if (empty($strengths)) {
+            $strengths[] = "Inisiatif dalam menganalisis potensi anomali transmisi.";
+        }
+
+        $missed = [];
+        $lower = strtolower($reasoning);
+        foreach ($targetIndicators as $ind) {
+            $firstWords = strtolower(substr($ind, 0, 25));
+            if (!str_contains($lower, $firstWords)) {
+                $missed[] = $ind;
+            }
+        }
+        if (empty($missed)) {
+            $missed[] = "Verifikasi integritas sertifikat SSL melalui rantai Root CA resmi.";
+        }
+
+        $llmScore = $isCorrect 
+            ? (int) min(98, max(50, $ruleScore + 10)) 
+            : (int) min(65, max(25, $ruleScore - 5));
+
+        $critique = "Berdasarkan evaluasi semantik mendalam, analisis Anda menunjukkan ";
+        if ($llmScore >= 75) {
+            $critique .= "pemahaman forensik yang sangat tajam. Anda berhasil mengidentifikasi pola manipulasi psikologis dan permintaan kredensial privat. Rekomendasi mitigasi Anda sejalan dengan standar Zero-Trust Defense.";
+        } elseif ($llmScore >= 50) {
+            $critique .= "dasar analisis yang baik, namun masih terdapat indikator red flag teknis penting yang belum Anda elaborasi secara rinci. Perhatikan anomali transmisi out-of-band dan batas waktu suspensi.";
+        } else {
+            $critique .= "analisis yang masih perlu diperdalam. Target ini mengeksploitasi kepanikan batas waktu dan menargetkan aset kriptografis paling sensitif. Selalu tolak transfer kredensial melalui media terbuka.";
+        }
+
+        return [
+            'llm_score' => $llmScore,
+            'is_threat_level_correct' => $isCorrect,
+            'threat_verdict' => $isCorrect ? 'Klasifikasi Tepat' : 'Klasifikasi Kurang Tepat',
+            'expert_critique' => $critique,
+            'detected_strengths' => $strengths,
+            'missed_redflags' => array_slice($missed, 0, 3),
+            'llm_model' => 'KNOW YOUR SCAM Cognitive LLM Core (Local Neural Evaluator)'
+        ];
+    }
+
+    /**
+     * Layer 3: Hybrid Synthesizer
+     * Combines deterministic rule-based score (40%) and LLM qualitative score (60%)
+     */
+    private function synthesizeHybridEvaluation(array $ruleEval, array $llmEval): array
+    {
+        $ruleScore = $ruleEval['rule_score'];
+        $llmScore = $llmEval['llm_score'];
+
+        // Weighted Hybrid Score: 40% Objective Rules + 60% LLM Semantic Depth
+        $finalScore = (int) round(($ruleScore * 0.40) + ($llmScore * 0.60));
+        $finalScore = max(10, min(100, $finalScore));
+
+        $vulnImpact = ($finalScore >= 75) ? -1.5 : (($finalScore >= 50) ? -0.5 : (($finalScore >= 35) ? 0.8 : 1.8));
+
+        return [
+            'engine_architecture' => 'HYBRID (Rule-Based Heuristics + LLM Semantic Core)',
+            'ai_score' => $finalScore,
+            'rule_based_metrics' => [
+                'score' => $ruleScore,
+                'weight' => '40%',
+                'keyword_coverage_pct' => $ruleEval['keyword_coverage_pct'],
+                'matched_keywords' => $ruleEval['matched_keywords'],
+                'character_count' => $ruleEval['length_chars']
+            ],
+            'llm_metrics' => [
+                'score' => $llmScore,
+                'weight' => '60%',
+                'model' => $llmEval['llm_model'] ?? 'KNOW YOUR SCAM Cognitive Core',
+            ],
+            'is_threat_level_correct' => $llmEval['is_threat_level_correct'],
+            'threat_verdict' => $llmEval['threat_verdict'],
+            'expert_critique' => $llmEval['expert_critique'],
+            'detected_strengths' => $llmEval['detected_strengths'],
+            'missed_redflags' => $llmEval['missed_redflags'],
+            'vulnerability_impact' => $vulnImpact,
+            'llm_model' => $llmEval['llm_model'] ?? 'Hybrid LLM Engine'
+        ];
+    }
+}

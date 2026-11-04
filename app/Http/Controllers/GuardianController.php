@@ -21,6 +21,7 @@ class GuardianController extends Controller
         $casesCriminal = collect([]);
         $casesDeeplearn = collect([]);
         $casesScanner = collect([]);
+        $casesChecker = collect([]);
         $users = collect([]);
         $activityLogs = collect([]);
 
@@ -33,6 +34,7 @@ class GuardianController extends Controller
             $casesCriminal = GameCase::category('criminal')->active()->get()->pluck('scenario_data');
             $casesDeeplearn = GameCase::category('deeplearn')->active()->get()->pluck('scenario_data');
             $casesScanner = GameCase::category('scanner')->active()->get()->pluck('scenario_data');
+            $casesChecker = GameCase::category('checker')->active()->get()->pluck('scenario_data');
 
             $users = User::orderBy('score', 'desc')->orderBy('vulnerability', 'asc')->get();
             $activityLogs = ActivityLog::latest()->take(60)->get();
@@ -59,6 +61,7 @@ class GuardianController extends Controller
                 $casesCriminal = collect($jsonData['cases_criminal'] ?? []);
                 $casesDeeplearn = collect($jsonData['cases_deeplearn'] ?? []);
                 $casesScanner = collect($jsonData['cases_scanner'] ?? []);
+                $casesChecker = collect($jsonData['cases_checker'] ?? []);
                 $users = collect($jsonData['users'] ?? []);
 
                 $rawLogs = $jsonData['activity_logs'] ?? [];
@@ -83,6 +86,7 @@ class GuardianController extends Controller
             'casesCriminal' => $casesCriminal,
             'casesDeeplearn' => $casesDeeplearn,
             'casesScanner' => $casesScanner,
+            'casesChecker' => $casesChecker,
             'users' => $users,
             'activityLogs' => $activityLogs,
         ]);

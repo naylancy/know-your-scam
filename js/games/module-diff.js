@@ -60,8 +60,16 @@ class ModuleDiff {
     const leftActive = this.selectedSide === 'left';
     const rightActive = this.selectedSide === 'right';
 
+    // Briefing and Real-Time Live HUD
+    const hasSeenBriefing = window.gameBriefing?.hasSeen('diff');
+    const briefingHtml = window.gameBriefing?.renderBriefingHTML('diff') || '';
+    const hudBarHtml = window.gameBriefing?.renderHUDBar('diff') || '';
+
     container.innerHTML = `
-      <div class="holo-enter diff-container">
+      ${briefingHtml}
+      <div id="game-content-diff" class="holo-enter diff-container" style="${hasSeenBriefing ? 'display:block;' : 'display:none;'}">
+        ${hudBarHtml}
+
         <!-- Sub Header -->
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
           <div style="display:flex; gap: 8px; flex-wrap: wrap;">
@@ -216,6 +224,7 @@ class ModuleDiff {
           </div>
         </div>
       </div>
+      </div>
     `;
   }
 
@@ -257,7 +266,8 @@ class ModuleDiff {
       vulnDelta,
       'FINDING DIFF (Judge)',
       `Vonis Skenario ${this.selectedSide.toUpperCase()} sebagai ${verdict} (${isCorrect ? 'BENAR' : 'SALAH'})`,
-      isCorrect ? 'SECURED' : 'BREACH_DETECTED'
+      isCorrect ? 'SECURED' : 'BREACH_DETECTED',
+      'diff'
     );
 
     // Show debrief modal

@@ -46,6 +46,7 @@ class DatabaseSeeder extends Seeder
                         'password' => Hash::make($rawPass),
                         'role' => $u['role'],
                         'score' => $u['score'],
+                        'game_scores' => $u['game_scores'] ?? null,
                         'vulnerability' => $u['vulnerability'],
                         'rank' => $u['rank'] ?? 'Security Cadet',
                         'modules_completed' => $u['modules_completed'] ?? 0,
@@ -144,7 +145,25 @@ class DatabaseSeeder extends Seeder
             }
         }
 
-        // 7. Seed Initial Activity Logs
+        // 7. Seed Module 6: CHECKER SAMPLES
+        if (!empty($data['cases_checker'])) {
+            foreach ($data['cases_checker'] as $idx => $c) {
+                GameCase::updateOrCreate(
+                    ['case_code' => 'CHECK-' . ($idx + 1)],
+                    [
+                        'category' => 'checker',
+                        'type' => $c['type'],
+                        'title' => $c['title'],
+                        'subtitle' => $c['type'] ?? null,
+                        'difficulty' => 'Info',
+                        'scenario_data' => $c,
+                        'is_active' => true,
+                    ]
+                );
+            }
+        }
+
+        // 8. Seed Initial Activity Logs
         if (!empty($data['activity_logs'])) {
             foreach ($data['activity_logs'] as $log) {
                 ActivityLog::updateOrCreate(
