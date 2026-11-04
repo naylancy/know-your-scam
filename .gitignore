@@ -1,0 +1,63 @@
+# Dependencies & Package Managers
+/vendor/
+/node_modules/
+/.pnpm-store/
+npm-debug.log
+yarn-error.log
+auth.json
+
+# Environment & Credentials (Crucial)
+.env
+.env.backup
+.env.bak
+.env.production
+.env.*.local
+*.key
+
+# Laravel Storage & Framework Cache
+/storage/*.key
+/storage/pail/
+
+# Compiled Assets & Public Symlink
+/public/build/
+/public/hot
+/public/storage
+
+# SQLite Database
+/database/*.sqlite
+/database/*.sqlite-journal
+/database/*.sqlite-shm
+/database/*.sqlite-wal
+
+# Local Composer Cache
+/.composer/
+
+# Testing & Coverage
+.phpunit.result.cache
+/.phpunit.cache/
+/phpunit.xml.cache
+
+# Virtualization & Dev Environments
+Homestead.json
+Homestead.yaml
+/.vagrant/
+
+# IDE & Editor Configurations
+/.idea/
+/.vscode/
+/.fleet/
+*.sublime-project
+*.sublime-workspace
+*.sw?
+.phpactor.json
+
+# OS Generated Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+

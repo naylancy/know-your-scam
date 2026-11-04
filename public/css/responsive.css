@@ -1,0 +1,74 @@
+/* ========================================================
+   GUARDIANSPACE: ANTI-GRAVITY DEFENSE
+   Responsive Styles
+   ======================================================== */
+
+@media (max-width: 1024px) {
+  .diff-split-grid {
+    grid-template-columns: 1fr;
+  }
+  .crim-board-grid {
+    grid-template-columns: 1fr;
+  }
+  .deep-eval-grid {
+    grid-template-columns: 1fr;
+  }
+  .hero-title {
+    font-size: 2.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hud-header {
+    padding: 10px 14px;
+  }
+  .hud-header-inner {
+    flex-wrap: wrap;
+  }
+  .hud-nav {
+    order: 3;
+    width: 100%;
+    overflow-x: auto;
+    padding-top: 8px;
+    padding-bottom: 4px;
+  }
+  .nav-link {
+    font-size: 0.8rem;
+    padding: 6px 10px;
+    white-space: nowrap;
+  }
+  .hero-title {
+    font-size: 2.1rem;
+    letter-spacing: 2px;
+  }
+  .hero-subtitle {
+    font-size: 0.9rem;
+  }
+  .hero-cta-btn {
+    width: 100%;
+  }
+  .demo-account-pills {
+    flex-direction: column;
+    width: 100%;
+  }
+  .diff-bottom-dock {
+    flex-direction: column;
+    gap: 16px;
+    padding: 14px;
+  }
+  .btn-large-decision {
+    width: 100%;
+    font-size: 1.15rem;
+    padding: 14px 20px;
+  }
+  .scanner-input-group {
+    flex-direction: column;
+  }
+  .threat-rating-group {
+    grid-template-columns: 1fr;
+  }
+  .main-viewport {
+    padding: 16px 12px 60px 12px;
+  }
+}
+

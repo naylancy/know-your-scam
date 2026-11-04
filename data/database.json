@@ -1,0 +1,774 @@
+{
+    "system_info": {
+        "project": "KNOW YOUR SCAM: ANTI-GRAVITY DEFENSE",
+        "event": "GLOBAL CYBER SENTINEL DEFENSE",
+        "version": "2.4.0",
+        "mode": "Cyber Threat Simulation"
+    },
+    "users": [
+        {
+            "id": "USR-001",
+            "username": "admin",
+            "password": "admin123",
+            "name": "Commander Vektor",
+            "role": "admin",
+            "score": 1250,
+            "vulnerability": 1.2,
+            "rank": "Grand Cyber Sentinel",
+            "modules_completed": 15
+        },
+        {
+            "id": "USR-002",
+            "username": "cadet",
+            "password": "cadet123",
+            "name": "Cadet Aris",
+            "role": "user",
+            "score": 680,
+            "vulnerability": 4.5,
+            "rank": "Security Cadet",
+            "modules_completed": 5
+        },
+        {
+            "id": "USR-003",
+            "username": "kira_t",
+            "password": "kira123",
+            "name": "Sgt. Kira Thorne",
+            "role": "user",
+            "score": 1120,
+            "vulnerability": 1.8,
+            "rank": "Elite Vanguard",
+            "modules_completed": 12
+        },
+        {
+            "id": "USR-004",
+            "username": "nyx_shadow",
+            "name": "Specialist Nyx",
+            "role": "user",
+            "score": 940,
+            "vulnerability": 2.4,
+            "rank": "Threat Hunter",
+            "modules_completed": 9
+        },
+        {
+            "id": "USR-005",
+            "username": "cipher_zero",
+            "name": "Analyst Zero",
+            "role": "user",
+            "score": 810,
+            "vulnerability": 3.1,
+            "rank": "Incident Responder",
+            "modules_completed": 7
+        }
+    ],
+    "cases_kasus": [
+        {
+            "id": "KASUS-01",
+            "type": "phishing",
+            "title": "Protokol Phishing: Hadiah Mewah & Dana Hibah Bank NeoArtha",
+            "subtitle": "Manipulasi kepanikan batas waktu dan hadiah fiktif 50.000 NeoCredits",
+            "difficulty": "Sedang",
+            "pov_options": [
+                {
+                    "id": "victim",
+                    "label": "Sudut Pandang Korban (Mahasiswa)",
+                    "avatar": "👤"
+                },
+                {
+                    "id": "hunter",
+                    "label": "Sudut Pandang Investigator Siber",
+                    "avatar": "🕵️"
+                }
+            ],
+            "story_steps": [
+                {
+                    "step": 1,
+                    "sender": "NeoArtha Alert System <notif@bank-neoartha.net.fake>",
+                    "message": "[URGENT] Selamat! Akun Anda terpilih menerima Grand Grant AstraNova 2026 sebesar 50.000 NeoCredits. Dana akan hangus dalam 15 menit jika otentikasi kunci enkripsi tidak segera dikonfirmasi melalui tautan resmi: https://auth-neoartha-grant.net.fake/claim",
+                    "context": "Anda sedang menyelesaikan tugas kuliah larut malam saat notifikasi neon berkedip di konsol Anda.",
+                    "clues": [
+                        "Domain sender bukan domain resmi (.net.fake bukan .bank.mock)",
+                        "Psikologi batas waktu sempit (15 menit) untuk memicu kepanikan",
+                        "Permintaan kunci enkripsi pribadi"
+                    ],
+                    "choices": [
+                        {
+                            "id": "A",
+                            "text": "Segera klik tautan dan masukkan kunci autentikasi agar dana 50.000 NeoCredits tidak hangus.",
+                            "score": 0,
+                            "vulnerability_delta": 3.5,
+                            "feedback": "BAHAYA KRITIS! Anda terjebak perangkap Phishing. Pelaku mengantongi kunci enkripsi akun Anda dan menguras saldo cadangan dalam hitungan detik.",
+                            "status": "COMPROMISED"
+                        },
+                        {
+                            "id": "B",
+                            "text": "Salin tautan ke LLM Link Scanner untuk memeriksa struktur domain dan header otentikasi.",
+                            "score": 50,
+                            "vulnerability_delta": 0.5,
+                            "feedback": "LANGKAH BAGUS. Scanner mendeteksi URL spoofing dengan sertifikat anonim dan formulir pembajak sesi.",
+                            "status": "CAUTION"
+                        },
+                        {
+                            "id": "C",
+                            "text": "Abaikan tautan, buka portal resmi Bank NeoArtha di tab baru, lalu laporkan pesan ke Cyber Security Center.",
+                            "score": 100,
+                            "vulnerability_delta": -1,
+                            "feedback": "SEMPURNA! Anda menerapkan Zero Trust. Saldo terlindungi dan server phishing fiktif berhasil dibekukan oleh tim keamanan.",
+                            "status": "SECURED"
+                        }
+                    ]
+                },
+                {
+                    "step": 2,
+                    "sender": "Panggilan Anonim Suara AI: +99-0182-NEO",
+                    "message": "\"Halo, kami dari Divisi Verifikasi Siber NeoArtha. Sistem mendeteksi anomali pada klaim dana Anda. Tolong sebutkan 6 digit kode OTP yang baru kami kirimkan ke terminal komunikasi Anda untuk membatalkan klaim ilegal.\"",
+                    "context": "Sesaat setelah keputusan pertama, terminal Anda menerima transmisi suara mendesak bernada teknis.",
+                    "clues": [
+                        "Pihak institusi resmi tidak pernah meminta kode OTP melalui panggilan",
+                        "Modus vishing (voice phishing) berlapis setelah target ragu"
+                    ],
+                    "choices": [
+                        {
+                            "id": "A",
+                            "text": "Bacakan kode OTP karena penelepon mengaku dari Divisi Verifikasi resmi.",
+                            "score": 0,
+                            "vulnerability_delta": 4,
+                            "feedback": "PELANGGARAN TOTAL! Kode OTP adalah benteng terakhir otentikasi 2FA. Penyerang langsung mengalihkan akses akun ke server relay luar angkasa.",
+                            "status": "COMPROMISED"
+                        },
+                        {
+                            "id": "B",
+                            "text": "Putus panggilan seketika, tandai nomor sebagai ancaman Vishing, dan kunci akses sementara di panel keamanan.",
+                            "score": 100,
+                            "vulnerability_delta": -1.5,
+                            "feedback": "PERTENANGAN LUAR BIASA! Upaya pengambilalihan akun berhasil digagalkan seutuhnya.",
+                            "status": "SECURED"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "KASUS-02",
+            "type": "lovescam",
+            "title": "Protokol Love Scam: Elena Voss & Stasiun Orbital Helios",
+            "subtitle": "Manipulasi afeksi emosional, cerita dramatis luar angkasa, dan permintaan token darurat",
+            "difficulty": "Tinggi",
+            "pov_options": [
+                {
+                    "id": "victim",
+                    "label": "Sudut Pandang Target (Korban)",
+                    "avatar": "💖"
+                },
+                {
+                    "id": "hunter",
+                    "label": "Sudut Pandang Profiler Ancaman",
+                    "avatar": "🔍"
+                }
+            ],
+            "story_steps": [
+                {
+                    "step": 1,
+                    "sender": "Elena Voss (Holonet AeroLover Nexus)",
+                    "message": "\"Halo... aku melihat artikel riset energimu di Holonet. Jarang sekali ada insinyur secemerlang dirimu. Aku saat ini sedang bertugas solo di Stasiun Penelitian Orbital Helios-4. Di sini sangat sepi... bolehkah kita bertukar sinyal privat?\"",
+                    "context": "Percakapan berlanjut intens selama 3 minggu. Elena tampak sangat perhatian, mengirim foto stasiun fiktif, namun selalu menolak panggilan video dengan alasan gangguan radiasi gravitasi.",
+                    "clues": [
+                        "Grooming cepat dan pujian berlebihan untuk membangun keterikatan emosional",
+                        "Selalu menolak verifikasi video langsung dengan alasan teknis fiktif",
+                        "Membangun latar belakang profesi bergengsi namun terisolasi"
+                    ],
+                    "choices": [
+                        {
+                            "id": "A",
+                            "text": "Lanjutkan obrolan intim dan kirimkan data kredensial stasiun kerja pribadi Anda agar Elena merasa lebih dekat.",
+                            "score": 0,
+                            "vulnerability_delta": 3,
+                            "feedback": "FATAL. Anda memberikan informasi sensitif kepada entitas tanpa identitas terverifikasi.",
+                            "status": "COMPROMISED"
+                        },
+                        {
+                            "id": "B",
+                            "text": "Lakukan penelusuran citra terbalik (reverse holographic image lookup) pada foto profil dan data stasiun Helios-4.",
+                            "score": 100,
+                            "vulnerability_delta": -1.2,
+                            "feedback": "CERMAT! Citra Elena ternyata hasil sintesis model AI generasi lama, dan stasiun Helios-4 sudah dinonaktifkan sejak 2021.",
+                            "status": "SECURED"
+                        }
+                    ]
+                },
+                {
+                    "step": 2,
+                    "sender": "Elena Voss <Transmisi Darurat Saluran Enkripsi>",
+                    "message": "\"Sayang, reaktor pendingin modulku meledak! Otoritas stasiun menahan jalur evakuasiku kecuali aku membayar deposit darurat 2.500 Quantum Credits sekarang juga. Tolong kirim ke dompet anonim: 0x98A...F4. Begitu mendarat, aku akan langsung menemuimu dan mengganti 10x lipat!\"",
+                    "context": "Pesan diiringi rekaman suara gemuruh alarm darurat palsu yang terdengar sangat meyakinkan.",
+                    "clues": [
+                        "Situasi hidup-mati palsu untuk mematikan rasionalitas",
+                        "Permintaan dana ke dompet kripto anonim yang tidak bisa dilacak",
+                        "Janji pengembalian 10x lipat yang tidak realistis"
+                    ],
+                    "choices": [
+                        {
+                            "id": "A",
+                            "text": "Kirim 2.500 Quantum Credits karena takut nyawa Elena terancam di stasiun antariksa.",
+                            "score": 0,
+                            "vulnerability_delta": 4.5,
+                            "feedback": "KERUGIAN TELAK! Sindikat Love Scam langsung mencuci dana ke berbagai mixer kripto fiktif. Profil Elena menghilang seketika.",
+                            "status": "COMPROMISED"
+                        },
+                        {
+                            "id": "B",
+                            "text": "Tolak transfer, simpan log percakapan sebagai bukti forensik, dan laporkan akun ke Cyber Crime Syndicate Taskforce.",
+                            "score": 100,
+                            "vulnerability_delta": -2,
+                            "feedback": "ANALISIS TAJAM! Anda berhasil membongkar sindikat penipuan asmara lintas jaringan tanpa kehilangan sepeserpun.",
+                            "status": "SECURED"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "KASUS-03",
+            "type": "jobscam",
+            "title": "Protokol Job Scam: Tawaran Remote QuantumTech Systems",
+            "subtitle": "Gaji $25.000/bulan tanpa wawancara teknis, kewajiban deposit alat kerja",
+            "difficulty": "Sedang",
+            "pov_options": [
+                {
+                    "id": "victim",
+                    "label": "Sudut Pandang Pencari Kerja",
+                    "avatar": "💼"
+                },
+                {
+                    "id": "hunter",
+                    "label": "Sudut Pandang Auditor Tenaga Kerja",
+                    "avatar": "📑"
+                }
+            ],
+            "story_steps": [
+                {
+                    "step": 1,
+                    "sender": "HR Talent Nexus <recruitment@quantumtech-jobs-portal.mock>",
+                    "message": "\"Surat Penerimaan Kerja Langsung: Selamat! Berdasarkan portofolio siber Anda, dewan direksi menerima Anda sebagai Senior Quantum Security Lead dengan kompensasi $25.000/bulan (Remote WFH). Tidak diperlukan tes tambahan. Silakan tanda tangani kontrak digital berikut.\"",
+                    "context": "Anda bahkan belum pernah mengirimkan lamaran ke entitas bernama QuantumTech Systems.",
+                    "clues": [
+                        "Gaji sangat tinggi tanpa melalui proses interview atau uji teknis",
+                        "Menerima tawaran dari perusahaan yang belum pernah dilamar",
+                        "Domain perekrutan mencurigakan (.mock alih-alih perusahaan induk)"
+                    ],
+                    "choices": [
+                        {
+                            "id": "A",
+                            "text": "Langsung tanda tangani kontrak dan bagikan nomor rekening bank utama beserta foto KTP digital.",
+                            "score": 0,
+                            "vulnerability_delta": 3,
+                            "feedback": "TERKENA JEBAKAN! Identitas pribadi Anda disalahgunakan untuk pinjaman ilegal lintas galaksi.",
+                            "status": "COMPROMISED"
+                        },
+                        {
+                            "id": "B",
+                            "text": "Verifikasi legalitas QuantumTech Systems di pangkalan data resmi korporasi dan hubungi HR resmi.",
+                            "score": 100,
+                            "vulnerability_delta": -1,
+                            "feedback": "TEPAT! Perusahaan resmi menyatakan mereka tidak pernah menggunakan domain portal pihak ketiga tersebut.",
+                            "status": "SECURED"
+                        }
+                    ]
+                },
+                {
+                    "step": 2,
+                    "sender": "Onboarding Logistic Team",
+                    "message": "\"Untuk memulai pekerjaan hari Senin, Anda diwajibkan membeli 'Quantum Hardware Dongle v4' seharga $1.200 dari vendor resmi kami di vendor-dongle-secure.mock. Biaya ini akan di-reimburse 100% bersamaan dengan gaji pertama Anda.\"",
+                    "context": "Permintaan pembayaran di awal dengan alasan pengadaan perangkat kerja standar industri.",
+                    "clues": [
+                        "Perusahaan kredibel menyediakan perangkat kerja tanpa meminta uang muka dari karyawan",
+                        "Tautan vendor fiktif yang terafiliasi langsung dengan penipu"
+                    ],
+                    "choices": [
+                        {
+                            "id": "A",
+                            "text": "Bayar deposit $1.200 karena yakin akan diganti pada gaji pertama $25.000.",
+                            "score": 0,
+                            "vulnerability_delta": 4,
+                            "feedback": "MODUS DEPOSIT PALSU! Pelaku kabur setelah menerima uang muka, barang tidak pernah dikirim, dan kontrak kerja palsu.",
+                            "status": "COMPROMISED"
+                        },
+                        {
+                            "id": "B",
+                            "text": "Tolak keras skema pembayaran uang muka dan laporkan domain vendor ke anti-fraud registrar.",
+                            "score": 100,
+                            "vulnerability_delta": -1.5,
+                            "feedback": "LUAR BIASA! Anda mengenali ciri klasik Advance-Fee Scam dalam perekrutan tenaga kerja.",
+                            "status": "SECURED"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "cases_diff": [
+        {
+            "id": "DIFF-01",
+            "title": "Analisis Portal Perbankan Fiktif: NeoArtha Gate",
+            "category": "Web Phishing",
+            "scenario": "Pemain bertindak sebagai Hakim Siber (Judge) untuk menilai apakah portal yang ditampilkan berdampingan berstatus REAL (Asli) atau FAKE (Tiruan).",
+            "left_card": {
+                "label": "Tampilan Skenario A",
+                "url": "https://identity.bank-neoartha.mock/auth/v2",
+                "ssl": "Valid EV SSL - Bank NeoArtha Security Corp",
+                "visual_elements": [
+                    "Logo beresolusi tinggi vektor dengan anti-aliasing tajam",
+                    "Menu bantuan interaktif terhubung ke call center 14099-MOCK",
+                    "Formulir login meminta Username & Password dengan Captcha adaptif",
+                    "Tidak ada hitungan mundur panik (countdown timer)"
+                ],
+                "is_real": true
+            },
+            "right_card": {
+                "label": "Tampilan Skenario B",
+                "url": "https://identity-bankneoartha-secure-login.xyz.fake/session",
+                "ssl": "Sertifikat Gratis Anonim (Let's Scramble)",
+                "visual_elements": [
+                    "Logo buram/kompresi rendah (low quality copy-paste)",
+                    "Peringatan merah menyala: 'Akun Terkunci! Konfirmasi 100 Detik!'",
+                    "Formulir login meminta Nomor Kartu, PIN ATM, CVV, dan Jawaban Ibu Kandung",
+                    "Terdapat tombol unduh 'NeoArtha-Security-Patch.apk'"
+                ],
+                "is_real": false
+            },
+            "correct_target": "right_is_fake",
+            "analysis": "Skenario B memiliki indikator phishing fatal: URL tipuan typosquatting (.xyz.fake), kepanikan buatan (countdown), permintaan CVV/PIN di formulir awal, dan payload malware APK.",
+            "hint": "Perhatikan domain URL dan permintaan kredensial yang tidak lazim (PIN & CVV pada formulir login)."
+        },
+        {
+            "id": "DIFF-02",
+            "title": "Verifikasi Notifikasi Surel Beasiswa: AstraNova Grant",
+            "category": "Email Spoofing",
+            "scenario": "Bandingkan pesan email beasiswa untuk memilah dokumen autentik dari serangan social engineering.",
+            "left_card": {
+                "label": "Tampilan Skenario A",
+                "url": "Header: from <grant-officer@astranova-awards.xyz.fake>",
+                "ssl": "SPF: Softfail, DKIM: None, DMARC: Action=None",
+                "visual_elements": [
+                    "Format salam: 'Yth. Mahasiswa Beruntung' (tidak menyebutkan nama calon)",
+                    "Lampiran: 'Surat-Kelulusan-Beasiswa.docx.exe'",
+                    "Instruksi: 'Wajib transfer biaya administrasi stempel digital 150 ribu'",
+                    "Font tidak seragam dengan spasi acak"
+                ],
+                "is_real": false
+            },
+            "right_card": {
+                "label": "Tampilan Skenario B",
+                "url": "Header: from <scholarship@astranova.ac.mock>",
+                "ssl": "SPF: Pass, DKIM: Pass, DMARC: Reject",
+                "visual_elements": [
+                    "Format salam personal: 'Yth. Sdr. Aris (NIM: 2026-AST-991)'",
+                    "Lampiran dokumen PDF terenkripsi dengan tanda tangan kriptografis",
+                    "Penegasan: 'Program beasiswa tidak pernah memungut biaya apapun'",
+                    "Tautan terarah langsung ke sub-domain internal resmi kampus"
+                ],
+                "is_real": true
+            },
+            "correct_target": "left_is_fake",
+            "analysis": "Skenario A menggunakan teknik double extension (.docx.exe) untuk menyamarkan malware, domain palsu, dan meminta pungutan biaya administrasi yang bertentangan dengan prinsip beasiswa resmi.",
+            "hint": "Cek ekstensi file lampiran dan autentikasi SPF/DKIM pada header email."
+        },
+        {
+            "id": "DIFF-03",
+            "title": "Analisis Pengumuman Lowongan Kerja Antariksa",
+            "category": "Career Scam",
+            "scenario": "Evaluasi tawaran karir engineering luar angkasa antara sindikat bot hunter dan biro resmi.",
+            "left_card": {
+                "label": "Tampilan Skenario A",
+                "url": "https://careers.quantumtech.mock/positions/sec-engineer",
+                "ssl": "Verified Enterprise TLS 1.3",
+                "visual_elements": [
+                    "Daftar kualifikasi teknis spesifik (Reverse Engineering, Kernel Rust)",
+                    "Rentang gaji transparan sesuai standar industri ($6.000 - $8.500)",
+                    "Siklus wawancara bertahap (Screening, Technical Interview, Culture Fit)",
+                    "Penyediaan perangkat kerja resmi diantar ke domisili kandidat"
+                ],
+                "is_real": true
+            },
+            "right_card": {
+                "label": "Tampilan Skenario B",
+                "url": "https://quantumtech-global-hiring-now.top.fake/instant-hire",
+                "ssl": "Self-Signed Untrusted Certificate",
+                "visual_elements": [
+                    "Kualifikasi: 'Hanya butuh ponsel & internet, langsung diterima'",
+                    "Gaji tidak masuk akal: '$500 per hari hanya dengan like & subscribe'",
+                    "Proses wawancara instan melalui grup Telegram rahasia",
+                    "Syarat deposit awal 'biaya materai dan jaminan akun agen'"
+                ],
+                "is_real": false
+            },
+            "correct_target": "right_is_fake",
+            "analysis": "Skenario B adalah tipikal skema Ponzi/Task Scam yang mengiming-imingi tugas sepele dengan bayaran fantastis dan mewajibkan deposit awal.",
+            "hint": "Waspadai tawaran kerja instan tanpa kualifikasi teknis yang menjanjikan gaji harian tidak rasional."
+        }
+    ],
+    "cases_criminal": [
+        {
+            "id": "CRIM-001",
+            "title": "Operasi Phantom Wire: Pembobolan Transaksi Korporat",
+            "victim": "PT Orion Logistik Semesta (Fiktif)",
+            "potential_loss": "120.000 NeoCredits",
+            "description": "Departemen keuangan PT Orion hampir mengirimkan transfer tagihan bahan bakar stasiun kargo ke rekening rekening penipu. Susun bukti-bukti forensik dan tempatkan pada slot investigasi yang tepat sebelum waktu habis!",
+            "timer_seconds": 90,
+            "clues": [
+                {
+                    "id": "clue-1",
+                    "type": "origin",
+                    "title": "IP Server Penyerang",
+                    "description": "Log koneksi berasal dari proxy terbuka: 198.51.100.42 (Server Relay Bayangan)",
+                    "category": "actor_origin"
+                },
+                {
+                    "id": "clue-2",
+                    "type": "vector",
+                    "title": "Email Spoofing CEO Fraud",
+                    "description": "Surel dikirim menggunakan display name 'Direktur Utama Orion' dengan alamat asli ceo-orion@logistik-orion.co.fake",
+                    "category": "attack_vector"
+                },
+                {
+                    "id": "clue-3",
+                    "type": "redflag",
+                    "title": "Perubahan Rekening Mendadak",
+                    "description": "Surat invoice melampirkan rekening baru di Bank Gelap dengan catatan 'Rekening lama sedang diaudit pajak'",
+                    "category": "critical_redflag"
+                },
+                {
+                    "id": "clue-4",
+                    "type": "action",
+                    "title": "Verifikasi Multi-Jalur (Out-of-Band)",
+                    "description": "Lakukan konfirmasi langsung via telepon suara terenkripsi ke nomor internal Direktur Keuangan sebelum eksekusi pembayaran",
+                    "category": "intervention_strategy"
+                },
+                {
+                    "id": "clue-5",
+                    "type": "distractor",
+                    "title": "Stempel Basah Digital Berwarna Emas",
+                    "description": "Grafis stempel mewah bertuliskan 'PRIORITAS UTAMA DOKUMEN RESMI'",
+                    "category": "distractor"
+                },
+                {
+                    "id": "clue-6",
+                    "type": "distractor",
+                    "title": "Voucher Diskon Bahan Bakar 5%",
+                    "description": "Kupon potongan harga pengisian bahan bakar antar galaksi",
+                    "category": "distractor"
+                }
+            ],
+            "required_slots": {
+                "actor_origin": "clue-1",
+                "attack_vector": "clue-2",
+                "critical_redflag": "clue-3",
+                "intervention_strategy": "clue-4"
+            },
+            "debrief": "Sindikat BEC (Business Email Compromise) menggunakan taktik pergantian rekening bank vendor secara mendadak. Verifikasi tatap muka atau telepon langsung adalah benteng utama."
+        },
+        {
+            "id": "CRIM-002",
+            "title": "Sindikat Love-Drain: Penipuan Investasi Kripto Galaktik",
+            "victim": "Sdr. Danial (Insinyur Sistem)",
+            "potential_loss": "45.000 NeoCredits",
+            "description": "Korban terpikat oleh profil kencan fiktif dan dipandu untuk memasukkan tabungannya ke platform trading palsu 'GalaxyTrade.mock'. Petakan anatomi kejahatan siber ini!",
+            "timer_seconds": 80,
+            "clues": [
+                {
+                    "id": "clue-7",
+                    "type": "origin",
+                    "title": "Sindikat Call Center Scam",
+                    "description": "Jaringan penipuan terorganisir di kompleks kasino perbatasan nebula terisolasi",
+                    "category": "actor_origin"
+                },
+                {
+                    "id": "clue-8",
+                    "type": "vector",
+                    "title": "Taktik 'Pig Butchering' (Sha Zhu Pan)",
+                    "description": "Membangun kepercayaan romantis intensif lalu memandu korban ke platform investasi buatan",
+                    "category": "attack_vector"
+                },
+                {
+                    "id": "clue-9",
+                    "type": "redflag",
+                    "title": "Profit Palsu & Pajak Penarikan",
+                    "description": "Dashboard menampilkan saldo melonjak 400%, namun saldo tidak bisa ditarik kecuali membayar 'pajak likuiditas 20%'",
+                    "category": "critical_redflag"
+                },
+                {
+                    "id": "clue-10",
+                    "type": "action",
+                    "title": "Pembekuan Alamat Dompet & Lapor Gugus Tugas",
+                    "description": "Blokir komunikasi, laporkan transaksi ke bursa sentral untuk penandaan blacklist alamat on-chain",
+                    "category": "intervention_strategy"
+                },
+                {
+                    "id": "clue-11",
+                    "type": "distractor",
+                    "title": "Puisi Romantis Luar Angkasa",
+                    "description": "Koleksi bait puisi cinta yang dikirim tiap pagi",
+                    "category": "distractor"
+                }
+            ],
+            "required_slots": {
+                "actor_origin": "clue-7",
+                "attack_vector": "clue-8",
+                "critical_redflag": "clue-9",
+                "intervention_strategy": "clue-10"
+            },
+            "debrief": "Skema Pig Butchering menggabungkan manipulasi psikologis dan simulasi keuntungan trading palsu. Kuncinya: platform penipu selalu menuntut biaya baru saat penarikan dana dilakukan."
+        }
+    ],
+    "cases_deeplearn": [
+        {
+            "id": "DEEP-01",
+            "title": "Evaluasi Insiden: Transmisi Peringatan Pembaruan Protokol Keamanan",
+            "scenario_text": "Dari: System Administrator <admin-update@nexus-security-patch.net.fake>\nKepada: Seluruh Personel Siber\nSubjek: [MANDATORI] Pembaruan Patch Enkripsi Kunci Sesi v9.42\n\nSistem utama mendeteksi celah kerentanan Zero-Day pada stasiun kerja Anda. Sesuai direktif keamanan nomor 09/GS/2026, Anda diwajibkan mengunggah file kunci sertifikat privat (private_key.pem) ke repositori sementara melalui: https://nexus-security-patch.net.fake/upload-key dalam waktu 30 menit. Kegagalan melakukan pembaruan akan berakibat pemutusan akses jaringan dan pencabutan hak izin kerja secara permanen.",
+            "threat_level": "CRITICAL_SCAM",
+            "target_indicators": [
+                "Permintaan private key atau sertifikat enkripsi privat",
+                "Tekanan ancaman pemecatan / sanksi berat",
+                "Batas waktu sempit (30 menit) memanipulasi psikologis",
+                "Domain sender fiktif (.net.fake alih-alih repositori resmi)"
+            ],
+            "min_keywords_required": [
+                "private key",
+                "domain",
+                "ancaman",
+                "urgensi",
+                "sanksi",
+                "phishing",
+                "palsu",
+                "sertifikat"
+            ]
+        },
+        {
+            "id": "DEEP-02",
+            "title": "Evaluasi Insiden: Tawaran Airdrop Token Komunitas Inovator Siber",
+            "scenario_text": "Pesan Terusan dari Komunitas Antariksa:\n\"Pemberitahuan Komite Sentral Inovasi Siber 2026: Dapatkan 10.000 Token Tata Kelola Tata Surya gratis! Cukup tautkan dompet Web3 Anda dan setujui izin transaksi 'Unlimited Allowance / SetApprovalForAll' pada smart contract di tautan: https://claim-airdrop-sentinel.cloud.fake. Kuota tersisa hanya untuk 50 pendaftar tercepat!\"",
+            "threat_level": "CRITICAL_SCAM",
+            "target_indicators": [
+                "Permintaan otorisasi SetApprovalForAll / Unlimited Allowance (pembobol dompet)",
+                "Taktik kelangkaan buatan (hanya 50 pendaftar tercepat)",
+                "Domain gratisan cloud pihak ketiga (.cloud.fake)",
+                "Smart contract airdrop tanpa audit transparansi"
+            ],
+            "min_keywords_required": [
+                "approval",
+                "allowance",
+                "drainer",
+                "dompet",
+                "kontrak",
+                "kelangkaan",
+                "phishing",
+                "izin"
+            ]
+        }
+    ],
+    "cases_scanner": [
+        {
+            "type": "url",
+            "target": "https://secure-login.bank-neoartha.net.fake/auth?redirect=home",
+            "title": "Portal Phishing Bank NeoArtha (Palsu)",
+            "is_malicious": true,
+            "risk_score": 9.4,
+            "threat_type": "Credential Harvester / Typosquatting",
+            "explanation": "Domain menggunakan ekstensi .net.fake dengan subdomain menyesatkan 'bank-neoartha'. Form mengarah ke script pencuri password.",
+            "security_hints": [
+                "Periksa nama domain utama sebelum tanda slash pertama",
+                "Jangan memasukkan data otentikasi pada subdomain mencurigakan",
+                "Pastikan sertifikat SSL dikeluarkan atas nama legal korporasi"
+            ]
+        },
+        {
+            "type": "url",
+            "target": "https://portal.bank-neoartha.mock/dashboard",
+            "title": "Portal Resmi Bank NeoArtha (Simulasi Asli)",
+            "is_malicious": false,
+            "risk_score": 1.1,
+            "threat_type": "Verified Secure Entity",
+            "explanation": "Domain resmi terdaftar pada top-level domain institusi perbankan resmi dengan enkripsi terverifikasi.",
+            "security_hints": [
+                "Simpan URL resmi pada bookmark browser untuk menghindari salah ketik",
+                "Gunakan otentikasi dua faktor berbasis token fisik/aplikasi otentikator"
+            ]
+        },
+        {
+            "type": "news",
+            "target": "GEMPAR! Dewan Antariksa Bagikan Subsidi 100 Juta Bagi Siapa Saja yang Mengisi Formulir Ini Hari Ini Juga!",
+            "title": "Berita Umpan Klik & Jebakan Data (Hoax Phishing)",
+            "is_malicious": true,
+            "risk_score": 8.9,
+            "threat_type": "Clickbait Social Engineering & Data Scraping",
+            "explanation": "Menggunakan kata-kata bombastis (GEMPAR!), janji dana tanpa syarat, dan mendesak korban mengisi formulir data pribadi.",
+            "security_hints": [
+                "Waspadai judul berita berhuruf kapital penuh dengan tanda seru berlebih",
+                "Konfirmasi pengumuman resmi hanya di situs web otoritas berwenang"
+            ]
+        },
+        {
+            "type": "news",
+            "target": "Penyelenggaraan KNOW YOUR SCAM Defense Workshop Keamanan Siber Terapan bagi Mahasiswa",
+            "title": "Siaran Pers Resmi KNOW YOUR SCAM Cyber Center",
+            "is_malicious": false,
+            "risk_score": 0.8,
+            "threat_type": "Official Educational Broadcast",
+            "explanation": "Bahasa jurnalistik netral, mengedukasi, dan tidak menuntut input kredensial rahasia pengguna.",
+            "security_hints": [
+                "Pastikan informasi agenda sesuai jadwal akademik resmi"
+            ]
+        }
+    ],
+    "activity_logs": [
+        {
+            "id": "LOG-7991",
+            "timestamp": "2026-11-03 01:56:19",
+            "user_id": "USR-001",
+            "user_name": "Commander Vektor",
+            "module": "CRIMINAL CASE",
+            "decision": "Waktu investigasi habis! Korban mengalami kerugian finansial.",
+            "vulnerability_score": 5.2,
+            "status": "COMPROMISED"
+        },
+        {
+            "id": "LOG-1586",
+            "timestamp": "2026-11-03 01:55:51",
+            "user_id": "USR-001",
+            "user_name": "Commander Vektor",
+            "module": "SYSTEM AUTH",
+            "decision": "Login protokol otentikasi (ADMIN)",
+            "vulnerability_score": 3.2,
+            "status": "SECURED"
+        },
+        {
+            "id": "LOG-4079",
+            "timestamp": "2026-11-03 01:55:48",
+            "user_id": "USR-002",
+            "user_name": "Cadet Aris",
+            "module": "SYSTEM AUTH",
+            "decision": "Login protokol otentikasi (USER)",
+            "vulnerability_score": 10,
+            "status": "SECURED"
+        },
+        {
+            "id": "LOG-5396",
+            "timestamp": "2026-11-03 01:52:33",
+            "user_id": "USR-002",
+            "user_name": "Cadet Aris",
+            "module": "SYSTEM AUTH",
+            "decision": "Login protokol otentikasi (USER)",
+            "vulnerability_score": 10,
+            "status": "SECURED"
+        },
+        {
+            "id": "LOG-3503",
+            "timestamp": "2026-11-02 14:55:51",
+            "user_id": "USR-001",
+            "user_name": "Commander Vektor",
+            "module": "CRIMINAL CASE",
+            "decision": "Waktu investigasi habis! Korban mengalami kerugian finansial.",
+            "vulnerability_score": 5.2,
+            "status": "COMPROMISED"
+        },
+        {
+            "id": "LOG-2815",
+            "timestamp": "2026-11-02 14:50:39",
+            "user_id": "USR-001",
+            "user_name": "Commander Vektor",
+            "module": "CRIMINAL CASE",
+            "decision": "Waktu investigasi habis! Korban mengalami kerugian finansial.",
+            "vulnerability_score": 3.2,
+            "status": "COMPROMISED"
+        },
+        {
+            "id": "LOG-2290",
+            "timestamp": "2026-11-02 14:49:14",
+            "user_id": "USR-001",
+            "user_name": "Commander Vektor",
+            "module": "SYSTEM AUTH",
+            "decision": "Login protokol otentikasi (ADMIN)",
+            "vulnerability_score": 1.2,
+            "status": "SECURED"
+        },
+        {
+            "id": "LOG-8599",
+            "timestamp": "2026-11-02 14:49:12",
+            "user_id": "USR-002",
+            "user_name": "Cadet Aris",
+            "module": "SYSTEM AUTH",
+            "decision": "Login protokol otentikasi (USER)",
+            "vulnerability_score": 10,
+            "status": "SECURED"
+        },
+        {
+            "id": "LOG-5283",
+            "timestamp": "2026-11-02 14:45:53",
+            "user_id": "USR-002",
+            "user_name": "Cadet Aris",
+            "module": "SYSTEM AUTH",
+            "decision": "Login protokol otentikasi (USER)",
+            "vulnerability_score": 10,
+            "status": "SECURED"
+        },
+        {
+            "id": "LOG-5275",
+            "timestamp": "2026-11-02 14:45:43",
+            "user_id": "USR-001",
+            "user_name": "Commander Vektor",
+            "module": "SYSTEM AUTH",
+            "decision": "Login protokol otentikasi (ADMIN)",
+            "vulnerability_score": 1.2,
+            "status": "SECURED"
+        },
+        {
+            "id": "LOG-2200",
+            "timestamp": "2026-11-02 14:23:55",
+            "user_id": "USR-002",
+            "user_name": "Cadet Aris",
+            "module": "SYSTEM AUTH",
+            "decision": "Login protokol otentikasi (USER)",
+            "vulnerability_score": 4.5,
+            "status": "SECURED"
+        },
+        {
+            "id": "LOG-1001",
+            "timestamp": "2026-11-02 20:15:30",
+            "user_id": "USR-002",
+            "user_name": "Cadet Aris",
+            "module": "KASUS (Phishing)",
+            "decision": "Memilih verifikasi via portal resmi Bank NeoArtha",
+            "vulnerability_score": 2.1,
+            "status": "SECURED"
+        },
+        {
+            "id": "LOG-1002",
+            "timestamp": "2026-11-02 20:22:14",
+            "user_id": "USR-003",
+            "user_name": "Sgt. Kira Thorne",
+            "module": "FINDING DIFF",
+            "decision": "Menetapkan Portal B sebagai FAKE (Skor akurasi 100%)",
+            "vulnerability_score": 1.4,
+            "status": "SECURED"
+        },
+        {
+            "id": "LOG-1003",
+            "timestamp": "2026-11-02 20:31:05",
+            "user_id": "USR-002",
+            "user_name": "Cadet Aris",
+            "module": "CRIMINAL CASE",
+            "decision": "Menyelesaikan Operasi Phantom Wire dalam 64 detik",
+            "vulnerability_score": 2.8,
+            "status": "BREACH_PREVENTED"
+        },
+        {
+            "id": "LOG-1004",
+            "timestamp": "2026-11-02 20:41:48",
+            "user_id": "USR-004",
+            "user_name": "Specialist Nyx",
+            "module": "DEEP LEARNING",
+            "decision": "Analisis AI: Mendeteksi upaya ekstraksi Private Key",
+            "vulnerability_score": 1.9,
+            "status": "SECURED"
+        }
+    ]
+}
