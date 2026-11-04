@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\File;
 class GuardianController extends Controller
 {
     /**
-     * Show the main GuardianSpace application.
+     * Show the main Know Your Scam application.
      * With graceful fallback if database driver (SQLite/MySQL) is not loaded in PHP.
      */
     public function index()

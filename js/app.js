@@ -1,5 +1,5 @@
 /**
- * GUARDIANSPACE: ANTI-GRAVITY DEFENSE
+ * KNOW YOUR SCAM: ANTI-GRAVITY DEFENSE
  * Main Application Orchestrator, Router & Theme Manager
  */
 
@@ -19,7 +19,7 @@ class GuardianApp {
   }
 
   initTheme() {
-    const savedTheme = localStorage.getItem('guardianspace_theme') || 'dark';
+    const savedTheme = localStorage.getItem('knowyourscam_theme') || localStorage.getItem('guardianspace_theme') || 'dark';
     this.applyTheme(savedTheme, false);
   }
 
@@ -31,7 +31,7 @@ class GuardianApp {
 
   applyTheme(theme, notify = true) {
     document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('guardianspace_theme', theme);
+    localStorage.setItem('knowyourscam_theme', theme);
 
     const btn = document.getElementById('btn-toggle-theme');
     if (btn) {

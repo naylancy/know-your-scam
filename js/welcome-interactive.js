@@ -1,5 +1,5 @@
 /**
- * GUARDIANSPACE: ANTI-GRAVITY DEFENSE
+ * KNOW YOUR SCAM: ANTI-GRAVITY DEFENSE
  * Welcome Page Interactive Account Testing & Menu Summary Inspector
  */
 
@@ -59,7 +59,7 @@ class WelcomeInteractive {
         category: 'Cognitive Semantic AI Analysis',
         difficulty: 'Pakar (Expert)',
         threats: ['Zero-Day Private Key Harvesting', 'Unlimited Allowance Web3 Drainer', 'Otorisasi Ilegal'],
-        description: 'Evaluasi kasus di mana pengguna menentukan potensi ancaman serta merumuskan argumen analisis tertulis mendalam. Respons dikirim ke sistem Guardian Neural Core yang menampilkan visualisasi animasi gelombang siber (Cyber Wave & AI Thinking Nodes Canvas) dan menghasilkan skor semantik AI.',
+        description: 'Evaluasi kasus di mana pengguna menentukan potensi ancaman serta merumuskan argumen analisis tertulis mendalam. Respons dikirim ke sistem Know Your Scam Neural Core yang menampilkan visualisasi animasi gelombang siber (Cyber Wave & AI Thinking Nodes Canvas) dan menghasilkan skor semantik AI.',
         objectives: [
           'Merumuskan penalaran kritis tertulis terhadap serangan Zero-Day canggih',
           'Mengidentifikasi celah kerentanan otorisasi kunci sesi dan smart contract drainer',

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>KNOW YOUR SCAM: Anti-Gravity Defense Protocol</title>
+  <title>Know Your Scam: Anti-Gravity Defense Protocol</title>
   <meta name="description" content="KNOW YOUR SCAM - Platform edukasi dan simulasi pertahanan siber multi-level bertenaga Laravel dan AI Cognitive Core.">
 
   <!-- Core Cyber CSS Files -->
@@ -317,7 +317,7 @@
                 <div class="menu-summary-icon">🧠</div>
                 <h4 style="font-size: 1.15rem; color: var(--text-highlight); margin-bottom: 6px;">DEEP LEARNING</h4>
                 <p class="menu-summary-teaser">
-                  Evaluasi kritis ancaman Zero-Day di mana penalaran tertulis Anda dievaluasi secara mendalam oleh AI Guardian dengan animasi gelombang siber neural matrix.
+                  Evaluasi kritis ancaman Zero-Day di mana penalaran tertulis Anda dievaluasi secara mendalam oleh AI Know Your Scam dengan animasi gelombang siber neural matrix.
                 </p>
               </div>
               <div class="menu-summary-inspect-link">

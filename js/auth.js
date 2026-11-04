@@ -1,5 +1,5 @@
 /**
- * GUARDIANSPACE: ANTI-GRAVITY DEFENSE
+ * KNOW YOUR SCAM: ANTI-GRAVITY DEFENSE
  * Cyber Authentication & User Session Manager
  */
 
@@ -11,7 +11,7 @@ class AuthManager {
 
   init() {
     // Check saved user session
-    const saved = localStorage.getItem('guardianspace_active_user');
+    const saved = localStorage.getItem('knowyourscam_active_user') || localStorage.getItem('guardianspace_active_user');
     if (saved) {
       try {
         this.currentUser = JSON.parse(saved);
@@ -205,7 +205,7 @@ class AuthManager {
 
   async setUser(userData) {
     this.currentUser = userData;
-    localStorage.setItem('guardianspace_active_user', JSON.stringify(userData));
+    localStorage.setItem('knowyourscam_active_user', JSON.stringify(userData));
 
     this.updateHUD();
     window.cyberAudio?.playSuccess();
@@ -219,6 +219,7 @@ class AuthManager {
   logout() {
     window.cyberAudio?.playAlert();
     this.currentUser = null;
+    localStorage.removeItem('knowyourscam_active_user');
     localStorage.removeItem('guardianspace_active_user');
 
     this.updateHUD();
@@ -305,7 +306,7 @@ class AuthManager {
       this.currentUser.rank = 'Security Cadet';
     }
 
-    localStorage.setItem('guardianspace_active_user', JSON.stringify(this.currentUser));
+    localStorage.setItem('knowyourscam_active_user', JSON.stringify(this.currentUser));
     this.updateHUD();
 
     // Send to backend API (Laravel /api or api.php)

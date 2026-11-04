@@ -1,5 +1,5 @@
 /**
- * GUARDIANSPACE: ANTI-GRAVITY DEFENSE
+ * KNOW YOUR SCAM: ANTI-GRAVITY DEFENSE
  * Cyber Wave & AI Thinking Nodes Canvas Animation
  */
 

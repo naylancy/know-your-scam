@@ -1,5 +1,5 @@
 /**
- * GUARDIANSPACE: ANTI-GRAVITY DEFENSE
+ * KNOW YOUR SCAM: ANTI-GRAVITY DEFENSE
  * Security Intelligence & Interactive Hint System
  */
 

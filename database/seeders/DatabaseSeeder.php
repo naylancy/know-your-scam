@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Hash;
 class DatabaseSeeder extends Seeder
 {
     /**
-     * Seed the application's database with complete GuardianSpace Cyber Defense scenarios.
+     * Seed the application's database with complete Know Your Scam Cyber Defense scenarios.
      */
     public function run(): void
     {

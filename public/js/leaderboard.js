@@ -1,5 +1,5 @@
 /**
- * GUARDIANSPACE: ANTI-GRAVITY DEFENSE
+ * KNOW YOUR SCAM: ANTI-GRAVITY DEFENSE
  * Cyber Defense Leaderboard Controller
  */
 
@@ -88,7 +88,7 @@ class LeaderboardManager {
               PAPAN PERINGKAT DEFENSE SIBER GLOBAL
             </h2>
             <p style="font-size: 0.88rem; color: var(--text-muted);">
-              Rangking ketahanan, kecepatan deteksi, dan skor kerentanan peserta simulasi GuardianSpace
+              Rangking ketahanan, kecepatan deteksi, dan skor kerentanan peserta simulasi Know Your Scam
             </p>
           </div>
           <div style="display:flex; gap: 8px;">

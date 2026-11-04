@@ -1,7 +1,7 @@
-# 🛡️ GUARDIANSPACE: ANTI-GRAVITY DEFENSE
+# 🛡️ KNOW YOUR SCAM: ANTI-GRAVITY DEFENSE
 ### 🚀 Implementasi Laravel Framework, Integrasi Basis Data, Dual Theme & Konsol Uji Akun
 
-**GuardianSpace** adalah platform simulasi dan edukasi pertahanan siber tingkat tinggi (*Zero-Gravity Cyber Defense Architecture*) berbasis **Laravel Framework (v10.50.3)** dengan arsitektur MVC (*Model-View-Controller*), migrasi tabel relasional terstruktur, model Eloquent ORM, *seeder* otomatis, dan *dual theme engine* (Dark Obsidian & Light Cyber Mode).
+**Know Your Scam** adalah platform simulasi dan edukasi pertahanan siber tingkat tinggi (*Zero-Gravity Cyber Defense Architecture*) berbasis **Laravel Framework (v10.50.3)** dengan arsitektur MVC (*Model-View-Controller*), migrasi tabel relasional terstruktur, model Eloquent ORM, *seeder* otomatis, dan *dual theme engine* (Dark Obsidian & Light Cyber Mode).
 
 Aplikasi ini menggabungkan antarmuka *zero-gravity* partikel melayang secara dinamis, efek audio *synthesized* Web Audio API sci-fi tanpa ketergantungan aset eksternal, dan 5 modul skenario pertahanan siber interaktif.
 
@@ -150,4 +150,4 @@ Buka browser dan akses:
 
 ---
 
-*GuardianSpace: Zero-Gravity Cyber Defense Platform. Data Fiktif Murni & Zero PII Compliant.*
+*Know Your Scam: Zero-Gravity Cyber Defense Platform. Data Fiktif Murni & Zero PII Compliant.*

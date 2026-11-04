@@ -1,5 +1,5 @@
 /**
- * GUARDIANSPACE: ANTI-GRAVITY DEFENSE
+ * KNOW YOUR SCAM: ANTI-GRAVITY DEFENSE
  * Cyber Soundboard & Web Audio API Synthesizer
  */
 
@@ -18,10 +18,10 @@ class CyberAudioEngine {
     this.lfo = null;
 
     // Load preferences
-    const savedSfx = localStorage.getItem('guardianspace_sfx');
+    const savedSfx = localStorage.getItem('knowyourscam_sfx') || localStorage.getItem('guardianspace_sfx');
     if (savedSfx !== null) this.sfxEnabled = savedSfx === 'true';
 
-    const savedVol = localStorage.getItem('guardianspace_vol');
+    const savedVol = localStorage.getItem('knowyourscam_vol') || localStorage.getItem('guardianspace_vol');
     if (savedVol !== null) this.masterVolume = parseFloat(savedVol);
   }
 
@@ -262,7 +262,7 @@ class CyberAudioEngine {
 
   setVolume(val) {
     this.masterVolume = Math.max(0, Math.min(1, parseFloat(val)));
-    localStorage.setItem('guardianspace_vol', this.masterVolume);
+    localStorage.setItem('knowyourscam_vol', this.masterVolume);
     if (this.droneGain && this.ctx && this.ambientEnabled) {
       this.droneGain.gain.setValueAtTime(0.12 * this.masterVolume, this.ctx.currentTime);
     }
@@ -274,7 +274,7 @@ class CyberAudioEngine {
     } else {
       this.sfxEnabled = !this.sfxEnabled;
     }
-    localStorage.setItem('guardianspace_sfx', this.sfxEnabled);
+    localStorage.setItem('knowyourscam_sfx', this.sfxEnabled);
     return this.sfxEnabled;
   }
 }

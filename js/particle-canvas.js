@@ -1,5 +1,5 @@
 /**
- * GUARDIANSPACE: ANTI-GRAVITY DEFENSE
+ * KNOW YOUR SCAM: ANTI-GRAVITY DEFENSE
  * Zero-Gravity Particle Field & Quantum Flashes Canvas Engine
  * Adaptive Colors for Dark & Light Themes
  */
