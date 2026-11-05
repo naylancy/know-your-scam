@@ -147,6 +147,27 @@
                 "scanner": 0,
                 "checker": 0
             }
+        },
+        {
+            "id": "USR-889",
+            "user_code": "USR-889",
+            "name": "john",
+            "username": "pork",
+            "email": "johnpork123@gmial.com",
+            "password": "$2y$12$/35hCnJwMFNfoUdt35ZsoeruQTz9rJISIlCqT9jV/My.7EQ4H/SWy",
+            "role": "user",
+            "score": 0,
+            "vulnerability": 5,
+            "rank": "Cyber Trainee",
+            "modules_completed": 0,
+            "game_scores": {
+                "kasus": 0,
+                "diff": 0,
+                "criminal": 0,
+                "deeplearn": 0,
+                "scanner": 0,
+                "checker": 0
+            }
         }
     ],
     "cases_kasus": [
