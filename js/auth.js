@@ -427,27 +427,33 @@ class AuthManager {
         avatarEl.textContent = this.currentUser.role === 'admin' ? '🛡️' : '⚡';
       }
 
-      // Admin link rule
-      if (adminNavLink) {
-        const parentLi = adminNavLink.closest('li');
-        if (this.isAdmin()) {
-          if (parentLi) parentLi.style.display = 'list-item';
+      // Admin link rule (Strict Role Enforcement)
+      const adminNavLi = document.getElementById('nav-admin-li') || adminNavLink?.closest('li');
+      const mobileAdminLi = document.getElementById('mobile-admin-link-li');
+
+      if (this.isAdmin()) {
+        if (adminNavLi) adminNavLi.style.display = 'list-item';
+        if (adminNavLink) {
           adminNavLink.style.display = 'flex';
-        } else {
-          if (parentLi) parentLi.style.display = 'none';
-          adminNavLink.style.display = 'none';
+          adminNavLink.style.color = 'var(--neon-magenta)';
         }
+        if (mobileAdminLi) mobileAdminLi.style.display = 'block';
+      } else {
+        if (adminNavLi) adminNavLi.style.display = 'none';
+        if (adminNavLink) adminNavLink.style.display = 'none';
+        if (mobileAdminLi) mobileAdminLi.style.display = 'none';
       }
     } else {
       // Guest Mode: Hide game menus, show Guest actions
       if (header) header.classList.add('guest-mode');
       if (guestActions) guestActions.style.display = 'flex';
       if (authActions) authActions.style.display = 'none';
-      if (adminNavLink) {
-        const parentLi = adminNavLink.closest('li');
-        if (parentLi) parentLi.style.display = 'none';
-        adminNavLink.style.display = 'none';
-      }
+      
+      const adminNavLi = document.getElementById('nav-admin-li') || adminNavLink?.closest('li');
+      const mobileAdminLi = document.getElementById('mobile-admin-link-li');
+      if (adminNavLi) adminNavLi.style.display = 'none';
+      if (adminNavLink) adminNavLink.style.display = 'none';
+      if (mobileAdminLi) mobileAdminLi.style.display = 'none';
     }
   }
 

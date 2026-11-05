@@ -294,6 +294,11 @@ class GuardianApp {
     } else if (rawHash === 'leaderboard') {
       window.leaderboardManager?.fetchLive();
     } else if (rawHash === 'admin') {
+      if (!window.authManager?.isAdmin()) {
+        this.navigateTo('welcome');
+        this.showToast('Akses Ditolak: Panel Admin hanya dapat diakses oleh Administrator.', 'error');
+        return;
+      }
       window.adminManager?.render();
     }
 
@@ -302,13 +307,20 @@ class GuardianApp {
 
   checkAdminAccess() {
     const adminNavLink = document.getElementById('nav-admin-link');
+    const adminNavLi = document.getElementById('nav-admin-li') || adminNavLink?.closest('li');
+    const mobileAdminLi = document.getElementById('mobile-admin-link-li');
+
+    const isAdmin = !!window.authManager?.isAdmin();
+
     if (adminNavLink) {
-      if (window.authManager?.isAdmin()) {
-        adminNavLink.style.display = 'flex';
-        adminNavLink.style.color = 'var(--neon-magenta)';
-      } else {
-        adminNavLink.style.display = 'flex'; // Visible so user can click and test switching
-      }
+      adminNavLink.style.display = isAdmin ? 'flex' : 'none';
+      if (isAdmin) adminNavLink.style.color = 'var(--neon-magenta)';
+    }
+    if (adminNavLi) {
+      adminNavLi.style.display = isAdmin ? 'list-item' : 'none';
+    }
+    if (mobileAdminLi) {
+      mobileAdminLi.style.display = isAdmin ? 'block' : 'none';
     }
   }
 

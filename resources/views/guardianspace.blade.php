@@ -67,7 +67,7 @@
             <li class="nav-item-game"><a href="#edukasi" class="nav-link" id="nav-edukasi-link"><span>📚</span> EDUKASI</a></li>
 
             <li class="nav-item-game"><a href="#leaderboard" class="nav-link"><span>🏆</span> LEADERBOARD</a></li>
-            <li class="nav-item-game"><a href="#admin" id="nav-admin-link" class="nav-link"><span>🛡️</span> ADMIN</a></li>
+            <li class="nav-item-game" id="nav-admin-li" style="display: none;"><a href="#admin" id="nav-admin-link" class="nav-link" style="display: none;"><span>🛡️</span> ADMIN</a></li>
           </ul>
         </nav>
 
