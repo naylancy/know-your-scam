@@ -1455,6 +1455,58 @@ h1, h2, h3, h4 {
   border-color: #CBD5E1 !important;
 }
 
+/* Analyzer Live Gadget & Owl Lab Light Theme */
+[data-theme="light"] .live-gadget-wrapper {
+  background: #FFFFFF !important;
+  border-color: #CBD5E1 !important;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="light"] .live-gadget-topbar {
+  background: #F1F5F9 !important;
+  border-bottom-color: #E2E8F0 !important;
+  color: #334155 !important;
+}
+
+[data-theme="light"] .xray-tooltip {
+  background: #FFFFFF !important;
+  color: #0F172A !important;
+  border-color: #9333EA !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12) !important;
+}
+
+[data-theme="light"] .xray-tooltip::after {
+  border-color: #9333EA transparent transparent transparent !important;
+}
+
+[data-theme="light"] .stamp-btn-scam {
+  background: #FEF2F2 !important;
+  border-color: #DC2626 !important;
+  color: #DC2626 !important;
+}
+
+[data-theme="light"] .stamp-btn-scam:hover, [data-theme="light"] .stamp-btn-scam.selected {
+  background: #FEE2E2 !important;
+  border-color: #B91C1C !important;
+}
+
+[data-theme="light"] .stamp-btn-safe {
+  background: #F0FDF4 !important;
+  border-color: #16A34A !important;
+  color: #16A34A !important;
+}
+
+[data-theme="light"] .stamp-btn-safe:hover, [data-theme="light"] .stamp-btn-safe.selected {
+  background: #DCFCE7 !important;
+  border-color: #15803D !important;
+}
+
+[data-theme="light"] .owl-forensic-lab {
+  background: #FFFFFF !important;
+  border-color: #0284C7 !important;
+  box-shadow: 0 6px 25px rgba(2, 132, 199, 0.1) !important;
+}
+
 /* 6. Link Scanner & Legit Checker Light Theme */
 [data-theme="light"] .detector-tab-bar {
   border-bottom: 1px solid #CBD5E1 !important;

@@ -67,19 +67,19 @@
 
     deeplearn: {
       key: 'deeplearn',
-      badge: 'MODUL 4 // HYBRID AI EVALUATOR',
-      title: '🧠 PROTOKOL ANALYZER (EVALUASI SEMANTIK AI)',
-      category: 'Evaluator Kualitatif Penalaran Siber Berbasis Hybrid LLM',
-      desc: 'Uji nalar kritis terhadap ancaman Zero-Day. Tuliskan argumen forensik Anda secara bebas untuk dinilai langsung oleh AI Evaluator (Gemini Cloud).',
-      objective: 'Klasifikasikan tingkat ancaman dan elaborasikan penalaran teknis deteksi scam.',
-      scoring: 'Skor Semantik 0–100 XP per analisis berdasarkan kedalaman argumen teknis dan deteksi red flags.',
+      badge: 'MODUL 4 // OWL AI ANALYZER',
+      title: '🧠 PROTOKOL ANALYZER: LIVE GADGET & OWL FORENSICS',
+      category: 'Simulasi Live Gadget, X-Ray Scanner & Stempel Vonis',
+      desc: 'Analisis pesan mencurigakan pada Live Gadget interaktif dengan animasi notifikasi masuk dan timer palsu. Gunakan Mode X-Ray Detektif Owl untuk menyingkap metadata tersembunyi, jatuhkan Stempel Vonis (PENIPUAN vs AMAN), dan uji nalar Anda di Owl AI Forensics Lab.',
+      objective: 'Bongkar manipulasi psikologis penipu dengan Mode X-Ray, jatuhkan stempel vonis akurat, dan dapatkan evaluasi forensik Detektif Owl.',
+      scoring: 'Skor Akurasi Forensik 0–100 XP per analisis berdasarkan ketepatan vonis dan deteksi red flags.',
       steps: [
-        'Pilih transmisi terbuka pada katalog AI (skenario lanjutan terbuka bertahap).',
-        'Pelajari dokumen transmisi mencurigakan dan indikator anomali pada terminal.',
-        'Pilih klasifikasi ancaman: AMAN, MENCURIGAKAN, atau SCAM KRITIS.',
-        'Tulis argumen forensik (min. 15 karakter) lalu kirim ke AI Evaluator.'
+        'Buka skenario terbuka pada katalog (tersedia uji kasus edukasi aman vs phishing).',
+        'Amati pesan masuk satu per satu di Live Gadget dan rasakan kepanikan timer palsu penipu.',
+        'Aktifkan "Mode Analisis Owl" untuk menyorot metadata tersembunyi (nomor asli, umur domain, taktik panik).',
+        'Jatuhkan Stempel Vonis (PENIPUAN atau AMAN) dan kirimkan penalaran kritis ke Owl AI Forensics Lab!'
       ],
-      startBtnText: '⚡ MULAI ANALYZER'
+      startBtnText: '⚡ BUKA LIVE GADGET ANALYZER'
     }
   };
 
