@@ -3,9 +3,10 @@
  * Game Briefing & Two-Page View Manager (Page Start vs Page Game)
  * Features:
  * - Clear separation: Page Start (Briefing, Tutorial & Scenario Catalog) & Page Game (Arena)
- * - Scenario catalog with progressive unlocking (locked states for subsequent scenarios)
+ * - Progressive unlocking catalog across all 4 game modules (Kasus, Diff, Criminal, Analyzer)
+ * - Single-scenario dedicated gameplay arena (No switching tabs inside arena)
  * - Live real-time scoring HUD in Page Game
- * - "Kembali ke Briefing" navigation with live state refresh
+ * - "Kembali ke Briefing & Katalog" navigation with live state refresh
  * - Synchronized timer control for Criminal Case
  */
 
@@ -41,6 +42,8 @@
       objective: 'Menemukan anomali visual mikroskopis: perbedaan URL typo-squatting, sertifikat SSL, penataan layout, dan ejaan brand.',
       scoring: '+100 XP per vonis akurat. Penalti indeks kerentanan jika tertipu portal tiruan atau salah menetapkan status dokumen.',
       steps: [
+        'Pilih berkas skenario forensik komparatif yang terbuka pada katalog misi di bawah.',
+        'Skenario berikutnya akan terbuka secara otomatis setelah Anda menyelesaikan evaluasi skenario saat ini.',
         'Arahkan kursor atau sentuh layar pada dokumen kiri dan kanan untuk mengaktifkan kaca pembesar (Zoom Lens).',
         'Periksa bar alamat URL browser virtual dengan domain resmi korporat.',
         'Amati red flags visual: logo resolusi rendah, nomor kontak palsu, form login mencurigakan, dan ejaan nama instansi.',
@@ -58,6 +61,8 @@
       objective: 'Memetakan 4 bukti kunci digital (Aktor Asal, Vektor Serangan, Red Flag Kunci, dan Strategi Intervensi) serta mencocokkan dengan profil buronan siber.',
       scoring: '+150 XP per pemecahan kasus tepat waktu. Timer panik hanya berjalan saat Anda berada di dalam Arena Permainan.',
       steps: [
+        'Pilih berkas investigasi yang terbuka pada katalog sindikat di bawah.',
+        'Berkas investigasi lanjutan akan terbuka otomatis setelah Anda berhasil memecahkan berkas sebelumnya.',
         'Perhatikan sisa waktu pada timer investigasi di bagian atas arena permainan.',
         'Tarik dan letakkan (Drag & Drop) atau klik kartu bukti digital ke 4 slot anatomi investigasi yang sesuai.',
         'Pilih tersangka utama dari daftar buronan siber berdasarkan kecocokan bukti log IP dan rekening penampung.',
@@ -75,8 +80,10 @@
       objective: 'Mendiagnosis dokumen transmisi dan mengelaborasi argumen deteksi manipulasi siber dalam bahasa bebas.',
       scoring: 'Skor Semantik 0–100 XP per analisis berdasarkan kedalaman argumen, identifikasi vektor bahaya, dan rekomendasi mitigasi.',
       steps: [
+        'Pilih skenario dokumen transmisi yang terbuka pada katalog investigasi AI di bawah.',
+        'Skenario berikutnya akan terbuka bertahap setelah Anda mengirimkan analisis pada skenario saat ini.',
         'Baca dokumen transmisi mencurigakan yang masuk pada konsol terminal di sebelah kiri.',
-        'Pilih tingkat bahaya ancaman: AMAN, MENCURIGAKAN, BAHAYA, atau KRITIS.',
+        'Pilih klasifikasi tingkat bahaya ancaman: AMAN / RESMI, MENCURIGAKAN, atau SCAM KRITIS.',
         'Tuliskan argumen kritis Anda pada kolom analisis: mengapa transmisi ini berbahaya dan red flag apa yang Anda temukan.',
         'Kirim analisis untuk menerima evaluasi skor kualitatif (0-100 XP) dan catatan ulasan kritik dari AI Evaluator Senior.'
       ],
@@ -129,33 +136,65 @@
       window.cyberAudio?.playClick();
       this.gameState[gameKey] = 'start';
 
+      // Rerender game module to refresh briefing catalog
       if (gameKey === 'kasus' && window.moduleKasus) {
         window.moduleKasus.render();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        return;
-      }
-
-      const startEl = document.getElementById(`view-start-${gameKey}`);
-      const gameEl = document.getElementById(`view-game-${gameKey}`);
-
-      if (gameEl) gameEl.style.display = 'none';
-      if (startEl) {
-        startEl.style.display = 'block';
-        startEl.classList.add('holo-enter');
-      }
-
-      // Stop criminal countdown timer while on briefing
-      if (gameKey === 'criminal' && window.moduleCriminal) {
+      } else if (gameKey === 'diff' && window.moduleDiff) {
+        window.moduleDiff.render();
+      } else if (gameKey === 'criminal' && window.moduleCriminal) {
         window.moduleCriminal.stopTimer();
+        window.moduleCriminal.render();
+      } else if (gameKey === 'deeplearn' && window.moduleDeepLearning) {
+        window.moduleDeepLearning.render();
+      } else {
+        const startEl = document.getElementById(`view-start-${gameKey}`);
+        const gameEl = document.getElementById(`view-game-${gameKey}`);
+        if (gameEl) gameEl.style.display = 'none';
+        if (startEl) {
+          startEl.style.display = 'block';
+          startEl.classList.add('holo-enter');
+        }
       }
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Helper to render the interactive scenario catalog with locked/unlocked states
-    renderKasusScenariosCatalog(unlockedIndex) {
-      const cases = window.moduleKasus?.cases || window.__LARAVEL_INITIAL_DATA__?.cases_kasus || [];
+    // Helper to get case items for any game key
+    getCasesForGame(gameKey) {
+      if (gameKey === 'kasus') {
+        return window.moduleKasus?.cases || window.__LARAVEL_INITIAL_DATA__?.cases_kasus || [];
+      }
+      if (gameKey === 'diff') {
+        return window.moduleDiff?.diffCases || window.__LARAVEL_INITIAL_DATA__?.cases_diff || [];
+      }
+      if (gameKey === 'criminal') {
+        return window.moduleCriminal?.cases || window.__LARAVEL_INITIAL_DATA__?.cases_criminal || [];
+      }
+      if (gameKey === 'deeplearn') {
+        return window.moduleDeepLearning?.cases || window.__LARAVEL_INITIAL_DATA__?.cases_deeplearn || [];
+      }
+      return [];
+    }
+
+    // Helper to get module instance for any game key
+    getModuleInstance(gameKey) {
+      if (gameKey === 'kasus') return window.moduleKasus;
+      if (gameKey === 'diff') return window.moduleDiff;
+      if (gameKey === 'criminal') return window.moduleCriminal;
+      if (gameKey === 'deeplearn') return window.moduleDeepLearning;
+      return null;
+    }
+
+    // Helper to render interactive scenario catalog with locked/unlocked states for ANY game
+    renderScenariosCatalog(gameKey, unlockedIndex) {
+      const cases = this.getCasesForGame(gameKey);
       if (!cases || cases.length === 0) return '';
+
+      const moduleObjName = 
+        gameKey === 'kasus' ? 'window.moduleKasus' :
+        gameKey === 'diff' ? 'window.moduleDiff' :
+        gameKey === 'criminal' ? 'window.moduleCriminal' :
+        'window.moduleDeepLearning';
 
       const cardsHtml = cases.map((c, idx) => {
         const isUnlocked = idx <= unlockedIndex;
@@ -163,7 +202,26 @@
         const isCurrentActive = idx === unlockedIndex;
         const isCustom = !!c.is_custom;
 
-        const typeIcon = c.type === 'phishing' ? '📧' : c.type === 'lovescam' ? '💖' : '💼';
+        // Metadata extraction based on module type
+        let title = c.title || `Skenario #${idx + 1}`;
+        let subtitle = c.subtitle || c.scenario || c.description || 'Simulasi keputusan investigasi ancaman siber.';
+        let category = c.category || c.type || (gameKey === 'criminal' ? 'SIND_INVESTIGATION' : 'CYBER_THREAT');
+        let typeIcon = '🛡️';
+        let metaLabel = '';
+
+        if (gameKey === 'kasus') {
+          typeIcon = c.type === 'phishing' ? '📧' : c.type === 'lovescam' ? '💖' : '💼';
+          metaLabel = `📝 ${(c.story_steps || []).length} Tahapan Misi • 👥 Dual POV`;
+        } else if (gameKey === 'diff') {
+          typeIcon = '⚖️';
+          metaLabel = `🔍 Komparasi Portal Asli vs Tiruan • EV/SSL Inspection`;
+        } else if (gameKey === 'criminal') {
+          typeIcon = '🕵️';
+          metaLabel = `⏱️ ${c.timer_seconds || 90} Detik • Potensi Rugi: ${c.potential_loss || 'Kritis'}`;
+        } else if (gameKey === 'deeplearn') {
+          typeIcon = '🧠';
+          metaLabel = `🤖 Evaluasi Semantik Hybrid LLM • Penalaran Kritis`;
+        }
 
         return `
           <div class="scenario-catalog-card ${isUnlocked ? 'unlocked' : 'locked'}" 
@@ -198,24 +256,22 @@
                 <span style="font-size: 1.3rem; line-height: 1;">${typeIcon}</span>
                 <div>
                   <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--neon-cyan); text-transform: uppercase; letter-spacing: 0.8px;">
-                    ${c.type || 'PROTOCOL'} PROTOCOL
+                    ${category.toUpperCase()}
                   </div>
-                  <h3 style="font-size: 1.08rem; color: ${isUnlocked ? 'var(--text-highlight)' : 'var(--text-muted)'}; margin: 2px 0 0 0; line-height: 1.4;">
-                    ${c.title}
+                  <h3 style="font-size: 1.06rem; color: ${isUnlocked ? 'var(--text-highlight)' : 'var(--text-muted)'}; margin: 2px 0 0 0; line-height: 1.4;">
+                    ${title}
                   </h3>
                 </div>
               </div>
 
               <!-- Subtitle / Context -->
-              <p style="font-size: 0.86rem; color: var(--text-muted); line-height: 1.5; margin: 10px 0 16px 0;">
-                ${c.subtitle || 'Simulasi keputusan ancaman siber multi sudut pandang.'}
+              <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin: 10px 0 16px 0;">
+                ${subtitle}
               </p>
 
               <!-- Meta info -->
               <div style="display: flex; gap: 12px; font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); margin-bottom: 20px; border-top: 1px dashed rgba(255,255,255,0.08); padding-top: 10px;">
-                <span>📝 ${(c.story_steps || []).length} Tahapan Misi</span>
-                <span>•</span>
-                <span>👥 Dual POV: Korban & Investigator</span>
+                <span>${metaLabel}</span>
               </div>
             </div>
 
@@ -224,7 +280,7 @@
               ${isUnlocked ? `
                 <button class="cyber-btn ${isCompleted ? 'btn-ghost' : ''}" 
                         style="width: 100%; justify-content: center; padding: 11px 18px; font-size: 0.9rem;" 
-                        onclick="window.moduleKasus.startScenario(${idx})">
+                        onclick="${moduleObjName}.startScenario(${idx})">
                   <span>⚡</span> ${isCompleted ? 'MAINKAN ULANG SKENARIO' : 'MASUK KE SKENARIO INI'} ➔
                 </button>
               ` : `
@@ -241,7 +297,7 @@
       }).join('');
 
       return `
-        <!-- Requirement 1: Scenario Catalog with Progressive Unlocking -->
+        <!-- Scenario Catalog with Progressive Unlocking -->
         <div style="margin-bottom: 30px;">
           <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; border-bottom: 1px solid rgba(0,243,255,0.15); padding-bottom: 10px;">
             <div style="display: flex; align-items: center; gap: 8px;">
@@ -265,6 +321,11 @@
       `;
     }
 
+    // Legacy method forwarder
+    renderKasusScenariosCatalog(unlockedIndex) {
+      return this.renderScenariosCatalog('kasus', unlockedIndex);
+    }
+
     // Renders the dedicated Page Start view HTML
     renderStartScreenHTML(gameKey) {
       const b = briefings[gameKey];
@@ -275,13 +336,16 @@
       const totalScore = user?.score || 0;
       const vuln = parseFloat(user?.vulnerability || 5.0).toFixed(1);
 
-      // Progressive scenario catalog for kasus
-      let scenarioCatalogHtml = '';
-      let activeCaseIndex = 0;
-      if (gameKey === 'kasus') {
-        activeCaseIndex = window.moduleKasus?.getUnlockedIndex() || 0;
-        scenarioCatalogHtml = this.renderKasusScenariosCatalog(activeCaseIndex);
-      }
+      // Progressive scenario catalog across all games
+      const modInstance = this.getModuleInstance(gameKey);
+      const activeCaseIndex = modInstance?.getUnlockedIndex ? modInstance.getUnlockedIndex() : 0;
+      const scenarioCatalogHtml = this.renderScenariosCatalog(gameKey, activeCaseIndex);
+
+      const moduleObjName = 
+        gameKey === 'kasus' ? 'window.moduleKasus' :
+        gameKey === 'diff' ? 'window.moduleDiff' :
+        gameKey === 'criminal' ? 'window.moduleCriminal' :
+        'window.moduleDeepLearning';
 
       return `
         <div id="view-start-${gameKey}" class="game-page-start holo-enter" style="display: ${this.isPlaying(gameKey) ? 'none' : 'block'};">
@@ -359,7 +423,7 @@
               </ol>
             </div>
 
-            <!-- Requirement 1: Scenario Catalog -->
+            <!-- Scenario Catalog with Progressive Unlocking -->
             ${scenarioCatalogHtml}
 
             <!-- Footer Action CTA Bar -->
@@ -368,15 +432,9 @@
                 Status: <span style="color:var(--neon-green);">Sistem Siap Diuji</span> &bull; Mode: <span style="color:var(--neon-cyan);">Simulasi Interaktif</span>
               </div>
               
-              ${gameKey === 'kasus' ? `
-                <button class="cyber-btn" style="padding: 14px 36px; font-size: 1.05rem; box-shadow: 0 0 25px var(--neon-cyan-dim); letter-spacing: 1px;" onclick="window.moduleKasus.startScenario(${activeCaseIndex})">
-                  <span>⚡</span> MAINKAN SKENARIO ${activeCaseIndex + 1} ➔
-                </button>
-              ` : `
-                <button class="cyber-btn" style="padding: 14px 36px; font-size: 1.05rem; box-shadow: 0 0 25px var(--neon-cyan-dim); letter-spacing: 1px;" onclick="window.gameBriefing.startGame('${gameKey}')">
-                  <span>⚡</span> ${b.startBtnText} ➔
-                </button>
-              `}
+              <button class="cyber-btn" style="padding: 14px 36px; font-size: 1.05rem; box-shadow: 0 0 25px var(--neon-cyan-dim); letter-spacing: 1px;" onclick="${moduleObjName}.startScenario(${activeCaseIndex})">
+                <span>⚡</span> MAINKAN SKENARIO ${activeCaseIndex + 1} ➔
+              </button>
             </div>
 
           </div>

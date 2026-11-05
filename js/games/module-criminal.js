@@ -1,6 +1,11 @@
 /**
  * KNOW YOUR SCAM: ANTI-GRAVITY DEFENSE
  * MODUL 3: CRIMINAL CASE (Investigation Drag-and-Drop Puzzle)
+ * Features:
+ * - Progressive scenario unlocking & catalog support
+ * - Single-scenario dedicated gameplay arena (No tab switcher)
+ * - Drag-and-drop & Click-to-assign digital evidence slots
+ * - Real-time countdown timer & stress mitigation
  */
 
 class ModuleCriminal {
@@ -33,12 +38,60 @@ class ModuleCriminal {
     const currentCase = this.cases[this.currentIndex];
     this.secondsLeft = currentCase ? (currentCase.timer_seconds || 90) : 90;
     this.isTimedOut = false;
-    // Do NOT start timer here - only when on route 'criminal'
     this.render();
   }
 
+  getStorageKey() {
+    const user = window.authManager?.currentUser;
+    return user ? `knowyourscam_unlocked_criminal_${user.id || user.username}` : 'knowyourscam_unlocked_criminal_guest';
+  }
+
+  getUnlockedIndex() {
+    try {
+      const key = this.getStorageKey();
+      const val = localStorage.getItem(key);
+      if (val !== null) {
+        const parsed = parseInt(val, 10);
+        return isNaN(parsed) ? 0 : Math.max(0, parsed);
+      }
+    } catch (e) {
+      console.warn('LocalStorage error:', e);
+    }
+    return 0; // First case unlocked by default
+  }
+
+  unlockNextCase() {
+    try {
+      const currentUnlocked = this.getUnlockedIndex();
+      if (this.currentIndex >= currentUnlocked) {
+        const nextIdx = Math.min(this.cases.length - 1, this.currentIndex + 1);
+        localStorage.setItem(this.getStorageKey(), String(nextIdx));
+      }
+    } catch (e) {
+      console.warn('LocalStorage save error:', e);
+    }
+  }
+
+  startScenario(idx) {
+    const unlocked = this.getUnlockedIndex();
+    if (idx > unlocked) {
+      window.cyberAudio?.playError();
+      alert('Berkas investigasi ini masih terkunci! Selesaikan berkas sebelumnya untuk membukanya.');
+      return;
+    }
+    this.currentIndex = idx;
+    this.resetState();
+    if (window.gameBriefing) {
+      window.gameBriefing.startGame('criminal');
+    }
+    this.render();
+  }
+
+  setCase(idx) {
+    this.startScenario(idx);
+  }
+
   onEnterRoute() {
-    // Only run if user is logged in and route is criminal
     if (!window.authManager?.isLoggedIn()) return;
     if (window.app?.currentRoute !== 'criminal') return;
 
@@ -73,7 +126,7 @@ class ModuleCriminal {
     this.secondsLeft = currentCase ? (currentCase.timer_seconds || 90) : 90;
     this.isTimedOut = false;
 
-    if (window.app?.currentRoute === 'criminal') {
+    if (window.app?.currentRoute === 'criminal' && window.gameBriefing?.isPlaying('criminal')) {
       this.startTimer();
     }
   }
@@ -86,7 +139,6 @@ class ModuleCriminal {
     this.isTimedOut = false;
 
     this.timerInterval = setInterval(() => {
-      // Guard: Ensure timer stops immediately if user left criminal route
       if (window.app?.currentRoute !== 'criminal') {
         this.stopTimer();
         return;
@@ -138,29 +190,50 @@ class ModuleCriminal {
     this.stopTimer();
 
     window.cyberAudio?.playError();
+
     window.authManager?.recordResult(
-      0, 
-      2.0, 
-      'CRIMINAL CASE', 
-      'Waktu investigasi habis! Korban mengalami kerugian finansial akibat transfer sindikat.', 
+      0,
+      3.0,
+      'CRIMINAL CASE (Time Out)',
+      `Waktu investigasi ${this.cases[this.currentIndex]?.id} habis`,
       'COMPROMISED',
       'criminal'
     );
 
-    // Show in-card game over banner instead of intrusive window.alert()
-    window.app?.showToast('🚨 WAKTU HABIS! Sindikat pelaku berhasil membobol aset sebelum dakwaan diterbitkan.', 'error');
-    this.render();
+    const modalBox = document.getElementById('modal-general-box');
+    const modalContent = document.getElementById('modal-general-content');
+    if (!modalBox || !modalContent) return;
+
+    modalContent.innerHTML = `
+      <div style="text-align: center; padding: 10px;">
+        <div style="font-size: 3.5rem; margin-bottom: 12px;">⏰</div>
+        <h3 style="font-size: 1.4rem; color: var(--neon-red); margin-bottom: 12px;">
+          WAKTU OPERASI INVESTIGASI HABIS!
+        </h3>
+        <p style="font-size: 0.95rem; line-height: 1.6; color: var(--text-main); margin-bottom: 20px;">
+          Sindikat penipuan berhasil melarikan dana transaksi sebelum berkas dakwaan forensik diterbitkan.
+        </p>
+        <div style="display:flex; justify-content:center; gap: 14px; flex-wrap: wrap;">
+          <button class="cyber-btn" onclick="window.moduleCriminal.resetAndRetry()">
+            🔄 ULANGI INVESTIGASI BERKAS
+          </button>
+          <button class="cyber-btn btn-ghost" onclick="window.moduleCriminal.closeModal(); window.gameBriefing.returnToBriefing('criminal');">
+            📂 KATALOG BERKAS
+          </button>
+        </div>
+      </div>
+    `;
+
+    modalBox.classList.add('active');
   }
 
-  retryAfterTimeout() {
-    window.cyberAudio?.playClick();
-    this.resetState();
-    this.render();
+  closeModal() {
+    const modalBox = document.getElementById('modal-general-box');
+    if (modalBox) modalBox.classList.remove('active');
   }
 
-  setCase(idx) {
-    this.stopTimer();
-    this.currentIndex = idx;
+  resetAndRetry() {
+    this.closeModal();
     this.resetState();
     this.render();
   }
@@ -170,13 +243,19 @@ class ModuleCriminal {
     if (!container) return;
 
     if (!this.cases || this.cases.length === 0) {
-      container.innerHTML = `<div class="hud-card" style="padding: 30px; text-align: center;">Memuat berkas perkara kriminal siber...</div>`;
+      container.innerHTML = `<div class="hud-card" style="padding: 30px; text-align: center;">Memuat berkas sindikat kejahatan siber...</div>`;
       return;
     }
 
     const currentCase = this.cases[this.currentIndex];
 
-    // Calculate dynamic time display based on current this.secondsLeft
+    // Two-Page System: Page Start (Briefing & Tutorial) vs Page Game (Arena)
+    const isPlaying = window.gameBriefing?.isPlaying('criminal');
+    const startScreenHtml = window.gameBriefing?.renderStartScreenHTML('criminal') || '';
+    const hudBarHtml = window.gameBriefing?.renderGameHUDBar('criminal') || '';
+
+    const isCustom = currentCase.is_custom;
+
     const safeSeconds = Math.max(0, this.secondsLeft);
     const mins = Math.floor(safeSeconds / 60);
     const secs = safeSeconds % 60;
@@ -197,13 +276,6 @@ class ModuleCriminal {
     // Available unassigned clues
     const assignedIds = Object.values(this.assignedSlots).filter(Boolean).map(c => c.id);
     const availableClues = (currentCase.clues || []).filter(c => !assignedIds.includes(c.id));
-
-    // Case Selector Tabs
-    const tabsHtml = this.cases.map((c, idx) => `
-      <button class="cyber-btn ${this.currentIndex === idx ? '' : 'btn-ghost'}" style="font-size: 0.8rem; padding: 7px 14px;" onclick="window.moduleCriminal.setCase(${idx})">
-        BERKAS #${c.id} ${c.is_custom ? '⭐' : ''}
-      </button>
-    `).join('');
 
     const cluesHtml = availableClues.map(clue => `
       <div 
@@ -238,51 +310,47 @@ class ModuleCriminal {
               <div style="margin-top: 8px; background: rgba(0,243,255,0.12); border: 1px solid var(--border-cyan); padding: 8px 12px; border-radius: 4px;">
                 <strong style="color: var(--neon-cyan);">${assigned.title}:</strong>
                 <span style="color: var(--text-highlight); font-size: 0.85rem;"> ${assigned.description}</span>
+                <button class="cyber-btn btn-ghost" style="padding: 2px 8px; font-size: 0.7rem; margin-top: 6px; display:block;" onclick="window.moduleCriminal.unassignSlot('${slotKey}')">
+                  ✕ Lepaskan Bukti
+                </button>
               </div>
             ` : `
-              <div style="font-style: italic; color: rgba(255,255,255,0.3); font-size: 0.82rem; margin-top: 6px;">[ Tarik atau klik bukti ke slot ini ]</div>
+              <div style="margin-top: 8px; font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); border: 1px dashed rgba(255,255,255,0.1); padding: 10px; border-radius: 4px; text-align: center;">
+                Tarik atau klik kartu bukti untuk mengisi slot ini
+              </div>
             `}
           </div>
-          ${assigned ? `
-            <button class="cyber-btn btn-ghost" style="padding: 4px 8px; font-size: 0.75rem;" onclick="window.moduleCriminal.unassignSlot('${slotKey}')">
-              ✕ HAPUS
-            </button>
-          ` : ''}
         </div>
       `;
     };
 
-    const isCustomCase = currentCase.is_custom;
-
-    // Two-Page System: Page Start (Briefing & Tutorial) vs Page Game (Arena)
-    const isPlaying = window.gameBriefing?.isPlaying('criminal');
-    const startScreenHtml = window.gameBriefing?.renderStartScreenHTML('criminal') || '';
-    const hudBarHtml = window.gameBriefing?.renderGameHUDBar('criminal') || '';
-
-    // If on Page Game, route is active, and timer is not running, start timer
-    if (isPlaying && !this.isTimerRunning && !this.isTimedOut && window.app?.currentRoute === 'criminal') {
-      this.startTimer();
-    } else if (!isPlaying && this.isTimerRunning) {
-      this.stopTimer();
-    }
-
     container.innerHTML = `
       ${startScreenHtml}
-      <div id="view-game-criminal" class="game-page-arena holo-enter" style="${isPlaying ? 'display:block;' : 'display:none;'}">
+      <div id="view-game-criminal" class="game-page-arena holo-enter crim-workspace" style="${isPlaying ? 'display:block;' : 'display:none;'}">
         ${hudBarHtml}
 
-        <!-- Sub Header -->
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom: 20px;">
-          <div style="display:flex; gap: 8px; flex-wrap: wrap;">
-            ${tabsHtml}
+        <!-- Single Selected Scenario Header - NO Tab Switcher -->
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom: 16px;">
+          <div style="display:flex; gap: 8px; align-items:center; flex-wrap:wrap;">
+            <span class="cyber-tag tag-cyan" style="font-size: 0.82rem; letter-spacing: 0.5px;">
+              🕵️ BERKAS ${this.currentIndex + 1} DARI ${this.cases.length}
+            </span>
+            <span class="cyber-tag tag-magenta" style="font-size: 0.82rem;">
+              BERKAS #${currentCase.id}
+            </span>
+            ${isCustom ? `<span class="cyber-tag" style="border-color: var(--neon-magenta); color: var(--neon-magenta);">⭐ KASUS KUSTOM</span>` : ''}
           </div>
-          <div style="display:flex; gap: 8px; align-items: center;">
-            ${isCustomCase ? `<span class="cyber-tag tag-magenta">⭐ KASUS KUSTOM ADMIN</span>` : ''}
-            <span class="cyber-tag tag-amber">INVESTIGASI FORENSIK DRAG-AND-DROP</span>
+
+          <!-- Live Panic Timer -->
+          <div style="display:flex; align-items:center; gap: 12px; background: rgba(5,5,10,0.85); border: 1px solid var(--border-cyan); border-radius: 6px; padding: 6px 14px;">
+            <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">SISA WAKTU INVESTIGASI:</span>
+            <strong id="crim-timer-display" class="timer-countdown" style="font-size: 1.25rem; font-family: var(--font-display); color: ${timerColor};">
+              ${dynamicTimeStr}
+            </strong>
           </div>
         </div>
 
-        ${isCustomCase ? `
+        ${isCustom ? `
           <div style="background: rgba(189, 0, 255, 0.12); border: 1px solid var(--border-magenta); border-radius: 6px; padding: 12px 18px; margin-bottom: 18px; display: flex; align-items: center; justify-content: space-between;">
             <div style="display: flex; align-items: center; gap: 10px;">
               <span style="font-size: 1.3rem;">🛡️</span>
@@ -299,79 +367,62 @@ class ModuleCriminal {
           </div>
         ` : ''}
 
-        ${this.isTimedOut ? `
-          <div class="hud-card" style="padding: 24px; margin-bottom: 24px; border-color: var(--neon-red); background: rgba(255, 0, 85, 0.12); text-align: center;">
-            <div style="font-size: 2.5rem; margin-bottom: 8px;">🚨</div>
-            <h3 style="font-size: 1.4rem; color: var(--neon-red); margin-bottom: 6px;">
-              WAKTU INVESTIGASI HABIS — MISI GAGAL
-            </h3>
-            <p style="font-size: 0.95rem; color: var(--text-main); max-width: 650px; margin: 0 auto 18px auto; line-height: 1.5;">
-              Waktu reaksi terlampaui! Dana korban telah berhasil ditransfer oleh sindikat kriminal ke jaringan pencucian uang luar negeri.
-            </p>
-            <button class="cyber-btn" style="padding: 10px 24px;" onclick="window.moduleCriminal.retryAfterTimeout()">
-              🔄 COBA LAGI INVESTIGASI
-            </button>
+        <!-- Case Overview Banner -->
+        <div class="hud-card" style="margin-bottom: 20px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
+            <h2 style="font-size: 1.35rem; color: var(--text-highlight); margin:0;">
+              ${currentCase.title}
+            </h2>
+            <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--neon-red);">
+              POTENSI KERUGIAN: <strong>${currentCase.potential_loss}</strong>
+            </div>
           </div>
-        ` : ''}
+          <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 12px;">
+            ${currentCase.description}
+          </p>
 
-        <!-- Case Metadata & Panic Timer -->
-        <div class="hud-card" style="padding: 20px 24px; margin-bottom: 20px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap: 16px;">
-            <div>
-              <span class="cyber-tag tag-magenta">${currentCase.id}</span>
-              <h2 style="font-size: 1.4rem; color: var(--text-highlight); margin: 6px 0 2px 0;">
-                ${currentCase.title}
-              </h2>
-              <div style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-muted);">
-                TARGET KORBAN: <span style="color: var(--neon-cyan);">${currentCase.victim || 'Nasabah Finansial'}</span> | 
-                POTENSI KERUGIAN: <span style="color: var(--neon-red);">${currentCase.potential_loss || 'Rp 50.000.000'}</span>
-              </div>
-            </div>
-
-            <!-- Timer & Panic Bar -->
-            <div style="min-width: 240px; text-align: right;">
-              <div style="font-family: var(--font-display); font-size: 0.85rem; color: var(--neon-amber); margin-bottom: 4px;">
-                WAKTU SEBELUM KERUGIAN TOTAL:
-              </div>
-              <div id="crim-timer-display" style="font-family: var(--font-mono); font-size: 2rem; font-weight: 700; color: ${timerColor}; line-height: 1;">
-                ${dynamicTimeStr}
-              </div>
-              <div class="vuln-bar-wrapper" style="height: 8px; margin-top: 6px;">
-                <div id="crim-panic-fill" class="vuln-bar-fill ${panicClass}" style="width: ${pct}%;"></div>
-              </div>
-            </div>
+          <!-- Panic Fill Bar -->
+          <div class="vuln-bar-wrapper" style="height: 6px;">
+            <div id="crim-panic-fill" class="vuln-bar-fill ${panicClass}" style="width: ${pct}%;"></div>
           </div>
         </div>
 
-        <!-- Main Board Grid -->
-        <div class="crim-board-grid">
-          <!-- Left: Clues Drawer -->
-          <div class="hud-card crim-clues-drawer">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">
-              <h4 style="font-size: 1rem; color: var(--neon-cyan);">LACI BUKTI FORENSIK</h4>
-              <span class="cyber-tag">${availableClues.length} TERSISA</span>
+        <!-- Investigation Two Columns: Clues Docket vs Indictment Board -->
+        <div class="crim-columns">
+          <!-- Left: Clues Available -->
+          <div class="hud-card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px;">
+              <div style="font-family: var(--font-display); font-size: 0.9rem; color: var(--neon-cyan);">
+                KARTU BUKTI DIGITAL (${availableClues.length} TERSEDIA)
+              </div>
+              <span style="font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-mono);">KLIK / DRAG KE KANAN</span>
             </div>
-            <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px;">
-              Tarik atau klik bukti ke slot dakwaan yang bersesuaian di sebelah kanan:
-            </div>
-            <div id="crim-clues-list">
+            <div class="crim-clues-pool">
               ${cluesHtml}
             </div>
           </div>
 
-          <!-- Right: 4 Target Slots -->
-          <div class="hud-card crim-investigation-slots">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 4px;">
-              <h3 style="font-size: 1.2rem; color: var(--text-highlight);">PAPAN DAKWAAN & ANATOMI KEJAHATAN</h3>
-              <button class="cyber-btn" style="padding: 8px 18px; font-size: 0.85rem;" onclick="window.moduleCriminal.submitIndictment()">
-                ⚖️ TERBITKAN SURAT DAKWAAN
+          <!-- Right: 4 Slot Indictment Board -->
+          <div class="hud-card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px;">
+              <div style="font-family: var(--font-display); font-size: 0.9rem; color: var(--neon-magenta);">
+                PAPAN DAKWAAN FORENSIK RESMI
+              </div>
+              <button class="cyber-btn btn-ghost" style="padding: 2px 10px; font-size: 0.75rem;" onclick="window.moduleCriminal.resetSlots()">
+                KOSONGKAN PAPAN
               </button>
             </div>
 
-            ${renderSlot('actor_origin', '1. AKTOR / SUMBER SERANGAN', 'Identifikasi asal infrastruktur, IP server, atau sindikat pelaku')}
-            ${renderSlot('attack_vector', '2. VEKTOR SERANGAN UTAMA', 'Modus operandi atau teknik rekayasa sosial yang dilancarkan')}
-            ${renderSlot('critical_redflag', '3. RED FLAG KRITIS (INDIKATOR BAHAYA)', 'Kejanggalan dokumen, rekening, atau permintaan abnormal')}
-            ${renderSlot('intervention_strategy', '4. STRATEGI INTERVENSI & MITIGASI', 'Tindakan mitigasi tercepat untuk menyelamatkan dana korban')}
+            <div class="crim-slots-grid">
+              ${renderSlot('actor_origin', '1. AKTOR & SUMBER ANCAMAN', 'IP address relay, server proxy, atau lokasi sindikat')}
+              ${renderSlot('attack_vector', '2. VEKTOR SERANGAN', 'Taktik manipulasi (Email Spoofing, Vishing, BEC)')}
+              ${renderSlot('critical_redflag', '3. RED FLAG KRITIS', 'Kejanggalan utama dalam dokumen/transaksi')}
+              ${renderSlot('intervention_strategy', '4. STRATEGI INTERVENSI', 'Langkah mitigasi terverifikasi untuk memutus kerugian')}
+            </div>
+
+            <button class="cyber-btn" style="width: 100%; margin-top: 20px; padding: 14px; font-size: 1rem;" onclick="window.moduleCriminal.submitIndictment()">
+              ⚖️ TERBITKAN SURAT DAKWAAN & BEKUKAN REKENING ➔
+            </button>
           </div>
         </div>
       </div>
@@ -382,27 +433,23 @@ class ModuleCriminal {
   handleDragStart(e, clueId) {
     this.draggedClueId = clueId;
     e.dataTransfer.setData('text/plain', clueId);
-    window.cyberAudio?.playWhoosh();
   }
 
   handleDragOver(e) {
     e.preventDefault();
-    e.currentTarget.classList.add('drag-over');
   }
 
   handleDragLeave(e) {
-    e.currentTarget.classList.remove('drag-over');
+    e.preventDefault();
   }
 
   handleDrop(e, slotKey) {
     e.preventDefault();
-    e.currentTarget.classList.remove('drag-over');
     const clueId = e.dataTransfer.getData('text/plain') || this.draggedClueId;
     this.assignClueToSlot(clueId, slotKey);
   }
 
   quickAssignClue(clueId) {
-    // Find first empty slot
     const emptySlot = Object.keys(this.assignedSlots).find(k => !this.assignedSlots[k]);
     if (emptySlot) {
       this.assignClueToSlot(clueId, emptySlot);
@@ -427,11 +474,21 @@ class ModuleCriminal {
     this.render();
   }
 
+  resetSlots() {
+    this.assignedSlots = {
+      actor_origin: null,
+      attack_vector: null,
+      critical_redflag: null,
+      intervention_strategy: null
+    };
+    window.cyberAudio?.playWhoosh();
+    this.render();
+  }
+
   submitIndictment() {
     const currentCase = this.cases[this.currentIndex];
     const required = currentCase.required_slots || {};
 
-    // Check if all filled
     const unfilled = Object.keys(this.assignedSlots).filter(k => !this.assignedSlots[k]);
     if (unfilled.length > 0) {
       window.cyberAudio?.playError();
@@ -439,7 +496,6 @@ class ModuleCriminal {
       return;
     }
 
-    // Check correctness
     let correctCount = 0;
     for (const [key, expectedId] of Object.entries(required)) {
       if (this.assignedSlots[key]?.id === expectedId) {
@@ -455,11 +511,12 @@ class ModuleCriminal {
 
     if (isAllCorrect) {
       window.cyberAudio?.playSuccess();
+      // Unlock next scenario
+      this.unlockNextCase();
     } else {
       window.cyberAudio?.playError();
     }
 
-    // Log activity
     window.authManager?.recordResult(
       scoreEarned,
       vulnDelta,
@@ -469,7 +526,6 @@ class ModuleCriminal {
       'criminal'
     );
 
-    // Show debrief modal
     this.showDebrief(isAllCorrect, correctCount, currentCase);
   }
 
@@ -477,6 +533,9 @@ class ModuleCriminal {
     const modalBox = document.getElementById('modal-general-box');
     const modalContent = document.getElementById('modal-general-content');
     if (!modalBox || !modalContent) return;
+
+    const hasNext = this.currentIndex + 1 < this.cases.length;
+    const nextIdx = this.currentIndex + 1;
 
     modalContent.innerHTML = `
       <div style="text-align: center; padding: 10px;">
@@ -494,15 +553,27 @@ class ModuleCriminal {
           <div style="font-family: var(--font-display); font-size: 0.85rem; color: var(--neon-cyan); margin-bottom: 6px; font-weight: 700;">
             DEBRIEF INVESTIGASI RESMI:
           </div>
-          <p style="font-size: 0.9rem; color: var(--text-main); line-height: 1.5;">
+          <p style="font-size: 0.9rem; color: var(--text-main); line-height: 1.5; margin: 0;">
             ${currentCase.debrief || 'Investigasi membuktikan pentingnya pengenalan taktik rekayasa sosial dan verifikasi out-of-band.'}
           </p>
         </div>
 
-        <div style="display:flex; justify-content:center; gap: 14px;">
-          <button class="cyber-btn" onclick="window.moduleCriminal.finishCase()">
-            LANJUT KE EVALUASI KERENTANAN
-          </button>
+        <div style="display:flex; justify-content:center; gap: 14px; flex-wrap: wrap;">
+          ${isAllCorrect && hasNext ? `
+            <button class="cyber-btn" onclick="window.moduleCriminal.finishCase(); window.moduleCriminal.startScenario(${nextIdx});">
+              ⚡ LANJUT KE BERKAS ${nextIdx + 1} ➔
+            </button>
+            <button class="cyber-btn btn-ghost" onclick="window.moduleCriminal.finishCase(); window.gameBriefing.returnToBriefing('criminal');">
+              📂 KATALOG BERKAS
+            </button>
+          ` : `
+            <button class="cyber-btn" onclick="window.moduleCriminal.finishCase()">
+              LANJUT KE EVALUASI KERENTANAN
+            </button>
+            <button class="cyber-btn btn-ghost" onclick="window.moduleCriminal.finishCase(); window.gameBriefing.returnToBriefing('criminal');">
+              📂 KATALOG BERKAS
+            </button>
+          `}
         </div>
       </div>
     `;

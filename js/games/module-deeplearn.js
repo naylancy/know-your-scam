@@ -2,6 +2,11 @@
  * KNOW YOUR SCAM: ANTI-GRAVITY DEFENSE
  * MODUL 4: DEEP LEARNING (LLM EVALUATOR & ZERO-DAY ADAPTATION)
  * HYBRID THREAT EVALUATION: RULE HEURISTICS (40%) + LLM SEMANTIC CORE (60%)
+ * Features:
+ * - Progressive scenario unlocking & catalog support
+ * - Single-scenario dedicated forensic workspace
+ * - Responsive Threat Level Selector Cards (Aman, Mencurigakan, Scam Kritis)
+ * - LLM Cognitive Synthesis & Live Thinking Animation
  */
 
 class ModuleDeepLearning {
@@ -17,6 +22,56 @@ class ModuleDeepLearning {
     this.currentIndex = 0;
     this.selectedThreatLevel = null;
     this.render();
+  }
+
+  getStorageKey() {
+    const user = window.authManager?.currentUser;
+    return user ? `knowyourscam_unlocked_deeplearn_${user.id || user.username}` : 'knowyourscam_unlocked_deeplearn_guest';
+  }
+
+  getUnlockedIndex() {
+    try {
+      const key = this.getStorageKey();
+      const val = localStorage.getItem(key);
+      if (val !== null) {
+        const parsed = parseInt(val, 10);
+        return isNaN(parsed) ? 0 : Math.max(0, parsed);
+      }
+    } catch (e) {
+      console.warn('LocalStorage error:', e);
+    }
+    return 0; // First scenario unlocked by default
+  }
+
+  unlockNextCase() {
+    try {
+      const currentUnlocked = this.getUnlockedIndex();
+      if (this.currentIndex >= currentUnlocked) {
+        const nextIdx = Math.min(this.cases.length - 1, this.currentIndex + 1);
+        localStorage.setItem(this.getStorageKey(), String(nextIdx));
+      }
+    } catch (e) {
+      console.warn('LocalStorage save error:', e);
+    }
+  }
+
+  startScenario(idx) {
+    const unlocked = this.getUnlockedIndex();
+    if (idx > unlocked) {
+      window.cyberAudio?.playError();
+      alert('Skenario analisis ini masih terkunci! Selesaikan skenario sebelumnya untuk membukanya.');
+      return;
+    }
+    this.currentIndex = idx;
+    this.selectedThreatLevel = null;
+    if (window.gameBriefing) {
+      window.gameBriefing.startGame('deeplearn');
+    }
+    this.render();
+  }
+
+  setCase(idx) {
+    this.startScenario(idx);
   }
 
   selectThreat(level) {
@@ -74,23 +129,23 @@ class ModuleDeepLearning {
       <div id="view-game-deeplearn" class="game-page-arena holo-enter" style="${isPlaying ? 'display:block;' : 'display:none;'}">
         ${hudBarHtml}
 
-        <!-- Sub Header & Progress -->
+        <!-- Single Selected Scenario Header - NO Tab Switcher -->
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom: 20px;">
           <div>
-            <h2 style="font-size: 1.4rem; color: var(--text-highlight);">
-              MODUL: AI ANALYZER (HYBRID LLM SCAM EVALUATOR)
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+              <span class="cyber-tag tag-cyan" style="font-size: 0.82rem; letter-spacing: 0.5px;">
+                🧠 SKENARIO ${this.currentIndex + 1} DARI ${this.cases.length}
+              </span>
+              <span class="cyber-tag tag-magenta">
+                ENGINE: HYBRID LLM
+              </span>
+            </div>
+            <h2 style="font-size: 1.35rem; color: var(--text-highlight); margin:0;">
+              ${current.title}
             </h2>
-            <p style="font-size: 0.88rem; color: var(--text-muted);">
-              Analisis Forensik Berbasis Aturan (40%) dan Evaluator Semantik LLM (60%)
-            </p>
           </div>
-          <div style="display:flex; gap: 8px; align-items:center;">
-            <span class="cyber-tag tag-cyan">
-              SKENARIO ${this.currentIndex + 1} / ${this.cases.length}
-            </span>
-            <span class="cyber-tag tag-magenta">
-              ENGINE: HYBRID LLM
-            </span>
+          <div style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-muted);">
+            TINGKAT ANCAMAN TARGET: <strong style="color: var(--neon-cyan);">${current.threat_level || 'CRITICAL'}</strong>
           </div>
         </div>
 
@@ -153,34 +208,40 @@ ${current.scenario_text}
           <!-- Right Column: Interactive Evaluation Workspace -->
           <div class="hud-card" style="display: flex; flex-direction: column; justify-content: space-between;">
             <div>
-              <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--neon-cyan); letter-spacing: 2px; margin-bottom: 12px;">
+              <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--neon-cyan); letter-spacing: 2px; margin-bottom: 10px;">
                 // EVALUATION STEP 1: KLASIFIKASI TINGKAT ANCAMAN
               </div>
 
-              <!-- Threat Level Selector Cards -->
+              <!-- Threat Level Selector Cards (Responsive Grid / Mobile Flow) -->
               <div class="deep-threat-selector">
                 <div class="deep-threat-card card-safe" data-level="SAFE" onclick="window.moduleDeepLearning.selectThreat('SAFE')">
-                  <div style="font-size: 1.4rem; margin-bottom: 4px;">🛡️</div>
-                  <strong style="font-family: var(--font-display); font-size: 0.82rem;">AMAN / RESMI</strong>
-                  <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 2px;">Komunikasi Autentik</div>
+                  <div style="font-size: 1.5rem; margin-bottom: 4px;">🛡️</div>
+                  <div>
+                    <strong style="font-family: var(--font-display); font-size: 0.85rem; display: block;">AMAN / RESMI</strong>
+                    <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 2px;">Komunikasi Autentik</div>
+                  </div>
                 </div>
 
                 <div class="deep-threat-card card-suspicious" data-level="SUSPICIOUS" onclick="window.moduleDeepLearning.selectThreat('SUSPICIOUS')">
-                  <div style="font-size: 1.4rem; margin-bottom: 4px;">⚠️</div>
-                  <strong style="font-family: var(--font-display); font-size: 0.82rem;">MENCURIGAKAN</strong>
-                  <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 2px;">Anomali Transmisi</div>
+                  <div style="font-size: 1.5rem; margin-bottom: 4px;">⚠️</div>
+                  <div>
+                    <strong style="font-family: var(--font-display); font-size: 0.85rem; display: block;">MENCURIGAKAN</strong>
+                    <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 2px;">Anomali Transmisi</div>
+                  </div>
                 </div>
 
                 <div class="deep-threat-card card-critical" data-level="CRITICAL_SCAM" onclick="window.moduleDeepLearning.selectThreat('CRITICAL_SCAM')">
-                  <div style="font-size: 1.4rem; margin-bottom: 4px;">🚨</div>
-                  <strong style="font-family: var(--font-display); font-size: 0.82rem;">SCAM KRITIS</strong>
-                  <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 2px;">Rekayasa Kredensial</div>
+                  <div style="font-size: 1.5rem; margin-bottom: 4px;">🚨</div>
+                  <div>
+                    <strong style="font-family: var(--font-display); font-size: 0.85rem; display: block;">SCAM KRITIS</strong>
+                    <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 2px;">Rekayasa Kredensial</div>
+                  </div>
                 </div>
               </div>
             </div>
 
             <!-- Step 2: Critical Argumentation -->
-            <div style="margin-top: 20px;">
+            <div style="margin-top: 22px;">
               <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
                 <label style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--neon-cyan); letter-spacing: 2px;">
                   // EVALUATION STEP 2: PENALARAN KRITIS FORENSIK
@@ -199,7 +260,7 @@ ${current.scenario_text}
               <button 
                 id="btn-submit-ai" 
                 class="cyber-btn" 
-                style="padding: 14px 24px; font-size: 1rem; width: 100%; margin-top: 12px;" 
+                style="padding: 14px 24px; font-size: 1rem; width: 100%; margin-top: 14px;" 
                 onclick="window.moduleDeepLearning.submitToAI()"
               >
                 🧠 KIRIM KE HYBRID LLM EVALUATOR
@@ -239,21 +300,19 @@ ${current.scenario_text}
 
     if (reasoningText.length < 15) {
       window.cyberAudio?.playError();
-      window.app?.showToast('Tuliskan analisis alasan Anda secara lebih mendalam (minimal 15 karakter).', 'magenta');
+      window.app?.showToast('Tuliskan analisis minimal 15 karakter untuk evaluasi yang akurat!', 'error');
       return;
     }
 
-    // Activate thinking wave animation
+    const btn = document.getElementById('btn-submit-ai');
     const thinkingBox = document.getElementById('ai-thinking-box');
-    const submitBtn = document.getElementById('btn-submit-ai');
-    if (thinkingBox) thinkingBox.classList.add('active');
-    if (submitBtn) {
-      submitBtn.disabled = true;
-      submitBtn.textContent = '⏳ MENGHUBUNGI HYBRID LLM EVALUATOR...';
-    }
 
-    if (this.aiWaveEngine) {
-      this.aiWaveEngine.start();
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = `<span>⏳</span> MENGANALISIS DENGAN HYBRID LLM...`;
+    }
+    if (thinkingBox) {
+      thinkingBox.classList.add('active');
     }
     window.cyberAudio?.playWhoosh();
 
@@ -263,79 +322,41 @@ ${current.scenario_text}
     let evaluationResult = null;
 
     try {
-      const csrf = document.querySelector('meta[name="csrf-token"]')?.content || '';
       const response = await fetch('/api/deeplearn/evaluate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': csrf,
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          scenario_id: currentCase.id,
-          scenario_title: currentCase.title,
-          scenario_text: currentCase.scenario_text,
+          case_id: currentCase.id,
           threat_level: this.selectedThreatLevel,
-          user_reasoning: reasoningText,
-          user_id: user?.username || 'cadet',
-          user_name: user?.name || 'Cadet Aris'
+          reasoning_text: reasoningText,
+          user_id: user?.id || 'USR-ANON'
         })
       });
 
-      const resJson = await response.json();
-      if (response.ok && resJson.status === 'success' && resJson.data) {
-        evaluationResult = resJson.data;
+      const resData = await response.json();
+      if (resData.status === 'success' && resData.data) {
+        evaluationResult = resData.data;
       }
     } catch (e) {
-      console.warn('API LLM evaluation fallback:', e);
+      console.warn('Backend LLM endpoint unavailable, falling back to local Hybrid simulation:', e);
     }
 
-    // Fallback if network/API failed
+    // Fallback simulation if backend fails
     if (!evaluationResult) {
-      const isCorrect = this.selectedThreatLevel === currentCase.threat_level;
-      const lower = reasoningText.toLowerCase();
-      const minKws = currentCase.min_keywords_required || ['private key', 'domain', 'urgensi'];
-      const matched = minKws.filter(kw => lower.includes(kw));
-      const ruleScore = Math.min(96, (isCorrect ? 50 : 20) + (matched.length * 15) + Math.min(15, Math.floor(reasoningText.length / 20)));
-      const llmScore = isCorrect ? Math.min(98, ruleScore + 8) : Math.min(60, ruleScore);
-      const synthesizedScore = Math.round((ruleScore * 0.4) + (llmScore * 0.6));
-
-      evaluationResult = {
-        engine_architecture: 'HYBRID (Rule-Based Heuristics + LLM Semantic Core)',
-        ai_score: synthesizedScore,
-        rule_based_metrics: {
-          score: ruleScore,
-          weight: '40%',
-          keyword_coverage_pct: Math.round((matched.length / minKws.length) * 100),
-          matched_keywords: matched,
-          character_count: reasoningText.length
-        },
-        llm_metrics: {
-          score: llmScore,
-          weight: '60%',
-          model: 'KNOW YOUR SCAM Cognitive LLM Core (Local Core)'
-        },
-        is_threat_level_correct: isCorrect,
-        threat_verdict: isCorrect ? 'Klasifikasi Tepat' : 'Klasifikasi Kurang Tepat',
-        expert_critique: isCorrect 
-          ? 'Analisis Anda sangat tajam. Anda berhasil mengidentifikasi bahwa transmisi ini mengeksploitasi urgensi batas waktu dan menargetkan aset kredensial paling privat.' 
-          : 'Tingkat ancaman yang Anda pilih kurang akurat. Skenario ini melibatkan red flag kritis yang berisiko tinggi terhadap keamanan sistem.',
-        detected_strengths: [
-          isCorrect ? 'Klasifikasi tingkat ancaman tepat' : 'Upaya identifikasi indikator',
-          `Menemukan ${matched.length} kata kunci teknis kunci`
-        ],
-        missed_redflags: currentCase.target_indicators ? currentCase.target_indicators.slice(0, 2) : ['Verifikasi integritas sertifikat'],
-        vulnerability_impact: synthesizedScore >= 70 ? -1.4 : synthesizedScore >= 45 ? 0.3 : 1.8,
-        llm_model: 'KNOW YOUR SCAM Cognitive LLM Core (Local Core)'
-      };
+      await new Promise(r => setTimeout(r, 1600));
+      evaluationResult = this.simulateLocalHybridEvaluation(currentCase, this.selectedThreatLevel, reasoningText);
     }
 
-    // Stop thinking animation
-    if (this.aiWaveEngine) this.aiWaveEngine.stop();
-    if (thinkingBox) thinkingBox.classList.remove('active');
-    if (submitBtn) {
-      submitBtn.disabled = false;
-      submitBtn.textContent = '🧠 KIRIM KE HYBRID LLM EVALUATOR';
+    // Hide thinking animation
+    if (thinkingBox) {
+      thinkingBox.classList.remove('active');
+    }
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = `🧠 KIRIM KE HYBRID LLM EVALUATOR`;
     }
 
     const aiScore = evaluationResult.ai_score || 70;
@@ -343,6 +364,8 @@ ${current.scenario_text}
 
     if (aiScore >= 60) {
       window.cyberAudio?.playSuccess();
+      // Unlock next scenario
+      this.unlockNextCase();
     } else {
       window.cyberAudio?.playError();
     }
@@ -361,6 +384,51 @@ ${current.scenario_text}
     this.showAIReportModal(evaluationResult, currentCase);
   }
 
+  simulateLocalHybridEvaluation(currentCase, selectedLevel, text) {
+    const isThreatLevelCorrect = (selectedLevel === currentCase.threat_level) || 
+      (currentCase.threat_level === 'CRITICAL_SCAM' && selectedLevel === 'SUSPICIOUS');
+
+    const lower = text.toLowerCase();
+    const keywords = currentCase.min_keywords_required || ['private', 'key', 'urgensi', 'phishing', 'domain'];
+    const matched = keywords.filter(k => lower.includes(k.toLowerCase()));
+    const coverage = matched.length / keywords.length;
+
+    const ruleScore = Math.min(100, Math.round((coverage * 60) + (text.length > 50 ? 40 : 20)));
+    const llmScore = Math.min(100, Math.round((isThreatLevelCorrect ? 50 : 20) + (coverage * 40) + Math.min(10, text.length / 10)));
+    const finalScore = Math.round((ruleScore * 0.4) + (llmScore * 0.6));
+
+    const vulnImpact = finalScore >= 75 ? -1.5 : finalScore >= 55 ? -0.5 : 1.2;
+
+    return {
+      ai_score: finalScore,
+      is_threat_level_correct: isThreatLevelCorrect,
+      threat_verdict: isThreatLevelCorrect ? 'Klasifikasi Ancaman Akurat' : 'Klasifikasi Kurang Tepat',
+      vulnerability_impact: vulnImpact,
+      rule_based_metrics: {
+        score: ruleScore,
+        weight: '40%',
+        matched_keywords: matched,
+        keyword_coverage_pct: Math.round(coverage * 100)
+      },
+      llm_metrics: {
+        score: llmScore,
+        weight: '60%',
+        model: 'Simulated Local LLM Core'
+      },
+      expert_critique: finalScore >= 70
+        ? 'Penalaran kritis Anda mendalam dan komprehensif. Anda berhasil menangkap taktik manipulasi psikologis batas waktu serta upaya ekstraksi kredensial rahasia.'
+        : 'Analisis Anda berada di jalur yang benar, namun perlu diperdalam dengan mengidentifikasi vektor pengiriman domain fiktif dan potensi kebocoran kunci enkripsi.',
+      detected_strengths: [
+        'Mengenali urgensi buatan dalam pesan',
+        'Memahami bahaya membagikan data sensitif'
+      ],
+      missed_redflags: matched.length < keywords.length ? [
+        'Pemeriksaan validitas domain pengirim (.net.fake)',
+        'Sertifikat tanda tangan digital'
+      ] : ['Tidak ada indikator fatal yang terlewat']
+    };
+  }
+
   showAIReportModal(evalData, currentCase) {
     const modalBox = document.getElementById('modal-general-box');
     const modalContent = document.getElementById('modal-general-content');
@@ -371,6 +439,9 @@ ${current.scenario_text}
     const scoreColor = score >= 75 ? 'var(--neon-green)' : score >= 50 ? 'var(--neon-amber)' : 'var(--neon-red)';
     const ruleMetrics = evalData.rule_based_metrics || { score: score, weight: '40%', matched_keywords: [] };
     const llmMetrics = evalData.llm_metrics || { score: score, weight: '60%', model: evalData.llm_model || 'LLM Core' };
+
+    const hasNext = this.currentIndex + 1 < this.cases.length;
+    const nextIdx = this.currentIndex + 1;
 
     modalContent.innerHTML = `
       <div style="padding: 10px;">
@@ -495,10 +566,22 @@ ${current.scenario_text}
           </div>
         </div>
 
-        <div style="display:flex; justify-content:center; gap: 14px;">
-          <button class="cyber-btn" onclick="window.moduleDeepLearning.finishCase()">
-            LANJUTKAN KE SKOR KERENTANAN ➔
-          </button>
+        <div style="display:flex; justify-content:center; gap: 14px; flex-wrap: wrap;">
+          ${hasNext ? `
+            <button class="cyber-btn" onclick="window.moduleDeepLearning.finishCase(); window.moduleDeepLearning.startScenario(${nextIdx});">
+              ⚡ LANJUT KE SKENARIO ${nextIdx + 1} ➔
+            </button>
+            <button class="cyber-btn btn-ghost" onclick="window.moduleDeepLearning.finishCase(); window.gameBriefing.returnToBriefing('deeplearn');">
+              📂 KATALOG SKENARIO
+            </button>
+          ` : `
+            <button class="cyber-btn" onclick="window.moduleDeepLearning.finishCase()">
+              LANJUTKAN KE SKOR KERENTANAN ➔
+            </button>
+            <button class="cyber-btn btn-ghost" onclick="window.moduleDeepLearning.finishCase(); window.gameBriefing.returnToBriefing('deeplearn');">
+              📂 KATALOG SKENARIO
+            </button>
+          `}
         </div>
       </div>
     `;

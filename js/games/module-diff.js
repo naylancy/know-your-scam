@@ -1,6 +1,10 @@
 /**
  * KNOW YOUR SCAM: ANTI-GRAVITY DEFENSE
  * MODUL 2: FINDING DIFF (Judge / Juri: Real vs Fake)
+ * Features:
+ * - Progressive scenario unlocking & catalog support
+ * - Dedicated single-scenario gameplay arena (No tab switcher)
+ * - Side-by-side zoom forensic comparative inspection
  */
 
 class ModuleDiff {
@@ -19,11 +23,55 @@ class ModuleDiff {
     this.render();
   }
 
-  setCase(idx) {
+  getStorageKey() {
+    const user = window.authManager?.currentUser;
+    return user ? `knowyourscam_unlocked_diff_${user.id || user.username}` : 'knowyourscam_unlocked_diff_guest';
+  }
+
+  getUnlockedIndex() {
+    try {
+      const key = this.getStorageKey();
+      const val = localStorage.getItem(key);
+      if (val !== null) {
+        const parsed = parseInt(val, 10);
+        return isNaN(parsed) ? 0 : Math.max(0, parsed);
+      }
+    } catch (e) {
+      console.warn('LocalStorage error:', e);
+    }
+    return 0; // First scenario unlocked by default
+  }
+
+  unlockNextCase() {
+    try {
+      const currentUnlocked = this.getUnlockedIndex();
+      if (this.currentIndex >= currentUnlocked) {
+        const nextIdx = Math.min(this.diffCases.length - 1, this.currentIndex + 1);
+        localStorage.setItem(this.getStorageKey(), String(nextIdx));
+      }
+    } catch (e) {
+      console.warn('LocalStorage save error:', e);
+    }
+  }
+
+  startScenario(idx) {
+    const unlocked = this.getUnlockedIndex();
+    if (idx > unlocked) {
+      window.cyberAudio?.playError();
+      alert('Skenario ini masih terkunci! Selesaikan skenario sebelumnya untuk membukanya.');
+      return;
+    }
     this.currentIndex = idx;
     this.selectedSide = 'left';
     this.userJudgments = { left: null, right: null };
+    if (window.gameBriefing) {
+      window.gameBriefing.startGame('diff');
+    }
     this.render();
+  }
+
+  setCase(idx) {
+    this.startScenario(idx);
   }
 
   selectSide(side) {
@@ -46,14 +94,7 @@ class ModuleDiff {
     // Set hint
     window.hintSystem?.setHints([currentDiff.hint, currentDiff.analysis]);
 
-    // Tabs for available diff scenarios
     const isCustom = currentDiff.is_custom;
-    const tabsHtml = this.diffCases.map((d, idx) => `
-      <button class="cyber-btn ${this.currentIndex === idx ? '' : 'btn-ghost'}" style="font-size: 0.8rem; padding: 7px 14px;" onclick="window.moduleDiff.setCase(${idx})">
-        ${d.is_custom ? '⭐ ' : ''}KASUS #${idx + 1}: ${d.category}
-      </button>
-    `).join('');
-
     const left = currentDiff.left_card;
     const right = currentDiff.right_card;
 
@@ -70,14 +111,19 @@ class ModuleDiff {
       <div id="view-game-diff" class="game-page-arena holo-enter diff-container" style="${isPlaying ? 'display:block;' : 'display:none;'}">
         ${hudBarHtml}
 
-        <!-- Sub Header -->
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
-          <div style="display:flex; gap: 8px; flex-wrap: wrap;">
-            ${tabsHtml}
+        <!-- Single Selected Scenario Header - NO Tab Switcher -->
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom: 16px;">
+          <div style="display:flex; gap: 8px; align-items:center; flex-wrap:wrap;">
+            <span class="cyber-tag tag-cyan" style="font-size: 0.82rem; letter-spacing: 0.5px;">
+              ⚖️ SKENARIO ${this.currentIndex + 1} DARI ${this.diffCases.length}
+            </span>
+            <span class="cyber-tag tag-magenta" style="font-size: 0.82rem;">
+              ${(currentDiff.category || 'KOMPARASI').toUpperCase()}
+            </span>
+            ${isCustom ? `<span class="cyber-tag" style="border-color: var(--neon-magenta); color: var(--neon-magenta);">⭐ KASUS KUSTOM</span>` : ''}
           </div>
           <div style="display:flex; gap: 8px; align-items: center;">
-            ${isCustom ? `<span class="cyber-tag tag-magenta">⭐ KASUS KUSTOM ADMIN</span>` : ''}
-            <span class="cyber-tag tag-magenta">MODE JURI SIBER (JUDGE)</span>
+            <span class="cyber-tag tag-green">MODE JURI SIBER (JUDGE)</span>
           </div>
         </div>
 
@@ -104,7 +150,7 @@ class ModuleDiff {
             <h2 style="font-size: 1.35rem; color: var(--text-highlight); margin-bottom: 4px;">
               ${currentDiff.title}
             </h2>
-            <p style="font-size: 0.92rem; color: var(--text-muted);">
+            <p style="font-size: 0.92rem; color: var(--text-muted); margin: 0;">
               ${currentDiff.scenario}
             </p>
           </div>
@@ -114,7 +160,7 @@ class ModuleDiff {
         </div>
 
         <!-- Instruction Notice -->
-        <div style="text-align: center; font-size: 0.95rem; color: var(--text-muted);">
+        <div style="text-align: center; font-size: 0.95rem; color: var(--text-muted); margin: 14px 0;">
           👉 Klik salah satu kartu di bawah ini untuk menginspeksi, lalu tekan tombol <strong style="color: var(--neon-cyan);">REAL</strong> atau <strong style="color: var(--neon-magenta);">FAKE</strong> di dermaga kontrol bawah!
         </div>
 
@@ -138,88 +184,88 @@ class ModuleDiff {
 
             <!-- Browser URL Inspection Bar -->
             <div class="diff-browser-bar">
-              <span class="ssl-badge ${left.ssl.includes('Valid') || left.ssl.includes('Enterprise') || left.ssl.includes('Pass') ? 'valid' : 'invalid'}">
-                🔒 ${left.ssl}
+              <span class="diff-browser-lock ${left.is_real ? 'lock-secure' : 'lock-warn'}">
+                ${left.is_real ? '🔒 EV SSL' : '⚠️ UNTRUSTED'}
               </span>
-              <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-highlight);">
-                ${left.url}
-              </span>
+              <div class="diff-browser-url">${left.url}</div>
             </div>
 
-            <h4 style="font-size: 1.05rem; margin-bottom: 12px; color: var(--text-highlight);">Komponen Antarmuka Terdeteksi:</h4>
-            <ul class="diff-elements-list">
-              ${left.visual_elements.map(elem => `
-                <li class="diff-element-item">
-                  <span style="color: var(--neon-cyan);">🔍</span>
-                  <span>${elem}</span>
-                </li>
-              `).join('')}
-            </ul>
+            <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px; font-family: var(--font-mono);">
+              Sertifikat Keamanan: <strong style="color: ${left.is_real ? 'var(--neon-green)' : 'var(--neon-amber)'};">${left.ssl}</strong>
+            </div>
+
+            <!-- Visual Elements List -->
+            <div style="background: rgba(5,5,10,0.6); padding: 14px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
+              <div style="font-family: var(--font-display); font-size: 0.8rem; color: var(--neon-cyan); margin-bottom: 8px;">
+                ELEMEN VISUAL TERDETEKSI:
+              </div>
+              <ul style="list-style: none; padding-left: 0; font-size: 0.85rem; color: var(--text-main); display:flex; flex-direction:column; gap:6px;">
+                ${left.visual_elements.map(el => `<li>• ${el}</li>`).join('')}
+              </ul>
+            </div>
           </div>
 
           <!-- Skenario B (Right) -->
           <div 
             class="hud-card diff-inspect-card ${rightActive ? 'selected-card' : ''}" 
-            style="${rightActive ? 'border-color: var(--neon-magenta); box-shadow: 0 0 30px var(--neon-magenta-glow);' : 'border-color: rgba(255,255,255,0.15);'}"
+            style="${rightActive ? 'border-color: var(--neon-cyan); box-shadow: 0 0 30px var(--neon-cyan-glow);' : 'border-color: rgba(255,255,255,0.15);'}"
             onclick="window.moduleDiff.selectSide('right')"
           >
             <div class="diff-card-header">
               <div style="display:flex; align-items:center; gap: 8px;">
-                <span class="cyber-tag ${rightActive ? 'tag-magenta' : ''}">${right.label}</span>
+                <span class="cyber-tag ${rightActive ? '' : 'tag-magenta'}">${right.label}</span>
                 ${this.userJudgments.right ? `<span class="cyber-tag ${this.userJudgments.right === 'REAL' ? '' : 'tag-magenta'}">VONIS: ${this.userJudgments.right}</span>` : ''}
               </div>
-              <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--neon-magenta);">
+              <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--neon-cyan);">
                 ${rightActive ? '● AKTIF DIPERIKSA' : 'Klik untuk Pilih'}
               </div>
             </div>
 
             <!-- Browser URL Inspection Bar -->
             <div class="diff-browser-bar">
-              <span class="ssl-badge ${right.ssl.includes('Valid') || right.ssl.includes('Enterprise') || right.ssl.includes('Pass') ? 'valid' : 'invalid'}">
-                🔒 ${right.ssl}
+              <span class="diff-browser-lock ${right.is_real ? 'lock-secure' : 'lock-warn'}">
+                ${right.is_real ? '🔒 EV SSL' : '⚠️ UNTRUSTED'}
               </span>
-              <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-highlight);">
-                ${right.url}
-              </span>
+              <div class="diff-browser-url">${right.url}</div>
             </div>
 
-            <h4 style="font-size: 1.05rem; margin-bottom: 12px; color: var(--text-highlight);">Komponen Antarmuka Terdeteksi:</h4>
-            <ul class="diff-elements-list">
-              ${right.visual_elements.map(elem => `
-                <li class="diff-element-item">
-                  <span style="color: var(--neon-magenta);">🔍</span>
-                  <span>${elem}</span>
-                </li>
-              `).join('')}
-            </ul>
+            <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px; font-family: var(--font-mono);">
+              Sertifikat Keamanan: <strong style="color: ${right.is_real ? 'var(--neon-green)' : 'var(--neon-amber)'};">${right.ssl}</strong>
+            </div>
+
+            <!-- Visual Elements List -->
+            <div style="background: rgba(5,5,10,0.6); padding: 14px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
+              <div style="font-family: var(--font-display); font-size: 0.8rem; color: var(--neon-cyan); margin-bottom: 8px;">
+                ELEMEN VISUAL TERDETEKSI:
+              </div>
+              <ul style="list-style: none; padding-left: 0; font-size: 0.85rem; color: var(--text-main); display:flex; flex-direction:column; gap:6px;">
+                ${right.visual_elements.map(el => `<li>• ${el}</li>`).join('')}
+              </ul>
+            </div>
           </div>
         </div>
 
-        <!-- DOCK KONTROL BAWAH LAYAR DENGAN 2 TOMBOL NEON RAKSASA -->
-        <div class="diff-bottom-dock">
-          <div style="font-family: var(--font-display); font-size: 1rem; color: var(--text-muted); text-transform: uppercase;">
-            VONIS UNTUK: <strong style="color: ${this.selectedSide === 'left' ? 'var(--neon-cyan)' : 'var(--neon-magenta)'}; font-size: 1.15rem;">
-              ${this.selectedSide === 'left' ? 'SKENARIO A' : 'SKENARIO B'}
-            </strong>
+        <!-- Big Decision Dock -->
+        <div class="hud-card diff-decision-dock">
+          <div style="font-family: var(--font-display); font-size: 1rem; color: var(--text-highlight);">
+            JATUHKAN VONIS UNTUK: <span style="color: var(--neon-cyan); text-transform: uppercase;">SKENARIO ${this.selectedSide === 'left' ? 'A (KIRI)' : 'B (KANAN)'}</span>
           </div>
 
-          <div style="display:flex; gap: 30px; align-items:center; flex-wrap:wrap; justify-content:center;">
-            <!-- Tombol REAL (Biru / Cyan) -->
-            <button 
-              id="btn-diff-real" 
-              class="btn-large-decision btn-large-real"
-              onclick="window.moduleDiff.submitVerdict('REAL')"
-            >
-              <span>🛡️</span> REAL (ASLI)
+          <div style="display:flex; gap: 20px; align-items:center;">
+            <button class="diff-btn-verdict btn-real" onclick="window.moduleDiff.submitVerdict('REAL')">
+              <span style="font-size: 1.5rem;">🛡️</span>
+              <div>
+                <strong>DOKUMEN ASLI (REAL)</strong>
+                <div style="font-size: 0.72rem; opacity: 0.8;">Otentikasi Sah</div>
+              </div>
             </button>
 
-            <!-- Tombol FAKE (Ungu / Magenta) -->
-            <button 
-              id="btn-diff-fake" 
-              class="btn-large-decision btn-large-fake"
-              onclick="window.moduleDiff.submitVerdict('FAKE')"
-            >
-              <span>⚠️</span> FAKE (PALSU)
+            <button class="diff-btn-verdict btn-fake" onclick="window.moduleDiff.submitVerdict('FAKE')">
+              <span style="font-size: 1.5rem;">⚠️</span>
+              <div>
+                <strong>TIRUAN / PENIPU (FAKE)</strong>
+                <div style="font-size: 0.72rem; opacity: 0.8;">Social Engineering</div>
+              </div>
             </button>
           </div>
         </div>
@@ -229,44 +275,35 @@ class ModuleDiff {
   }
 
   submitVerdict(verdict) {
-    const btn = verdict === 'REAL' ? document.getElementById('btn-diff-real') : document.getElementById('btn-diff-fake');
-    if (btn) {
-      btn.classList.remove('ripple-pulse');
-      void btn.offsetWidth; // trigger reflow
-      btn.classList.add('ripple-pulse');
-    }
-
-    if (verdict === 'REAL') {
-      window.cyberAudio?.playClick();
-    } else {
-      window.cyberAudio?.playWhoosh();
-    }
-
-    // Save verdict for selected side
     this.userJudgments[this.selectedSide] = verdict;
+    this.evaluateVerdict(verdict);
+  }
 
+  evaluateVerdict(verdict) {
     const currentDiff = this.diffCases[this.currentIndex];
+    const isTargetSide = this.selectedSide; // 'left' or 'right'
+    const targetCard = isTargetSide === 'left' ? currentDiff.left_card : currentDiff.right_card;
 
-    // If both sides judged or after making a choice on the active card
-    const targetCard = this.selectedSide === 'left' ? currentDiff.left_card : currentDiff.right_card;
     const isCorrect = (verdict === 'REAL' && targetCard.is_real) || (verdict === 'FAKE' && !targetCard.is_real);
+
+    const userScore = isCorrect ? 100 : 0;
+    const vulnDelta = isCorrect ? -1.0 : 2.5;
 
     if (isCorrect) {
       window.cyberAudio?.playSuccess();
+      // Unlock next scenario
+      this.unlockNextCase();
     } else {
       window.cyberAudio?.playError();
     }
 
-    // Record activity & score
-    const scoreDelta = isCorrect ? 80 : 0;
-    const vulnDelta = isCorrect ? -0.8 : 1.5;
-
+    // Record user action (Live Diff Game Tracking)
     window.authManager?.recordResult(
-      scoreDelta,
+      userScore,
       vulnDelta,
-      'FINDING DIFF (Judge)',
-      `Vonis Skenario ${this.selectedSide.toUpperCase()} sebagai ${verdict} (${isCorrect ? 'BENAR' : 'SALAH'})`,
-      isCorrect ? 'SECURED' : 'BREACH_DETECTED',
+      `FINDING DIFF (${currentDiff.category})`,
+      `Vonis [${this.selectedSide.toUpperCase()}]: ${verdict} (Hasil: ${isCorrect ? 'AKURAT' : 'SALAH'})`,
+      isCorrect ? 'SECURED' : 'COMPROMISED',
       'diff'
     );
 
@@ -279,6 +316,9 @@ class ModuleDiff {
     const modalContent = document.getElementById('modal-general-content');
 
     if (!modalBox || !modalContent) return;
+
+    const hasNext = this.currentIndex + 1 < this.diffCases.length;
+    const nextIdx = this.currentIndex + 1;
 
     modalContent.innerHTML = `
       <div style="text-align: center; padding: 10px;">
@@ -302,10 +342,22 @@ class ModuleDiff {
           </p>
         </div>
 
-        <div style="display:flex; justify-content:center; gap: 14px;">
-          <button class="cyber-btn" onclick="window.moduleDiff.finishVerdict()">
-            LANJUTKAN EVALUASI KERENTANAN
-          </button>
+        <div style="display:flex; justify-content:center; gap: 14px; flex-wrap: wrap;">
+          ${hasNext ? `
+            <button class="cyber-btn" onclick="window.moduleDiff.finishVerdict(); window.moduleDiff.startScenario(${nextIdx});">
+              ⚡ LANJUT KE SKENARIO ${nextIdx + 1} ➔
+            </button>
+            <button class="cyber-btn btn-ghost" onclick="window.moduleDiff.finishVerdict(); window.gameBriefing.returnToBriefing('diff');">
+              📂 KATALOG SKENARIO
+            </button>
+          ` : `
+            <button class="cyber-btn" onclick="window.moduleDiff.finishVerdict();">
+              LANJUTKAN EVALUASI KERENTANAN
+            </button>
+            <button class="cyber-btn btn-ghost" onclick="window.moduleDiff.finishVerdict(); window.gameBriefing.returnToBriefing('diff');">
+              📂 KATALOG SKENARIO
+            </button>
+          `}
         </div>
       </div>
     `;
@@ -333,4 +385,3 @@ class ModuleDiff {
 }
 
 window.moduleDiff = new ModuleDiff();
-
