@@ -389,12 +389,21 @@ class GuardianApp {
         </div>
 
         <div style="display:flex; justify-content:center; gap: 14px; flex-wrap: wrap;">
-          <button class="cyber-btn" onclick="window.app.closeVulnerabilityModal(); window.app.navigateTo('leaderboard');">
-            🏆 LIHAT PAPAN PERINGKAT
-          </button>
-          <button class="cyber-btn btn-ghost" onclick="window.app.closeVulnerabilityModal();">
-            LOBI MISI LAINNYA
-          </button>
+          ${data.hasNextCase ? `
+            <button class="cyber-btn" onclick="window.app.closeVulnerabilityModal(); window.moduleKasus.startScenario(${data.nextIndex});">
+              ⚡ LANJUT KE SKENARIO ${data.nextIndex + 1} ➔
+            </button>
+            <button class="cyber-btn btn-ghost" onclick="window.app.closeVulnerabilityModal(); window.gameBriefing.returnToBriefing('kasus');">
+              📂 KATALOG SKENARIO
+            </button>
+          ` : `
+            <button class="cyber-btn" onclick="window.app.closeVulnerabilityModal(); window.app.navigateTo('leaderboard');">
+              🏆 LIHAT PAPAN PERINGKAT
+            </button>
+            <button class="cyber-btn btn-ghost" onclick="window.app.closeVulnerabilityModal(); window.gameBriefing.returnToBriefing('kasus');">
+              📂 KATALOG SKENARIO
+            </button>
+          `}
         </div>
       </div>
     `;

@@ -139,12 +139,12 @@
                 {
                     "id": "victim",
                     "label": "Sudut Pandang Korban (Mahasiswa)",
-                    "avatar": "\ud83d\udc64"
+                    "avatar": "👤"
                 },
                 {
                     "id": "hunter",
                     "label": "Sudut Pandang Investigator Siber",
-                    "avatar": "\ud83d\udd75\ufe0f"
+                    "avatar": "🕵️"
                 }
             ],
             "story_steps": [
@@ -183,7 +183,45 @@
                             "feedback": "SEMPURNA! Anda menerapkan Zero Trust. Saldo terlindungi dan server phishing fiktif berhasil dibekukan oleh tim keamanan.",
                             "status": "SECURED"
                         }
-                    ]
+                    ],
+                    "choices_by_pov": {
+                        "victim": [
+                            {
+                                "id": "A",
+                                "text": "Segera klik tautan dan masukkan kunci enkripsi pribadi karena tergiur dana hibah 50.000 NeoCredits.",
+                                "score": 0,
+                                "vulnerability_delta": 3.5,
+                                "feedback": "BAHAYA KRITIS! Kredensial akun mahasiswa Anda dicuri seketika. Saldo terkuras dan akun Anda dijadikan proxy botnet.",
+                                "status": "COMPROMISED"
+                            },
+                            {
+                                "id": "B",
+                                "text": "Abaikan tautan yang mencurigakan, jangan berikan kredensial, dan buka aplikasi perbankan resmi untuk verifikasi.",
+                                "score": 100,
+                                "vulnerability_delta": -1,
+                                "feedback": "SEMPURNA! Anda berhasil menghindari manipulasi emosional batas waktu sempit dan melindungi rekening Anda.",
+                                "status": "SECURED"
+                            }
+                        ],
+                        "hunter": [
+                            {
+                                "id": "A",
+                                "text": "Lakukan reverse DNS & WHOIS lookup pada domain 'auth-neoartha-grant.net.fake', lalu injeksikan blokir darurat pada firewall gateway.",
+                                "score": 100,
+                                "vulnerability_delta": -1.5,
+                                "feedback": "INVESTIGASI FORENSIK PRESISI! Domain phishing terbukti baru diregistrasi dari server anonim dan langsung dinetralisir pada DNS pusat.",
+                                "status": "SECURED"
+                            },
+                            {
+                                "id": "B",
+                                "text": "Hanya tandai pesan sebagai spam biasa di inbox tanpa menyelidiki IP server asal atau memblokir domain di DNS jaringan.",
+                                "score": 25,
+                                "vulnerability_delta": 1.5,
+                                "feedback": "KELALAIAN INVESTIGASI! Mengabaikan transmisi tanpa pemblokiran infrastruktur membuat ratusan mahasiswa lain tetap rentan terkena jebakan.",
+                                "status": "CAUTION"
+                            }
+                        ]
+                    }
                 },
                 {
                     "step": 2,
@@ -211,7 +249,45 @@
                             "feedback": "PERTENANGAN LUAR BIASA! Upaya pengambilalihan akun berhasil digagalkan seutuhnya.",
                             "status": "SECURED"
                         }
-                    ]
+                    ],
+                    "choices_by_pov": {
+                        "victim": [
+                            {
+                                "id": "A",
+                                "text": "Bacakan 6 digit kode OTP karena takut akun diblokir oleh penelpon yang mengaku staf verifikasi resmi.",
+                                "score": 0,
+                                "vulnerability_delta": 4,
+                                "feedback": "FATAL! Pihak bank TIDAK PERNAH meminta kode OTP. Pembobol langsung menguras seluruh tabungan kuliah Anda.",
+                                "status": "COMPROMISED"
+                            },
+                            {
+                                "id": "B",
+                                "text": "Langsung tutup panggilan, jangan beri kode OTP apapun, dan aktifkan kunci keamanan sementara di aplikasi perbankan.",
+                                "score": 100,
+                                "vulnerability_delta": -1.5,
+                                "feedback": "LINDUNGI DIRI DENGAN HEBAT! Anda berhasil mengenali modus Social Engineering Vishing (Voice Phishing).",
+                                "status": "SECURED"
+                            }
+                        ],
+                        "hunter": [
+                            {
+                                "id": "A",
+                                "text": "Tangkap sampel audio digital untuk voice biometric matching, lacak nomor virtual via SS7 / VoIP relay trace, dan eskalasi pencekalan nomor.",
+                                "score": 100,
+                                "vulnerability_delta": -1.8,
+                                "feedback": "LANGKAH OPERASIONAL MASTER! Rekaman suara teridentifikasi sebagai model AI voice cloner dan trunk VoIP penyedia botnet berhasil ditutup.",
+                                "status": "SECURED"
+                            },
+                            {
+                                "id": "B",
+                                "text": "Matikan panggilan secara pasif tanpa merekam metadata panggilan, log transmisi suara, atau rute trunk VoIP penyerang.",
+                                "score": 35,
+                                "vulnerability_delta": 1,
+                                "feedback": "PELUANG INVESTIGASI HILANG. Penyerang langsung mengganti Virtual Caller ID untuk menyerang target lainnya tanpa meninggalkan jejak.",
+                                "status": "CAUTION"
+                            }
+                        ]
+                    }
                 }
             ]
         },
@@ -225,12 +301,12 @@
                 {
                     "id": "victim",
                     "label": "Sudut Pandang Target (Korban)",
-                    "avatar": "\ud83d\udc96"
+                    "avatar": "💖"
                 },
                 {
                     "id": "hunter",
                     "label": "Sudut Pandang Profiler Ancaman",
-                    "avatar": "\ud83d\udd0d"
+                    "avatar": "🔍"
                 }
             ],
             "story_steps": [
@@ -261,7 +337,45 @@
                             "feedback": "CERMAT! Citra Elena ternyata hasil sintesis model AI generasi lama, dan stasiun Helios-4 sudah dinonaktifkan sejak 2021.",
                             "status": "SECURED"
                         }
-                    ]
+                    ],
+                    "choices_by_pov": {
+                        "victim": [
+                            {
+                                "id": "A",
+                                "text": "Terbujuk oleh perhatian romantis Elena dan mulai menceritakan data pribadi serta rutinitas pekerjaan secara mendalam.",
+                                "score": 0,
+                                "vulnerability_delta": 3,
+                                "feedback": "TERPERANGKAP LOVE SCAM! Anda memberikan bahan eksploitasi psikologis kepada operator romance scammer.",
+                                "status": "COMPROMISED"
+                            },
+                            {
+                                "id": "B",
+                                "text": "Tetap skeptis, tolak berbagi data privat, dan lakukan pencarian gambar terbalik (reverse image search) terhadap foto yang dikirim.",
+                                "score": 100,
+                                "vulnerability_delta": -1.2,
+                                "feedback": "SANGAT CERDAS! Foto terbukti hasil curian dari akun model luar negeri dan stasiun luar angkasa yang disebut sudah lama nonaktif.",
+                                "status": "SECURED"
+                            }
+                        ],
+                        "hunter": [
+                            {
+                                "id": "A",
+                                "text": "Ekstrak metadata EXIF gambar, telusuri footprint AI synthetic generator, dan sinkronkan pola narasi dengan taksonomi sindikat Romance Fraud.",
+                                "score": 100,
+                                "vulnerability_delta": -1.5,
+                                "feedback": "IDENTIFIKASI ANCAMAN AKURAT! Pola script chat terdeteksi identik 98% dengan playbook sindikat penipuan asmara transnasional.",
+                                "status": "SECURED"
+                            },
+                            {
+                                "id": "B",
+                                "text": "Biarkan akun target berkomunikasi tanpa pengawasan intelijen atau profiling risiko pencucian uang sindikat.",
+                                "score": 20,
+                                "vulnerability_delta": 1.8,
+                                "feedback": "KEGAGALAN MITIGASI RISIKO! Penyerang leluasa mempersiapkan fase panen dana darurat terhadap korban.",
+                                "status": "CAUTION"
+                            }
+                        ]
+                    }
                 },
                 {
                     "step": 2,
@@ -290,7 +404,45 @@
                             "feedback": "ANALISIS TAJAM! Anda berhasil membongkar sindikat penipuan asmara lintas jaringan tanpa kehilangan sepeserpun.",
                             "status": "SECURED"
                         }
-                    ]
+                    ],
+                    "choices_by_pov": {
+                        "victim": [
+                            {
+                                "id": "A",
+                                "text": "Kirim 2.500 Quantum Credits ke dompet kripto anonim karena panik mengira nyawa Elena benar-benar terancam.",
+                                "score": 0,
+                                "vulnerability_delta": 4.5,
+                                "feedback": "KERUGIAN TELAK! Begitu dana terkirim, akun Elena langsung dihapus dan dana dicuci melalui mixer anonim.",
+                                "status": "COMPROMISED"
+                            },
+                            {
+                                "id": "B",
+                                "text": "Tolak keras permintaan transfer uang kripto, putus kontak, dan laporkan profil penipu ke pihak berwenang.",
+                                "score": 100,
+                                "vulnerability_delta": -2,
+                                "feedback": "BENTENG PERTAHANAN KOKOH! Anda berhasil menolak manipulasi drama krisis palsu dan menyelamatkan tabungan Anda.",
+                                "status": "SECURED"
+                            }
+                        ],
+                        "hunter": [
+                            {
+                                "id": "A",
+                                "text": "Lacak alur on-chain dompet kripto '0x98A...F4', petakan cluster wallet mixer, dan kirimkan flag blacklist darurat ke seluruh bursa sentral.",
+                                "score": 100,
+                                "vulnerability_delta": -2,
+                                "feedback": "OPERASI FORENSIK ON-CHAIN BRILIAN! Wallet penampung terhubung ke kasino ilegal dan dibekukan oleh regulator sebelum dana ditarik tunai.",
+                                "status": "SECURED"
+                            },
+                            {
+                                "id": "B",
+                                "text": "Kirim peringatan teks ke profil penipu tanpa melacak alamat dompet kripto atau membekukan jalur pencucian uang.",
+                                "score": 30,
+                                "vulnerability_delta": 1.2,
+                                "feedback": "TAKTIK PREMATUR. Pelaku segera melarikan aset cadangan ke bridge blockchain lain sebelum audit on-chain tuntas.",
+                                "status": "CAUTION"
+                            }
+                        ]
+                    }
                 }
             ]
         },
@@ -304,12 +456,12 @@
                 {
                     "id": "victim",
                     "label": "Sudut Pandang Pencari Kerja",
-                    "avatar": "\ud83d\udcbc"
+                    "avatar": "💼"
                 },
                 {
                     "id": "hunter",
                     "label": "Sudut Pandang Auditor Tenaga Kerja",
-                    "avatar": "\ud83d\udcd1"
+                    "avatar": "📑"
                 }
             ],
             "story_steps": [
@@ -340,7 +492,45 @@
                             "feedback": "TEPAT! Perusahaan resmi menyatakan mereka tidak pernah menggunakan domain portal pihak ketiga tersebut.",
                             "status": "SECURED"
                         }
-                    ]
+                    ],
+                    "choices_by_pov": {
+                        "victim": [
+                            {
+                                "id": "A",
+                                "text": "Langsung tanda tangani kontrak dan serahkan foto KTP & nomor rekening karena tergiur gaji $25.000 per bulan.",
+                                "score": 0,
+                                "vulnerability_delta": 3,
+                                "feedback": "IDENTITAS TERCURI! Data KTP Anda disalahgunakan untuk pinjol ilegal dan rekening Anda dijadikan rekening tampungan scam.",
+                                "status": "COMPROMISED"
+                            },
+                            {
+                                "id": "B",
+                                "text": "Waspadai tawaran tanpa interview, hubungi kanal resmi korporasi QuantumTech untuk mengonfirmasi keaslian lowongan.",
+                                "score": 100,
+                                "vulnerability_delta": -1,
+                                "feedback": "KEPUTUSAN BIJAK! HR resmi QuantumTech mengonfirmasi bahwa tawaran tersebut adalah modus penipuan identitas palsu.",
+                                "status": "SECURED"
+                            }
+                        ],
+                        "hunter": [
+                            {
+                                "id": "A",
+                                "text": "Audit header mail exchanger, cek otentikasi SPF/DKIM portal perekrutan, dan periksa izin legalitas PT di pangkalan data regulator ketenagakerjaan.",
+                                "score": 100,
+                                "vulnerability_delta": -1.5,
+                                "feedback": "VERIFIKASI AUDITOR VALID! Domain email gagal otentikasi DMARC dan entitas perekrut tidak tercatat di dinas ketenagakerjaan resmi.",
+                                "status": "SECURED"
+                            },
+                            {
+                                "id": "B",
+                                "text": "Asumsikan lowongan adalah genuine headhunter tanpa memeriksa validitas badan hukum atau riwayat perizinan operasional.",
+                                "score": 20,
+                                "vulnerability_delta": 2,
+                                "feedback": "AUDIT TIDAK KOMPREHENSIF! Sindikat memanfaatkan celah kelalaian auditor untuk menjerat ribuan pelamar lain.",
+                                "status": "CAUTION"
+                            }
+                        ]
+                    }
                 },
                 {
                     "step": 2,
@@ -368,7 +558,45 @@
                             "feedback": "LUAR BIASA! Anda mengenali ciri klasik Advance-Fee Scam dalam perekrutan tenaga kerja.",
                             "status": "SECURED"
                         }
-                    ]
+                    ],
+                    "choices_by_pov": {
+                        "victim": [
+                            {
+                                "id": "A",
+                                "text": "Transfer uang muka $1.200 ke vendor karena yakin uang akan diganti pada penerimaan gaji pertama.",
+                                "score": 0,
+                                "vulnerability_delta": 4,
+                                "feedback": "PENIPUAN UANG MUKA (ADVANCE FEE SCAM)! Begitu uang ditransfer, vendor palsu dan HR gadungan langsung memblokir Anda.",
+                                "status": "COMPROMISED"
+                            },
+                            {
+                                "id": "B",
+                                "text": "Tolak tegas kewajiban membeli alat ke vendor pihak ketiga dan laporkan nomor rekening pelaku ke satgas anti-fraud.",
+                                "score": 100,
+                                "vulnerability_delta": -1.5,
+                                "feedback": "PERLINDUNGAN DIRI SEMPURNA! Perusahaan resmi tidak pernah membebankan biaya peralatan kerja kepada calon karyawan.",
+                                "status": "SECURED"
+                            }
+                        ],
+                        "hunter": [
+                            {
+                                "id": "A",
+                                "text": "Infiltrasi jaringan pembayaran merchant 'vendor-dongle-secure.mock', bekukan rekening escrow fiktif, dan keluarkan notifikasi abuse ke registrar domain.",
+                                "score": 100,
+                                "vulnerability_delta": -2,
+                                "feedback": "OPERASI INTERVENSI TUNTAS! Situs web vendor diturunkan (take-down) dan rekening bank penampung uang deposit dibekukan secara nasional.",
+                                "status": "SECURED"
+                            },
+                            {
+                                "id": "B",
+                                "text": "Kirim komplain biasa melalui formulir kontak web vendor tanpa mengajukan takedown darurat ke pihak registrar atau bank.",
+                                "score": 30,
+                                "vulnerability_delta": 1.5,
+                                "feedback": "TINDAKAN KURANG TEGAS. Pelaku segera mengalihkan dana dan menduplikasi situs ke nama domain baru.",
+                                "status": "CAUTION"
+                            }
+                        ]
+                    }
                 }
             ]
         }
@@ -689,37 +917,37 @@
     ],
     "cases_checker": [
         {
-            "icon": "\ud83d\udc94",
+            "icon": "💔",
             "type": "love_scam",
             "title": "Love Scam: Koper Hadiah Emas Tertahan Bea Cukai",
             "text": "Halo sayangku, koper berisi hadiah emas, berlian, dan dokumen penting dari luar negeri tertahan di bea cukai bandara internasional. Petugas meminta biaya tebusan administrasi darurat 5 juta rupiah ke rekening pribadi petugas, tolong transfer sekarang agar paket tidak disita."
         },
         {
-            "icon": "\ud83d\udce2",
+            "icon": "📢",
             "type": "hoax",
             "title": "Hoax Viral: Sebarkan Sebelum Dihapus",
             "text": "SEBARKAN SEBELUM DIHAPUS PEMERINTAH! Rahasia dokter spesialis terbongkar, jangan pernah mengonsumsi makanan kemasan ini karena terbukti secara gaib dan konspirasi mengandung racun sintetis berbahaya. Viralkan pesan ini ke 10 grup WhatsApp demi keselamatan keluarga!"
         },
         {
-            "icon": "\ud83d\udcbc",
+            "icon": "💼",
             "type": "job_scam",
             "title": "Job Scam: Kerja Paruh Waktu Like YouTube & Deposit Telegram",
             "text": "Lowongan kerja paruh waktu resmi online tanpa syarat keahlian! Cukup like dan subscribe video YouTube dapat komisi 300 ribu hingga 1 juta rupiah per hari. Gabung grup tugas Telegram kami sekarang dan lakukan deposit awal 150 ribu rupiah untuk aktivasi ID member VIP Anda."
         },
         {
-            "icon": "\ud83d\udce6",
+            "icon": "📦",
             "type": "malware",
             "title": "Malware APK: Surat Undangan / Resi Kurir Paket",
             "text": "Selamat siang kak, mohon maaf paket kiriman Anda tertahan di kurir karena nomor rumah tidak jelas. Silakan unduh dan pasang aplikasi Surat-Undangan-Paket.apk ini di ponsel Android Anda untuk melihat detail resi foto paket secara langsung."
         },
         {
-            "icon": "\ud83c\udfe6",
+            "icon": "🏦",
             "type": "phishing",
             "title": "Phishing: Ancaman Pemblokiran Rekening Darurat",
             "text": "Pemberitahuan Darurat Bank: Rekening Anda terindikasi aktivitas mencurigakan dan akan diblokir dalam 30 menit. Segera perbarui data kredensial serta nomor kartu debit Anda melalui formulir verifikasi: https://bca-klik-promo2026.xyz/login"
         },
         {
-            "icon": "\ud83c\udfdb\ufe0f",
+            "icon": "🏛️",
             "type": "official",
             "title": "Info Resmi: Siaran Pers Imunisasi Nasional Kemkes",
             "text": "Kementerian Kesehatan Republik Indonesia (Kemenkes RI) mengumumkan pembukaan posko Pekan Imunisasi Nasional untuk seluruh balita secara serentak di Puskesmas terdekat tanpa dipungut biaya. Kunjungi portal resmi kemkes.go.id untuk jadwal dan lokasi lengkap."

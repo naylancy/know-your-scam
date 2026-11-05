@@ -2,9 +2,10 @@
  * KNOW YOUR SCAM: ANTI-GRAVITY CYBER DEFENSE
  * Game Briefing & Two-Page View Manager (Page Start vs Page Game)
  * Features:
- * - Clear separation: Page Start (Briefing & Tutorial) & Page Game (Arena)
+ * - Clear separation: Page Start (Briefing, Tutorial & Scenario Catalog) & Page Game (Arena)
+ * - Scenario catalog with progressive unlocking (locked states for subsequent scenarios)
  * - Live real-time scoring HUD in Page Game
- * - "Kembali ke Briefing" navigation
+ * - "Kembali ke Briefing" navigation with live state refresh
  * - Synchronized timer control for Criminal Case
  */
 
@@ -21,10 +22,11 @@
       objective: 'Mengidentifikasi anomali transmisi siber, menganalisis red flags emosional/teknis, dan mengeksekusi mitigasi Zero-Trust terbaik.',
       scoring: '+100 XP untuk setiap respon tepat dan penurunan indeks kerentanan (VULN). Penalti VULN jika memilih tindakan ceroboh.',
       steps: [
-        'Pilih skenario kasus yang ingin diselesaikan pada bilah tab kasus.',
-        'Gunakan tombol switch POV untuk berpindah perspektif antara KORBAN (merasakan urgensi psikologis) dan INVESTIGATOR (menganalisis bukti objektif).',
-        'Analisis riwayat chat, nomor pengirim, nama domain fiktif, dan urgensi manipulasi.',
-        'Pilih opsi tindakan mitigasi terbaik di bagian bawah terminal untuk menyelesaikan investigasi.',
+        'Pilih skenario kasus yang terbuka pada katalog misi di bawah.',
+        'Skenario berikutnya akan terbuka secara otomatis setelah Anda menyelesaikan skenario sebelumnya.',
+        'Gunakan tombol switch POV untuk berpindah perspektif antara KORBAN (merasakan urgensi psikologis) dan INVESTIGATOR (menganalisis bukti objektif teknis).',
+        'Setiap POV memiliki pilihan respon tindakan yang berbeda dan kontekstual.',
+        'Analisis riwayat chat, nomor pengirim, nama domain fiktif, dan indikator red flag sebelum memutuskan respon.',
         'Gunakan tombol "MINTA INTEL / HINT" jika membutuhkan petunjuk analisis dari intelijen siber.'
       ],
       startBtnText: '⚡ MULAI MISI KASUS'
@@ -127,6 +129,12 @@
       window.cyberAudio?.playClick();
       this.gameState[gameKey] = 'start';
 
+      if (gameKey === 'kasus' && window.moduleKasus) {
+        window.moduleKasus.render();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+
       const startEl = document.getElementById(`view-start-${gameKey}`);
       const gameEl = document.getElementById(`view-game-${gameKey}`);
 
@@ -144,6 +152,119 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    // Helper to render the interactive scenario catalog with locked/unlocked states
+    renderKasusScenariosCatalog(unlockedIndex) {
+      const cases = window.moduleKasus?.cases || window.__LARAVEL_INITIAL_DATA__?.cases_kasus || [];
+      if (!cases || cases.length === 0) return '';
+
+      const cardsHtml = cases.map((c, idx) => {
+        const isUnlocked = idx <= unlockedIndex;
+        const isCompleted = idx < unlockedIndex;
+        const isCurrentActive = idx === unlockedIndex;
+        const isCustom = !!c.is_custom;
+
+        const typeIcon = c.type === 'phishing' ? '📧' : c.type === 'lovescam' ? '💖' : '💼';
+
+        return `
+          <div class="scenario-catalog-card ${isUnlocked ? 'unlocked' : 'locked'}" 
+               style="background: rgba(8, 12, 26, 0.85); 
+                      border: 1px solid ${isCurrentActive ? 'var(--neon-cyan)' : isUnlocked ? 'rgba(0, 243, 255, 0.35)' : 'rgba(255, 255, 255, 0.1)'}; 
+                      border-radius: 8px; 
+                      padding: 22px; 
+                      display: flex; 
+                      flex-direction: column; 
+                      justify-content: space-between; 
+                      position: relative;
+                      box-shadow: ${isCurrentActive ? '0 0 20px rgba(0, 243, 255, 0.15)' : 'none'};
+                      ${isUnlocked ? '' : 'filter: grayscale(40%); opacity: 0.65;'}">
+            
+            <div>
+              <!-- Top Badges -->
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 8px; flex-wrap: wrap;">
+                <div>
+                  <span class="cyber-tag ${isCompleted ? 'tag-green' : isCurrentActive ? 'tag-cyan' : ''}" 
+                        style="${isUnlocked ? '' : 'border-color: rgba(255,255,255,0.2); color: var(--text-muted);'}">
+                    ${isCompleted ? '✅ SELESAI' : isCurrentActive ? '⚡ AKTIF DIBUKA' : '🔒 TERKUNCI'}
+                  </span>
+                  ${isCustom ? `<span class="cyber-tag" style="border-color: var(--neon-magenta); color: var(--neon-magenta); margin-left: 4px;">⭐ KUSTOM</span>` : ''}
+                </div>
+                <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">
+                  SKENARIO ${idx + 1} &bull; <strong style="color: var(--neon-cyan);">${c.difficulty || 'Sedang'}</strong>
+                </div>
+              </div>
+
+              <!-- Title & Category -->
+              <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px;">
+                <span style="font-size: 1.3rem; line-height: 1;">${typeIcon}</span>
+                <div>
+                  <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--neon-cyan); text-transform: uppercase; letter-spacing: 0.8px;">
+                    ${c.type || 'PROTOCOL'} PROTOCOL
+                  </div>
+                  <h3 style="font-size: 1.08rem; color: ${isUnlocked ? 'var(--text-highlight)' : 'var(--text-muted)'}; margin: 2px 0 0 0; line-height: 1.4;">
+                    ${c.title}
+                  </h3>
+                </div>
+              </div>
+
+              <!-- Subtitle / Context -->
+              <p style="font-size: 0.86rem; color: var(--text-muted); line-height: 1.5; margin: 10px 0 16px 0;">
+                ${c.subtitle || 'Simulasi keputusan ancaman siber multi sudut pandang.'}
+              </p>
+
+              <!-- Meta info -->
+              <div style="display: flex; gap: 12px; font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); margin-bottom: 20px; border-top: 1px dashed rgba(255,255,255,0.08); padding-top: 10px;">
+                <span>📝 ${(c.story_steps || []).length} Tahapan Misi</span>
+                <span>•</span>
+                <span>👥 Dual POV: Korban & Investigator</span>
+              </div>
+            </div>
+
+            <!-- Action Button -->
+            <div>
+              ${isUnlocked ? `
+                <button class="cyber-btn ${isCompleted ? 'btn-ghost' : ''}" 
+                        style="width: 100%; justify-content: center; padding: 11px 18px; font-size: 0.9rem;" 
+                        onclick="window.moduleKasus.startScenario(${idx})">
+                  <span>⚡</span> ${isCompleted ? 'MAINKAN ULANG SKENARIO' : 'MASUK KE SKENARIO INI'} ➔
+                </button>
+              ` : `
+                <button class="cyber-btn btn-ghost" 
+                        disabled 
+                        style="width: 100%; justify-content: center; padding: 11px 18px; font-size: 0.85rem; opacity: 0.5; cursor: not-allowed; border-color: rgba(255,255,255,0.2); color: var(--text-muted);">
+                  <span>🔒</span> Terkunci (Selesaikan Skenario ${idx} Dahulu)
+                </button>
+              `}
+            </div>
+
+          </div>
+        `;
+      }).join('');
+
+      return `
+        <!-- Requirement 1: Scenario Catalog with Progressive Unlocking -->
+        <div style="margin-bottom: 30px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; border-bottom: 1px solid rgba(0,243,255,0.15); padding-bottom: 10px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 1.3rem;">📂</span>
+              <h3 style="color: var(--neon-cyan); margin: 0; font-size: 1.15rem; letter-spacing: 0.5px;">
+                KATALOG SKENARIO MISI (TAHAPAN BERTINGKAT):
+              </h3>
+            </div>
+            <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">
+              Progress: <strong style="color: var(--neon-green); font-size: 0.95rem;">${Math.min(unlockedIndex + 1, cases.length)}/${cases.length} Skenario Terbuka</strong>
+            </div>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin: 0 0 18px 0; line-height: 1.5;">
+            Selesaikan skenario secara berurutan untuk membuka protokol investigasi berikutnya. Skenario yang telah diselesaikan dapat dimainkan ulang sewaktu-waktu.
+          </p>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 18px;">
+            ${cardsHtml}
+          </div>
+        </div>
+      `;
+    }
+
     // Renders the dedicated Page Start view HTML
     renderStartScreenHTML(gameKey) {
       const b = briefings[gameKey];
@@ -153,6 +274,14 @@
       const gameScore = user?.game_scores?.[gameKey] || 0;
       const totalScore = user?.score || 0;
       const vuln = parseFloat(user?.vulnerability || 5.0).toFixed(1);
+
+      // Progressive scenario catalog for kasus
+      let scenarioCatalogHtml = '';
+      let activeCaseIndex = 0;
+      if (gameKey === 'kasus') {
+        activeCaseIndex = window.moduleKasus?.getUnlockedIndex() || 0;
+        scenarioCatalogHtml = this.renderKasusScenariosCatalog(activeCaseIndex);
+      }
 
       return `
         <div id="view-start-${gameKey}" class="game-page-start holo-enter" style="display: ${this.isPlaying(gameKey) ? 'none' : 'block'};">
@@ -220,7 +349,7 @@
             </div>
 
             <!-- Tutorial & Step-by-Step Guide -->
-            <div style="background: rgba(5, 5, 10, 0.8); border: 1px solid rgba(189, 0, 255, 0.3); border-radius: 8px; padding: 20px; margin-bottom: 30px;">
+            <div style="background: rgba(5, 5, 10, 0.8); border: 1px solid rgba(189, 0, 255, 0.3); border-radius: 8px; padding: 20px; margin-bottom: 28px;">
               <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
                 <span style="font-size: 1.3rem;">📖</span>
                 <h4 style="color: var(--neon-magenta); margin:0; font-size: 1.05rem;">TATA CARA BERMAIN & PANDUAN KONTROL:</h4>
@@ -230,15 +359,24 @@
               </ol>
             </div>
 
+            <!-- Requirement 1: Scenario Catalog -->
+            ${scenarioCatalogHtml}
+
             <!-- Footer Action CTA Bar -->
             <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; border-top:1px solid rgba(0,243,255,0.15); padding-top:20px;">
               <div style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-muted);">
                 Status: <span style="color:var(--neon-green);">Sistem Siap Diuji</span> &bull; Mode: <span style="color:var(--neon-cyan);">Simulasi Interaktif</span>
               </div>
               
-              <button class="cyber-btn" style="padding: 14px 36px; font-size: 1.05rem; box-shadow: 0 0 25px var(--neon-cyan-dim); letter-spacing: 1px;" onclick="window.gameBriefing.startGame('${gameKey}')">
-                <span>⚡</span> ${b.startBtnText} ➔
-              </button>
+              ${gameKey === 'kasus' ? `
+                <button class="cyber-btn" style="padding: 14px 36px; font-size: 1.05rem; box-shadow: 0 0 25px var(--neon-cyan-dim); letter-spacing: 1px;" onclick="window.moduleKasus.startScenario(${activeCaseIndex})">
+                  <span>⚡</span> MAINKAN SKENARIO ${activeCaseIndex + 1} ➔
+                </button>
+              ` : `
+                <button class="cyber-btn" style="padding: 14px 36px; font-size: 1.05rem; box-shadow: 0 0 25px var(--neon-cyan-dim); letter-spacing: 1px;" onclick="window.gameBriefing.startGame('${gameKey}')">
+                  <span>⚡</span> ${b.startBtnText} ➔
+                </button>
+              `}
             </div>
 
           </div>
@@ -258,7 +396,7 @@
           <!-- Left: Return to Briefing Button -->
           <div style="display:flex; align-items:center; gap: 12px;">
             <button type="button" class="cyber-btn btn-ghost" style="padding: 6px 14px; font-size: 0.8rem; border-color: var(--border-cyan); color: var(--neon-cyan);" onclick="window.gameBriefing.returnToBriefing('${gameKey}')" title="Kembali ke Layar Briefing dan Tutorial">
-              <span>←</span> BRIEFING & TUTORIAL
+              <span>←</span> BRIEFING & KATALOG
             </button>
             <span class="cyber-tag" style="font-size:0.75rem;">${b ? b.badge : 'GAME ACTIVE'}</span>
           </div>

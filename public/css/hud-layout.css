@@ -730,3 +730,26 @@
   margin-top: auto;
 }
 
+/* ========================================================
+   SCENARIO CATALOG (PROGRESSIVE UNLOCK SYSTEM)
+   ======================================================== */
+.scenario-catalog-card {
+  position: relative;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.scenario-catalog-card.unlocked:hover {
+  transform: translateY(-4px);
+  border-color: var(--neon-cyan) !important;
+  box-shadow: 0 8px 30px rgba(0, 243, 255, 0.2) !important;
+}
+
+.scenario-catalog-card.locked {
+  user-select: none;
+}
+
+.scenario-catalog-card.locked * {
+  pointer-events: none;
+}
+
+

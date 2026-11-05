@@ -1,6 +1,10 @@
 /**
  * KNOW YOUR SCAM: ANTI-GRAVITY DEFENSE
  * MODUL 1: KASUS (Story-Based Simulation / Multi-POV)
+ * Features:
+ * 1. Progressive Scenario Unlocking (Start Screen Catalog with locked/unlocked states)
+ * 2. Dedicated Single Scenario Gameplay (No tab switcher during gameplay)
+ * 3. Differentiated Dual-POV choices (Victim vs Cyber Investigator options)
  */
 
 class ModuleKasus {
@@ -19,10 +23,55 @@ class ModuleKasus {
     this.render();
   }
 
-  setCase(index) {
+  getStorageKey() {
+    const user = window.authManager?.currentUser;
+    return user ? `knowyourscam_unlocked_kasus_${user.id || user.username}` : 'knowyourscam_unlocked_kasus_guest';
+  }
+
+  getUnlockedIndex() {
+    try {
+      const key = this.getStorageKey();
+      const val = localStorage.getItem(key);
+      if (val !== null) {
+        const parsed = parseInt(val, 10);
+        return isNaN(parsed) ? 0 : Math.max(0, parsed);
+      }
+    } catch (e) {
+      console.warn('LocalStorage access warning:', e);
+    }
+    return 0; // Default: first scenario is always unlocked
+  }
+
+  unlockNextCase() {
+    try {
+      const currentUnlocked = this.getUnlockedIndex();
+      if (this.currentCaseIndex >= currentUnlocked) {
+        const nextIdx = Math.min(this.cases.length - 1, this.currentCaseIndex + 1);
+        localStorage.setItem(this.getStorageKey(), String(nextIdx));
+      }
+    } catch (e) {
+      console.warn('LocalStorage save warning:', e);
+    }
+  }
+
+  startScenario(index) {
+    const unlocked = this.getUnlockedIndex();
+    if (index > unlocked) {
+      window.cyberAudio?.playError();
+      alert('Skenario ini masih terkunci! Selesaikan skenario sebelumnya untuk membukanya.');
+      return;
+    }
     this.currentCaseIndex = index;
     this.currentStepIndex = 0;
+    this.currentPOV = 'victim';
+    if (window.gameBriefing) {
+      window.gameBriefing.startGame('kasus');
+    }
     this.render();
+  }
+
+  setCase(index) {
+    this.startScenario(index);
   }
 
   setPOV(pov) {
@@ -51,16 +100,12 @@ class ModuleKasus {
     // Set hints for hint system
     window.hintSystem?.setHints(currentStep.clues || []);
 
-    // Case Selector Tabs
-    const isCustom = currentCase.is_custom;
-    const caseTabsHtml = this.cases.map((c, idx) => `
-      <button class="cyber-btn ${this.currentCaseIndex === idx ? '' : 'btn-ghost'}" style="font-size: 0.8rem; padding: 7px 14px;" onclick="window.moduleKasus.setCase(${idx})">
-        ${c.is_custom ? '⭐ ' : ''}${c.type.toUpperCase()}: ${c.title.split(':')[0]}
-      </button>
-    `).join('');
-
     // POV Switcher
-    const povHtml = currentCase.pov_options.map(pov => `
+    const povOptions = currentCase.pov_options || [
+      { id: 'victim', label: 'Sudut Pandang Korban', avatar: '👤' },
+      { id: 'hunter', label: 'Sudut Pandang Investigator', avatar: '🕵️' }
+    ];
+    const povHtml = povOptions.map(pov => `
       <button class="pov-pill-btn ${this.currentPOV === pov.id ? 'active' : ''}" onclick="window.moduleKasus.setPOV('${pov.id}')">
         <span>${pov.avatar}</span> ${pov.label}
       </button>
@@ -68,14 +113,14 @@ class ModuleKasus {
 
     // POV Context Note
     const povNotice = this.currentPOV === 'hunter'
-      ? `<div class="story-context-note" style="color: var(--neon-cyan);">
+      ? `<div class="story-context-note" style="color: var(--neon-cyan); border-left: 3px solid var(--neon-cyan);">
            <span>🕵️ MODE INVESTIGATOR SIBER AKTIF:</span> Anda menganalisis anomali teknis, headers, dan vektor rekayasa sosial secara objektif.
          </div>`
-      : `<div class="story-context-note" style="color: var(--neon-magenta);">
+      : `<div class="story-context-note" style="color: var(--neon-magenta); border-left: 3px solid var(--neon-magenta);">
            <span>👤 SUDUT PANDANG KORBAN AKTIF:</span> Anda merasakan tekanan psikologis, urgensi sempit, dan tawaran yang tampak menggiurkan.
          </div>`;
 
-    // Clues Box (especially illuminated in Hunter POV)
+    // Clues Box (illuminated in Hunter POV or after step 0)
     const cluesHtml = (this.currentPOV === 'hunter' || this.currentStepIndex > 0)
       ? `
         <div style="background: rgba(0, 243, 255, 0.05); border: 1px dashed var(--border-cyan); border-radius: 6px; padding: 12px 16px; margin-bottom: 20px;">
@@ -83,13 +128,20 @@ class ModuleKasus {
             🔍 INDIKATOR ANCAMAN TERDETEKSI SISTEM:
           </div>
           <ul style="list-style: none; padding-left: 0; font-size: 0.85rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 4px;">
-            ${currentStep.clues.map(clue => `<li>⚡ ${clue}</li>`).join('')}
+            ${(currentStep.clues || []).map(clue => `<li>⚡ ${clue}</li>`).join('')}
           </ul>
         </div>
       ` : '';
 
-    // Choice Buttons
-    const choicesHtml = currentStep.choices.map((choice, idx) => `
+    // Requirement 3: Dual-POV Differentiated Choices
+    let choicesList = [];
+    if (currentStep.choices_by_pov && currentStep.choices_by_pov[this.currentPOV]) {
+      choicesList = currentStep.choices_by_pov[this.currentPOV];
+    } else {
+      choicesList = currentStep.choices || [];
+    }
+
+    const choicesHtml = choicesList.map((choice) => `
       <button class="choice-option-btn hover-lift" onclick="window.moduleKasus.handleChoice('${choice.id}')">
         <div class="choice-key">${choice.id}</div>
         <div style="flex: 1;">
@@ -98,20 +150,28 @@ class ModuleKasus {
       </button>
     `).join('');
 
+    const isCustom = currentCase.is_custom;
+
     container.innerHTML = `
       ${startScreenHtml}
       <div id="view-game-kasus" class="game-page-arena holo-enter" style="display: ${isPlaying ? 'block' : 'none'};">
         ${hudBarHtml}
 
-        <!-- Sub Header & Case Nav -->
-        <div class="story-case-header">
-          <div style="display:flex; gap: 8px; flex-wrap: wrap;">
-            ${caseTabsHtml}
+        <!-- Scenario Header (Dedicated Single Scenario - No scenario switching tabs) -->
+        <div class="story-case-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
+          <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+            <span class="cyber-tag tag-cyan" style="font-size: 0.82rem; letter-spacing: 0.5px;">
+              🛡️ SKENARIO ${this.currentCaseIndex + 1} DARI ${this.cases.length}
+            </span>
+            <span class="cyber-tag tag-magenta" style="font-size: 0.82rem;">
+              ${(currentCase.type || 'PROTOCOL').toUpperCase()}
+            </span>
+            ${isCustom ? `<span class="cyber-tag" style="border-color: var(--neon-magenta); color: var(--neon-magenta);">⭐ KASUS KUSTOM ADMIN</span>` : ''}
           </div>
-          <div style="display:flex; gap: 8px; align-items: center;">
-            ${isCustom ? `<span class="cyber-tag tag-magenta">⭐ KASUS KUSTOM ADMIN</span>` : ''}
+
+          <div style="display: flex; gap: 8px; align-items: center;">
             <div class="pov-selector-group">
-              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">POV:</span>
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">SUDUT PANDANG:</span>
               ${povHtml}
             </div>
           </div>
@@ -136,17 +196,17 @@ class ModuleKasus {
 
         <!-- Terminal Window -->
         <div class="hud-card story-terminal-window">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
             <div>
-              <span class="cyber-tag">${currentCase.type.toUpperCase()} PROTOCOL</span>
-              <span class="cyber-tag tag-magenta" style="margin-left: 6px;">LANGKAH ${this.currentStepIndex + 1} DARI ${currentCase.story_steps.length}</span>
+              <span class="cyber-tag">${(currentCase.type || 'PROTOCOL').toUpperCase()} PROTOCOL</span>
+              <span class="cyber-tag tag-magenta" style="margin-left: 6px;">LANGKAH ${this.currentStepIndex + 1} DARI ${(currentCase.story_steps || []).length}</span>
             </div>
             <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">
-              TINGKAT KESULITAN: <strong style="color: var(--neon-cyan);">${currentCase.difficulty}</strong>
+              TINGKAT KESULITAN: <strong style="color: var(--neon-cyan);">${currentCase.difficulty || 'Sedang'}</strong>
             </div>
           </div>
 
-          <h2 style="font-size: 1.5rem; color: var(--text-highlight); margin-bottom: 4px;">
+          <h2 style="font-size: 1.45rem; color: var(--text-highlight); margin-bottom: 4px;">
             ${currentCase.title}
           </h2>
           <p style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 20px;">
@@ -184,15 +244,18 @@ class ModuleKasus {
           </div>
         </div>
       </div>
-      </div>
     `;
   }
 
   handleChoice(choiceId) {
     const currentCase = this.cases[this.currentCaseIndex];
     const currentStep = currentCase.story_steps[this.currentStepIndex];
-    const choice = currentStep.choices.find(c => c.id === choiceId);
 
+    const choicesList = (currentStep.choices_by_pov && currentStep.choices_by_pov[this.currentPOV])
+      ? currentStep.choices_by_pov[this.currentPOV]
+      : (currentStep.choices || []);
+
+    const choice = choicesList.find(c => c.id === choiceId);
     if (!choice) return;
 
     if (choice.status === 'SECURED') {
@@ -205,8 +268,8 @@ class ModuleKasus {
     window.authManager?.recordResult(
       choice.score,
       choice.vulnerability_delta,
-      `KASUS (${currentCase.type.toUpperCase()})`,
-      `Pilihan [${choice.id}]: ${choice.text.substring(0, 40)}...`,
+      `KASUS (${(currentCase.type || 'PROTOCOL').toUpperCase()})`,
+      `[${this.currentPOV.toUpperCase()}] Pilihan [${choice.id}]: ${choice.text.substring(0, 40)}...`,
       choice.status,
       'kasus'
     );
@@ -274,10 +337,16 @@ class ModuleKasus {
     const modalBox = document.getElementById('modal-general-box');
     if (modalBox) modalBox.classList.remove('active');
 
-    // Trigger Vulnerability Indicator Screen
+    // Unlock next scenario progressively
+    this.unlockNextCase();
+
     const currentCase = this.cases[this.currentCaseIndex];
+    const hasNextCase = this.currentCaseIndex + 1 < this.cases.length;
+    const nextIndex = this.currentCaseIndex + 1;
+
+    // Trigger Vulnerability Indicator Screen
     window.app?.showVulnerabilityScreen({
-      moduleTitle: `KASUS: ${currentCase.title}`,
+      moduleTitle: `KASUS SELESAI: ${currentCase.title}`,
       scoreTitle: 'Indeks Kerentanan Rekayasa Sosial (Social Engineering)',
       scoreValue: window.authManager?.currentUser?.vulnerability || 3.2,
       analysis: 'Pengambilan keputusan naratif Anda mengevaluasi tingkat ketahanan terhadap manipulasi kepanikan batas waktu, janji keuntungan fiktif, dan eksploitasi emosional.',
@@ -285,10 +354,11 @@ class ModuleKasus {
         { label: 'Deteksi Phishing & Urgensi', score: '88%' },
         { label: 'Ketahanan Manipulasi Emosional', score: '82%' },
         { label: 'Penerapan Prinsip Zero Trust', score: '94%' }
-      ]
+      ],
+      hasNextCase: hasNextCase,
+      nextIndex: nextIndex
     });
   }
 }
 
 window.moduleKasus = new ModuleKasus();
-
