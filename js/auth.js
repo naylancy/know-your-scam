@@ -430,6 +430,7 @@ class AuthManager {
       // Admin link rule (Strict Role Enforcement)
       const adminNavLi = document.getElementById('nav-admin-li') || adminNavLink?.closest('li');
       const mobileAdminLi = document.getElementById('mobile-admin-link-li');
+      const summaryAdminCard = document.getElementById('summary-card-admin');
 
       if (this.isAdmin()) {
         if (adminNavLi) adminNavLi.style.display = 'list-item';
@@ -438,11 +439,39 @@ class AuthManager {
           adminNavLink.style.color = 'var(--neon-magenta)';
         }
         if (mobileAdminLi) mobileAdminLi.style.display = 'block';
+        if (summaryAdminCard) summaryAdminCard.style.display = 'block';
       } else {
         if (adminNavLi) adminNavLi.style.display = 'none';
         if (adminNavLink) adminNavLink.style.display = 'none';
         if (mobileAdminLi) mobileAdminLi.style.display = 'none';
+        if (summaryAdminCard) summaryAdminCard.style.display = 'none';
       }
+
+      // Welcome Dashboard State: Hide login option when logged in
+      const heroGuestCta = document.getElementById('hero-guest-cta');
+      const heroAuthCta = document.getElementById('hero-auth-cta');
+      const heroAuthCard = document.getElementById('hero-auth-status-card');
+
+      if (heroGuestCta) heroGuestCta.style.display = 'none';
+      if (heroAuthCta) heroAuthCta.style.display = 'flex';
+      if (heroAuthCard) {
+        heroAuthCard.style.display = 'block';
+        const bName = document.getElementById('hero-auth-username');
+        const bScore = document.getElementById('hero-auth-score');
+        const bVuln = document.getElementById('hero-auth-vuln');
+        const bTag = document.getElementById('hero-auth-role-tag');
+        const bAvatar = document.getElementById('hero-auth-avatar');
+
+        if (bName) bName.textContent = this.currentUser.name;
+        if (bScore) bScore.textContent = `${this.currentUser.score} XP`;
+        if (bVuln) bVuln.textContent = `${parseFloat(this.currentUser.vulnerability || 5.0).toFixed(1)}/10`;
+        if (bTag) {
+          bTag.textContent = this.currentUser.role === 'admin' ? 'ADMINISTRATOR' : 'OPERATOR SIBER';
+          bTag.className = 'cyber-tag ' + (this.currentUser.role === 'admin' ? 'tag-magenta' : 'tag-green');
+        }
+        if (bAvatar) bAvatar.textContent = this.currentUser.role === 'admin' ? '🛡️' : '⚡';
+      }
+
     } else {
       // Guest Mode: Hide game menus, show Guest actions
       if (header) header.classList.add('guest-mode');
@@ -451,9 +480,26 @@ class AuthManager {
       
       const adminNavLi = document.getElementById('nav-admin-li') || adminNavLink?.closest('li');
       const mobileAdminLi = document.getElementById('mobile-admin-link-li');
+      const summaryAdminCard = document.getElementById('summary-card-admin');
+
       if (adminNavLi) adminNavLi.style.display = 'none';
       if (adminNavLink) adminNavLink.style.display = 'none';
       if (mobileAdminLi) mobileAdminLi.style.display = 'none';
+      if (summaryAdminCard) summaryAdminCard.style.display = 'none';
+
+      // Welcome Dashboard State: Show login option for guests
+      const heroGuestCta = document.getElementById('hero-guest-cta');
+      const heroAuthCta = document.getElementById('hero-auth-cta');
+      const heroAuthCard = document.getElementById('hero-auth-status-card');
+
+      if (heroGuestCta) heroGuestCta.style.display = 'flex';
+      if (heroAuthCta) heroAuthCta.style.display = 'none';
+      if (heroAuthCard) heroAuthCard.style.display = 'none';
+    }
+
+    // Always sync mobile sidebar profile
+    if (window.app?.syncMobileSidebarProfile) {
+      window.app.syncMobileSidebarProfile();
     }
   }
 

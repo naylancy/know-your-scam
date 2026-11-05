@@ -251,7 +251,8 @@
           </p>
 
           <!-- Hero Actions: Authentication & Navigation -->
-          <div class="hero-cta-group">
+          <!-- 1. Guest Hero Actions (Visible when NOT logged in) -->
+          <div class="hero-cta-group" id="hero-guest-cta">
             <button class="cyber-btn hero-cta-btn" onclick="window.authManager.openLoginModal()">
               <span>🔑</span> MASUK / DAFTAR AKUN
             </button>
@@ -261,6 +262,33 @@
             <button class="cyber-btn btn-ghost" style="font-size: 1.05rem; padding: 16px 28px;" onclick="document.getElementById('menu-summary-section').scrollIntoView({behavior:'smooth'})">
               <span>📜</span> RINGKASAN MENU MISI
             </button>
+          </div>
+
+          <!-- 2. Authenticated User Hero Actions (Visible when Logged In - No Login Option) -->
+          <div class="hero-cta-group" id="hero-auth-cta" style="display:none;">
+            <button class="cyber-btn hero-cta-btn" onclick="window.app.navigateTo('games')">
+              <span>🎮</span> MULAI MISI SIMULASI (GAMES)
+            </button>
+            <button class="cyber-btn btn-ghost" style="font-size: 1.05rem; padding: 16px 28px;" onclick="window.app.navigateTo('edukasi')">
+              <span>📚</span> JELAJAHI MATERI EDUKASI
+            </button>
+            <button class="cyber-btn btn-ghost" style="font-size: 1.05rem; padding: 16px 28px;" onclick="window.app.navigateTo('leaderboard')">
+              <span>🏆</span> LIHAT LEADERBOARD
+            </button>
+          </div>
+
+          <!-- Active Operator Welcome Capsule (When Logged In) -->
+          <div id="hero-auth-status-card" class="hud-card" style="display:none; max-width: 620px; margin: 24px auto 0 auto; padding: 14px 20px; border-color: var(--border-cyan); text-align: center; box-shadow: 0 0 30px rgba(0, 243, 255, 0.08);">
+            <div style="display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom: 4px; flex-wrap:wrap;">
+              <span style="font-size:1.3rem;" id="hero-auth-avatar">⚡</span>
+              <span style="font-family: var(--font-display); font-size: 1.05rem; color: var(--text-highlight);">
+                OPERATOR AKTIF: <strong id="hero-auth-username" style="color: var(--neon-cyan);">Cadet Aris</strong>
+              </span>
+              <span id="hero-auth-role-tag" class="cyber-tag tag-green">USER</span>
+            </div>
+            <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">
+              Total Pertahanan: <strong id="hero-auth-score" style="color: var(--neon-green);">0 XP</strong> &bull; Indeks Kerentanan: <strong id="hero-auth-vuln" style="color: var(--neon-magenta);">5.0/10</strong>
+            </div>
           </div>
 
           <!-- ========================================================
@@ -451,8 +479,8 @@
               </div>
             </div>
 
-            <!-- 7. PANEL ADMIN -->
-            <div class="menu-summary-card" onclick="window.welcomeInteractive.openMenuSummary('admin')">
+            <!-- 7. PANEL ADMIN (Only Visible for Admin Role) -->
+            <div class="menu-summary-card" id="summary-card-admin" onclick="window.welcomeInteractive.openMenuSummary('admin')" style="display:none;">
               <div>
                 <div class="menu-summary-badge-bar">
                   <span class="cyber-tag tag-magenta">KONTROL SISTEM</span>
@@ -638,24 +666,18 @@
 
     </main>
 
-    <!-- FOOTER HUD STATUS -->
+    <!-- CLEAN MINIMALIST FOOTER -->
     <footer class="hud-footer">
-      <div class="hud-footer-inner">
-        <div style="display:flex; align-items:center; gap: 12px;">
-          <span style="color: var(--neon-cyan); font-weight: 700;">KNOW YOUR SCAM</span>
-          <span>//</span>
-          <span>DATABASE: {{ config('database.default') }} &bull; ZERO-TRUST ARCHITECTURE</span>
+      <div class="hud-footer-inner" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+        <div style="display:flex; align-items:center; gap: 8px; font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">
+          <span style="color: var(--neon-cyan); font-weight: 700; letter-spacing: 0.5px;">KNOW YOUR SCAM</span>
+          <span>&bull;</span>
+          <span>Zero-Trust Cyber Defense Platform</span>
         </div>
 
-        <div style="display:flex; align-items:center; gap: 16px;">
-          <div class="ai-transparency-pill" onclick="window.app.openTransparencyModal()">
-            <span class="pulsing-dot"></span>
-            <span>AI TRANSPARENCY: VERIFIED // ZERO-PII</span>
-          </div>
-
-          <div style="color: var(--text-muted); font-size: 0.72rem;">
-            DATA FIKTIF MURNI &bull; TANPA DOKSLI &bull; LISENSI EDUKASI
-          </div>
+        <div class="ai-transparency-pill" onclick="window.app.openTransparencyModal()" style="cursor:pointer;" title="Klik untuk informasi transparansi AI">
+          <span class="pulsing-dot"></span>
+          <span style="font-size:0.75rem;">AI TRANSPARENCY: VERIFIED</span>
         </div>
       </div>
     </footer>

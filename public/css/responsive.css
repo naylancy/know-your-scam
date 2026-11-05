@@ -1,7 +1,7 @@
 /* ========================================================
    KNOW YOUR SCAM: ANTI-GRAVITY CYBER DEFENSE
    Comprehensive Pixel-Based Responsive Styles
-   Breakpoints: 320px, 480px, 768px, 1024px, 1440px+
+   Breakpoints: 320px, 480px, 768px, 992px, 1200px, 1440px+
    ======================================================== */
 
 /* --- 1440px+ (Ultra-Wide Screens) --- */
@@ -16,80 +16,70 @@
   }
 }
 
-/* --- 1025px - 1440px (Standard Laptops & Desktops) --- */
-@media (max-width: 1440px) and (min-width: 1025px) {
+/* --- 993px - 1440px (Standard Laptops & Desktops) --- */
+@media (max-width: 1440px) and (min-width: 993px) {
   .main-viewport {
-    padding: 88px 30px 64px 30px !important;
+    padding: 88px 28px 64px 28px !important;
   }
 }
 
-/* --- 769px - 1024px (Tablets & Netbooks) --- */
+/* --- Tablet / Netbook Breakpoint (max-width: 1024px) --- */
 @media (max-width: 1024px) {
-  .main-viewport {
-    padding: 84px 24px 60px 24px !important;
-  }
   .diff-split-grid {
     grid-template-columns: 1fr;
     gap: 16px;
   }
-  .crim-board-grid {
+  .crim-columns {
     grid-template-columns: 1fr;
     gap: 16px;
   }
-  .deep-eval-grid {
+  .deep-grid {
     grid-template-columns: 1fr;
     gap: 16px;
-  }
-  .hero-title {
-    font-size: 2.8rem;
   }
   .games-hub-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* --- 481px - 768px (Large Phones Landscape & Small Tablets) --- */
-@media (max-width: 768px) {
+/* --- Mobile & Tablet Portrait Breakpoint (max-width: 992px) --- */
+/* Transform horizontal navbar into toggleable off-canvas sidebar drawer */
+@media (max-width: 992px) {
   .hud-header {
     height: 60px;
-    padding: 0 14px;
+    padding: 0 16px;
   }
   .hud-header-inner {
     flex-wrap: nowrap;
     gap: 10px;
   }
-  
-  /* Brand title shrink */
-  .brand-text h1 {
-    font-size: 1.05rem;
-    letter-spacing: 1px;
-  }
-  .brand-text .subtext {
-    font-size: 0.55rem;
-  }
-  .brand-icon {
-    font-size: 1.25rem;
-    width: 32px;
-    height: 32px;
-  }
 
-  /* Desktop Navigation hidden on mobile; mobile drawer takes over */
+  /* Desktop Navbar Hidden on Mobile/Tablet */
   .hud-nav, 
   .hud-header nav {
     display: none !important;
   }
 
-  /* Show Hamburger Button */
+  /* Show Mobile Hamburger Button */
   .mobile-nav-hamburger {
     display: flex !important;
   }
 
-  /* Ensure viewport has proper top padding to avoid header overlapping */
+  /* Main Viewport Spacing to prevent header overlap */
   .main-viewport {
-    padding: 76px 14px 60px 14px !important;
+    padding: 76px 16px 60px 16px !important;
   }
 
-  /* Right controls shrink */
+  /* Brand adjustments */
+  .brand-text h1 {
+    font-size: 1.05rem;
+    letter-spacing: 0.8px;
+  }
+  .brand-text .subtext {
+    font-size: 0.55rem;
+  }
+
+  /* Header Right Controls */
   .hud-right-controls {
     gap: 6px;
   }
@@ -101,56 +91,107 @@
   }
   .theme-toggle-btn {
     padding: 4px 8px;
-    font-size: 0.7rem;
+    font-size: 0.72rem;
   }
 
   /* Hero Section */
   .hero-title {
-    font-size: 2.1rem;
-    letter-spacing: 1.5px;
+    font-size: 2.2rem;
+    letter-spacing: 1px;
   }
   .hero-subtitle {
     font-size: 0.85rem;
   }
   .hero-desc {
-    font-size: 0.88rem;
-    padding: 0 10px;
+    font-size: 0.9rem;
+    padding: 0 8px;
   }
   .hero-cta-group {
     flex-direction: column;
     width: 100%;
-    padding: 0 16px;
+    max-width: 440px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 12px;
+    gap: 10px;
   }
   .hero-cta-group .cyber-btn {
     width: 100%;
+    justify-content: center;
+    padding: 14px 20px !important;
+    font-size: 0.95rem !important;
   }
 
-  /* Games Hub */
-  .games-hub-grid {
-    grid-template-columns: 1fr;
+  /* Edu Cards & Grids */
+  .edu-grid-cards {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .menu-summary-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
   }
 
   /* Modals */
   .cyber-modal-box {
     width: 95% !important;
     max-width: 95% !important;
-    padding: 16px !important;
+    padding: 18px !important;
     margin: 10px auto;
   }
+}
 
-  /* Game Views & Docks */
-  .diff-bottom-dock {
+/* --- Smartphones & Compact Tablets (max-width: 768px) --- */
+@media (max-width: 768px) {
+  .hud-header {
+    height: 58px;
+    padding: 0 12px;
+  }
+
+  .main-viewport {
+    padding: 72px 12px 60px 12px !important;
+  }
+
+  .edu-grid-cards {
+    grid-template-columns: 1fr !important;
+  }
+  .menu-summary-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .games-hub-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Game Briefing & Arena */
+  .game-page-start .hud-card {
+    padding: 20px 16px !important;
+  }
+  .game-live-hud-bar {
     flex-direction: column;
-    gap: 12px;
-    padding: 12px;
+    align-items: stretch;
+    padding: 10px 14px;
+    gap: 8px;
   }
-  .btn-large-decision {
+  .game-live-hud-bar > div {
+    justify-content: space-between;
     width: 100%;
-    font-size: 1.05rem;
-    padding: 12px 16px;
   }
 
-  /* Scanner & Checker Groups */
+  /* Diff Bottom Dock */
+  .diff-decision-dock {
+    flex-direction: column !important;
+    gap: 14px;
+    text-align: center;
+  }
+  .diff-decision-dock > div:last-child {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+  }
+  .diff-btn-verdict {
+    width: 100% !important;
+    justify-content: center;
+  }
+
+  /* Scanner & Checker */
   .scanner-input-group {
     flex-direction: column;
   }
@@ -161,105 +202,119 @@
     grid-template-columns: 1fr;
   }
 
-  .main-viewport {
-    padding: 76px 12px 70px 12px !important;
+  /* Edukasi Module */
+  .edukasi-layout {
+    grid-template-columns: 1fr !important;
+    gap: 16px;
+  }
+  .edukasi-sidebar {
+    max-height: 280px;
   }
 
-  /* Footer */
+  /* Footer Clean Layout */
+  .hud-footer {
+    padding: 14px 16px;
+  }
   .hud-footer-inner {
     flex-direction: column;
     gap: 8px;
     text-align: center;
+    justify-content: center !important;
   }
 }
 
-/* --- 320px - 480px (Small Mobile Phones) --- */
+/* --- 320px - 480px (Small Handheld Mobile Phones) --- */
 @media (max-width: 480px) {
   .hud-header {
-    height: 56px;
+    height: 54px;
     padding: 0 10px;
   }
   
   .brand-text h1 {
-    font-size: 0.95rem;
+    font-size: 0.92rem;
   }
   .brand-text .subtext {
     display: none;
   }
   .brand-icon {
     font-size: 1.15rem;
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
   }
 
   .main-viewport {
-    padding: 72px 10px 70px 10px !important;
+    padding: 68px 8px 60px 8px !important;
   }
 
-  .nav-link {
-    font-size: 0.72rem;
-    padding: 5px 8px;
-    gap: 4px;
-  }
-
+  /* User Capsule Compact */
   .user-capsule {
-    padding: 3px 6px;
+    padding: 2px 6px;
+    gap: 6px;
   }
   .user-avatar {
     width: 24px;
     height: 24px;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
   }
   .user-stats-mini {
     display: none;
   }
   .user-name {
     font-size: 0.75rem;
+    max-width: 80px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  #btn-header-logout {
+    padding: 4px 8px !important;
+    font-size: 0.68rem !important;
+  }
+
+  /* Mobile hamburger button */
+  .mobile-nav-hamburger {
+    width: 34px;
+    height: 34px;
+    font-size: 1.2rem;
+  }
+
+  /* Mobile Drawer Width */
+  .mobile-sidebar-drawer {
+    width: min(280px, 86vw) !important;
   }
 
   .hero-title {
-    font-size: 1.65rem;
-    letter-spacing: 1px;
-    margin-bottom: 8px;
+    font-size: 1.6rem;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
   }
   .hero-subtitle {
-    font-size: 0.75rem;
-    margin-bottom: 14px;
+    font-size: 0.72rem;
+    margin-bottom: 12px;
   }
   .hero-desc {
     font-size: 0.82rem;
-    line-height: 1.5;
+    line-height: 1.45;
   }
 
-  .game-live-hud-bar {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 8px 12px;
-    gap: 6px;
+  .story-terminal-window {
+    padding: 16px 12px !important;
+  }
+  .story-terminal-window h2 {
+    font-size: 1.2rem !important;
+  }
+  .choice-option-btn {
+    padding: 10px 12px !important;
+  }
+  .choice-option-btn .choice-key {
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 0.85rem !important;
   }
 
-  .game-briefing-overlay {
-    padding: 18px 14px;
-  }
-  .game-briefing-title {
-    font-size: 1.25rem;
-  }
-
-  .edu-content-top-nav,
-  .edu-content-bottom-nav {
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  .edu-content-top-nav .cyber-btn,
-  .edu-content-bottom-nav .cyber-btn {
-    font-size: 0.75rem;
-    padding: 6px 10px;
-  }
-  .edu-header-box h2 {
-    font-size: 1.35rem;
-  }
-  .edu-lead {
-    font-size: 0.92rem;
+  .crim-target-slot {
+    padding: 12px 10px !important;
   }
 
   /* Leaderboard Table Responsive Scroll */
@@ -270,6 +325,6 @@
   .cyber-table th, 
   .cyber-table td {
     padding: 8px 6px;
-    font-size: 0.75rem;
+    font-size: 0.72rem;
   }
 }

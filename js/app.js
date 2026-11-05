@@ -14,6 +14,8 @@ class GuardianApp {
     this.initTheme();
     this.bindDOMEvents();
     await this.loadDatabase();
+    window.authManager?.updateHUD();
+    this.checkAdminAccess();
     this.handleRoute();
     window.addEventListener('hashchange', () => this.handleRoute());
   }

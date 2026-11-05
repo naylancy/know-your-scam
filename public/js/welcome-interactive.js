@@ -348,12 +348,12 @@ class WelcomeInteractive {
               MASUK KE MODUL INI ➔
             </button>
           ` : isTested && summary.id === 'admin' ? `
-            <button class="cyber-btn btn-magenta" onclick="window.welcomeInteractive.closeModal(); window.authManager.openLoginModal('admin', 'admin123');">
-              <span>🛡️</span> GANTI KE AKUN ADMIN (COMMANDER VEKTOR)
+            <button class="cyber-btn btn-ghost" disabled style="opacity:0.6; cursor:not-allowed;">
+              <span>🔒</span> KHUSUS HAK AKSES ADMINISTRATOR
             </button>
           ` : `
             <button class="cyber-btn btn-magenta" onclick="window.welcomeInteractive.closeModal(); window.authManager.openLoginModal();">
-              <span>🔑</span> MASUK DENGAN AKUN UJI COBA
+              <span>🔑</span> MASUK / DAFTAR AKUN
             </button>
           `}
         </div>
