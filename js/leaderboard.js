@@ -83,6 +83,94 @@ class LeaderboardManager {
     this.render();
   }
 
+  openDetailSkorFeature(userId) {
+    window.cyberAudio?.playClick();
+    this.viewMode = 'detail';
+    this.render();
+    if (userId) {
+      this.showUserDetailModal(userId);
+    }
+  }
+
+  showUserDetailModal(userId) {
+    window.cyberAudio?.playClick();
+    const user = this.users.find(u => String(u.id) === String(userId) || String(u.username) === String(userId));
+    if (!user) return;
+
+    const modalBox = document.getElementById('modal-general-box');
+    const modalContent = document.getElementById('modal-general-content');
+    if (!modalBox || !modalContent) return;
+
+    const gs = user.game_scores || { kasus: 0, diff: 0, criminal: 0, deeplearn: 0 };
+
+    modalContent.innerHTML = `
+      <div style="padding: 10px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(0,243,255,0.2); padding-bottom:12px; margin-bottom:16px;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span style="font-size:1.6rem;">${user.role === 'admin' ? '🛡️' : '👤'}</span>
+            <div>
+              <h3 style="font-size:1.2rem; color:var(--text-highlight); margin:0;">
+                DETAIL SKOR PER GAME // ${user.name.toUpperCase()}
+              </h3>
+              <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted); margin-top:2px;">
+                Role: <strong style="color:var(--neon-cyan);">${user.role.toUpperCase()}</strong> &bull; Total Akumulasi: <strong style="color:var(--neon-green);">${user.score.toLocaleString()} XP</strong>
+              </div>
+            </div>
+          </div>
+          <button class="cyber-btn btn-ghost" style="padding:4px 10px; font-size:0.8rem;" onclick="document.getElementById('modal-general-box').classList.remove('active')">
+            ✕ TUTUP
+          </button>
+        </div>
+
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap:12px; margin-bottom:20px;">
+          <!-- Kasus -->
+          <div class="leaderboard-game-pod" style="padding:14px; border-radius:8px; text-align:center;">
+            <div style="font-size:0.78rem; color:var(--text-muted); margin-bottom:4px;">📜 KASUS MULTI-POV</div>
+            <strong style="color:var(--neon-amber); font-size:1.35rem;">${gs.kasus} XP</strong>
+            <button class="cyber-btn" style="width:100%; font-size:0.75rem; padding:8px; margin-top:10px; border-color:var(--neon-amber);" onclick="document.getElementById('modal-general-box').classList.remove('active'); window.app.navigateTo('kasus');">
+              ⚡ MAIN KASUS ➔
+            </button>
+          </div>
+
+          <!-- Finding Diff -->
+          <div class="leaderboard-game-pod" style="padding:14px; border-radius:8px; text-align:center;">
+            <div style="font-size:0.78rem; color:var(--text-muted); margin-bottom:4px;">⚖️ FINDING DIFF</div>
+            <strong style="color:var(--neon-magenta); font-size:1.35rem;">${gs.diff} XP</strong>
+            <button class="cyber-btn btn-magenta" style="width:100%; font-size:0.75rem; padding:8px; margin-top:10px;" onclick="document.getElementById('modal-general-box').classList.remove('active'); window.app.navigateTo('diff');">
+              ⚡ MAIN DIFF ➔
+            </button>
+          </div>
+
+          <!-- Criminal Case -->
+          <div class="leaderboard-game-pod" style="padding:14px; border-radius:8px; text-align:center;">
+            <div style="font-size:0.78rem; color:var(--text-muted); margin-bottom:4px;">🕵️ CRIMINAL CASE</div>
+            <strong style="color:var(--neon-red); font-size:1.35rem;">${gs.criminal} XP</strong>
+            <button class="cyber-btn" style="width:100%; font-size:0.75rem; padding:8px; margin-top:10px; border-color:var(--neon-red); color:var(--neon-red);" onclick="document.getElementById('modal-general-box').classList.remove('active'); window.app.navigateTo('criminal');">
+              ⚡ INVESTIGASI ➔
+            </button>
+          </div>
+
+          <!-- Analyzer -->
+          <div class="leaderboard-game-pod" style="padding:14px; border-radius:8px; text-align:center;">
+            <div style="font-size:0.78rem; color:var(--text-muted); margin-bottom:4px;">🧠 AI ANALYZER</div>
+            <strong style="color:var(--neon-green); font-size:1.35rem;">${gs.deeplearn} XP</strong>
+            <button class="cyber-btn" style="width:100%; font-size:0.75rem; padding:8px; margin-top:10px; border-color:var(--neon-green); color:var(--neon-green);" onclick="document.getElementById('modal-general-box').classList.remove('active'); window.app.navigateTo('deeplearn');">
+              ⚡ ANALYZER ➔
+            </button>
+          </div>
+        </div>
+
+        <div style="text-align:center; border-top:1px dashed rgba(255,255,255,0.1); padding-top:12px;">
+          <button class="cyber-btn" style="padding:8px 24px; font-size:0.85rem;" onclick="document.getElementById('modal-general-box').classList.remove('active');">
+            ✓ SELESAI MENINJAU SKOR
+          </button>
+        </div>
+      </div>
+    `;
+
+    modalBox.classList.add('active');
+  }
+
   toggleRowExpand(userId) {
     this.expandedUserId = this.expandedUserId === userId ? null : userId;
     window.cyberAudio?.playClick();
@@ -270,12 +358,12 @@ class LeaderboardManager {
             </td>
             <td style="text-align: center;">
               <button 
-                class="cyber-btn btn-ghost" 
-                style="padding: 4px 10px; font-size: 0.72rem; border-color: ${isExpanded ? 'var(--neon-magenta)' : 'var(--border-cyan)'}; color: ${isExpanded ? 'var(--neon-magenta)' : 'var(--neon-cyan)'};"
-                onclick="window.leaderboardManager.toggleRowExpand('${u.id}')"
-                title="Lihat rincian skor per game"
+                class="cyber-btn btn-ghost leaderboard-detail-btn" 
+                style="padding: 5px 12px; font-size: 0.74rem; border-color: var(--neon-cyan); color: var(--neon-cyan); display: inline-flex; align-items: center; gap: 5px;"
+                onclick="window.leaderboardManager.openDetailSkorFeature('${u.id}')"
+                title="Buka fitur detail skor per game"
               >
-                ${isExpanded ? '▲ TUTUP' : '🔍 LIHAT SKOR PER GAME'}
+                <span>📊</span> DETAIL SKOR ➔
               </button>
             </td>
             <td style="text-align: center;">
@@ -290,7 +378,7 @@ class LeaderboardManager {
 
           <!-- Expandable Row: Per-Game Score Breakdown Card (4 Core Games Only) -->
           ${isExpanded ? `
-            <tr style="background: rgba(14, 18, 36, 0.95); border-bottom: 2px solid var(--border-cyan);">
+            <tr class="leaderboard-breakdown-row" style="border-bottom: 2px solid var(--border-cyan);">
               <td colspan="7" style="padding: 16px 22px;">
                 <div class="holo-enter" style="display:flex; flex-direction:column; gap:10px;">
                   <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
@@ -304,7 +392,7 @@ class LeaderboardManager {
 
                   <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 6px;">
                     <!-- Game 1: Kasus -->
-                    <div style="background:rgba(5,5,10,0.85); border:1px solid rgba(255,184,0,0.4); border-radius:8px; padding:12px; text-align:center; display:flex; flex-direction:column; justify-content:space-between;">
+                    <div class="leaderboard-game-pod" style="border:1px solid rgba(255,184,0,0.4); border-radius:8px; padding:12px; text-align:center; display:flex; flex-direction:column; justify-content:space-between;">
                       <div>
                         <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px;">📜 KASUS MULTI-POV</div>
                         <strong style="color:var(--neon-amber); font-size:1.25rem;">${gs.kasus} XP</strong>
@@ -315,7 +403,7 @@ class LeaderboardManager {
                     </div>
 
                     <!-- Game 2: Finding Diff -->
-                    <div style="background:rgba(5,5,10,0.85); border:1px solid rgba(189,0,255,0.4); border-radius:8px; padding:12px; text-align:center; display:flex; flex-direction:column; justify-content:space-between;">
+                    <div class="leaderboard-game-pod" style="border:1px solid rgba(189,0,255,0.4); border-radius:8px; padding:12px; text-align:center; display:flex; flex-direction:column; justify-content:space-between;">
                       <div>
                         <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px;">⚖️ FINDING DIFF</div>
                         <strong style="color:var(--neon-magenta); font-size:1.25rem;">${gs.diff} XP</strong>
@@ -326,7 +414,7 @@ class LeaderboardManager {
                     </div>
 
                     <!-- Game 3: Criminal Case -->
-                    <div style="background:rgba(5,5,10,0.85); border:1px solid rgba(255,0,85,0.4); border-radius:8px; padding:12px; text-align:center; display:flex; flex-direction:column; justify-content:space-between;">
+                    <div class="leaderboard-game-pod" style="border:1px solid rgba(255,0,85,0.4); border-radius:8px; padding:12px; text-align:center; display:flex; flex-direction:column; justify-content:space-between;">
                       <div>
                         <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px;">🕵️ CRIMINAL CASE</div>
                         <strong style="color:var(--neon-red); font-size:1.25rem;">${gs.criminal} XP</strong>
@@ -337,7 +425,7 @@ class LeaderboardManager {
                     </div>
 
                     <!-- Game 4: AI Analyzer -->
-                    <div style="background:rgba(5,5,10,0.85); border:1px solid rgba(0,255,157,0.4); border-radius:8px; padding:12px; text-align:center; display:flex; flex-direction:column; justify-content:space-between;">
+                    <div class="leaderboard-game-pod" style="border:1px solid rgba(0,255,157,0.4); border-radius:8px; padding:12px; text-align:center; display:flex; flex-direction:column; justify-content:space-between;">
                       <div>
                         <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px;">🧠 AI ANALYZER</div>
                         <strong style="color:var(--neon-green); font-size:1.25rem;">${gs.deeplearn} XP</strong>
@@ -377,17 +465,15 @@ class LeaderboardManager {
           <!-- Controls: Mode Tampilan & Filter -->
           <div style="display:flex; align-items:center; gap: 10px; flex-wrap:wrap;">
             <!-- View Mode Toggle: Total Score vs Detail Per Game -->
-            <div style="display:inline-flex; background:rgba(5,5,10,0.8); border:1px solid var(--border-cyan); border-radius:6px; padding:2px;">
+            <div class="leaderboard-view-toggle">
               <button 
-                class="cyber-btn ${!isDetailView ? '' : 'btn-ghost'}" 
-                style="font-size: 0.75rem; padding: 5px 12px; border:none;" 
+                class="cyber-btn ${!isDetailView ? 'active' : 'btn-ghost'}" 
                 onclick="window.leaderboardManager.setViewMode('total')"
               >
                 📋 TOTAL SKOR
               </button>
               <button 
-                class="cyber-btn ${isDetailView ? '' : 'btn-ghost'}" 
-                style="font-size: 0.75rem; padding: 5px 12px; border:none;" 
+                class="cyber-btn ${isDetailView ? 'active' : 'btn-ghost'}" 
                 onclick="window.leaderboardManager.setViewMode('detail')"
               >
                 📊 DETAIL SKOR PER GAME
@@ -402,7 +488,7 @@ class LeaderboardManager {
         </div>
 
         <!-- Filter Pills Bar -->
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom: 16px; background:rgba(0,243,255,0.04); border:1px solid rgba(0,243,255,0.15); border-radius:6px; padding:8px 14px;">
+        <div class="leaderboard-filter-bar" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom: 16px; border-radius:6px; padding:8px 14px;">
           <div style="display:flex; align-items:center; gap:8px;">
             <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);">FILTER OPERATOR:</span>
             <button class="cyber-btn ${this.currentFilter === 'all' ? '' : 'btn-ghost'}" style="font-size: 0.72rem; padding: 3px 10px;" onclick="window.leaderboardManager.setFilter('all')">

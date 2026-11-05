@@ -707,11 +707,17 @@
 
 /* Light Mode Adaptations for W3Schools Edukasi */
 [data-theme="light"] .w3-top-nav-bar {
-  background: #282A35;
+  background: #FFFFFF !important;
+  border-bottom: 1px solid #E2E8F0 !important;
 }
 
 [data-theme="light"] .w3-top-tab {
-  color: #F8FAFC;
+  color: #475569 !important;
+}
+
+[data-theme="light"] .w3-top-tab:hover {
+  background: #F1F5F9 !important;
+  color: #0F172A !important;
 }
 
 [data-theme="light"] .w3-top-tab.active {
@@ -752,7 +758,79 @@
 }
 
 [data-theme="light"] .edu-main-content {
-  background: #FFFFFF;
+  background: #FFFFFF !important;
+  color: #1E293B !important;
+}
+
+[data-theme="light"] .edu-w3-wrapper {
+  background: #FFFFFF !important;
+  border-color: #CBD5E1 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+}
+
+[data-theme="light"] .dropdown-menu {
+  background: #FFFFFF !important;
+  border: 1px solid #CBD5E1 !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 0 10px rgba(2, 132, 199, 0.08) !important;
+}
+
+[data-theme="light"] .dropdown-link {
+  color: #334155 !important;
+}
+
+[data-theme="light"] .dropdown-link:hover {
+  background: #F1F5F9 !important;
+  color: #0284C7 !important;
+  padding-left: 20px !important;
+}
+
+[data-theme="light"] .w3-info-box {
+  background: #F0FDF4 !important;
+  border-left: 4px solid #16A34A !important;
+  color: #166534 !important;
+}
+
+[data-theme="light"] .w3-danger-box {
+  background: #FEF2F2 !important;
+  border-left: 4px solid #DC2626 !important;
+  color: #991B1B !important;
+}
+
+[data-theme="light"] .w3-code-box {
+  background: #F8FAFC !important;
+  border: 1px solid #E2E8F0 !important;
+  color: #0F172A !important;
+}
+
+[data-theme="light"] .edu-card {
+  background: #F8FAFC !important;
+  border: 1px solid #E2E8F0 !important;
+  color: #1E293B !important;
+}
+
+[data-theme="light"] .edu-card h4 {
+  color: #0F172A !important;
+}
+
+[data-theme="light"] .edu-card p {
+  color: #475569 !important;
+}
+
+[data-theme="light"] .w3-quiz-card {
+  background: #F8FAFC !important;
+  border: 1px solid #E2E8F0 !important;
+}
+
+[data-theme="light"] .quiz-opt {
+  background: #FFFFFF !important;
+  border: 1px solid #CBD5E1 !important;
+  color: #1E293B !important;
+}
+
+[data-theme="light"] .quiz-opt:hover {
+  background: #F1F5F9 !important;
+  border-color: #0284C7 !important;
+  color: #0284C7 !important;
 }
 
 .w3-nav-btn {

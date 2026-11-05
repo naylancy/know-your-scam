@@ -8,10 +8,10 @@
   <meta name="description" content="KNOW YOUR SCAM - Platform edukasi dan simulasi pertahanan siber multi-level bertenaga Laravel dan AI Cognitive Core.">
 
   <!-- Core Cyber CSS Files -->
-  <link rel="stylesheet" href="{{ asset('css/cyber-theme.css') }}">
   <link rel="stylesheet" href="{{ asset('css/hud-layout.css') }}">
   <link rel="stylesheet" href="{{ asset('css/games.css') }}">
   <link rel="stylesheet" href="{{ asset('css/edukasi.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/cyber-theme.css') }}">
   <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
@@ -43,6 +43,9 @@
           <ul class="hud-nav" id="hud-nav-links">
             <li><a href="#welcome" class="nav-link active"><span>🚀</span> BERANDA</a></li>
             
+            <!-- W3Schools-Style Edukasi Menu -->
+            <li class="nav-item-game"><a href="#edukasi" class="nav-link" id="nav-edukasi-link"><span>📚</span> EDUKASI</a></li>
+
             <!-- Combined GAMES Menu with Dropdown -->
             <li class="nav-item-game dropdown-nav-item">
               <a href="#games" class="nav-link dropdown-toggle" id="nav-games-link"><span>🎮</span> GAMES ▾</a>
@@ -62,9 +65,6 @@
                 <li><a href="#checker" class="dropdown-link"><span>🛡️</span> LEGIT CHECKER</a></li>
               </ul>
             </li>
-
-            <!-- W3Schools-Style Edukasi Menu -->
-            <li class="nav-item-game"><a href="#edukasi" class="nav-link" id="nav-edukasi-link"><span>📚</span> EDUKASI</a></li>
 
             <li class="nav-item-game"><a href="#leaderboard" class="nav-link"><span>🏆</span> LEADERBOARD</a></li>
             <li class="nav-item-game" id="nav-admin-li" style="display: none;"><a href="#admin" id="nav-admin-link" class="nav-link" style="display: none;"><span>🛡️</span> ADMIN</a></li>
@@ -158,6 +158,14 @@
             </a>
           </li>
 
+          <!-- Edukasi Section -->
+          <li class="mobile-nav-section-title">📚 EDUKASI & LITERASI SIBER</li>
+          <li>
+            <a href="#edukasi" class="mobile-nav-link" onclick="window.app.navigateTo('edukasi'); window.app.toggleMobileSidebar(true);">
+              <span>📚</span> Modul Edukasi Anti-Scam
+            </a>
+          </li>
+
           <!-- Games Section -->
           <li class="mobile-nav-section-title">🎮 SIMULASI TAKTIS (GAMES)</li>
           <li class="mobile-nav-subitem">
@@ -194,13 +202,8 @@
             </a>
           </li>
 
-          <!-- Edukasi, Leaderboard & Admin Section -->
-          <li class="mobile-nav-section-title">📚 EDUKASI & PERINGKAT</li>
-          <li>
-            <a href="#edukasi" class="mobile-nav-link" onclick="window.app.navigateTo('edukasi'); window.app.toggleMobileSidebar(true);">
-              <span>📚</span> Modul Edukasi Anti-Scam
-            </a>
-          </li>
+          <!-- Leaderboard & Admin Section -->
+          <li class="mobile-nav-section-title">🏆 PERINGKAT & KOMPETISI</li>
           <li>
             <a href="#leaderboard" class="mobile-nav-link" onclick="window.app.navigateTo('leaderboard'); window.app.toggleMobileSidebar(true);">
               <span>🏆</span> Live Leaderboard

@@ -1,14 +1,16 @@
 /**
  * KNOW YOUR SCAM: ANTI-GRAVITY CYBER DEFENSE
  * Modul Edukasi Interaktif (W3Schools-Style Sidebar Navigation)
- * Panduan lengkap mengenali penipuan, mengambil keputusan aman, & perlindungan digital
+ * Panduan komprehensif mengenali penipuan, mengambil keputusan aman, & perlindungan digital
  */
 
 (function() {
   'use strict';
 
   const topicsData = [
-    // --- KATEGORI 1: PENDAHULUAN & PRINSIP DASAR ---
+    // ========================================================
+    // SUBBAB 1: PENDAHULUAN & PRINSIP SIBER
+    // ========================================================
     {
       id: 'intro',
       category: '1. PENDAHULUAN',
@@ -18,14 +20,14 @@
       html: `
         <div class="edu-article">
           <div class="edu-header-box">
-            <span class="cyber-tag tag-cyan">MODUL EDUKASI 01</span>
+            <span class="cyber-tag tag-cyan">SUBBAB 1 // PENDAHULUAN: LANSKAP ANCAMAN</span>
             <h2>Lanskap Ancaman Siber & Rekayasa Sosial Modern</h2>
-            <p class="edu-lead">Di era transformasi digital saat ini, pintu masuk terbesar peretasan bukan lagi celah teknis server, melainkan celah psikologis manusia (*human vulnerability*).</p>
+            <p class="edu-lead">Di era transformasi digital saat ini, pintu masuk terbesar peretasan bukan lagi celah teknis server, melainkan celah psikologis manusia (<em>human vulnerability</em>).</p>
           </div>
 
           <div class="edu-section">
             <h3>Mengapa Penipuan Digital Kian Marak?</h3>
-            <p>Sindikat kejahatan siber modern telah bertransformasi dari sekadar peretas individu menjadi organisasi profesional. Mereka menggunakan teknologi mutakhir, kecerdasan buatan (AI generatif), dan riset profil korban (*open source intelligence / OSINT*) untuk merancang serangan yang sangat meyakinkan.</p>
+            <p>Sindikat kejahatan siber modern telah bertransformasi dari sekadar peretas individu menjadi organisasi profesional. Mereka menggunakan teknologi mutakhir, kecerdasan buatan (AI generatif), dan riset profil korban (<em>open source intelligence / OSINT</em>) untuk merancang serangan yang sangat meyakinkan.</p>
             
             <div class="w3-info-box">
               <h4>💡 Fakta Keamanan Siber:</h4>
@@ -44,7 +46,7 @@
               <div class="edu-card">
                 <div class="card-icon">🔑</div>
                 <h4>Kredensial & Identitas</h4>
-                <p>Pencurian data KTP, PIN ATM, Password akun, dan kode OTP rahasia untuk pengambilalihan akun (*account takeover*).</p>
+                <p>Pencurian data KTP, PIN ATM, Password akun, dan kode OTP rahasia untuk pengambilalihan akun (<em>account takeover</em>).</p>
               </div>
               <div class="edu-card">
                 <div class="card-icon">📱</div>
@@ -78,7 +80,7 @@
       html: `
         <div class="edu-article">
           <div class="edu-header-box">
-            <span class="cyber-tag tag-cyan">MODUL EDUKASI 02</span>
+            <span class="cyber-tag tag-cyan">SUBBAB 1 // MINDSET: PRINSIP ZERO-TRUST</span>
             <h2>Prinsip Zero-Trust Digital & "3-Second Rule"</h2>
             <p class="edu-lead">Aturan emas pertahanan siber: <em>"Never Trust, Always Verify"</em> (Jangan Pernah Percaya, Selalu Verifikasi).</p>
           </div>
@@ -86,7 +88,7 @@
           <div class="edu-section">
             <h3>Apa itu Paradigma Zero-Trust?</h3>
             <p>Zero-Trust adalah filosofi keamanan di mana Anda tidak langsung mempercayai pesan, telepon, atau tautan apapun—bahkan jika pesan tersebut tampak berasal dari teman akrab, nomor instansi resmi, atau logo bank ternama.</p>
-            <p>Di dunia digital, identitas pengirim (Caller ID, foto profil, nama pengirim email) sangat mudah dipalsukan (*spoofed*).</p>
+            <p>Di dunia digital, identitas pengirim (Caller ID, foto profil, nama pengirim email) sangat mudah dipalsukan (<em>spoofed</em>).</p>
           </div>
 
           <div class="edu-section">
@@ -118,18 +120,90 @@
         </div>
       `
     },
+    {
+      id: 'psychology',
+      category: '1. PENDAHULUAN',
+      title: 'Psikologi Manipulasi Emosi Korban',
+      readingTime: '4 menit',
+      badge: 'Psikologi',
+      html: `
+        <div class="edu-article">
+          <div class="edu-header-box">
+            <span class="cyber-tag tag-cyan">SUBBAB 1 // PSIKOLOGI: TRIGGER EMOSI KORBAN</span>
+            <h2>Psikologi Rekayasa Sosial & Trigger Emosi Korban</h2>
+            <p class="edu-lead">Membedah senjata psikologis yang digunakan pelaku: Kepanikan, Otoritas Semu, dan Keserakahan.</p>
+          </div>
 
-    // --- KATEGORI 2: MENGENALI JENIS-JENIS PENIPUAN ---
+          <div class="edu-section">
+            <h3>Tiga Tuas Emosi Utama (The Psychological Levers):</h3>
+            <div class="edu-grid-cards">
+              <div class="edu-card">
+                <div class="card-icon">⏳</div>
+                <h4>Sense of Urgency (Tekanan Waktu)</h4>
+                <p>Pelaku memberikan tenggat waktu sempit (contoh: <em>"Harus dalam 10 menit atau akun ditutup permanen"</em>) agar rasionalitas logika Anda padam.</p>
+              </div>
+              <div class="edu-card">
+                <div class="card-icon">👮</div>
+                <h4>Appeal to Authority (Otoritas Palsu)</h4>
+                <p>Mengaku sebagai polisi, kejaksaan, audit perbankan, atau atasan perusahaan untuk menekan rasa takut melanggar aturan.</p>
+              </div>
+              <div class="edu-card">
+                <div class="card-icon">💎</div>
+                <h4>Greed & Excitement (Keserakahan)</h4>
+                <p>Menawarkan keuntungan di luar akal sehat (hadiah mobil, deviden 50% per hari) yang memicu hormon dopamin dan mengaburkan risiko.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="edu-section">
+            <div class="w3-info-box">
+              <h4>🧠 Tips Nalar Pertahanan Diri:</h4>
+              <p>Setiap kali Anda merasakan detak jantung berdegup kencang karena sebuah pesan (baik karena takut atau terlalu gembira), <strong>itu adalah sinyal merah nomor 1</strong> bahwa Anda sedang diarahkan ke skenario penipuan.</p>
+            </div>
+          </div>
+        </div>
+      `
+    },
+    {
+      id: 'threat-vectors',
+      category: '1. PENDAHULUAN',
+      title: 'Anatomi Vektor Serangan & Target Kritis',
+      readingTime: '4 menit',
+      badge: 'Intelijen',
+      html: `
+        <div class="edu-article">
+          <div class="edu-header-box">
+            <span class="cyber-tag tag-cyan">SUBBAB 1 // INTELIJEN: VEKTOR SERANGAN SIBER</span>
+            <h2>Anatomi Vektor Serangan & Target Kritis Siber</h2>
+            <p class="edu-lead">Memahami pintu masuk serangan digital dari sudut pandang penyerang siber profesional.</p>
+          </div>
+
+          <div class="edu-section">
+            <h3>4 Pintu Masuk Penetrasi Siber:</h3>
+            <ul class="edu-checklist">
+              <li><strong>Komunikasi Pesan Instan (WhatsApp / Telegram):</strong> Transmisi dokumen APK berbahaya, tautan tiruan, dan nomor virtual tak terdaftar.</li>
+              <li><strong>Email Korporat / Pribadi (Business Email Compromise):</strong> Faktur penipuan, email instruksi transfer dari akun pimpinan yang diretas.</li>
+              <li><strong>Jaringan Telepon Suara (Vishing):</strong> Panggilan mengatasnamakan divisi verifikasi bank meminta kode OTP atau aktivasi token.</li>
+              <li><strong>Media Sosial & Iklan Berbayar:</strong> Iklan lowongan kerja fiktif dengan gaji fantastis di Instagram/TikTok yang mengarah ke bot scam.</li>
+            </ul>
+          </div>
+        </div>
+      `
+    },
+
+    // ========================================================
+    // SUBBAB 2: ANATOMI PENIPUAN SIBER
+    // ========================================================
     {
       id: 'phishing',
-      category: '2. JENIS PENIPUAN SIBER',
+      category: '2. ANATOMI PENIPUAN',
       title: 'Phishing & Typosquatting Domain',
       readingTime: '5 menit',
       badge: 'Kritis',
       html: `
         <div class="edu-article">
           <div class="edu-header-box">
-            <span class="cyber-tag tag-magenta">MODUL EDUKASI 03</span>
+            <span class="cyber-tag tag-magenta">SUBBAB 2 // ANATOMI: PHISHING & SPOOFING</span>
             <h2>Phishing & Typosquatting Domain</h2>
             <p class="edu-lead">Mengenali situs web palsu yang didesain 99% mirip aslinya untuk menjebak kredensial login Anda.</p>
           </div>
@@ -176,14 +250,14 @@
     },
     {
       id: 'apk-malware',
-      category: '2. JENIS PENIPUAN SIBER',
+      category: '2. ANATOMI PENIPUAN',
       title: 'Modus APK Malware (Surat Tilang/Undangan)',
       readingTime: '5 menit',
       badge: 'Sangat Berbahaya',
       html: `
         <div class="edu-article">
           <div class="edu-header-box">
-            <span class="cyber-tag tag-magenta">MODUL EDUKASI 04</span>
+            <span class="cyber-tag tag-red">SUBBAB 2 // ANATOMI: MALWARE & SMISHING</span>
             <h2>Modus Berkas APK Malware & Smishing</h2>
             <p class="edu-lead">Bahaya pencurian data dan penyadapan SMS melalui pengiriman file aplikasi Android (.APK) terselubung.</p>
           </div>
@@ -196,17 +270,17 @@
               <div class="edu-card">
                 <div class="card-icon">📬</div>
                 <h4>Foto Resi Paket / Kurir</h4>
-                <p>Nama file: <code>LIHAT_FOTO_PAKET.apk</code>. Korban mengira sedang melihat resi pengiriman.</p>
+                <p>Nama file: <code>LIHAT_FOTO_PAKET.apk</code>. Korban mengira sedang melihat resi pengiriman paket belanja.</p>
               </div>
               <div class="edu-card">
                 <div class="card-icon">💌</div>
                 <h4>Surat Undangan Pernikahan</h4>
-                <p>Nama file: <code>Surat_Undangan_Digital.apk</code>. Memanfaatkan rasa penasaran korban.</p>
+                <p>Nama file: <code>Surat_Undangan_Digital.apk</code>. Memanfaatkan rasa penasaran dan etika sosial korban.</p>
               </div>
               <div class="edu-card">
                 <div class="card-icon">🚓</div>
                 <h4>Konfirmasi Surat Tilang</h4>
-                <p>Nama file: <code>Surat_Tilang_ETLE_Polri.apk</code>. Memanfaatkan rasa takut didenda polisi.</p>
+                <p>Nama file: <code>Surat_Tilang_ETLE_Polri.apk</code>. Memanfaatkan rasa panik didenda tilang elektronik kepolisian.</p>
               </div>
             </div>
           </div>
@@ -216,8 +290,8 @@
             <p>APK tersebut meminta izin sensitif (Permissions):</p>
             <div class="w3-danger-box">
               <p>🔴 <strong>RECEIVE_SMS & READ_SMS:</strong> Aplikasi diam-diam menyadap SMS yang masuk ke ponsel korban.</p>
-              <p>🔴 <strong>FORWARD_SMS:</strong> Saat bank mengirimkan kode OTP untuk transfer dana, malware langsung meneruskannya ke Telegram pelaku tanpa sepengetahuan korban.</p>
-              <p>🔴 <strong>ACCESSIBILITY_SERVICE:</strong> Mengambil alih layar ponsel dan mengetik secara otomatis.</p>
+              <p>🔴 <strong>FORWARD_SMS:</strong> Saat bank mengirimkan kode OTP untuk transfer dana, malware langsung meneruskannya ke bot Telegram pelaku tanpa sepengetahuan korban.</p>
+              <p>🔴 <strong>ACCESSIBILITY_SERVICE:</strong> Mengambil alih layar ponsel dan mengeksekusi klik otomatis.</p>
             </div>
           </div>
 
@@ -234,14 +308,14 @@
     },
     {
       id: 'love-scam',
-      category: '2. JENIS PENIPUAN SIBER',
+      category: '2. ANATOMI PENIPUAN',
       title: 'Love Scam / Romance Fraud',
       readingTime: '4 menit',
       badge: 'Psikologis',
       html: `
         <div class="edu-article">
           <div class="edu-header-box">
-            <span class="cyber-tag tag-magenta">MODUL EDUKASI 05</span>
+            <span class="cyber-tag tag-magenta">SUBBAB 2 // ANATOMI: ROMANCE SCAM</span>
             <h2>Romance Scam (Penipuan Berkedok Asmara)</h2>
             <p class="edu-lead">Eksploitasi ikatan emosional dan asmara daring yang berujung pada kerugian finansial ratusan juta rupiah.</p>
           </div>
@@ -271,14 +345,14 @@
     },
     {
       id: 'fake-invest',
-      category: '2. JENIS PENIPUAN SIBER',
+      category: '2. ANATOMI PENIPUAN',
       title: 'Investasi Bodong & Pig Butchering',
       readingTime: '5 menit',
       badge: 'Finansial',
       html: `
         <div class="edu-article">
           <div class="edu-header-box">
-            <span class="cyber-tag tag-magenta">MODUL EDUKASI 06</span>
+            <span class="cyber-tag tag-red">SUBBAB 2 // ANATOMI: PIG BUTCHERING</span>
             <h2>Investasi Bodong & Modus "Pig Butchering"</h2>
             <p class="edu-lead">Skema penggemukan dan penyembelihan finansial melalui platform trading atau kripto palsu.</p>
           </div>
@@ -293,7 +367,7 @@
             <div class="edu-grid-cards">
               <div class="edu-card">
                 <h4>1. Umpan Profit Awal</h4>
-                <p>Korban diajak mencoba deposit nominal kecil (Rp 500.000). Di aplikasi tampak naik menjadi Rp 800.000 dan berhasil ditarik (*withdraw*). Korban merasa platform ini terpercaya.</p>
+                <p>Korban diajak mencoba deposit nominal kecil (Rp 500.000). Di aplikasi tampak naik menjadi Rp 800.000 dan berhasil ditarik (<em>withdraw</em>). Korban merasa platform ini terpercaya.</p>
               </div>
               <div class="edu-card">
                 <h4>2. Eksploitasi Keserakahan</h4>
@@ -316,18 +390,72 @@
         </div>
       `
     },
+    {
+      id: 'vishing',
+      category: '2. ANATOMI PENIPUAN',
+      title: 'Voice Phishing & Audio AI Deepfake',
+      readingTime: '4 menit',
+      badge: 'AI Scam',
+      html: `
+        <div class="edu-article">
+          <div class="edu-header-box">
+            <span class="cyber-tag tag-magenta">SUBBAB 2 // ANATOMI: VISHING & DEEPFAKE AI</span>
+            <h2>Voice Phishing (Vishing) & Rekayasa Audio AI Deepfake</h2>
+            <p class="edu-lead">Serangan penipuan suara interaktif menggunakan teknologi kloning suara AI untuk meniru kerabat atau aparat.</p>
+          </div>
 
-    // --- KATEGORI 3: PENGAMBILAN KEPUTUSAN AMAN ---
+          <div class="edu-section">
+            <h3>Bagaimana Suara Kerabat Bisa Ditiru?</h3>
+            <p>Pelaku mengunduh sampel suara calon korban dari video TikTok, Instagram Reels, atau rekaman telepon singkat 3 detik. Menggunakan model AI Voice Cloning mutakhir, pelaku dapat berbicara apa saja dengan suara persis orang yang Anda kenal.</p>
+            
+            <div class="w3-info-box">
+              <h4>🛡️ Protokol Safe Word (Kata Sandi Darurat):</h4>
+              <p>Tetapkan satu kata rahasia yang hanya diketahui oleh keluarga inti Anda. Jika menerima telepon darurat minta uang dari anggota keluarga, minta orang tersebut menyebutkan Safe Word keluarga sebelum melakukan tindakan apapun.</p>
+            </div>
+          </div>
+        </div>
+      `
+    },
+    {
+      id: 'job-scam',
+      category: '2. ANATOMI PENIPUAN',
+      title: 'Lowongan Kerja Bodong & Freelance Fiktif',
+      readingTime: '4 menit',
+      badge: 'Karir',
+      html: `
+        <div class="edu-article">
+          <div class="edu-header-box">
+            <span class="cyber-tag tag-amber">SUBBAB 2 // ANATOMI: JOB SCAM & PART-TIME</span>
+            <h2>Penipuan Lowongan Kerja & Freelance Fiktif</h2>
+            <p class="edu-lead">Modus tugas paruh waktu like & subscribe video YouTube berbayar yang berakhir pada pemerasan deposit.</p>
+          </div>
+
+          <div class="edu-section">
+            <h3>Pola Modus "Tugas Sederhana":</h3>
+            <p>Korban dimasukkan ke grup Telegram dan diminta menyelesaikan tugas sepele (klik like produk e-commerce atau beri bintang 5 di Google Maps) dengan bayaran Rp 20.000 per tugas. Setelah terbukti dibayar, korban diminta menyetor "Deposit Jaminan Misi VIP" senilai jutaan rupiah yang tidak pernah kembali.</p>
+            
+            <div class="w3-danger-box">
+              <h4>Aturan Baku Dunia Kerja:</h4>
+              <p>Pemberi kerja yang sah <strong>TIDAK PERNAH</strong> meminta calon karyawan menyetorkan uang untuk jaminan kerja, pembelian seragam fiktif, atau deposit saldo tugas.</p>
+            </div>
+          </div>
+        </div>
+      `
+    },
+
+    // ========================================================
+    // SUBBAB 3: PENGAMBILAN KEPUTUSAN AMAN
+    // ========================================================
     {
       id: 'out-of-band',
-      category: '3. PENGAMBILAN KEPUTUSAN',
+      category: '3. KEPUTUSAN AMAN',
       title: 'Verifikasi Out-of-Band (Jalur Terpisah)',
       readingTime: '4 menit',
       badge: 'Keahlian Taktis',
       html: `
         <div class="edu-article">
           <div class="edu-header-box">
-            <span class="cyber-tag tag-green">MODUL EDUKASI 07</span>
+            <span class="cyber-tag tag-green">SUBBAB 3 // KEPUTUSAN: OUT-OF-BAND VERIFIKASI</span>
             <h2>Verifikasi Out-of-Band (Saluran Terpisah)</h2>
             <p class="edu-lead">Teknik paling ampuh untuk memverifikasi kebenaran informasi tanpa terjebak manipulasi pengirim.</p>
           </div>
@@ -357,14 +485,14 @@
     },
     {
       id: 'ssl-url',
-      category: '3. PENGAMBILAN KEPUTUSAN',
+      category: '3. KEPUTUSAN AMAN',
       title: 'Anatomi URL & Membaca Sertifikat SSL',
       readingTime: '4 menit',
       badge: 'Teknis',
       html: `
         <div class="edu-article">
           <div class="edu-header-box">
-            <span class="cyber-tag tag-green">MODUL EDUKASI 08</span>
+            <span class="cyber-tag tag-green">SUBBAB 3 // KEPUTUSAN: ANATOMI URL & SSL</span>
             <h2>Anatomi URL & Membaca Sertifikat SSL</h2>
             <p class="edu-lead">Memahami bagian mana dari tautan web yang menentukan identitas sebenarnya dari sebuah website.</p>
           </div>
@@ -391,18 +519,71 @@
         </div>
       `
     },
+    {
+      id: 'passwords-2fa',
+      category: '3. KEPUTUSAN AMAN',
+      title: 'Proteksi Password & 2FA / MFA',
+      readingTime: '4 menit',
+      badge: 'Kredensial',
+      html: `
+        <div class="edu-article">
+          <div class="edu-header-box">
+            <span class="cyber-tag tag-green">SUBBAB 3 // KEPUTUSAN: PROTEKSI KREDENSIAL</span>
+            <h2>Proteksi Password & Multi-Factor Authentication (MFA)</h2>
+            <p class="edu-lead">Mengamankan benteng akun digital Anda dari serangan pencurian kredensial dan credential stuffing.</p>
+          </div>
 
-    // --- KATEGORI 4: RESPON & PERLINDUNGAN DIRI ---
+          <div class="edu-section">
+            <h3>Prinsip Pertahanan Kredensial:</h3>
+            <ul class="edu-checklist">
+              <li><strong>Jangan Gunakan Password yang Sama:</strong> Jika satu akun bocor di dark web, pelaku akan mencoba kombinasi yang sama ke akun bank dan email Anda.</li>
+              <li><strong>Tinggalkan 2FA Berbasis SMS:</strong> SMS rentan terhadap pembajakan SIM Swap dan penyadapan APK malware. Gunakan aplikasi Authenticator (Google Authenticator atau Microsoft Authenticator).</li>
+              <li><strong>Kunci Biometrik & Passkeys:</strong> Aktifkan sensor sidik jari atau passkey hardware FIDO2 pada akun penting Anda.</li>
+            </ul>
+          </div>
+        </div>
+      `
+    },
+    {
+      id: 'financial-safety',
+      category: '3. KEPUTUSAN AMAN',
+      title: 'Aturan Emas Transaksi Perbankan & e-Wallet',
+      readingTime: '4 menit',
+      badge: 'Finansial',
+      html: `
+        <div class="edu-article">
+          <div class="edu-header-box">
+            <span class="cyber-tag tag-green">SUBBAB 3 // KEPUTUSAN: TRANSAKSI FINANSIAL</span>
+            <h2>Aturan Emas Transaksi Perbankan & Dompet Digital</h2>
+            <p class="edu-lead">Panduan praktis menjaga saldo tabungan dan transaksi digital tetap kedap dari serangan peretas.</p>
+          </div>
+
+          <div class="edu-section">
+            <h3>4 Aturan Tak Tertulis Perbankan:</h3>
+            <ol style="margin-left: 20px; line-height: 1.8;">
+              <li><strong>Pihak Bank Tidak Pernah Meminta OTP:</strong> Petugas bank resmi memiliki akses sistem langsung dan tidak membutuhkan kode OTP rahasia nasabah.</li>
+              <li><strong>Pisahkan Rekening Operasional Harian:</strong> Jangan simpan tabungan utama di rekening yang kartu debitnya sering dipakai untuk transaksi online atau terhubung ke e-wallet.</li>
+              <li><strong>Atur Limit Transaksi Harian Rendah:</strong> Batasi transfer harian di m-banking ke angka wajar (misal Rp 5 juta) agar saldo tidak terkuras habis dalam sekejap.</li>
+              <li><strong>Aktifkan Notifikasi Transaksi Seketika:</strong> Pastikan setiap mutasi rekening memicu notifikasi push aplikasi bank atau email langsung.</li>
+            </ol>
+          </div>
+        </div>
+      `
+    },
+
+    // ========================================================
+    // SUBBAB 4: RESPON & TINDAKAN DARURAT
+    // ========================================================
     {
       id: 'emergency',
-      category: '4. RESPON & PERLINDUNGAN',
-      title: 'Langkah Tanggap Darurat Jika Terlanjur Jadi Korban',
-      readingTime: '4 menit',
+      category: '4. RESPON & DARURAT',
+      title: 'Protokol Golden 1-Hour: Penyelamatan Rekening',
+      readingTime: '5 menit',
       badge: 'Darurat',
       html: `
         <div class="edu-article">
           <div class="edu-header-box">
-            <span class="cyber-tag tag-amber">MODUL EDUKASI 09</span>
+            <span class="cyber-tag tag-amber">SUBBAB 4 // RESPON: GOLDEN 1-HOUR EMERGENCY</span>
             <h2>Prosedur Tanggap Darurat Siber (Golden 1-Hour)</h2>
             <p class="edu-lead">Apa yang harus segera Anda lakukan dalam 60 menit pertama jika Anda tidak sengaja mengklik tautan, menginstal APK, atau mentransfer uang.</p>
           </div>
@@ -429,14 +610,14 @@
     },
     {
       id: 'reporting',
-      category: '4. RESPON & PERLINDUNGAN',
-      title: 'Kanal Resmi Pelaporan Kejahatan Siber di Indonesia',
-      readingTime: '3 menit',
+      category: '4. RESPON & DARURAT',
+      title: 'Kanal Resmi Pelaporan Siber di Indonesia',
+      readingTime: '4 menit',
       badge: 'Regulasi',
       html: `
         <div class="edu-article">
           <div class="edu-header-box">
-            <span class="cyber-tag tag-cyan">MODUL EDUKASI 10</span>
+            <span class="cyber-tag tag-cyan">SUBBAB 4 // RESPON: KANAL PELAPORAN RESMI</span>
             <h2>Kanal Resmi Pelaporan Kejahatan Siber di Indonesia</h2>
             <p class="edu-lead">Laporkan nomor telepon, nomor rekening, dan tautan penipuan ke lembaga berwenang agar diblokir secara nasional.</p>
           </div>
@@ -474,14 +655,14 @@
     },
     {
       id: 'family',
-      category: '4. RESPON & PERLINDUNGAN',
+      category: '4. RESPON & DARURAT',
       title: 'Melindungi Keluarga, Anak & Lansia dari Scam',
       readingTime: '4 menit',
       badge: 'Edukasi Komunitas',
       html: `
         <div class="edu-article">
           <div class="edu-header-box">
-            <span class="cyber-tag tag-cyan">MODUL EDUKASI 11</span>
+            <span class="cyber-tag tag-cyan">SUBBAB 4 // RESPON: PERLINDUNGAN KELUARGA</span>
             <h2>Melindungi Keluarga, Lansia, dan Orang Terdekat</h2>
             <p class="edu-lead">Orang tua dan lansia adalah target paling rentan karena kesenjangan literasi teknologi dan rasa percaya yang tinggi.</p>
           </div>
@@ -495,11 +676,37 @@
               <li><strong>Buat Kata Sandi Darurat Keluarga:</strong> Sepakati satu kata rahasia (Safe Word) keluarga. Jika ada telepon mengatasnamakan anak/saudara tertangkap polisi atau kecelakaan dan meminta tebusan, minta orang tersebut menyebutkan Safe Word tersebut.</li>
             </ul>
           </div>
+        </div>
+      `
+    },
+    {
+      id: 'device-cleanup',
+      category: '4. RESPON & DARURAT',
+      title: 'Deteksi Penyadapan & Sanitasi Perangkat',
+      readingTime: '4 menit',
+      badge: 'Forensik',
+      html: `
+        <div class="edu-article">
+          <div class="edu-header-box">
+            <span class="cyber-tag tag-cyan">SUBBAB 4 // RESPON: SANITASI PERANGKAT</span>
+            <h2>Deteksi Penyadapan & Sanitasi Perangkat Terinfeksi</h2>
+            <p class="edu-lead">Indikator teknis bahwa smartphone Anda sedang disadap spyware dan langkah pembersihan total.</p>
+          </div>
+
+          <div class="edu-section">
+            <h3>Tanda-tanda Ponsel Anda Terinfeksi Spyware:</h3>
+            <ul class="edu-checklist">
+              <li>Baterai cepat terkuras drastis dan ponsel terasa panas saat tidak digunakan.</li>
+              <li>Penggunaan kuota data internet melonjak tidak wajar di latar belakang (background data).</li>
+              <li>Layar menyala sendiri secara acak atau muncul notifikasi pengiriman SMS yang tidak pernah Anda kirimkan.</li>
+              <li>Muncul izin Accessibility Service yang aktif untuk aplikasi asing.</li>
+            </ul>
+          </div>
 
           <div class="edu-section" style="text-align:center; padding: 30px; background: rgba(0,243,255,0.05); border: 1px dashed var(--neon-cyan); border-radius: 8px;">
             <div style="font-size: 2.5rem; margin-bottom: 10px;">🎓</div>
-            <h3 style="color: var(--neon-cyan);">Selamat! Anda Telah Menyelesaikan Panduan Edukasi Siber</h3>
-            <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto 18px;">Pengetahuan Anda adalah perisai terbaik melawan rekayasa sosial. Uji kemampuan Anda di simulasi permainan taktis sekarang!</p>
+            <h3 style="color: var(--neon-cyan);">Selamat! Anda Telah Menguasai Seluruh Panduan Edukasi Siber</h3>
+            <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto 18px;">Pengetahuan Anda adalah benteng pertahanan terbaik melawan rekayasa sosial. Buktikan ketajaman nalar Anda di simulasi permainan taktis sekarang!</p>
             <a href="#games" class="cyber-btn" style="padding: 12px 28px; font-size: 0.95rem;">
               <span>🎮</span> UJI KEMAMPUAN DI MENU GAMES
             </a>
@@ -515,12 +722,6 @@
       this.currentTopicId = 'intro';
       this.sidebarOpenMobile = false;
       this.activeTopCategory = '1. PENDAHULUAN';
-      this.collapsedGroups = {
-        '1. PENDAHULUAN': false,
-        '2. ANATOMI PENIPUAN SIBER': true,
-        '3. KEPUTUSAN & PERLINDUNGAN DIRI': true,
-        '4. RESPON & TINDAKAN DARURAT': true
-      };
     }
 
     init() {
@@ -539,13 +740,13 @@
             <button class="w3-top-tab active" data-cat="1. PENDAHULUAN" onclick="window.edukasiManager.switchCategory('1. PENDAHULUAN')">
               🛡️ PENDAHULUAN
             </button>
-            <button class="w3-top-tab" data-cat="2. ANATOMI PENIPUAN SIBER" onclick="window.edukasiManager.switchCategory('2. ANATOMI PENIPUAN SIBER')">
+            <button class="w3-top-tab" data-cat="2. ANATOMI PENIPUAN" onclick="window.edukasiManager.switchCategory('2. ANATOMI PENIPUAN')">
               🎯 ANATOMI PENIPUAN
             </button>
-            <button class="w3-top-tab" data-cat="3. KEPUTUSAN & PERLINDUNGAN DIRI" onclick="window.edukasiManager.switchCategory('3. KEPUTUSAN & PERLINDUNGAN DIRI')">
+            <button class="w3-top-tab" data-cat="3. KEPUTUSAN AMAN" onclick="window.edukasiManager.switchCategory('3. KEPUTUSAN AMAN')">
               ⚖️ KEPUTUSAN AMAN
             </button>
-            <button class="w3-top-tab" data-cat="4. RESPON & TINDAKAN DARURAT" onclick="window.edukasiManager.switchCategory('4. RESPON & TINDAKAN DARURAT')">
+            <button class="w3-top-tab" data-cat="4. RESPON & DARURAT" onclick="window.edukasiManager.switchCategory('4. RESPON & DARURAT')">
               🚨 RESPON & DARURAT
             </button>
           </div>
@@ -565,7 +766,7 @@
             <!-- W3Schools Styled Sidebar Navigation -->
             <aside class="edu-sidebar" id="edu-sidebar-nav">
               <div class="edu-sidebar-header">
-                <div class="w3-sidebar-title">CYBER DEFENSE TUTORIAL</div>
+                <div class="w3-sidebar-title">PENDAHULUAN TUTORIAL</div>
               </div>
 
               <div class="edu-sidebar-list" id="edu-sidebar-links">
@@ -580,7 +781,7 @@
                   ❮ Previous
                 </button>
                 <div class="edu-progress-tag" id="edu-topic-indicator">
-                  Topik 1 dari 11
+                  Topik 1 dari 4 (1. PENDAHULUAN)
                 </div>
                 <button class="cyber-btn btn-ghost w3-nav-btn" id="btn-edu-next" onclick="window.edukasiManager.nextTopic()">
                   Next ❯
@@ -611,62 +812,48 @@
       const listContainer = document.getElementById('edu-sidebar-links');
       if (!listContainer) return;
 
-      // Update sidebar header title to match active category or tutorial (ala W3Schools)
+      const activeCat = this.activeTopCategory || '1. PENDAHULUAN';
+
+      // Update sidebar header title to match active subbab (ala W3Schools e.g. "CSS TUTORIAL")
       const sbTitle = document.querySelector('.w3-sidebar-title');
       if (sbTitle) {
-        sbTitle.textContent = `${this.activeTopCategory || 'CYBER DEFENSE'} TUTORIAL`;
+        const cleanName = activeCat.replace(/^\d+\.\s*/, '');
+        sbTitle.textContent = `${cleanName} TUTORIAL`;
       }
 
-      // Group topics by category
-      const grouped = {};
-      this.topics.forEach(t => {
-        if (!grouped[t.category]) grouped[t.category] = [];
-        grouped[t.category].push(t);
-      });
+      // Filter topics belonging strictly to this active subbab
+      const items = this.topics.filter(t => t.category === activeCat);
 
-      let html = '';
-      for (const [catName, items] of Object.entries(grouped)) {
-        const isCollapsed = !!this.collapsedGroups[catName];
-        html += `
-          <div class="w3-sidebar-group ${isCollapsed ? 'collapsed' : ''}" data-cat-name="${catName}">
-            <div class="w3-accordion-header" onclick="window.edukasiManager.toggleGroup('${catName}')">
-              <span class="cat-label-text">${catName}</span>
-              <span class="w3-chevron">${isCollapsed ? '▶' : '▼'}</span>
-            </div>
-            <ul class="edu-cat-items" style="${isCollapsed ? 'display:none;' : 'display:block;'}">
-              ${items.map(item => `
-                <li>
-                  <a href="javascript:void(0)" 
-                     class="edu-sidebar-item ${item.id === this.currentTopicId ? 'active' : ''}" 
-                     data-topic-id="${item.id}"
-                     onclick="window.edukasiManager.loadTopic('${item.id}')">
-                    <span class="item-title">${item.title}</span>
-                    <span class="item-badge">${item.readingTime}</span>
-                  </a>
-                </li>
-              `).join('')}
-            </ul>
+      let html = `
+        <div style="padding: 10px 18px 8px 18px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 8px;">
+          <div style="font-family: var(--font-display); font-size: 0.74rem; color: var(--neon-cyan); letter-spacing: 1px; font-weight: 700;">
+            ${activeCat.toUpperCase()}
           </div>
-        `;
-      }
+          <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); margin-top: 2px;">
+            ${items.length} Modul Pembelajaran Tersedia
+          </div>
+        </div>
+        <ul class="edu-cat-items">
+          ${items.map((item, idx) => `
+            <li>
+              <a href="javascript:void(0)" 
+                 class="edu-sidebar-item ${item.id === this.currentTopicId ? 'active' : ''}" 
+                 data-topic-id="${item.id}"
+                 onclick="window.edukasiManager.loadTopic('${item.id}')">
+                <span class="item-title">${idx + 1}. ${item.title}</span>
+                <span class="item-badge">${item.readingTime}</span>
+              </a>
+            </li>
+          `).join('')}
+        </ul>
+      `;
 
       listContainer.innerHTML = html;
-    }
-
-    toggleGroup(catName) {
-      window.cyberAudio?.playClick();
-      this.collapsedGroups[catName] = !this.collapsedGroups[catName];
-      this.renderSidebar();
     }
 
     switchCategory(catName) {
       window.cyberAudio?.playClick();
       this.activeTopCategory = catName;
-
-      // Auto-expand the active category and collapse the others to avoid overflowing list
-      this.topics.forEach(t => {
-        this.collapsedGroups[t.category] = (t.category !== catName);
-      });
 
       // Update top tabs active state
       document.querySelectorAll('.w3-top-tab').forEach(t => {
@@ -686,12 +873,9 @@
       const topic = this.topics.find(t => t.id === topicId) || this.topics[0];
       this.currentTopicId = topic.id;
 
-      // If category switched, update activeTopCategory and expand its group
+      // If category switched, update activeTopCategory and re-render sidebar with the new subbab's chapters
       if (this.activeTopCategory !== topic.category) {
         this.activeTopCategory = topic.category;
-        this.topics.forEach(t => {
-          this.collapsedGroups[t.category] = (t.category !== topic.category);
-        });
         this.renderSidebar();
       }
 
@@ -711,9 +895,11 @@
 
       // Update indicators
       const curIdx = this.topics.findIndex(t => t.id === topic.id);
+      const catTopics = this.topics.filter(t => t.category === topic.category);
+      const catIdx = catTopics.findIndex(t => t.id === topic.id);
       const indicator = document.getElementById('edu-topic-indicator');
       if (indicator) {
-        indicator.textContent = `Topik ${curIdx + 1} dari ${this.topics.length} (${topic.category})`;
+        indicator.textContent = `Topik ${catIdx + 1} dari ${catTopics.length} • Total ${curIdx + 1}/${this.topics.length} (${topic.category})`;
       }
 
       // Update Prev / Next buttons
@@ -801,4 +987,3 @@
 
   window.edukasiManager = new EdukasiManager();
 })();
-
