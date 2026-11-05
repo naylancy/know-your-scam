@@ -126,6 +126,27 @@
                 "criminal": 0,
                 "deeplearn": 0
             }
+        },
+        {
+            "id": "USR-374",
+            "user_code": "USR-374",
+            "name": "john pork",
+            "username": "john",
+            "email": "johnpork@gmail.com",
+            "password": "$2y$12$m4AUzfQC7EsADFmK8QaxwOctmOGoa8ZQ5UTGsHlG3DHydLGqW21FO",
+            "role": "user",
+            "score": 0,
+            "vulnerability": 5,
+            "rank": "Cyber Trainee",
+            "modules_completed": 0,
+            "game_scores": {
+                "kasus": 0,
+                "diff": 0,
+                "criminal": 0,
+                "deeplearn": 0,
+                "scanner": 0,
+                "checker": 0
+            }
         }
     ],
     "cases_kasus": [
@@ -139,12 +160,12 @@
                 {
                     "id": "victim",
                     "label": "Sudut Pandang Korban (Mahasiswa)",
-                    "avatar": "👤"
+                    "avatar": "\ud83d\udc64"
                 },
                 {
                     "id": "hunter",
                     "label": "Sudut Pandang Investigator Siber",
-                    "avatar": "🕵️"
+                    "avatar": "\ud83d\udd75\ufe0f"
                 }
             ],
             "story_steps": [
@@ -301,12 +322,12 @@
                 {
                     "id": "victim",
                     "label": "Sudut Pandang Target (Korban)",
-                    "avatar": "💖"
+                    "avatar": "\ud83d\udc96"
                 },
                 {
                     "id": "hunter",
                     "label": "Sudut Pandang Profiler Ancaman",
-                    "avatar": "🔍"
+                    "avatar": "\ud83d\udd0d"
                 }
             ],
             "story_steps": [
@@ -456,12 +477,12 @@
                 {
                     "id": "victim",
                     "label": "Sudut Pandang Pencari Kerja",
-                    "avatar": "💼"
+                    "avatar": "\ud83d\udcbc"
                 },
                 {
                     "id": "hunter",
                     "label": "Sudut Pandang Auditor Tenaga Kerja",
-                    "avatar": "📑"
+                    "avatar": "\ud83d\udcd1"
                 }
             ],
             "story_steps": [
@@ -917,37 +938,37 @@
     ],
     "cases_checker": [
         {
-            "icon": "💔",
+            "icon": "\ud83d\udc94",
             "type": "love_scam",
             "title": "Love Scam: Koper Hadiah Emas Tertahan Bea Cukai",
             "text": "Halo sayangku, koper berisi hadiah emas, berlian, dan dokumen penting dari luar negeri tertahan di bea cukai bandara internasional. Petugas meminta biaya tebusan administrasi darurat 5 juta rupiah ke rekening pribadi petugas, tolong transfer sekarang agar paket tidak disita."
         },
         {
-            "icon": "📢",
+            "icon": "\ud83d\udce2",
             "type": "hoax",
             "title": "Hoax Viral: Sebarkan Sebelum Dihapus",
             "text": "SEBARKAN SEBELUM DIHAPUS PEMERINTAH! Rahasia dokter spesialis terbongkar, jangan pernah mengonsumsi makanan kemasan ini karena terbukti secara gaib dan konspirasi mengandung racun sintetis berbahaya. Viralkan pesan ini ke 10 grup WhatsApp demi keselamatan keluarga!"
         },
         {
-            "icon": "💼",
+            "icon": "\ud83d\udcbc",
             "type": "job_scam",
             "title": "Job Scam: Kerja Paruh Waktu Like YouTube & Deposit Telegram",
             "text": "Lowongan kerja paruh waktu resmi online tanpa syarat keahlian! Cukup like dan subscribe video YouTube dapat komisi 300 ribu hingga 1 juta rupiah per hari. Gabung grup tugas Telegram kami sekarang dan lakukan deposit awal 150 ribu rupiah untuk aktivasi ID member VIP Anda."
         },
         {
-            "icon": "📦",
+            "icon": "\ud83d\udce6",
             "type": "malware",
             "title": "Malware APK: Surat Undangan / Resi Kurir Paket",
             "text": "Selamat siang kak, mohon maaf paket kiriman Anda tertahan di kurir karena nomor rumah tidak jelas. Silakan unduh dan pasang aplikasi Surat-Undangan-Paket.apk ini di ponsel Android Anda untuk melihat detail resi foto paket secara langsung."
         },
         {
-            "icon": "🏦",
+            "icon": "\ud83c\udfe6",
             "type": "phishing",
             "title": "Phishing: Ancaman Pemblokiran Rekening Darurat",
             "text": "Pemberitahuan Darurat Bank: Rekening Anda terindikasi aktivitas mencurigakan dan akan diblokir dalam 30 menit. Segera perbarui data kredensial serta nomor kartu debit Anda melalui formulir verifikasi: https://bca-klik-promo2026.xyz/login"
         },
         {
-            "icon": "🏛️",
+            "icon": "\ud83c\udfdb\ufe0f",
             "type": "official",
             "title": "Info Resmi: Siaran Pers Imunisasi Nasional Kemkes",
             "text": "Kementerian Kesehatan Republik Indonesia (Kemenkes RI) mengumumkan pembukaan posko Pekan Imunisasi Nasional untuk seluruh balita secara serentak di Puskesmas terdekat tanpa dipungut biaya. Kunjungi portal resmi kemkes.go.id untuk jadwal dan lokasi lengkap."

@@ -160,24 +160,37 @@ class ModuleDiff {
         </div>
 
         <!-- Instruction Notice -->
-        <div style="text-align: center; font-size: 0.95rem; color: var(--text-muted); margin: 14px 0;">
-          👉 Klik salah satu kartu di bawah ini untuk menginspeksi, lalu tekan tombol <strong style="color: var(--neon-cyan);">REAL</strong> atau <strong style="color: var(--neon-magenta);">FAKE</strong> di dermaga kontrol bawah!
+        <div style="text-align: center; font-size: 0.9rem; color: var(--text-muted); margin: 10px 0 16px 0;">
+          💡 Klik salah satu kartu browser di bawah, lalu jatuhkan vonis <strong style="color: var(--neon-cyan);">REAL</strong> atau <strong style="color: var(--neon-magenta);">FAKE</strong> di dermaga kontrol.
         </div>
 
         <!-- Split Grid (Side-by-Side) -->
         <div class="diff-split-grid">
           <!-- Skenario A (Left) -->
           <div 
-            class="hud-card diff-inspect-card ${leftActive ? 'selected-card' : ''}" 
-            style="${leftActive ? 'border-color: var(--neon-cyan); box-shadow: 0 0 30px var(--neon-cyan-glow);' : 'border-color: rgba(255,255,255,0.15);'}"
+            class="diff-inspect-card ${leftActive ? 'selected-card' : ''}" 
             onclick="window.moduleDiff.selectSide('left')"
           >
+            <!-- Browser Top Window Bar -->
+            <div class="diff-browser-window-bar">
+              <span class="browser-dot red"></span>
+              <span class="browser-dot yellow"></span>
+              <span class="browser-dot green"></span>
+              <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); margin-left: 8px;">
+                INSPECTION VIEW // ${left.label}
+              </span>
+            </div>
+
             <div class="diff-card-header">
-              <div style="display:flex; align-items:center; gap: 8px;">
+              <div style="display:flex; align-items:center; gap: 8px; flex-wrap: wrap;">
                 <span class="cyber-tag ${leftActive ? '' : 'tag-magenta'}">${left.label}</span>
-                ${this.userJudgments.left ? `<span class="cyber-tag ${this.userJudgments.left === 'REAL' ? '' : 'tag-magenta'}">VONIS: ${this.userJudgments.left}</span>` : ''}
+                ${this.userJudgments.left ? `
+                  <span class="verdict-stamp ${this.userJudgments.left === 'REAL' ? 'real' : 'fake'}">
+                    ${this.userJudgments.left === 'REAL' ? '🛡️ REAL' : '⚠️ FAKE'}
+                  </span>
+                ` : ''}
               </div>
-              <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--neon-cyan);">
+              <div style="font-family: var(--font-mono); font-size: 0.75rem; color: ${leftActive ? 'var(--neon-cyan)' : 'var(--text-muted)'}; font-weight: 600;">
                 ${leftActive ? '● AKTIF DIPERIKSA' : 'Klik untuk Pilih'}
               </div>
             </div>
@@ -195,28 +208,46 @@ class ModuleDiff {
             </div>
 
             <!-- Visual Elements List -->
-            <div style="background: rgba(5,5,10,0.6); padding: 14px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
-              <div style="font-family: var(--font-display); font-size: 0.8rem; color: var(--neon-cyan); margin-bottom: 8px;">
-                ELEMEN VISUAL TERDETEKSI:
+            <div class="diff-elements-box">
+              <div style="font-family: var(--font-display); font-size: 0.75rem; letter-spacing: 0.8px; color: var(--neon-cyan); margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+                <span>🔍</span> ELEMEN VISUAL & TEKNIS TERDETEKSI:
               </div>
-              <ul style="list-style: none; padding-left: 0; font-size: 0.85rem; color: var(--text-main); display:flex; flex-direction:column; gap:6px;">
-                ${left.visual_elements.map(el => `<li>• ${el}</li>`).join('')}
-              </ul>
+              <div style="display:flex; flex-direction:column; gap:6px;">
+                ${left.visual_elements.map(el => `
+                  <div class="diff-element-item">
+                    <span style="color: var(--neon-cyan); font-size: 0.75rem;">▸</span>
+                    <span>${el}</span>
+                  </div>
+                `).join('')}
+              </div>
             </div>
           </div>
 
           <!-- Skenario B (Right) -->
           <div 
-            class="hud-card diff-inspect-card ${rightActive ? 'selected-card' : ''}" 
-            style="${rightActive ? 'border-color: var(--neon-cyan); box-shadow: 0 0 30px var(--neon-cyan-glow);' : 'border-color: rgba(255,255,255,0.15);'}"
+            class="diff-inspect-card ${rightActive ? 'selected-card' : ''}" 
             onclick="window.moduleDiff.selectSide('right')"
           >
+            <!-- Browser Top Window Bar -->
+            <div class="diff-browser-window-bar">
+              <span class="browser-dot red"></span>
+              <span class="browser-dot yellow"></span>
+              <span class="browser-dot green"></span>
+              <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); margin-left: 8px;">
+                INSPECTION VIEW // ${right.label}
+              </span>
+            </div>
+
             <div class="diff-card-header">
-              <div style="display:flex; align-items:center; gap: 8px;">
+              <div style="display:flex; align-items:center; gap: 8px; flex-wrap: wrap;">
                 <span class="cyber-tag ${rightActive ? '' : 'tag-magenta'}">${right.label}</span>
-                ${this.userJudgments.right ? `<span class="cyber-tag ${this.userJudgments.right === 'REAL' ? '' : 'tag-magenta'}">VONIS: ${this.userJudgments.right}</span>` : ''}
+                ${this.userJudgments.right ? `
+                  <span class="verdict-stamp ${this.userJudgments.right === 'REAL' ? 'real' : 'fake'}">
+                    ${this.userJudgments.right === 'REAL' ? '🛡️ REAL' : '⚠️ FAKE'}
+                  </span>
+                ` : ''}
               </div>
-              <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--neon-cyan);">
+              <div style="font-family: var(--font-mono); font-size: 0.75rem; color: ${rightActive ? 'var(--neon-cyan)' : 'var(--text-muted)'}; font-weight: 600;">
                 ${rightActive ? '● AKTIF DIPERIKSA' : 'Klik untuk Pilih'}
               </div>
             </div>
@@ -234,42 +265,46 @@ class ModuleDiff {
             </div>
 
             <!-- Visual Elements List -->
-            <div style="background: rgba(5,5,10,0.6); padding: 14px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
-              <div style="font-family: var(--font-display); font-size: 0.8rem; color: var(--neon-cyan); margin-bottom: 8px;">
-                ELEMEN VISUAL TERDETEKSI:
+            <div class="diff-elements-box">
+              <div style="font-family: var(--font-display); font-size: 0.75rem; letter-spacing: 0.8px; color: var(--neon-cyan); margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+                <span>🔍</span> ELEMEN VISUAL & TEKNIS TERDETEKSI:
               </div>
-              <ul style="list-style: none; padding-left: 0; font-size: 0.85rem; color: var(--text-main); display:flex; flex-direction:column; gap:6px;">
-                ${right.visual_elements.map(el => `<li>• ${el}</li>`).join('')}
-              </ul>
+              <div style="display:flex; flex-direction:column; gap:6px;">
+                ${right.visual_elements.map(el => `
+                  <div class="diff-element-item">
+                    <span style="color: var(--neon-cyan); font-size: 0.75rem;">▸</span>
+                    <span>${el}</span>
+                  </div>
+                `).join('')}
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Big Decision Dock -->
-        <div class="hud-card diff-decision-dock">
-          <div style="font-family: var(--font-display); font-size: 1rem; color: var(--text-highlight);">
-            JATUHKAN VONIS UNTUK: <span style="color: var(--neon-cyan); text-transform: uppercase;">SKENARIO ${this.selectedSide === 'left' ? 'A (KIRI)' : 'B (KANAN)'}</span>
+        <div class="diff-decision-dock">
+          <div style="font-family: var(--font-display); font-size: 0.95rem; color: var(--text-highlight);">
+            VONIS UNTUK: <span style="color: var(--neon-cyan); font-weight: 700; text-transform: uppercase;">SKENARIO ${this.selectedSide === 'left' ? 'A (KIRI)' : 'B (KANAN)'}</span>
           </div>
 
-          <div style="display:flex; gap: 20px; align-items:center;">
+          <div style="display:flex; gap: 14px; align-items:center; flex-wrap: wrap;">
             <button class="diff-btn-verdict btn-real" onclick="window.moduleDiff.submitVerdict('REAL')">
-              <span style="font-size: 1.5rem;">🛡️</span>
+              <span style="font-size: 1.4rem;">🛡️</span>
               <div>
                 <strong>DOKUMEN ASLI (REAL)</strong>
-                <div style="font-size: 0.72rem; opacity: 0.8;">Otentikasi Sah</div>
+                <div style="font-size: 0.72rem; opacity: 0.85;">Otentikasi Sah</div>
               </div>
             </button>
 
             <button class="diff-btn-verdict btn-fake" onclick="window.moduleDiff.submitVerdict('FAKE')">
-              <span style="font-size: 1.5rem;">⚠️</span>
+              <span style="font-size: 1.4rem;">⚠️</span>
               <div>
                 <strong>TIRUAN / PENIPU (FAKE)</strong>
-                <div style="font-size: 0.72rem; opacity: 0.8;">Social Engineering</div>
+                <div style="font-size: 0.72rem; opacity: 0.85;">Social Engineering</div>
               </div>
             </button>
           </div>
         </div>
-      </div>
       </div>
     `;
   }

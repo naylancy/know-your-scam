@@ -244,10 +244,10 @@
           </div>
 
           <h1 class="hero-title">KNOW YOUR SCAM</h1>
-          <div class="hero-subtitle">ANTI-GRAVITY CYBER DEFENSE // REKAYASA SOSIAL & DETEKSI PENIPUAN</div>
+          <div class="hero-subtitle">ZERO-TRUST CYBER DEFENSE // SIMULASI REKAYASA SOSIAL</div>
 
           <p class="hero-desc">
-            Pusat simulasi dan edukasi taktis pertahanan siber generasi baru bertenaga Laravel dan Artificial Intelligence. Lindungi diri Anda dari ancaman manipulasi psikologis, deteksi keaslian informasi digital, dan uji ketangguhan nalar Anda melalui skenario interaktif.
+            Platform simulasi taktis pertahanan siber bertenaga AI. Asah ketahanan nalar digital Anda melalui skenario interaktif.
           </p>
 
           <!-- Hero Actions: Authentication & Navigation -->
@@ -315,23 +315,23 @@
             <div class="edu-grid-cards" style="margin: 10px 0;">
               <div class="edu-card">
                 <div class="card-icon">🎮</div>
-                <h4 style="color:var(--neon-cyan);">4 Modul Simulasi (Games)</h4>
-                <p>Kasus Multi-POV, Finding Diff, Criminal Case, dan AI Analyzer untuk melatih ketajaman deteksi penipuan siber.</p>
+                <h4 style="color:var(--neon-cyan);">4 Modul Simulasi</h4>
+                <p>Simulasi taktis deteksi phishing, malware, dan rekayasa sosial.</p>
               </div>
               <div class="edu-card">
                 <div class="card-icon">🛡️</div>
                 <h4 style="color:var(--neon-magenta);">Detektor Cerdas Hibrida</h4>
-                <p>Link Scanner dan Legit Checker bertenaga Rule Heuristics + Google Gemini AI Cloud untuk validasi multi-ancaman.</p>
+                <p>Validasi multi-ancaman URL dan pesan mencurigakan bertenaga AI.</p>
               </div>
               <div class="edu-card">
                 <div class="card-icon">📚</div>
                 <h4 style="color:var(--neon-green);">Pusat Edukasi Interaktif</h4>
-                <p>Panduan lengkap mitigasi rekayasa sosial, etika digital, dan langkah respon darurat dengan antarmuka navigasi sidebar.</p>
+                <p>Panduan mitigasi scam berstruktur rapi ala W3Schools.</p>
               </div>
               <div class="edu-card">
                 <div class="card-icon">🏆</div>
                 <h4 style="color:var(--neon-amber);">Live Leaderboard</h4>
-                <p>Pemantauan skor per game dan total XP secara real-time tanpa refresh untuk kompetisi kompetensi siber sehat.</p>
+                <p>Telemetri skor real-time per game dan akumulasi peringkat global.</p>
               </div>
             </div>
           </div>
@@ -341,13 +341,13 @@
                ======================================================== -->
           <div id="menu-summary-section" style="text-align: center; margin-bottom: 24px; max-width: 800px;">
             <span class="cyber-tag tag-magenta" style="font-size: 0.85rem; padding: 6px 16px; margin-bottom: 8px;">
-              KATALOG SPESIFIKASI MENU
+              KATALOG SPESIFIKASI
             </span>
             <h2 style="font-size: 1.8rem; color: var(--text-highlight); margin: 6px 0;">
-              RINGKASAN PROTOKOL & MATERI EDUKASI
+              RINGKASAN PROTOKOL & MATERI
             </h2>
             <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.5;">
-              Berikut adalah ringkasan kurikulum dan kapabilitas teknis dari seluruh modul yang tersedia. Klik kartu di bawah untuk membuka dokumen ringkasan & intelijen modul tanpa langsung memulai permainan.
+              Katalog kapabilitas dan intelijen modul pertahanan siber. Klik kartu untuk meninjau detail modul.
             </p>
           </div>
 
@@ -358,16 +358,16 @@
               <div>
                 <div class="menu-summary-badge-bar">
                   <span class="cyber-tag">MODUL 1</span>
-                  <span class="cyber-tag tag-amber">MULTI-POV STORY</span>
+                  <span class="cyber-tag tag-amber">MULTI-POV</span>
                 </div>
                 <div class="menu-summary-icon">📜</div>
                 <h4 style="font-size: 1.15rem; color: var(--text-highlight); margin-bottom: 6px;">KASUS (MULTI-POV)</h4>
                 <p class="menu-summary-teaser">
-                  Simulasi narasi percakapan terminal siber dengan alur Phishing Bank NeoArtha, Love Scam Helios, dan Job Scam QuantumTech dari sudut pandang Korban & Pemburu Ancaman.
+                  Simulasi narasi terminal dari perspektif Korban dan Pemburu Ancaman.
                 </p>
               </div>
               <div class="menu-summary-inspect-link">
-                <span>🔍</span> BACA RINGKASAN PROTOKOL ➔
+                <span>🔍</span> RINGKASAN PROTOKOL ➔
               </div>
             </div>
 
@@ -376,16 +376,16 @@
               <div>
                 <div class="menu-summary-badge-bar">
                   <span class="cyber-tag">MODUL 2</span>
-                  <span class="cyber-tag tag-magenta">JUDGE REAL VS FAKE</span>
+                  <span class="cyber-tag tag-magenta">REAL VS FAKE</span>
                 </div>
                 <div class="menu-summary-icon">⚖️</div>
                 <h4 style="font-size: 1.15rem; color: var(--text-highlight); margin-bottom: 6px;">FINDING DIFF</h4>
                 <p class="menu-summary-teaser">
-                  Uji ketelitian visual bertindak sebagai Hakim Siber membandingkan skenario berdampingan dengan hover zoom-in lens dan 2 tombol raksasa neon REAL vs FAKE.
+                  Inspeksi browser komparatif untuk memutuskan keaslian dokumen digital.
                 </p>
               </div>
               <div class="menu-summary-inspect-link">
-                <span>🔍</span> BACA RINGKASAN PROTOKOL ➔
+                <span>🔍</span> RINGKASAN PROTOKOL ➔
               </div>
             </div>
 
@@ -394,16 +394,16 @@
               <div>
                 <div class="menu-summary-badge-bar">
                   <span class="cyber-tag">MODUL 3</span>
-                  <span class="cyber-tag tag-red">FORENSIC PUZZLE</span>
+                  <span class="cyber-tag tag-red">FORENSIK</span>
                 </div>
                 <div class="menu-summary-icon">🕵️</div>
                 <h4 style="font-size: 1.15rem; color: var(--text-highlight); margin-bottom: 6px;">CRIMINAL CASE</h4>
                 <p class="menu-summary-teaser">
-                  Teka-teki investigasi kriminal harian drag-and-drop memetakan anatomi penipuan korporat BEC dan investasi palsu sebelum batas waktu panik habis.
+                  Investigasi forensik sindikat siber dengan bukti teknis berbatas waktu.
                 </p>
               </div>
               <div class="menu-summary-inspect-link">
-                <span>🔍</span> BACA RINGKASAN PROTOKOL ➔
+                <span>🔍</span> RINGKASAN PROTOKOL ➔
               </div>
             </div>
 
@@ -412,16 +412,16 @@
               <div>
                 <div class="menu-summary-badge-bar">
                   <span class="cyber-tag">MODUL 4</span>
-                  <span class="cyber-tag tag-green">HYBRID AI EVALUATION</span>
+                  <span class="cyber-tag tag-green">AI EVALUATION</span>
                 </div>
                 <div class="menu-summary-icon">🧠</div>
                 <h4 style="font-size: 1.15rem; color: var(--text-highlight); margin-bottom: 6px;">ANALYZER (AI EVALUATOR)</h4>
                 <p class="menu-summary-teaser">
-                  Evaluasi kritis ancaman Zero-Day di mana penalaran tertulis Anda dievaluasi secara mendalam oleh Google Gemini AI dan Neural Matrix Know Your Scam.
+                  Evaluasi tertulis ancaman Zero-Day berumpan balik evaluasi AI cerdas.
                 </p>
               </div>
               <div class="menu-summary-inspect-link">
-                <span>🔍</span> BACA RINGKASAN PROTOKOL ➔
+                <span>🔍</span> RINGKASAN PROTOKOL ➔
               </div>
             </div>
 
@@ -430,16 +430,16 @@
               <div>
                 <div class="menu-summary-badge-bar">
                   <span class="cyber-tag">DETEKTOR 1</span>
-                  <span class="cyber-tag">SECURITY UTILITY</span>
+                  <span class="cyber-tag">URL SCANNER</span>
                 </div>
                 <div class="menu-summary-icon">🔗</div>
                 <h4 style="font-size: 1.15rem; color: var(--text-highlight); margin-bottom: 6px;">NEWS & LINK SCANNER</h4>
                 <p class="menu-summary-teaser">
-                  Utilitas pemindaian keabsahan URL dan teks berita dengan skor kerentanan neon 1–10, transparansi pemrosesan AI, dan petunjuk keamanan interaktif.
+                  Pindai URL & indikator phishing dengan kalkulasi skor risiko instan.
                 </p>
               </div>
               <div class="menu-summary-inspect-link">
-                <span>🔍</span> BACA RINGKASAN PROTOKOL ➔
+                <span>🔍</span> RINGKASAN PROTOKOL ➔
               </div>
             </div>
 
@@ -448,52 +448,52 @@
               <div>
                 <div class="menu-summary-badge-bar">
                   <span class="cyber-tag">DETEKTOR 2</span>
-                  <span class="cyber-tag tag-magenta">OMNI-THREAT AI</span>
+                  <span class="cyber-tag tag-magenta">OMNI-THREAT</span>
                 </div>
                 <div class="menu-summary-icon">🛡️</div>
                 <h4 style="font-size: 1.15rem; color: var(--text-highlight); margin-bottom: 6px;">LEGIT CHECKER</h4>
                 <p class="menu-summary-teaser">
-                  Pusat validasi keaslian multi-vektor untuk menguji chat love scam, hoax viral, tawaran kerja bodong, investasi palsu, hingga malware APK dengan arsitektur hybrid.
+                  Validasi pesan chat, tawaran kerja, dan malware multi-vektor.
                 </p>
               </div>
               <div class="menu-summary-inspect-link">
-                <span>🔍</span> BACA RINGKASAN PROTOKOL ➔
+                <span>🔍</span> RINGKASAN PROTOKOL ➔
               </div>
             </div>
 
-            <!-- 6. LEADERBOARD -->
+            <!-- 7. LEADERBOARD -->
             <div class="menu-summary-card" onclick="window.welcomeInteractive.openMenuSummary('leaderboard')">
               <div>
                 <div class="menu-summary-badge-bar">
                   <span class="cyber-tag">PERINGKAT</span>
-                  <span class="cyber-tag tag-amber">GLOBAL TELEMETRY</span>
+                  <span class="cyber-tag tag-amber">TELEMETRI</span>
                 </div>
                 <div class="menu-summary-icon">🏆</div>
                 <h4 style="font-size: 1.15rem; color: var(--text-highlight); margin-bottom: 6px;">LEADERBOARD GLOBAL</h4>
                 <p class="menu-summary-teaser">
-                  Papan peringkat real-time yang memeringkat operator siber berdasarkan skor XP pertahanan, konsistensi misi, dan skor kerentanan terendah dengan medali kejuaraan.
+                  Peringkat global real-time berdasarkan akumulasi XP & kerentanan.
                 </p>
               </div>
               <div class="menu-summary-inspect-link">
-                <span>🔍</span> BACA RINGKASAN PROTOKOL ➔
+                <span>🔍</span> RINGKASAN PROTOKOL ➔
               </div>
             </div>
 
-            <!-- 7. PANEL ADMIN (Only Visible for Admin Role) -->
+            <!-- 8. PANEL ADMIN (Only Visible for Admin Role) -->
             <div class="menu-summary-card" id="summary-card-admin" onclick="window.welcomeInteractive.openMenuSummary('admin')" style="display:none;">
               <div>
                 <div class="menu-summary-badge-bar">
                   <span class="cyber-tag tag-magenta">KONTROL SISTEM</span>
-                  <span class="cyber-tag">CRUD & AUDIT</span>
+                  <span class="cyber-tag">CRUD</span>
                 </div>
                 <div class="menu-summary-icon">🛡️</div>
                 <h4 style="font-size: 1.15rem; color: var(--text-highlight); margin-bottom: 6px;">PANEL KONTROL ADMIN</h4>
                 <p class="menu-summary-teaser">
-                  Konsol manajemen khusus pengelola platform untuk memodifikasi atau menambah skenario kasus, memantau log aktivitas peserta secara real-time, dan mengekspor telemetri.
+                  Manajemen skenario kasus kustom dan pemantauan aktivitas peserta.
                 </p>
               </div>
               <div class="menu-summary-inspect-link">
-                <span>🔍</span> BACA RINGKASAN PROTOKOL ➔
+                <span>🔍</span> RINGKASAN PROTOKOL ➔
               </div>
             </div>
           </div>
@@ -507,13 +507,13 @@
         <div class="holo-enter">
           <div style="text-align: center; margin-bottom: 24px;">
             <span class="cyber-tag tag-cyan" style="font-size: 0.82rem; padding: 6px 16px;">
-              PUSAT MISI PERTAHANAN SIBER
+              ARENA SIMULASI
             </span>
             <h2 style="font-size: 1.85rem; color: var(--text-highlight); margin: 8px 0;">
-              PILIH MODUL SIMULASI TAKTIS (GAMES)
+              PILIH MODUL SIMULASI (GAMES)
             </h2>
-            <p style="font-size: 0.95rem; color: var(--text-muted); max-width: 700px; margin: 0 auto;">
-              Pilih salah satu arena simulasi di bawah untuk mengasah naluri deteksi penipuan siber Anda. Skor dari setiap permainan dihitung secara real-time dan terakumulasi ke Leaderboard Global.
+            <p style="font-size: 0.95rem; color: var(--text-muted); max-width: 650px; margin: 0 auto;">
+              Pilih arena simulasi untuk melatih respon siber. Skor terupdate otomatis ke Leaderboard.
             </p>
           </div>
 
@@ -524,7 +524,7 @@
                 <div class="game-hub-badge">MODUL 1 // MULTI-POV</div>
                 <h3 class="game-hub-title">📜 Kasus Simulasi</h3>
                 <p class="game-hub-desc">
-                  Simulasi interaktif berganti sudut pandang antara Korban dan Pemburu Ancaman. Pecahkan kasus phishing, love scam, dan job scam dengan pilihan respon mitigasi taktis.
+                  Hadapi rekayasa sosial dari perspektif Korban dan Pemburu Ancaman.
                 </p>
               </div>
               <div>
@@ -537,10 +537,10 @@
             <!-- Game 2: Finding Diff -->
             <div class="game-hub-card">
               <div>
-                <div class="game-hub-badge">MODUL 2 // JUDGE REAL VS FAKE</div>
+                <div class="game-hub-badge">MODUL 2 // REAL VS FAKE</div>
                 <h3 class="game-hub-title">⚖️ Finding Diff</h3>
                 <p class="game-hub-desc">
-                  Uji ketelitian visual Anda sebagai Hakim Siber membandingkan dua dokumen/situs web berdampingan dengan lensa pembesar (Zoom Lens) untuk menentukan Real vs Fake.
+                  Periksa domain dan visual web berdampingan untuk vonis Real vs Fake.
                 </p>
               </div>
               <div>
@@ -553,10 +553,10 @@
             <!-- Game 3: Criminal Case -->
             <div class="game-hub-card card-magenta">
               <div>
-                <div class="game-hub-badge" style="color:var(--neon-magenta); background:rgba(189,0,255,0.1);">MODUL 3 // FORENSIC PUZZLE</div>
+                <div class="game-hub-badge" style="color:var(--neon-magenta); background:rgba(189,0,255,0.1);">MODUL 3 // FORENSIK</div>
                 <h3 class="game-hub-title">🕵️ Criminal Case</h3>
                 <p class="game-hub-desc">
-                  Teka-teki investigasi sindikat siber drag-and-drop. Analisis log server, rekening penampung, dan taktik penipuan sebelum batas waktu panik habis.
+                  Rekonstruksi alur kejahatan sindikat siber sebelum timer darurat habis.
                 </p>
               </div>
               <div>
@@ -569,10 +569,10 @@
             <!-- Game 4: Analyzer -->
             <div class="game-hub-card">
               <div>
-                <div class="game-hub-badge" style="color:var(--neon-green); background:rgba(0,255,136,0.1);">MODUL 4 // HYBRID AI EVALUATOR</div>
+                <div class="game-hub-badge" style="color:var(--neon-green); background:rgba(0,255,136,0.1);">MODUL 4 // AI EVALUATOR</div>
                 <h3 class="game-hub-title">🧠 AI Analyzer</h3>
                 <p class="game-hub-desc">
-                  Tuliskan penalaran kritis Anda terhadap ancaman Zero-Day. Evaluator AI (Google Gemini Cloud + Neural Core) akan membaca dan mengulas kualitas analisis Anda.
+                  Tulis analisis mitigasi ancaman Zero-Day untuk dievaluasi oleh Gemini AI.
                 </p>
               </div>
               <div>

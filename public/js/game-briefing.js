@@ -19,16 +19,14 @@
       badge: 'MODUL 1 // MULTI-POV',
       title: '📜 PROTOKOL KASUS SIBER (MULTI-POV SIMULATION)',
       category: 'Simulasi Naratif Multi Sudut Pandang',
-      desc: 'Hadapi skenario serangan siber realistis (Phishing Bank NeoArtha, Love Scam Helios, dan Lowongan Kerja Bodong QuantumTech). Anda dapat berganti sudut pandang antara KORBAN dan PEMBURU ANCAMAN untuk menelusuri pesan terminal siber sebelum mengambil keputusan mitigasi.',
-      objective: 'Mengidentifikasi anomali transmisi siber, menganalisis red flags emosional/teknis, dan mengeksekusi mitigasi Zero-Trust terbaik.',
-      scoring: '+100 XP untuk setiap respon tepat dan penurunan indeks kerentanan (VULN). Penalti VULN jika memilih tindakan ceroboh.',
+      desc: 'Hadapi simulasi serangan siber realistis. Beralih sudut pandang antara KORBAN dan INVESTIGATOR untuk menganalisis transmisi sebelum mengeksekusi mitigasi.',
+      objective: 'Identifikasi anomali transmisi, deteksi manipulasi emosional/teknis, dan pilih respon Zero-Trust terbaik.',
+      scoring: '+100 XP per respon tepat dan penurunan kerentanan (VULN). Penalti VULN jika memilih opsi ceroboh.',
       steps: [
-        'Pilih skenario kasus yang terbuka pada katalog misi di bawah.',
-        'Skenario berikutnya akan terbuka secara otomatis setelah Anda menyelesaikan skenario sebelumnya.',
-        'Gunakan tombol switch POV untuk berpindah perspektif antara KORBAN (merasakan urgensi psikologis) dan INVESTIGATOR (menganalisis bukti objektif teknis).',
-        'Setiap POV memiliki pilihan respon tindakan yang berbeda dan kontekstual.',
-        'Analisis riwayat chat, nomor pengirim, nama domain fiktif, dan indikator red flag sebelum memutuskan respon.',
-        'Gunakan tombol "MINTA INTEL / HINT" jika membutuhkan petunjuk analisis dari intelijen siber.'
+        'Pilih skenario yang terbuka pada katalog (skenario berikutnya terbuka bertahap).',
+        'Gunakan tombol switch POV untuk beralih antara sudut pandang KORBAN dan INVESTIGATOR.',
+        'Periksa riwayat chat, pengirim, dan indikator ancaman terdeteksi.',
+        'Pilih respon mitigasi paling aman di bagian bawah terminal (tersedia tombol Hint jika butuh bantuan).'
       ],
       startBtnText: '⚡ MULAI MISI KASUS'
     },
@@ -38,16 +36,14 @@
       badge: 'MODUL 2 // FORENSIC COMPARISON',
       title: '⚖️ PROTOKOL FINDING DIFF (REAL VS FAKE)',
       category: 'Hakim Digital: Uji Forensik Komparatif Visual',
-      desc: 'Bandingkan dua transmisi digital berdampingan secara visual (Portal Web Asli vs Web Phishing, Email Resmi vs Email Spoofing). Bertindaklah sebagai Hakim Siber untuk menentukan mana transmisi ASLI (REAL) dan mana tiruan PENIPU (FAKE).',
-      objective: 'Menemukan anomali visual mikroskopis: perbedaan URL typo-squatting, sertifikat SSL, penataan layout, dan ejaan brand.',
-      scoring: '+100 XP per vonis akurat. Penalti indeks kerentanan jika tertipu portal tiruan atau salah menetapkan status dokumen.',
+      desc: 'Bandingkan dua antarmuka web berdampingan secara visual. Bertindaklah sebagai Hakim Siber untuk memutuskan dokumen ASLI (REAL) vs TIRUAN (FAKE).',
+      objective: 'Temukan anomali domain, keabsahan SSL, dan ketidaksesuaian elemen visual antarmuka.',
+      scoring: '+100 XP per vonis akurat. Penalti indeks kerentanan jika salah menetapkan status dokumen.',
       steps: [
-        'Pilih berkas skenario forensik komparatif yang terbuka pada katalog misi di bawah.',
-        'Skenario berikutnya akan terbuka secara otomatis setelah Anda menyelesaikan evaluasi skenario saat ini.',
-        'Arahkan kursor atau sentuh layar pada dokumen kiri dan kanan untuk mengaktifkan kaca pembesar (Zoom Lens).',
-        'Periksa bar alamat URL browser virtual dengan domain resmi korporat.',
-        'Amati red flags visual: logo resolusi rendah, nomor kontak palsu, form login mencurigakan, dan ejaan nama instansi.',
-        'Klik tombol raksasa neon "REAL" atau "FAKE" di bagian bawah untuk menjatuhkan vonis siber definitif.'
+        'Pilih skenario terbuka pada katalog misi (skenario lanjutan terbuka bertahap).',
+        'Klik salah satu jendela browser virtual (Skenario A atau B) untuk menginspeksi.',
+        'Periksa keabsahan URL bar, sertifikat SSL, dan daftar elemen visual terdeteksi.',
+        'Jatuhkan vonis dengan menekan tombol REAL atau FAKE pada dermaga kontrol bawah.'
       ],
       startBtnText: '⚡ MULAI FINDING DIFF'
     },
@@ -57,16 +53,14 @@
       badge: 'MODUL 3 // FORENSIC PUZZLE',
       title: '🕵️ PROTOKOL CRIMINAL CASE (INVESTIGASI SINDIKAT SIBER)',
       category: 'Papan Teka-Teki Investigasi Drag-and-Drop',
-      desc: 'Pecahkan kasus investigasi sindikat kejahatan siber berantai sebelum batas waktu kritis habis. Bongkar anatomi serangan Business Email Compromise (BEC), penyebaran file malware APK perbankan, dan jaringan rekening penampung.',
-      objective: 'Memetakan 4 bukti kunci digital (Aktor Asal, Vektor Serangan, Red Flag Kunci, dan Strategi Intervensi) serta mencocokkan dengan profil buronan siber.',
-      scoring: '+150 XP per pemecahan kasus tepat waktu. Timer panik hanya berjalan saat Anda berada di dalam Arena Permainan.',
+      desc: 'Bongkar sindikat kejahatan siber terorganisir (BEC, malware APK, rekening penampung) sebelum batas waktu investigasi habis.',
+      objective: 'Petakan 4 bukti kunci ke slot anatomi kejahatan dan cocokkan profil buronan siber yang tepat.',
+      scoring: '+150 XP per pemecahan kasus tepat waktu. Timer panik aktif saat berada di dalam Arena Permainan.',
       steps: [
-        'Pilih berkas investigasi yang terbuka pada katalog sindikat di bawah.',
-        'Berkas investigasi lanjutan akan terbuka otomatis setelah Anda berhasil memecahkan berkas sebelumnya.',
-        'Perhatikan sisa waktu pada timer investigasi di bagian atas arena permainan.',
-        'Tarik dan letakkan (Drag & Drop) atau klik kartu bukti digital ke 4 slot anatomi investigasi yang sesuai.',
-        'Pilih tersangka utama dari daftar buronan siber berdasarkan kecocokan bukti log IP dan rekening penampung.',
-        'Tekan tombol "EKSEKUSI PENANGKAPAN & SELESAIKAN KASUS" untuk menguji keabsahan hipotesis forensik Anda.'
+        'Pilih berkas investigasi terbuka pada katalog (berkas lanjutan terbuka bertahap).',
+        'Perhatikan sisa waktu pada timer investigasi di bagian atas arena.',
+        'Tarik atau klik bukti digital ke 4 slot anatomi investigasi yang sesuai.',
+        'Pilih profil tersangka utama lalu tekan tombol eksekusi penangkapan.'
       ],
       startBtnText: '⚡ MULAI INVESTIGASI'
     },
@@ -76,16 +70,14 @@
       badge: 'MODUL 4 // HYBRID AI EVALUATOR',
       title: '🧠 PROTOKOL ANALYZER (EVALUASI SEMANTIK AI)',
       category: 'Evaluator Kualitatif Penalaran Siber Berbasis Hybrid LLM',
-      desc: 'Uji kemampuan penalaran kritis Anda terhadap ancaman Zero-Day tanpa jawaban pilihan ganda sederhana. Tuliskan argumen forensik Anda sendiri. AI Evaluator (Google Gemini Cloud + Neural Core) akan membaca dan mengulas kedalaman penalaran Anda secara kualitatif.',
-      objective: 'Mendiagnosis dokumen transmisi dan mengelaborasi argumen deteksi manipulasi siber dalam bahasa bebas.',
-      scoring: 'Skor Semantik 0–100 XP per analisis berdasarkan kedalaman argumen, identifikasi vektor bahaya, dan rekomendasi mitigasi.',
+      desc: 'Uji nalar kritis terhadap ancaman Zero-Day. Tuliskan argumen forensik Anda secara bebas untuk dinilai langsung oleh AI Evaluator (Gemini Cloud).',
+      objective: 'Klasifikasikan tingkat ancaman dan elaborasikan penalaran teknis deteksi scam.',
+      scoring: 'Skor Semantik 0–100 XP per analisis berdasarkan kedalaman argumen teknis dan deteksi red flags.',
       steps: [
-        'Pilih skenario dokumen transmisi yang terbuka pada katalog investigasi AI di bawah.',
-        'Skenario berikutnya akan terbuka bertahap setelah Anda mengirimkan analisis pada skenario saat ini.',
-        'Baca dokumen transmisi mencurigakan yang masuk pada konsol terminal di sebelah kiri.',
-        'Pilih klasifikasi tingkat bahaya ancaman: AMAN / RESMI, MENCURIGAKAN, atau SCAM KRITIS.',
-        'Tuliskan argumen kritis Anda pada kolom analisis: mengapa transmisi ini berbahaya dan red flag apa yang Anda temukan.',
-        'Kirim analisis untuk menerima evaluasi skor kualitatif (0-100 XP) dan catatan ulasan kritik dari AI Evaluator Senior.'
+        'Pilih transmisi terbuka pada katalog AI (skenario lanjutan terbuka bertahap).',
+        'Pelajari dokumen transmisi mencurigakan dan indikator anomali pada terminal.',
+        'Pilih klasifikasi ancaman: AMAN, MENCURIGAKAN, atau SCAM KRITIS.',
+        'Tulis argumen forensik (min. 15 karakter) lalu kirim ke AI Evaluator.'
       ],
       startBtnText: '⚡ MULAI ANALYZER'
     }
