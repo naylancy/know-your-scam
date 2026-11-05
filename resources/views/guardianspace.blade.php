@@ -50,7 +50,7 @@
             <li class="nav-item-game dropdown-nav-item">
               <a href="#games" class="nav-link dropdown-toggle" id="nav-games-link"><span>🎮</span> GAMES ▾</a>
               <ul class="dropdown-menu">
-                <li><a href="#kasus" class="dropdown-link"><span>📜</span> KASUS SIMULASI</a></li>
+                <li><a href="#kasus" class="dropdown-link"><span>🎭</span> SCAM SIMULATOR</a></li>
                 <li><a href="#diff" class="dropdown-link"><span>⚖️</span> FINDING DIFF</a></li>
                 <li><a href="#criminal" class="dropdown-link"><span>🕵️</span> CRIMINAL CASE</a></li>
                 <li><a href="#deeplearn" class="dropdown-link"><span>🧠</span> ANALYZER</a></li>
@@ -170,7 +170,7 @@
           <li class="mobile-nav-section-title">🎮 SIMULASI TAKTIS (GAMES)</li>
           <li class="mobile-nav-subitem">
             <a href="#kasus" class="mobile-nav-link" onclick="window.app.navigateTo('kasus'); window.app.toggleMobileSidebar(true);">
-              <span>📜</span> Kasus Simulasi (Multi-POV)
+              <span>🎭</span> Scam Simulator (Multi-POV)
             </a>
           </li>
           <li class="mobile-nav-subitem">
@@ -363,10 +363,10 @@
                   <span class="cyber-tag">MODUL 1</span>
                   <span class="cyber-tag tag-amber">MULTI-POV</span>
                 </div>
-                <div class="menu-summary-icon">📜</div>
-                <h4 style="font-size: 1.15rem; color: var(--text-highlight); margin-bottom: 6px;">KASUS (MULTI-POV)</h4>
+                <div class="menu-summary-icon">🎭</div>
+                <h4 style="font-size: 1.15rem; color: var(--text-highlight); margin-bottom: 6px;">SCAM SIMULATOR (MULTI-POV)</h4>
                 <p class="menu-summary-teaser">
-                  Simulasi narasi terminal dari perspektif Korban dan Pemburu Ancaman.
+                  Simulasi interaktif roleplay Scammer vs Victim dengan karakter hewan pixel dan alur chat bercabang.
                 </p>
               </div>
               <div class="menu-summary-inspect-link">
@@ -525,14 +525,14 @@
             <div class="game-hub-card">
               <div>
                 <div class="game-hub-badge">MODUL 1 // MULTI-POV</div>
-                <h3 class="game-hub-title">📜 Kasus Simulasi</h3>
+                <h3 class="game-hub-title">🎭 Scam Simulator</h3>
                 <p class="game-hub-desc">
-                  Hadapi rekayasa sosial dari perspektif Korban dan Pemburu Ancaman.
+                  Simulasi interaktif roleplay Scammer vs Victim dengan karakter hewan pixel dan alur chat bercabang.
                 </p>
               </div>
               <div>
                 <button class="cyber-btn" style="width:100%; font-size:0.92rem; padding:12px;" onclick="window.app.navigateTo('kasus')">
-                  <span>⚡</span> MAINKAN KASUS ➔
+                  <span>⚡</span> MAINKAN SCAM SIMULATOR ➔
                 </button>
               </div>
             </div>

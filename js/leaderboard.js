@@ -123,12 +123,12 @@ class LeaderboardManager {
         </div>
 
         <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap:12px; margin-bottom:20px;">
-          <!-- Kasus -->
+          <!-- Scam Simulator -->
           <div class="leaderboard-game-pod" style="padding:14px; border-radius:8px; text-align:center;">
-            <div style="font-size:0.78rem; color:var(--text-muted); margin-bottom:4px;">📜 KASUS MULTI-POV</div>
+            <div style="font-size:0.78rem; color:var(--text-muted); margin-bottom:4px;">🎭 SCAM SIMULATOR</div>
             <strong style="color:var(--neon-amber); font-size:1.35rem;">${gs.kasus} XP</strong>
-            <button class="cyber-btn" style="width:100%; font-size:0.75rem; padding:8px; margin-top:10px; border-color:var(--neon-amber);" onclick="document.getElementById('modal-general-box').classList.remove('active'); window.app.navigateTo('kasus');">
-              ⚡ MAIN KASUS ➔
+            <button class="cyber-btn" style="width:100%; font-size:0.75rem; padding:8px; margin-top:10px; border-color:var(--neon-amber); color:var(--neon-amber);" onclick="document.getElementById('modal-general-box').classList.remove('active'); window.app.navigateTo('kasus');">
+              ⚡ MAIN SCAM SIM ➔
             </button>
           </div>
 
@@ -299,7 +299,7 @@ class LeaderboardManager {
               ${u.score.toLocaleString()} XP
             </td>
             <!-- Individual 4 Game Breakdown Columns (Click to navigate to respective game) -->
-            <td style="text-align: center; cursor: pointer;" onclick="window.app.navigateTo('kasus')" title="Mainkan Kasus Simulasi">
+            <td style="text-align: center; cursor: pointer;" onclick="window.app.navigateTo('kasus')" title="Mainkan Scam Simulator">
               <span class="cyber-tag" style="padding:3px 10px; font-size:0.78rem; border-color:rgba(255,184,0,0.5); color:var(--neon-amber); transition: transform 0.2s;">
                 ${gs.kasus} XP ↗
               </span>
@@ -391,14 +391,14 @@ class LeaderboardManager {
                   </div>
 
                   <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 6px;">
-                    <!-- Game 1: Kasus -->
+                    <!-- Game 1: Scam Simulator -->
                     <div class="leaderboard-game-pod" style="border:1px solid rgba(255,184,0,0.4); border-radius:8px; padding:12px; text-align:center; display:flex; flex-direction:column; justify-content:space-between;">
                       <div>
-                        <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px;">📜 KASUS MULTI-POV</div>
+                        <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px;">🎭 SCAM SIMULATOR</div>
                         <strong style="color:var(--neon-amber); font-size:1.25rem;">${gs.kasus} XP</strong>
                       </div>
-                      <button class="cyber-btn" style="width:100%; font-size:0.72rem; padding:6px; margin-top:10px; border-color:var(--neon-amber);" onclick="window.app.navigateTo('kasus')">
-                        ⚡ MAIN KASUS ➔
+                      <button class="cyber-btn" style="width:100%; font-size:0.72rem; padding:6px; margin-top:10px; border-color:var(--neon-amber); color:var(--neon-amber);" onclick="window.app.navigateTo('kasus')">
+                        ⚡ MAIN SCAM SIM ➔
                       </button>
                     </div>
 
@@ -516,8 +516,8 @@ class LeaderboardManager {
                   <th style="width: 55px; text-align: center;">POSISI</th>
                   <th>OPERATOR SIBER</th>
                   <th style="text-align: right; padding-right: 18px; color:var(--neon-cyan);">TOTAL XP</th>
-                  <th style="text-align: center; color:var(--neon-amber); cursor:pointer;" onclick="window.app.navigateTo('kasus')" title="Klik untuk mainkan game Kasus">
-                    📜 KASUS ↗
+                  <th style="text-align: center; color:var(--neon-amber); cursor:pointer;" onclick="window.app.navigateTo('kasus')" title="Klik untuk mainkan Scam Simulator">
+                    🎭 SCAM SIM ↗
                   </th>
                   <th style="text-align: center; color:var(--neon-magenta); cursor:pointer;" onclick="window.app.navigateTo('diff')" title="Klik untuk mainkan game Finding Diff">
                     ⚖️ DIFF ↗

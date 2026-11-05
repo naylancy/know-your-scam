@@ -17,18 +17,18 @@
     kasus: {
       key: 'kasus',
       badge: 'MODUL 1 // MULTI-POV',
-      title: '📜 PROTOKOL KASUS SIBER (MULTI-POV SIMULATION)',
-      category: 'Simulasi Naratif Multi Sudut Pandang',
-      desc: 'Hadapi simulasi serangan siber realistis. Beralih sudut pandang antara KORBAN dan INVESTIGATOR untuk menganalisis transmisi sebelum mengeksekusi mitigasi.',
-      objective: 'Identifikasi anomali transmisi, deteksi manipulasi emosional/teknis, dan pilih respon Zero-Trust terbaik.',
-      scoring: '+100 XP per respon tepat dan penurunan kerentanan (VULN). Penalti VULN jika memilih opsi ceroboh.',
+      title: '🎭 PROTOKOL SCAM SIMULATOR (ROLEPLAY ARENA)',
+      category: 'Simulasi Psikologis Multi-POV: Scammer vs Victim',
+      desc: 'Simulasi interaktif rekayasa sosial dari dua sudut pandang kontras: bertindak sebagai Scammer (memanipulasi mangsa) atau Victim (menghindari jeratan penipuan melalui smartphone) dengan karakter hewan pixel unik.',
+      objective: 'Kuasai pola pikir pelaku rekayasa sosial dan latih insting pertahanan digital untuk membongkar manipulasi psikologis.',
+      scoring: '+100-150 XP per keberhasilan skenario (Happy Ending) dan penurunan indeks kerentanan VULN.',
       steps: [
-        'Pilih skenario yang terbuka pada katalog (skenario berikutnya terbuka bertahap).',
-        'Gunakan tombol switch POV untuk beralih antara sudut pandang KORBAN dan INVESTIGATOR.',
-        'Periksa riwayat chat, pengirim, dan indikator ancaman terdeteksi.',
-        'Pilih respon mitigasi paling aman di bagian bawah terminal (tersedia tombol Hint jika butuh bantuan).'
+        'Pilih Role Anda: "Scammer" (Si Penipu) atau "Victim" (Calon Korban).',
+        'Pilih Karakter Hewan Pixel: Buaya, Singa, Elang (Scammer) / Kucing, Hamster, Kelinci (Victim).',
+        'Jalani simulasi chat interaktif (tersedia simulasi panggilan telepon untuk Love Scam dan portal link untuk Phishing).',
+        'Untuk role Victim: Tuliskan argumen forensik mengapa pesan tersebut merupakan penipuan sebelum melihat hasil ending!'
       ],
-      startBtnText: '⚡ MULAI MISI KASUS'
+      startBtnText: '⚡ MULAI SCAM SIMULATOR'
     },
 
     diff: {
@@ -370,7 +370,7 @@
             </div>
 
             <!-- Narrative Lore / Mission Context -->
-            <div style="background: rgba(0, 243, 255, 0.04); border-left: 3px solid var(--neon-cyan); padding: 16px 20px; border-radius: 6px; margin-bottom: 24px;">
+            <div class="briefing-lore-box" style="padding: 16px 20px; border-radius: 6px; margin-bottom: 24px;">
               <h4 style="color: var(--neon-cyan); margin: 0 0 6px 0; font-size: 0.92rem; letter-spacing: 0.8px;">
                 LATAR BELAKANG OPERASI SIBER:
               </h4>
@@ -382,7 +382,7 @@
             <!-- 2-Column Info Grid: Objectives & Scoring Rules -->
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 18px; margin-bottom: 24px;">
               <!-- Mission Objectives -->
-              <div style="background: rgba(5, 5, 10, 0.6); border: 1px solid var(--border-cyan); border-radius: 8px; padding: 18px;">
+              <div class="briefing-objective-card" style="border-radius: 8px; padding: 18px;">
                 <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
                   <span style="font-size: 1.3rem;">🎯</span>
                   <h4 style="color: var(--neon-cyan); margin:0; font-size: 1rem;">TUJUAN UTAMA MISI:</h4>
@@ -393,7 +393,7 @@
               </div>
 
               <!-- Scoring Rulebook -->
-              <div style="background: rgba(5, 5, 10, 0.6); border: 1px solid rgba(0, 255, 157, 0.3); border-radius: 8px; padding: 18px;">
+              <div class="briefing-scoring-card" style="border-radius: 8px; padding: 18px;">
                 <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
                   <span style="font-size: 1.3rem;">⚖️</span>
                   <h4 style="color: var(--neon-green); margin:0; font-size: 1rem;">SISTEM SKOR & PENILAIAN:</h4>
@@ -405,7 +405,7 @@
             </div>
 
             <!-- Tutorial & Step-by-Step Guide -->
-            <div style="background: rgba(5, 5, 10, 0.8); border: 1px solid rgba(189, 0, 255, 0.3); border-radius: 8px; padding: 20px; margin-bottom: 28px;">
+            <div class="briefing-tutorial-card" style="border-radius: 8px; padding: 20px; margin-bottom: 28px;">
               <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
                 <span style="font-size: 1.3rem;">📖</span>
                 <h4 style="color: var(--neon-magenta); margin:0; font-size: 1.05rem;">TATA CARA BERMAIN & PANDUAN KONTROL:</h4>

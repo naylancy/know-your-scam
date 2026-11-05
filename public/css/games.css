@@ -232,6 +232,432 @@
   position: relative;
 }
 
+/* ========================================================
+   2. MODULE 1: SCAM SIMULATOR (MULTI-POV ROLEPLAY ARENA)
+   ======================================================== */
+
+/* Pixel Animals Animation Keyframes */
+@keyframes pixelBob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+@keyframes pixelBlink {
+  0%, 90%, 100% { opacity: 1; }
+  95% { opacity: 0.15; }
+}
+
+@keyframes pixelTwitch {
+  0%, 85%, 100% { transform: rotate(0deg); }
+  90% { transform: rotate(-5deg); }
+  95% { transform: rotate(5deg); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 10px rgba(0, 243, 255, 0.2); }
+  50% { box-shadow: 0 0 25px rgba(0, 243, 255, 0.5); }
+}
+
+@keyframes callRing {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+
+.pixel-avatar-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  animation: pixelBob 2.6s ease-in-out infinite;
+}
+
+.pixel-avatar-wrap svg {
+  shape-rendering: crispEdges;
+}
+
+/* Scam Simulator Role & Character Selection Cards */
+.scam-role-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin: 24px 0;
+}
+
+.scam-role-card {
+  background: rgba(10, 14, 28, 0.85);
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.scam-role-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 243, 255, 0.18);
+}
+
+.scam-role-card.role-scammer:hover {
+  border-color: var(--neon-red);
+}
+
+.scam-role-card.role-victim:hover {
+  border-color: var(--neon-cyan);
+}
+
+.scam-char-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.scam-char-card {
+  background: rgba(14, 18, 36, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  padding: 20px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  position: relative;
+}
+
+.scam-char-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--neon-cyan);
+  box-shadow: 0 6px 20px rgba(0, 243, 255, 0.15);
+}
+
+.scam-char-card.selected {
+  border-color: var(--neon-cyan) !important;
+  background: rgba(0, 243, 255, 0.08) !important;
+  box-shadow: 0 0 25px rgba(0, 243, 255, 0.25) !important;
+}
+
+/* Real-Life Smartphone Mockup for Victim */
+.phone-mockup-wrapper {
+  max-width: 440px;
+  margin: 0 auto;
+  background: #000000;
+  border: 10px solid #1E293B;
+  border-radius: 40px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 243, 255, 0.1);
+  overflow: hidden;
+  position: relative;
+}
+
+.phone-screen {
+  background: #0F172A;
+  min-height: 560px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.phone-notch {
+  width: 120px;
+  height: 22px;
+  background: #1E293B;
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+}
+
+.phone-status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 18px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: #94A3B8;
+  z-index: 5;
+}
+
+/* Smartphone Homescreen Notification Banner */
+.phone-notification-banner {
+  margin: 20px 16px;
+  background: rgba(255, 255, 255, 0.95);
+  color: #0F172A;
+  border-radius: 16px;
+  padding: 14px 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: notificationDrop 0.5s ease-out;
+}
+
+@keyframes notificationDrop {
+  0% { transform: translateY(-40px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+.phone-notification-banner:hover {
+  transform: scale(1.02);
+  box-shadow: 0 14px 35px rgba(0, 243, 255, 0.3);
+}
+
+/* Chat Application Screen */
+.chat-app-header {
+  background: rgba(14, 18, 36, 0.95);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.chat-messages-scroll {
+  flex: 1;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+  max-height: 380px;
+}
+
+.chat-bubble {
+  max-width: 82%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  position: relative;
+  word-wrap: break-word;
+  animation: bubblePop 0.25s ease-out;
+}
+
+@keyframes bubblePop {
+  0% { transform: scale(0.92); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.chat-bubble.scammer {
+  align-self: flex-start;
+  background: #1E293B;
+  color: #F8FAFC;
+  border-bottom-left-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.chat-bubble.victim {
+  align-self: flex-end;
+  background: #0284C7;
+  color: #FFFFFF;
+  border-bottom-right-radius: 3px;
+}
+
+.chat-bubble.system {
+  align-self: center;
+  background: rgba(245, 158, 11, 0.15);
+  color: #F59E0B;
+  border: 1px dashed rgba(245, 158, 11, 0.4);
+  font-size: 0.78rem;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.chat-time {
+  font-size: 0.65rem;
+  opacity: 0.7;
+  margin-top: 4px;
+  text-align: right;
+}
+
+/* Typing Indicator */
+.chat-typing-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  font-size: 0.78rem;
+  color: var(--neon-cyan);
+  align-self: flex-start;
+}
+
+.typing-dot {
+  width: 5px;
+  height: 5px;
+  background: var(--neon-cyan);
+  border-radius: 50%;
+  animation: typingBounce 1.2s infinite ease-in-out;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typingBounce {
+  0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+  40% { transform: translateY(-5px); opacity: 1; }
+}
+
+/* Thinking Indicator */
+.chat-thinking-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: rgba(168, 85, 247, 0.15);
+  border: 1px dashed rgba(168, 85, 247, 0.4);
+  border-radius: 14px;
+  font-size: 0.78rem;
+  color: #C084FC;
+  font-family: var(--font-mono);
+  animation: pulseGlow 1.5s infinite alternate;
+  align-self: flex-start;
+  margin: 6px 0;
+}
+
+/* Simulated Smartphone In-App Browser Window */
+.phone-browser-window {
+  position: absolute;
+  inset: 0;
+  background: #0F172A;
+  z-index: 45;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s ease;
+}
+
+.browser-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: #1E293B;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.browser-url-pill {
+  flex: 1;
+  margin: 0 10px;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 4px 10px;
+  border-radius: 6px;
+  color: #EF4444;
+  font-size: 0.72rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.browser-body {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  color: #F8FAFC;
+}
+
+/* Simulated Phone Call Overlay */
+.phone-call-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.98), rgba(2, 6, 23, 0.98));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px 20px 30px 20px;
+  z-index: 50;
+  animation: fadeIn 0.3s ease;
+}
+
+.call-avatar-pulse {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 3px solid var(--neon-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: callRing 1.5s infinite;
+  box-shadow: 0 0 25px rgba(34, 197, 94, 0.4);
+}
+
+.call-ticker-text {
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  color: #38BDF8;
+  background: rgba(2, 132, 199, 0.12);
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  text-align: center;
+  margin: 14px 0;
+  line-height: 1.5;
+}
+
+/* Forensic Analysis Box */
+.forensic-analysis-panel {
+  background: rgba(14, 18, 36, 0.95);
+  border: 1px solid var(--border-cyan);
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 16px;
+}
+
+.forensic-textarea {
+  width: 100%;
+  min-height: 85px;
+  background: rgba(5, 5, 10, 0.8);
+  border: 1px solid var(--border-cyan);
+  border-radius: 6px;
+  padding: 10px 12px;
+  color: var(--text-main);
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  resize: vertical;
+}
+
+/* Response Buttons Deck */
+.chat-response-deck {
+  padding: 12px 16px;
+  background: rgba(10, 14, 28, 0.95);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.chat-response-btn {
+  text-align: left;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  color: var(--text-main);
+  cursor: pointer;
+  font-size: 0.85rem;
+  line-height: 1.35;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chat-response-btn:hover {
+  background: rgba(0, 243, 255, 0.12);
+  border-color: var(--neon-cyan);
+  color: var(--neon-cyan);
+}
+
+/* Legacy Story Elements Backward Compatibility */
 .story-sender-banner {
   display: flex;
   align-items: center;
