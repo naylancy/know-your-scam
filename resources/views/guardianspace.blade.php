@@ -52,7 +52,7 @@
               <ul class="dropdown-menu">
                 <li><a href="#kasus" class="dropdown-link"><span>🎭</span> SCAM SIMULATOR</a></li>
                 <li><a href="#diff" class="dropdown-link"><span>⚖️</span> FINDING DIFF</a></li>
-                <li><a href="#criminal" class="dropdown-link"><span>🕵️</span> CRIMINAL CASE</a></li>
+                <li><a href="#criminal" class="dropdown-link"><span>🦉</span> CRIMINAL CASE</a></li>
                 <li><a href="#deeplearn" class="dropdown-link"><span>🧠</span> ANALYZER</a></li>
               </ul>
             </li>
@@ -180,7 +180,7 @@
           </li>
           <li class="mobile-nav-subitem">
             <a href="#criminal" class="mobile-nav-link" onclick="window.app.navigateTo('criminal'); window.app.toggleMobileSidebar(true);">
-              <span>🕵️</span> Criminal Case (Investigasi)
+              <span>🦉</span> Criminal Case (Detektif Owl)
             </a>
           </li>
           <li class="mobile-nav-subitem">
@@ -399,10 +399,10 @@
                   <span class="cyber-tag">MODUL 3</span>
                   <span class="cyber-tag tag-red">FORENSIK</span>
                 </div>
-                <div class="menu-summary-icon">🕵️</div>
+                <div class="menu-summary-icon">🦉</div>
                 <h4 style="font-size: 1.15rem; color: var(--text-highlight); margin-bottom: 6px;">CRIMINAL CASE</h4>
                 <p class="menu-summary-teaser">
-                  Investigasi forensik sindikat siber dengan bukti teknis berbatas waktu.
+                  Investigasi teka-teki TKP digital bersama Detektif Burung Hantu membongkar Red Flags.
                 </p>
               </div>
               <div class="menu-summary-inspect-link">
@@ -557,9 +557,9 @@
             <div class="game-hub-card card-magenta">
               <div>
                 <div class="game-hub-badge" style="color:var(--neon-magenta); background:rgba(189,0,255,0.1);">MODUL 3 // FORENSIK</div>
-                <h3 class="game-hub-title">🕵️ Criminal Case</h3>
+                <h3 class="game-hub-title">🦉 Criminal Case</h3>
                 <p class="game-hub-desc">
-                  Rekonstruksi alur kejahatan sindikat siber sebelum timer darurat habis.
+                  Pecahkan teka-teki TKP digital bersama Detektif Burung Hantu dan gagalkan aksi penipuan.
                 </p>
               </div>
               <div>

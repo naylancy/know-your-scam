@@ -1359,6 +1359,78 @@ h1, h2, h3, h4 {
   border: 2px solid #0284C7 !important;
 }
 
+[data-theme="light"] .detective-desk-wrapper {
+  background: #F8FAFC !important;
+  border-color: #CBD5E1 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+}
+
+[data-theme="light"] .case-folder-card {
+  background: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05) !important;
+}
+
+[data-theme="light"] .case-folder-card::before {
+  background: #E2E8F0 !important;
+  border-color: #CBD5E1 !important;
+}
+
+[data-theme="light"] .briefing-dialog-card {
+  background: #FFFFFF !important;
+  border-color: #0284C7 !important;
+  box-shadow: 0 6px 25px rgba(2, 132, 199, 0.12) !important;
+}
+
+[data-theme="light"] .dialog-speech-deck {
+  background: #F1F5F9 !important;
+  border-color: #CBD5E1 !important;
+  color: #1E293B !important;
+}
+
+[data-theme="light"] .victim-id-card {
+  background: #FFFFFF !important;
+  border-color: #CBD5E1 !important;
+  color: #334155 !important;
+}
+
+[data-theme="light"] .crime-scene-wrapper {
+  background: #F8FAFC !important;
+  border-color: #CBD5E1 !important;
+}
+
+[data-theme="light"] .crime-scene-device-frame {
+  background: #FFFFFF !important;
+  border-color: #CBD5E1 !important;
+}
+
+[data-theme="light"] .crime-device-topbar {
+  background: #F1F5F9 !important;
+  border-bottom-color: #E2E8F0 !important;
+  color: #334155 !important;
+}
+
+[data-theme="light"] .crime-screen-content {
+  background: #FFFFFF !important;
+}
+
+[data-theme="light"] .clues-discovery-bar {
+  background: #FFFFFF !important;
+  border-color: #CBD5E1 !important;
+}
+
+[data-theme="light"] .clue-pill-item {
+  background: #F8FAFC !important;
+  border-color: #E2E8F0 !important;
+  color: #334155 !important;
+}
+
+[data-theme="light"] .clue-pill-item.unlocked {
+  background: #F0FDF4 !important;
+  border-color: #16A34A !important;
+  color: #15803D !important;
+}
+
 /* 5. AI Analyzer Light Theme */
 [data-theme="light"] .threat-radio-card {
   background: #FFFFFF !important;

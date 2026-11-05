@@ -50,19 +50,19 @@
 
     criminal: {
       key: 'criminal',
-      badge: 'MODUL 3 // FORENSIC PUZZLE',
-      title: '🕵️ PROTOKOL CRIMINAL CASE (INVESTIGASI SINDIKAT SIBER)',
-      category: 'Papan Teka-Teki Investigasi Drag-and-Drop',
-      desc: 'Bongkar sindikat kejahatan siber terorganisir (BEC, malware APK, rekening penampung) sebelum batas waktu investigasi habis.',
-      objective: 'Petakan 4 bukti kunci ke slot anatomi kejahatan dan cocokkan profil buronan siber yang tepat.',
-      scoring: '+150 XP per pemecahan kasus tepat waktu. Timer panik aktif saat berada di dalam Arena Permainan.',
+      badge: 'MODUL 3 // CRIMINAL CASE',
+      title: '🦉 PROTOKOL CRIMINAL CASE: DETEKTIF BURUNG HANTU',
+      category: 'Investigasi TKP Digital & Pemburu Red Flags Ala Criminal Case',
+      desc: 'Gim edukasi berbasis teka-teki investigasi kriminal ala Criminal Case. Pemain berperan sebagai Detektif Burung Hantu yang harus menganalisis TKP Digital, memilah berbagai skenario kasus harian (phishing, tawaran palsu, social engineering), mengumpulkan Red Flags (barang bukti), dan menggagalkan aksi penipu sebelum korban merugi.',
+      objective: 'Analisis TKP digital interaktif, temukan 3 Red Flags tersembunyi, dan jatuhkan keputusan mitigasi tepat untuk menyematkan stempel CASE CLOSED.',
+      scoring: '+150 XP per pemecahan kasus tepat sasaran (Case Closed) dan penurunan indeks kerentanan VULN.',
       steps: [
-        'Pilih berkas investigasi terbuka pada katalog (berkas lanjutan terbuka bertahap).',
-        'Perhatikan sisa waktu pada timer investigasi di bagian atas arena.',
-        'Tarik atau klik bukti digital ke 4 slot anatomi investigasi yang sesuai.',
-        'Pilih profil tersangka utama lalu tekan tombol eksekusi penangkapan.'
+        'Buka map berkas kasus (CASE #01, CASE #02, CASE #03) di Meja Kerja Detektif.',
+        'Pelajari briefing dialog sinopsis bersama Korban (Raka, Tari, Ibu Sari) dan pahami identitas korban.',
+        'Inspeksi TKP Digital: Klik 3 titik Red Flags mencurigakan pada layar perangkat digital korban.',
+        'Rumuskan keputusan mitigasi terbaik dan tangkap pelaku untuk menyematkan stempel CASE CLOSED!'
       ],
-      startBtnText: '⚡ MULAI INVESTIGASI'
+      startBtnText: '🔎 BUKA MEJA KERJA DETEKTIF'
     },
 
     deeplearn: {

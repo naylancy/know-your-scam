@@ -143,7 +143,7 @@ class LeaderboardManager {
 
           <!-- Criminal Case -->
           <div class="leaderboard-game-pod" style="padding:14px; border-radius:8px; text-align:center;">
-            <div style="font-size:0.78rem; color:var(--text-muted); margin-bottom:4px;">🕵️ CRIMINAL CASE</div>
+            <div style="font-size:0.78rem; color:var(--text-muted); margin-bottom:4px;">🦉 CRIMINAL CASE</div>
             <strong style="color:var(--neon-red); font-size:1.35rem;">${gs.criminal} XP</strong>
             <button class="cyber-btn" style="width:100%; font-size:0.75rem; padding:8px; margin-top:10px; border-color:var(--neon-red); color:var(--neon-red);" onclick="document.getElementById('modal-general-box').classList.remove('active'); window.app.navigateTo('criminal');">
               ⚡ INVESTIGASI ➔
@@ -416,7 +416,7 @@ class LeaderboardManager {
                     <!-- Game 3: Criminal Case -->
                     <div class="leaderboard-game-pod" style="border:1px solid rgba(255,0,85,0.4); border-radius:8px; padding:12px; text-align:center; display:flex; flex-direction:column; justify-content:space-between;">
                       <div>
-                        <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px;">🕵️ CRIMINAL CASE</div>
+                        <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px;">🦉 CRIMINAL CASE</div>
                         <strong style="color:var(--neon-red); font-size:1.25rem;">${gs.criminal} XP</strong>
                       </div>
                       <button class="cyber-btn" style="width:100%; font-size:0.72rem; padding:6px; margin-top:10px; border-color:var(--neon-red); color:var(--neon-red);" onclick="window.app.navigateTo('criminal')">
@@ -523,7 +523,7 @@ class LeaderboardManager {
                     ⚖️ DIFF ↗
                   </th>
                   <th style="text-align: center; color:var(--neon-red); cursor:pointer;" onclick="window.app.navigateTo('criminal')" title="Klik untuk mainkan game Criminal Case">
-                    🕵️ CRIMINAL ↗
+                    🦉 CRIMINAL ↗
                   </th>
                   <th style="text-align: center; color:var(--neon-green); cursor:pointer;" onclick="window.app.navigateTo('deeplearn')" title="Klik untuk mainkan game AI Analyzer">
                     🧠 ANALYZER ↗
