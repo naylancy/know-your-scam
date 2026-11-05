@@ -10,8 +10,7 @@
   background: var(--bg-surface);
   border: 1px solid var(--border-cyan);
   border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 0 40px rgba(0, 243, 255, 0.08);
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4), 0 0 25px rgba(0, 243, 255, 0.05);
   position: relative;
 }
 
@@ -24,8 +23,16 @@
   overflow-x: auto;
   padding: 0 8px;
   white-space: nowrap;
-  scrollbar-width: thin;
-  z-index: 10;
+  scrollbar-width: none; /* Hide horizontal scrollbar line */
+  -ms-overflow-style: none;
+  position: sticky;
+  top: 68px; /* Sticks directly below fixed HUD header */
+  z-index: 30;
+  border-radius: 7px 7px 0 0;
+}
+
+.w3-top-nav-bar::-webkit-scrollbar {
+  display: none;
 }
 
 .w3-top-tab {
@@ -61,6 +68,8 @@
   flex: 1;
   min-height: 0;
   position: relative;
+  align-items: flex-start; /* Crucial: allows sticky sidebar to stick without stretching */
+  border-radius: 0 0 7px 7px;
 }
 
 /* Mobile Toggle Bar */
@@ -72,11 +81,11 @@
   justify-content: space-between;
   align-items: center;
   position: sticky;
-  top: 0;
-  z-index: 20;
+  top: 110px;
+  z-index: 25;
 }
 
-/* Sidebar Navigation (W3Schools Style) */
+/* Sidebar Navigation (W3Schools Style - Sticky Docked) */
 .edu-sidebar {
   width: 290px;
   flex-shrink: 0;
@@ -84,8 +93,15 @@
   border-right: 1px solid var(--border-cyan);
   display: flex;
   flex-direction: column;
+  position: sticky;
+  top: 114px; /* 68px header + 46px top tab bar */
+  max-height: calc(100vh - 165px);
   overflow-y: auto;
-  max-height: calc(100vh - 210px);
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 243, 255, 0.25) transparent;
+  z-index: 20;
+  border-bottom-left-radius: 7px;
 }
 
 .edu-sidebar-header {
@@ -183,13 +199,16 @@
   color: #00FF9D;
 }
 
-/* Main Content Styling */
+/* Main Content Styling - Natural GPU Accelerated Smooth Scroll */
 .edu-main-content {
   flex: 1;
   padding: 24px 32px 40px 32px;
-  overflow-y: auto;
-  max-height: calc(100vh - 210px);
   background: rgba(10, 14, 30, 0.6);
+  overflow: visible; /* Zero nested scroll container! Flows with window */
+  height: auto;
+  min-width: 0;
+  contain: layout style;
+  border-bottom-right-radius: 7px;
 }
 
 .edu-content-top-nav,
@@ -218,6 +237,7 @@
 /* Article Styling */
 .edu-article {
   max-width: 860px;
+  contain: layout style;
 }
 
 .edu-header-box {
@@ -241,6 +261,7 @@
 
 .edu-section {
   margin-bottom: 30px;
+  contain: content;
 }
 
 .edu-section h3 {
@@ -650,24 +671,34 @@
   .edu-w3-wrapper {
     flex-direction: column;
   }
+  .w3-top-nav-bar {
+    top: 64px;
+    border-radius: 7px 7px 0 0;
+  }
   .edu-mobile-bar {
     display: flex;
+    position: sticky;
+    top: 108px;
+    z-index: 25;
   }
   .edu-sidebar {
+    position: static;
     width: 100%;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease;
     border-right: none;
     border-bottom: 1px solid var(--border-cyan);
+    border-radius: 0;
   }
   .edu-sidebar.mobile-open {
     max-height: 380px;
     overflow-y: auto;
   }
   .edu-main-content {
-    padding: 18px 16px;
+    padding: 20px 16px 36px 16px;
     max-height: none;
+    border-radius: 0 0 7px 7px;
   }
   .game-briefing-grid {
     grid-template-columns: 1fr;

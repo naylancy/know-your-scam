@@ -514,8 +514,13 @@
       this.topics = topicsData;
       this.currentTopicId = 'intro';
       this.sidebarOpenMobile = false;
-      this.collapsedGroups = {};
       this.activeTopCategory = '1. PENDAHULUAN';
+      this.collapsedGroups = {
+        '1. PENDAHULUAN': false,
+        '2. ANATOMI PENIPUAN SIBER': true,
+        '3. KEPUTUSAN & PERLINDUNGAN DIRI': true,
+        '4. RESPON & TINDAKAN DARURAT': true
+      };
     }
 
     init() {
@@ -606,6 +611,12 @@
       const listContainer = document.getElementById('edu-sidebar-links');
       if (!listContainer) return;
 
+      // Update sidebar header title to match active category or tutorial (ala W3Schools)
+      const sbTitle = document.querySelector('.w3-sidebar-title');
+      if (sbTitle) {
+        sbTitle.textContent = `${this.activeTopCategory || 'CYBER DEFENSE'} TUTORIAL`;
+      }
+
       // Group topics by category
       const grouped = {};
       this.topics.forEach(t => {
@@ -651,7 +662,11 @@
     switchCategory(catName) {
       window.cyberAudio?.playClick();
       this.activeTopCategory = catName;
-      this.collapsedGroups[catName] = false;
+
+      // Auto-expand the active category and collapse the others to avoid overflowing list
+      this.topics.forEach(t => {
+        this.collapsedGroups[t.category] = (t.category !== catName);
+      });
 
       // Update top tabs active state
       document.querySelectorAll('.w3-top-tab').forEach(t => {
@@ -670,6 +685,15 @@
     loadTopic(topicId) {
       const topic = this.topics.find(t => t.id === topicId) || this.topics[0];
       this.currentTopicId = topic.id;
+
+      // If category switched, update activeTopCategory and expand its group
+      if (this.activeTopCategory !== topic.category) {
+        this.activeTopCategory = topic.category;
+        this.topics.forEach(t => {
+          this.collapsedGroups[t.category] = (t.category !== topic.category);
+        });
+        this.renderSidebar();
+      }
 
       // Update sidebar active state
       document.querySelectorAll('.edu-sidebar-item').forEach(el => {
@@ -712,9 +736,15 @@
         articleBox.innerHTML = topic.html;
       }
 
-      // Scroll main content to top
-      const mainEl = document.querySelector('.edu-main-content');
-      if (mainEl) mainEl.scrollTop = 0;
+      // Smooth scroll viewport to top of article if user is scrolled down
+      const eduWrapper = document.querySelector('.edu-w3-wrapper');
+      if (eduWrapper) {
+        const headerOffset = 76;
+        const targetY = eduWrapper.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+        if (window.pageYOffset > targetY + 50) {
+          window.scrollTo({ top: targetY, behavior: 'smooth' });
+        }
+      }
 
       // Close mobile sidebar if open
       const sb = document.getElementById('edu-sidebar-nav');
