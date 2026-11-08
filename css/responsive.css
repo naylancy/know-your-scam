@@ -211,13 +211,17 @@
     display: none !important;
   }
 
-  /* Audio capsule compact */
+  /* Audio capsule compact: Only keep SFX toggle on mobile */
   .audio-ctrl-capsule {
     padding: 2px 4px !important;
   }
   .audio-btn {
     padding: 3px 5px !important;
     font-size: 0.85rem !important;
+  }
+  #btn-toggle-drone,
+  .audio-vol-slider {
+    display: none !important;
   }
 
   /* Guest Action: Compact "MASUK" Button */

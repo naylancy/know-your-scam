@@ -723,44 +723,56 @@ class ModuleChecker {
             Status: <strong style="color:${isThreat ? 'var(--neon-red)' : 'var(--neon-green)'};">${data.verdict_status || (isThreat ? 'PENIPUAN' : 'OTENTIK')}</strong>
           </div>
           <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--neon-magenta);">
-            🤖 Engine: <strong>${data.llm_model || 'Konsensus 3 AI (OpenAI + Gemini + DeepSeek)'}</strong>
+            🤖 Engine: <strong>${data.llm_model || 'Google Gemini 3.5 AI + Engine Heuristik Siber'}</strong>
           </div>
         </div>
 
-        <!-- Kotak Debat & Konsensus 3 Model AI -->
+        <!-- Kotak Konsensus Hibrida: Gemini AI + Heuristik Siber -->
         ${data.debate_consensus ? (() => {
-          const diag = data.model_diagnostics || data.debate_consensus?.model_diagnostics || {};
-          const openAiLive = diag.openai?.is_live ?? false;
-          const geminiLive = diag.gemini?.is_live ?? true;
-          const deepseekLive = diag.deepseek?.is_live ?? false;
-
-          const openAiStatus = openAiLive ? '🟢 OpenAI [Live]' : '🟡 OpenAI [Heuristik]';
-          const geminiStatus = geminiLive ? '🟢 Gemini [Live]' : '🟡 Gemini [Heuristik]';
-          const deepseekStatus = deepseekLive ? '🟢 DeepSeek [Live]' : '🟡 DeepSeek [Heuristik]';
+          const engines = data.debate_consensus.engines || {};
+          const gemini = engines.gemini || {};
+          const heuristics = engines.heuristics || {};
 
           return `
           <div class="ai-debate-box">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:6px;">
               <span class="cyber-tag tag-cyan" style="font-size:0.72rem;">
-                ⚖️ KONSENSUS DEBAT 3 MODEL AI
+                ⚖️ ${data.debate_consensus.consensus_title || 'KONSENSUS HIBRIDA (AI + HEURISTIK)'}
               </span>
-              <span style="font-family:var(--font-mono); font-size:0.75rem; color:${isThreat ? 'var(--neon-red)' : 'var(--neon-green)'}; font-weight:700;">
-                ${data.debate_consensus.verdict || 'Konsensus 3/3 Model'}
+              <span style="font-family:var(--font-mono); font-size:0.78rem; color:${isThreat ? 'var(--neon-red)' : 'var(--neon-green)'}; font-weight:700;">
+                ${data.debate_consensus.verdict || (isThreat ? 'PENIPUAN // ANCAMAN AKTIF' : 'OTENTIK // AMAN')}
               </span>
             </div>
-            <p style="font-size:0.85rem; color:var(--text-main); line-height:1.45; margin:0 0 8px 0;">
+            <p style="font-size:0.86rem; color:var(--text-main); line-height:1.45; margin:0 0 10px 0;">
               ${data.debate_consensus.summary || ''}
             </p>
-            <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:6px;">
-              <span class="ai-model-tag" title="${diag.openai?.note || ''}">${openAiStatus}: <strong>${data.debate_consensus.votes?.openai || (isThreat ? 'PENIPUAN' : 'OTENTIK')}</strong></span>
-              <span class="ai-model-tag" title="${diag.gemini?.note || ''}">${geminiStatus}: <strong>${data.debate_consensus.votes?.gemini || (isThreat ? 'PENIPUAN' : 'OTENTIK')}</strong></span>
-              <span class="ai-model-tag" title="${diag.deepseek?.note || ''}">${deepseekStatus}: <strong>${data.debate_consensus.votes?.deepseek || (isThreat ? 'PENIPUAN' : 'OTENTIK')}</strong></span>
-            </div>
-            ${(!openAiLive || !deepseekLive) ? `
-              <div style="font-family:var(--font-mono); font-size:0.72rem; color:var(--text-muted); line-height:1.4; padding:6px 10px; background:rgba(0,0,0,0.3); border-radius:4px; border-left:2px solid var(--neon-cyan);">
-                ⚡ <strong>Status Konektivitas:</strong> Gemini terhubung Live ke Google Cloud. OpenAI & DeepSeek beralih ke <em>Heuristik Kognitif</em> karena saldo akun eksternal $0.
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:8px;">
+              <div style="background:rgba(0,0,0,0.3); border:1px solid rgba(0,243,255,0.25); border-radius:6px; padding:8px 12px;">
+                <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--neon-cyan); margin-bottom:3px; display:flex; justify-content:space-between; align-items:center;">
+                  <span>🤖 GOOGLE GEMINI 3.5 AI</span>
+                  <span class="cyber-tag ${gemini.status === 'LIVE' ? 'tag-green' : 'tag-cyan'}" style="font-size:0.65rem;">${gemini.status === 'LIVE' ? '🟢 LIVE CLOUD' : 'TERVERIFIKASI'}</span>
+                </div>
+                <div style="font-size:0.82rem; color:var(--text-main);">
+                  Keputusan: <strong style="color:${gemini.verdict === 'PENIPUAN' ? 'var(--neon-red)' : 'var(--neon-green)'};">${gemini.verdict || (isThreat ? 'PENIPUAN' : 'OTENTIK')}</strong>
+                </div>
+                <div style="font-size:0.72rem; color:var(--text-muted); margin-top:2px;">
+                  ${gemini.note || 'Penalaran model generatif AI cloud aktif'}
+                </div>
               </div>
-            ` : ''}
+
+              <div style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,0,85,0.25); border-radius:6px; padding:8px 12px;">
+                <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--neon-magenta); margin-bottom:3px; display:flex; justify-content:space-between; align-items:center;">
+                  <span>🛡️ ENGINE HEURISTIK SIBER</span>
+                  <span class="cyber-tag tag-magenta" style="font-size:0.65rem;">DETERMINISTIK</span>
+                </div>
+                <div style="font-size:0.82rem; color:var(--text-main);">
+                  Pola: <strong style="color:${heuristics.verdict === 'PENIPUAN' ? 'var(--neon-red)' : 'var(--neon-green)'};">${heuristics.verdict || (isThreat ? 'PENIPUAN' : 'OTENTIK')}</strong>
+                </div>
+                <div style="font-size:0.72rem; color:var(--text-muted); margin-top:2px;">
+                  ${heuristics.note || 'Taksonomi rekayasa sosial, love scam, dan malware'}
+                </div>
+              </div>
+            </div>
           </div>
         `;
         })() : ''}

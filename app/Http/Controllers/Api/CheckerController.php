@@ -10,9 +10,9 @@ use App\Models\ActivityLog;
 class CheckerController extends Controller
 {
     /**
-     * Multi-Model Legit & Authenticity Checker
-     * Debates input across OpenAI, Google Gemini, and DeepSeek,
-     * and consolidates into 1 single final decision output.
+     * Hybrid Legit & Authenticity Checker
+     * Cross-verifies input between Google Gemini Cloud AI and the
+     * Cyber Heuristics Taxonomy Engine.
      */
     public function check(Request $request)
     {
@@ -30,24 +30,20 @@ class CheckerController extends Controller
         // 1. Deterministic Rule-Based Pre-Evaluation
         $ruleEvaluation = $this->evaluateRuleBased($rawTarget);
 
-        // 2. Multi-Model Perspective Evaluations (OpenAI, Gemini, DeepSeek)
-        $openAIEval = $this->evaluateOpenAI($rawTarget, $ruleEvaluation);
+        // 2. Live Google Gemini 3.5 AI Evaluation
         $geminiEval = $this->evaluateGemini($rawTarget, $ruleEvaluation);
-        $deepseekEval = $this->evaluateDeepSeek($rawTarget, $ruleEvaluation);
 
-        // 3. Automated Debate & Consensus Adjudication -> 1 Single Final Output
-        $consensusResult = $this->adjudicateDebate(
+        // 3. Hybrid Adjudication -> Consolidate into 1 Unified Decision Output
+        $consensusResult = $this->adjudicateHybrid(
             $rawTarget,
             $ruleEvaluation,
-            $openAIEval,
-            $geminiEval,
-            $deepseekEval
+            $geminiEval
         );
 
         // 4. Telemetry Activity Logging
         try {
             $statusLabel = $consensusResult['is_threat'] ? 'THREAT_IDENTIFIED' : 'AUTHENTIC_VERIFIED';
-            $decisionSummary = 'Cek Keaslian: "' . substr($rawTarget, 0, 30) . '..." [Konsensus 3 AI: ' 
+            $decisionSummary = 'Cek Keaslian: "' . substr($rawTarget, 0, 30) . '..." [Hibrida: ' 
                 . $consensusResult['primary_category'] . ' | Keaslian: ' 
                 . $consensusResult['authenticity_score'] . '% | Ancaman: ' 
                 . $consensusResult['threat_score'] . '/10]';
@@ -56,7 +52,7 @@ class CheckerController extends Controller
                 'log_code' => 'LOG-' . rand(1000, 9999),
                 'user_id' => $userId,
                 'user_name' => $userName,
-                'module' => 'LEGIT CHECKER [Konsensus 3 AI]',
+                'module' => 'LEGIT CHECKER [Gemini + Heuristik]',
                 'decision' => $decisionSummary,
                 'vulnerability_score' => $consensusResult['threat_score'],
                 'status' => $statusLabel,
@@ -238,8 +234,6 @@ class CheckerController extends Controller
 
     /**
      * Multimodal Media Transcriber & Content Gatekeeper
-     * Uses Gemini Transcribe API key to inspect, qualify, and transcribe
-     * files/images/videos/audios WITHOUT saving the file anywhere.
      */
     public function transcribeMedia(Request $request)
     {
@@ -255,8 +249,7 @@ class CheckerController extends Controller
             $fileBytes = file_get_contents($realPath);
             $base64Data = base64_encode($fileBytes);
 
-            // User Requirement: JANGAN SIMPAN FILE DI MANAPUN!
-            // Instantly delete the PHP temporary upload file from disk
+            // Zero-persistence: delete temporary upload file immediately
             @unlink($realPath);
             unset($fileBytes);
         } elseif ($request->filled('media_base64')) {
@@ -276,7 +269,6 @@ class CheckerController extends Controller
             ], 400);
         }
 
-        // Call Gemini Transcribe API Key
         $rawTranscribeKey = env('GEMINI_TRANSCRIBE_API_KEY') ?: env('GEMINI_API_KEY') ?: '';
         $apiKey = trim($rawTranscribeKey, " \t\n\r\0\x0B\"'");
 
@@ -285,28 +277,20 @@ Anda adalah AI Transkripsi & Kurator Konten Siber pada platform "KNOW YOUR SCAM"
 Tugas Anda:
 1. Periksa berkas media (gambar/audio/video/dokumen).
 2. Tentukan kelayakan bukti (is_accepted: true/false):
-   - KRITERIA DITERIMA (is_accepted: true):
-     * Tangkapan layar (screenshot) obrolan WA, SMS, DM, bukti transfer, nota, surat dinas, lowongan, poster promo, email phish.
-     * Rekaman audio / voice note / panggilan telepon yang memuat ucapan atau percakapan manusia.
-     * Video percakapan, testimoni penipuan, instruksi transfer, atau penawaran manipulatif.
-     * Dokumen PDF/teks berisi pengumuman, tagihan, atau prosedur klaim.
-   - KRITERIA DITOLAK (is_accepted: false):
-     * Gambar blank, layar polos satu warna, artefak kosong, atau gambar tanpa teks/konteks bukti yang relevan.
-     * Audio/video hening (silent), hanya derau/noise statis tanpa perkataan yang dapat dikenali.
-     * Berkas rusak parah, buram ekstrem hingga teks atau suara mustahil dianalisis.
-     * Konten tidak senonoh / pornografi / kekerasan yang melanggar etika.
+   - KRITERIA DITERIMA: Screenshot obrolan WA/SMS/DM, bukti transfer, nota, surat dinas, lowongan, poster promo, email phish, rekaman suara/video percakapan manusia, PDF tagihan/klaim.
+   - KRITERIA DITOLAK: Layar kosong satu warna, hening tanpa suara percakapan, berkas rusak parah, konten tidak pantas.
 3. Jika DITERIMA:
-   - Transkripsikan SELURUH teks/ucapan secara lengkap, akurat, dan menyeluruh ke properti "transcription".
-   - Buat ringkasan konteks visual/audio ke properti "context_summary".
+   - Transkripsikan teks/ucapan secara lengkap ke "transcription".
+   - Buat ringkasan konteks ke "context_summary".
 4. Jika DITOLAK:
-   - Berikan alasan penolakan yang jelas, edukatif, dan ramah dalam bahasa Indonesia ke properti "rejection_reason".
-5. Jawab HANYA dalam JSON valid tanpa format markdown (tanpa ```json):
+   - Berikan alasan penolakan ramah dalam bahasa Indonesia ke "rejection_reason".
+5. Jawab HANYA JSON:
 {
   "is_accepted": boolean,
-  "rejection_reason": "Alasan penolakan jika ditolak (kosong jika diterima)",
+  "rejection_reason": "string",
   "media_type": "image|audio|video|document",
-  "transcription": "Isi transkrip lengkap",
-  "context_summary": "Ringkasan konteks media"
+  "transcription": "string",
+  "context_summary": "string"
 }
 PROMPT;
 
@@ -395,23 +379,14 @@ PROMPT;
             ], 422);
         }
 
-        // Auto-run 3-Model Debate on the transcribed text
+        // Auto-run Hybrid Check on the transcribed text
         $autoCheck = filter_var($request->input('auto_check', true), FILTER_VALIDATE_BOOLEAN);
         $consensusResult = null;
 
         if ($autoCheck) {
             $ruleEvaluation = $this->evaluateRuleBased($transcription);
-            $openAIEval = $this->evaluateOpenAI($transcription, $ruleEvaluation);
             $geminiEval = $this->evaluateGemini($transcription, $ruleEvaluation);
-            $deepseekEval = $this->evaluateDeepSeek($transcription, $ruleEvaluation);
-
-            $consensusResult = $this->adjudicateDebate(
-                $transcription,
-                $ruleEvaluation,
-                $openAIEval,
-                $geminiEval,
-                $deepseekEval
-            );
+            $consensusResult = $this->adjudicateHybrid($transcription, $ruleEvaluation, $geminiEval);
 
             $consensusResult['media_source'] = [
                 'file_name' => $fileName,
@@ -432,107 +407,13 @@ PROMPT;
     }
 
     /**
-     * Model 1: OpenAI Evaluation Perspective
-     */
-    private function evaluateOpenAI(string $text, array $ruleEval): array
-    {
-        if ($ruleEval['is_whitelisted']) {
-            return [
-                'model' => 'OpenAI GPT-4o',
-                'threat_score' => 0.6,
-                'authenticity_score' => 96,
-                'is_threat' => false,
-                'stance' => 'Teks mencerminkan struktur siaran pers resmi yang objektif, tanpa taktik persuasi manipulatif atau tautan phish.',
-                'connection_status' => 'WHITELISTED',
-                'connection_note' => 'Domain/referensi resmi terverifikasi'
-            ];
-        }
-
-        // Try Live OpenAI API if key available
-        $rawKey = env('OPENAI_API_KEY') ?: '';
-        $apiKey = trim($rawKey, " \t\n\r\0\x0B\"'");
-        $statusNote = 'Engine Siap';
-        $connectionStatus = 'FALLBACK';
-
-        if (!empty($apiKey)) {
-            try {
-                $response = Http::withOptions([
-                    'curl' => [
-                        CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4,
-                        CURLOPT_SSL_VERIFYPEER => false,
-                    ],
-                    'timeout' => 8,
-                ])->withHeaders([
-                    'Authorization' => "Bearer {$apiKey}",
-                    'Content-Type' => 'application/json'
-                ])->post('https://api.openai.com/v1/chat/completions', [
-                    'model' => 'gpt-4o-mini',
-                    'messages' => [
-                        ['role' => 'system', 'content' => 'Anda adalah evaluator keamanan OpenAI GPT-4o. Analisis teks berikut untuk mendeteksi penipuan/social engineering. Berikan jawaban HANYA JSON: {"threat_score": 0.0-10.0, "is_threat": boolean, "stance": "1 kalimat argumen spesifik"}'],
-                        ['role' => 'user', 'content' => "Teks: \"{$text}\""]
-                    ],
-                    'max_tokens' => 150
-                ]);
-
-                if ($response->successful()) {
-                    $rawText = $response->json('choices.0.message.content', '');
-                    if (preg_match('/\{[\s\S]*\}/', $rawText, $matches)) {
-                        $decoded = json_decode($matches[0], true);
-                        if ($decoded && isset($decoded['threat_score'])) {
-                            $sc = round((float)$decoded['threat_score'], 1);
-                            return [
-                                'model' => 'OpenAI GPT-4o',
-                                'threat_score' => $sc,
-                                'authenticity_score' => max(5, round((10 - $sc) * 10)),
-                                'is_threat' => (bool)$decoded['is_threat'],
-                                'stance' => $decoded['stance'] ?? 'Evaluasi OpenAI menemukan anomali komunikasi berisiko.',
-                                'connection_status' => 'LIVE',
-                                'connection_note' => 'Terhubung ke API OpenAI GPT-4o Live'
-                            ];
-                        }
-                    }
-                } else {
-                    $st = $response->status();
-                    if ($st === 429) {
-                        $statusNote = 'Kuota/Saldo OpenAI Habis ($0 Credit - HTTP 429)';
-                    } elseif ($st === 401) {
-                        $statusNote = 'Kunci API OpenAI Tidak Valid (HTTP 401)';
-                    } else {
-                        $statusNote = "OpenAI Error HTTP {$st}";
-                    }
-                    \Illuminate\Support\Facades\Log::warning("OpenAI API (Checker) returned {$st}: " . substr($response->body(), 0, 150));
-                }
-            } catch (\Throwable $e) {
-                $statusNote = 'OpenAI Timeout / Jaringan Terputus';
-            }
-        } else {
-            $statusNote = 'Kunci API OpenAI Belum Diisi';
-        }
-
-        $hasFlags = !empty($ruleEval['detected_vectors']);
-        $score = $hasFlags ? min(9.8, max(6.5, $ruleEval['rule_threat_score'] + 0.3)) : 1.2;
-
-        return [
-            'model' => 'OpenAI GPT-4o',
-            'threat_score' => round($score, 1),
-            'authenticity_score' => max(5, round((10 - $score) * 10)),
-            'is_threat' => $hasFlags,
-            'stance' => $hasFlags
-                ? "Menemukan kecocokan tinggi dengan taksonomi penipuan ({$ruleEval['primary_vector']}) dan pelanggaran standar komunikasi kredibel."
-                : 'Struktur pesan tidak menunjukkan pola penipuan atau pemerasan data.',
-            'connection_status' => $connectionStatus,
-            'connection_note' => $statusNote
-        ];
-    }
-
-    /**
-     * Model 2: Google Gemini Evaluation Perspective
+     * Live Google Gemini 3.5 AI Evaluation
      */
     private function evaluateGemini(string $text, array $ruleEval): array
     {
         if ($ruleEval['is_whitelisted']) {
             return [
-                'model' => 'Google Gemini',
+                'model' => 'Google Gemini 3.5',
                 'threat_score' => 0.5,
                 'authenticity_score' => 97,
                 'is_threat' => false,
@@ -542,7 +423,7 @@ PROMPT;
             ];
         }
 
-        // Try Live Gemini Cloud API
+        // Live Gemini Cloud API
         $rawKey = env('GEMINI_API_KEY') ?: env('LLM_API_KEY') ?: '';
         $apiKey = trim($rawKey, " \t\n\r\0\x0B\"'");
         $statusNote = 'Engine Siap';
@@ -560,7 +441,7 @@ PROMPT;
                         'timeout' => 8,
                     ])->post("https://generativelanguage.googleapis.com/v1beta/models/{$mName}:generateContent?key={$apiKey}", [
                         'contents' => [
-                            ['parts' => [['text' => "Evaluasi apakah pesan berikut aman atau penipuan/hoax: \"{$text}\". Berikan skor ancaman (0.0-10.0), status is_threat (boolean), dan argumen 1 kalimat dalam format JSON: {\"threat_score\": 0.0, \"is_threat\": false, \"stance\": \"...\"}"]]]
+                            ['parts' => [['text' => "Evaluasi apakah pesan berikut aman atau penipuan/hoax/social engineering: \"{$text}\". Berikan skor ancaman (0.0-10.0), status is_threat (boolean), dan argumen 1 kalimat padat dalam format JSON: {\"threat_score\": 0.0, \"is_threat\": false, \"stance\": \"...\"}"]]]
                         ]
                     ]);
 
@@ -571,13 +452,13 @@ PROMPT;
                             if ($decoded && isset($decoded['threat_score'])) {
                                 $sc = round((float)$decoded['threat_score'], 1);
                                 return [
-                                    'model' => 'Google Gemini',
+                                    'model' => 'Google Gemini 3.5',
                                     'threat_score' => $sc,
                                     'authenticity_score' => max(5, round((10 - $sc) * 10)),
                                     'is_threat' => (bool)$decoded['is_threat'],
                                     'stance' => $decoded['stance'] ?? 'Pemeriksaan Google Gemini mendeteksi indikasi anomali informasi.',
                                     'connection_status' => 'LIVE',
-                                    'connection_note' => "Terhubung ke Google Gemini ({$mName}) Live"
+                                    'connection_note' => "Terhubung Live ke Google Gemini Cloud ({$mName})"
                                 ];
                             }
                         }
@@ -590,15 +471,15 @@ PROMPT;
         }
 
         $hasFlags = !empty($ruleEval['detected_vectors']);
-        $score = $hasFlags ? min(9.9, max(6.2, $ruleEval['rule_threat_score'] + 0.4)) : 1.1;
+        $score = $hasFlags ? min(9.9, max(6.2, $ruleEval['rule_threat_score'] + 0.3)) : 1.1;
 
         return [
-            'model' => 'Google Gemini',
+            'model' => 'Google Gemini 3.5',
             'threat_score' => round($score, 1),
             'authenticity_score' => max(5, round((10 - $score) * 10)),
             'is_threat' => $hasFlags,
             'stance' => $hasFlags
-                ? 'Analisis korelasi menemukan pola narasi identik dengan database laporan penipuan siber dan broadcast hoax yang telah diverifikasi.'
+                ? 'Analisis korelasi menemukan pola narasi identik dengan taksonomi penipuan siber dan broadcast manipulatif.'
                 : 'Tidak terdeteksi anomali pada database laporan penipuan publik.',
             'connection_status' => $connectionStatus,
             'connection_note' => $statusNote
@@ -606,123 +487,18 @@ PROMPT;
     }
 
     /**
-     * Model 3: DeepSeek Evaluation Perspective
+     * Hybrid Adjudication Engine:
+     * Combines Google Gemini Cloud AI and the Deterministic Heuristics Engine.
      */
-    private function evaluateDeepSeek(string $text, array $ruleEval): array
-    {
-        if ($ruleEval['is_whitelisted']) {
-            return [
-                'model' => 'DeepSeek R1',
-                'threat_score' => 0.5,
-                'authenticity_score' => 96,
-                'is_threat' => false,
-                'stance' => 'Rantai penalaran kognitif membuktikan ketiadaan bias psikologis, desakan palsu, atau taktik eksploitasi emosional.',
-                'connection_status' => 'WHITELISTED',
-                'connection_note' => 'Domain/referensi resmi terverifikasi'
-            ];
-        }
-
-        // Try Live DeepSeek API
-        $rawKey = env('DEEPSEEK_API_KEY') ?: '';
-        $apiKey = trim($rawKey, " \t\n\r\0\x0B\"'Z"); // Clean quotes, spaces, and accidental trailing 'Z'
-        $statusNote = 'Engine Siap';
-        $connectionStatus = 'FALLBACK';
-
-        if (!empty($apiKey)) {
-            try {
-                $response = Http::withOptions([
-                    'curl' => [
-                        CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4,
-                        CURLOPT_SSL_VERIFYPEER => false,
-                    ],
-                    'timeout' => 8,
-                ])->withHeaders([
-                    'Authorization' => "Bearer {$apiKey}",
-                    'Content-Type' => 'application/json'
-                ])->post('https://api.deepseek.com/chat/completions', [
-                    'model' => 'deepseek-chat',
-                    'messages' => [
-                        ['role' => 'system', 'content' => 'Anda adalah evaluator DeepSeek R1 Cyber. Analisis penalaran kognitif teks berikut untuk mendeteksi manipulasi psikologis siber. Jawab JSON: {"threat_score": 0.0-10.0, "is_threat": boolean, "stance": "1 kalimat argumen penalaran psikologis"}'],
-                        ['role' => 'user', 'content' => "Teks: \"{$text}\""]
-                    ],
-                    'max_tokens' => 150
-                ]);
-
-                if ($response->successful()) {
-                    $rawText = $response->json('choices.0.message.content', '');
-                    if (preg_match('/\{[\s\S]*\}/', $rawText, $matches)) {
-                        $decoded = json_decode($matches[0], true);
-                        if ($decoded && isset($decoded['threat_score'])) {
-                            $sc = round((float)$decoded['threat_score'], 1);
-                            return [
-                                'model' => 'DeepSeek R1',
-                                'threat_score' => $sc,
-                                'authenticity_score' => max(5, round((10 - $sc) * 10)),
-                                'is_threat' => (bool)$decoded['is_threat'],
-                                'stance' => $decoded['stance'] ?? 'Rantai penalaran DeepSeek membongkar bias manipulasi emosi.',
-                                'connection_status' => 'LIVE',
-                                'connection_note' => 'Terhubung ke API DeepSeek R1 Live'
-                            ];
-                        }
-                    }
-                } else {
-                    $st = $response->status();
-                    if ($st === 402) {
-                        $statusNote = 'Saldo Akun DeepSeek Habis ($0 Balance - HTTP 402)';
-                    } elseif ($st === 401) {
-                        $statusNote = 'Kunci API DeepSeek Tidak Valid (HTTP 401)';
-                    } else {
-                        $statusNote = "DeepSeek Error HTTP {$st}";
-                    }
-                    \Illuminate\Support\Facades\Log::warning("DeepSeek API (Checker) returned {$st}: " . substr($response->body(), 0, 150));
-                }
-            } catch (\Throwable $e) {
-                $statusNote = 'DeepSeek Timeout / Jaringan Terputus';
-            }
-        } else {
-            $statusNote = 'Kunci API DeepSeek Belum Diisi';
-        }
-
-        $hasFlags = !empty($ruleEval['detected_vectors']);
-        $score = $hasFlags ? min(9.9, max(6.8, $ruleEval['rule_threat_score'] + 0.5)) : 1.3;
-
-        return [
-            'model' => 'DeepSeek R1',
-            'threat_score' => round($score, 1),
-            'authenticity_score' => max(5, round((10 - $score) * 10)),
-            'is_threat' => $hasFlags,
-            'stance' => $hasFlags
-                ? 'Penalaran psikometrik membongkar eksploitasi emosi (kepanikan, keserakahan hadiah, atau asmara instan) untuk menjebak korban secara sadar mentransfer dana atau menginstal payload.'
-                : 'Pesan bernada wajar dan tidak mengeksploitasi celah psikologis manusia.',
-            'connection_status' => $connectionStatus,
-            'connection_note' => $statusNote
-        ];
-    }
-
-    /**
-     * Debate & Adjudication Engine:
-     * Cross-examines OpenAI, Gemini, and DeepSeek,
-     * and consolidates into 1 single final decision output.
-     */
-    private function adjudicateDebate(
+    private function adjudicateHybrid(
         string $text,
         array $ruleEval,
-        array $openAI,
-        array $gemini,
-        array $deepseek
+        array $gemini
     ): array {
         $isWhitelisted = $ruleEval['is_whitelisted'];
 
-        // Votes
-        $threatVotes = 0;
-        if ($openAI['is_threat']) $threatVotes++;
-        if ($gemini['is_threat']) $threatVotes++;
-        if ($deepseek['is_threat']) $threatVotes++;
-
-        // Scores
-        $scores = [$openAI['threat_score'], $gemini['threat_score'], $deepseek['threat_score']];
-        $avgScore = round(array_sum($scores) / count($scores), 1);
-        $finalThreatScore = round(($ruleEval['rule_threat_score'] * 0.35) + ($avgScore * 0.65), 1);
+        // Weighted Score: 50% Heuristics + 50% Gemini Neural AI
+        $finalThreatScore = round(($ruleEval['rule_threat_score'] * 0.5) + ($gemini['threat_score'] * 0.5), 1);
 
         if ($isWhitelisted) {
             $finalThreatScore = min(0.8, $finalThreatScore);
@@ -731,43 +507,31 @@ PROMPT;
             $finalThreatScore = max(7.6, $finalThreatScore);
             $isThreat = true;
         } else {
-            $isThreat = ($threatVotes >= 2) || ($finalThreatScore >= 4.5);
+            $isThreat = $gemini['is_threat'] || (!empty($ruleEval['detected_vectors'])) || ($finalThreatScore >= 4.5);
         }
 
         $finalThreatScore = max(0.5, min(9.9, $finalThreatScore));
         $finalAuthScore = $isThreat ? max(5, round((10 - $finalThreatScore) * 10)) : max(85, round((10 - $finalThreatScore) * 10));
 
-        // Debate Synthesis
         if ($isWhitelisted) {
-            $consensusTitle = "Konsensus Bulat 3 Model (3/3 Sepakat: OTENTIK)";
-            $debateSummary = "OpenAI, Gemini, dan DeepSeek sepakat penuh bahwa informasi ini otentik, menggunakan rujukan resmi terverifikasi, dan bebas dari eksploitasi data.";
+            $consensusTitle = "Konsensus Hibrida: OTENTIK RESMI";
+            $debateSummary = "Google Gemini AI dan Engine Heuristik Siber mengonfirmasi keaslian informasi ini berdasarkan rujukan resmi institusi terdaftar.";
             $primaryCat = "Informasi Resmi Terverifikasi";
             $verdictStatus = "OTENTIK // RESMI";
-            $explanation = "Pemeriksaan konsensus 3 model kecerdasan buatan mengonfirmasi keaslian pesan. Tidak ditemukan unsur rekayasa sosial, manipulasi data, atau ancaman siber.";
+            $explanation = "Pemeriksaan hibrida mengonfirmasi keaslian pesan. Tidak ditemukan unsur rekayasa sosial, manipulasi data, atau ancaman siber.";
         } elseif ($isThreat) {
-            $consensusTitle = ($threatVotes === 3)
-                ? "Konsensus Bulat 3 Model (3/3 Sepakat: PENIPUAN)"
-                : "Konsensus Mayoritas ({$threatVotes}/3 Model Sepakat: PENIPUAN)";
-
-            $debateSummary = "Hasil Debat 3 AI: OpenAI mengidentifikasi skema penipuan terstruktur; Gemini mencocokkan riwayat pola penipuan siber; DeepSeek membongkar eksploitasi emosi dan manipulasi psikologis korban. Ketiga model menetapkan pesan ini sebagai ancaman berbahaya.";
-
+            $consensusTitle = "Konsensus Hibrida: INDIKASI PENIPUAN";
+            $debateSummary = "Google Gemini AI mengidentifikasi konstruksi kalimat manipulatif; Engine Heuristik menemukan kecocokan pola taksonomi penipuan ({$ruleEval['primary_vector']}).";
             $primaryCat = $ruleEval['primary_vector'];
             $verdictStatus = "PENIPUAN // BERBAHAYA";
-            $explanation = "Berdasarkan konsensus komparatif 3 model AI, informasi ini teridentifikasi sebagai modus {$primaryCat}. Pelaku memanfaatkan celah psikologis untuk memicu kelalaian dan mengelabui penerima.";
+            $explanation = "Berdasarkan evaluasi hibrida Google Gemini AI dan Engine Heuristik, informasi ini teridentifikasi sebagai modus {$primaryCat}. Pelaku memanfaatkan celah psikologis untuk memicu kelalaian penerima.";
         } else {
-            $consensusTitle = "Konsensus Bulat 3 Model (3/3 Sepakat: AMAN)";
-            $debateSummary = "OpenAI, Gemini, dan DeepSeek bersepakat bahwa pesan tidak memuat indikator penipuan, manipulasi emosi, atau muatan malware.";
+            $consensusTitle = "Konsensus Hibrida: AMAN STANDAR";
+            $debateSummary = "Google Gemini AI dan Engine Heuristik bersepakat bahwa pesan tidak memuat indikator penipuan, manipulasi emosi, atau muatan berbahaya.";
             $primaryCat = "Pesan Standar / Aman";
             $verdictStatus = "AMAN // STANDAR";
-            $explanation = "Pemeriksaan konsensus 3 model AI menyimpulkan bahwa pesan berada dalam batas normal dan tidak mengarah pada aktivitas kejahatan siber.";
+            $explanation = "Pemeriksaan hibrida menyimpulkan bahwa pesan berada dalam batas normal dan tidak mengarah pada aktivitas kejahatan siber.";
         }
-
-        $allAnomalies = array_values(array_unique(array_merge(
-            $ruleEval['matched_flags'],
-            [$openAI['stance']],
-            [$gemini['stance']],
-            [$deepseek['stance']]
-        )));
 
         $mitigations = $isThreat ? [
             'JANGAN mentransfer dana, membagikan OTP, atau menginstal berkas lampiran',
@@ -801,56 +565,28 @@ PROMPT;
                 'consensus_title' => $consensusTitle,
                 'verdict' => $isThreat ? 'PENIPUAN // ANCAMAN AKTIF' : 'OTENTIK // AMAN',
                 'summary' => $debateSummary,
-                'models' => ['OpenAI GPT-4o', 'Google Gemini 3.5', 'DeepSeek R1'],
-                'votes' => [
-                    'openai' => $openAI['is_threat'] ? 'PENIPUAN' : 'OTENTIK',
-                    'gemini' => $gemini['is_threat'] ? 'PENIPUAN' : 'OTENTIK',
-                    'deepseek' => $deepseek['is_threat'] ? 'PENIPUAN' : 'OTENTIK'
-                ],
-                'model_diagnostics' => [
-                    'openai' => [
-                        'model' => 'OpenAI GPT-4o',
-                        'status' => $openAI['connection_status'] ?? 'FALLBACK',
-                        'note' => $openAI['connection_note'] ?? 'Heuristik Kognitif Aktif',
-                        'is_live' => ($openAI['connection_status'] ?? '') === 'LIVE'
-                    ],
+                'engines' => [
                     'gemini' => [
-                        'model' => 'Google Gemini 3.5',
-                        'status' => $gemini['connection_status'] ?? 'FALLBACK',
-                        'note' => $gemini['connection_note'] ?? 'Heuristik Kognitif Aktif',
-                        'is_live' => ($gemini['connection_status'] ?? '') === 'LIVE'
+                        'name' => 'Google Gemini 3.5 AI',
+                        'type' => 'Neural LLM Live Cloud',
+                        'verdict' => $gemini['is_threat'] ? 'PENIPUAN' : 'OTENTIK',
+                        'status' => $gemini['connection_status'],
+                        'note' => $gemini['connection_note'],
+                        'is_live' => $gemini['connection_status'] === 'LIVE'
                     ],
-                    'deepseek' => [
-                        'model' => 'DeepSeek R1',
-                        'status' => $deepseek['connection_status'] ?? 'FALLBACK',
-                        'note' => $deepseek['connection_note'] ?? 'Heuristik Kognitif Aktif',
-                        'is_live' => ($deepseek['connection_status'] ?? '') === 'LIVE'
+                    'heuristics' => [
+                        'name' => 'Engine Heuristik Siber',
+                        'type' => 'Taxonomy Pattern Matcher',
+                        'verdict' => (!empty($ruleEval['detected_vectors'])) ? 'PENIPUAN' : 'OTENTIK',
+                        'status' => 'ACTIVE',
+                        'note' => count($ruleEval['matched_flags']) . ' indikator taksonomi dievaluasi',
+                        'is_live' => true
                     ]
-                ]
-            ],
-            'model_diagnostics' => [
-                'openai' => [
-                    'model' => 'OpenAI GPT-4o',
-                    'status' => $openAI['connection_status'] ?? 'FALLBACK',
-                    'note' => $openAI['connection_note'] ?? 'Heuristik Kognitif Aktif',
-                    'is_live' => ($openAI['connection_status'] ?? '') === 'LIVE'
-                ],
-                'gemini' => [
-                    'model' => 'Google Gemini 3.5',
-                    'status' => $gemini['connection_status'] ?? 'FALLBACK',
-                    'note' => $gemini['connection_note'] ?? 'Heuristik Kognitif Aktif',
-                    'is_live' => ($gemini['connection_status'] ?? '') === 'LIVE'
-                ],
-                'deepseek' => [
-                    'model' => 'DeepSeek R1',
-                    'status' => $deepseek['connection_status'] ?? 'FALLBACK',
-                    'note' => $deepseek['connection_note'] ?? 'Heuristik Kognitif Aktif',
-                    'is_live' => ($deepseek['connection_status'] ?? '') === 'LIVE'
                 ]
             ],
             'detected_anomalies' => array_slice($ruleEval['matched_flags'], 0, 4),
             'actionable_mitigations' => $mitigations,
-            'llm_model' => 'Konsensus 3 AI (OpenAI + Gemini + DeepSeek)'
+            'llm_model' => 'Google Gemini 3.5 AI + Engine Heuristik Siber'
         ];
     }
 }

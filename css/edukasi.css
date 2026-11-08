@@ -613,67 +613,123 @@
    ======================================================== */
 @media (max-width: 900px) {
   .edu-w3-wrapper {
-    flex-direction: column;
-    border-radius: 8px;
-    margin-bottom: 24px;
+    flex-direction: column !important;
+    border-radius: 8px !important;
+    margin-bottom: 24px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
   .w3-top-nav-bar {
-    top: 52px;
-    padding: 6px 8px;
-    border-radius: 7px 7px 0 0;
-    gap: 4px;
+    top: 52px !important;
+    padding: 8px 10px !important;
+    border-radius: 7px 7px 0 0 !important;
+    gap: 6px !important;
+    -webkit-overflow-scrolling: touch !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
   .w3-top-tab {
-    padding: 6px 12px;
-    font-size: 0.72rem;
+    padding: 7px 14px !important;
+    font-size: 0.72rem !important;
+    flex-shrink: 0 !important;
+  }
+  .edu-w3-main-body {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
   .edu-mobile-bar {
-    display: flex;
-    position: sticky;
-    top: 92px;
-    z-index: 25;
+    display: flex !important;
+    width: 100% !important;
+    position: sticky !important;
+    top: 96px !important;
+    z-index: 25 !important;
+    box-sizing: border-box !important;
+    padding: 10px 14px !important;
   }
   .edu-sidebar {
-    position: static;
-    width: 100%;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    border-right: none;
-    border-bottom: 1px solid var(--border-cyan);
-    border-radius: 0;
+    position: static !important;
+    width: 100% !important;
+    max-height: 0 !important;
+    overflow: hidden !important;
+    transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    border-right: none !important;
+    border-bottom: 1px solid var(--border-cyan) !important;
+    border-radius: 0 !important;
+    box-sizing: border-box !important;
   }
   .edu-sidebar.mobile-open {
-    max-height: 380px;
-    overflow-y: auto;
+    max-height: 420px !important;
+    overflow-y: auto !important;
   }
   .edu-main-content {
-    padding: 16px 12px 28px 12px;
-    max-height: none;
-    border-radius: 0 0 7px 7px;
+    width: 100% !important;
+    padding: 16px 12px 28px 12px !important;
+    max-height: none !important;
+    border-radius: 0 0 7px 7px !important;
+    box-sizing: border-box !important;
   }
-  .edu-article-title {
-    font-size: 1.25rem !important;
+  .edu-article {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .edu-header-box {
+    margin-bottom: 18px !important;
+    padding-bottom: 12px !important;
+  }
+  .edu-header-box h2 {
+    font-size: 1.3rem !important;
+    line-height: 1.3 !important;
+  }
+  .edu-lead {
+    font-size: 0.92rem !important;
+    line-height: 1.5 !important;
+  }
+  .edu-section {
+    margin-bottom: 22px !important;
+  }
+  .edu-section h3 {
+    font-size: 1.05rem !important;
+  }
+  .edu-section p {
+    font-size: 0.88rem !important;
+    line-height: 1.6 !important;
+  }
+  .w3-info-box,
+  .w3-danger-box,
+  .w3-code-box,
+  .w3-quiz-card {
+    padding: 12px 14px !important;
+    margin: 14px 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    overflow-x: auto !important;
   }
   .edu-content-top-nav,
   .edu-content-bottom-nav {
-    flex-wrap: wrap;
-    gap: 8px;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
   }
   .edu-progress-tag {
-    order: 3;
-    width: 100%;
-    text-align: center;
+    order: 3 !important;
+    width: 100% !important;
+    text-align: center !important;
+    font-size: 0.72rem !important;
   }
   .w3-nav-btn {
-    flex: 1;
-    min-width: 100px;
-    text-align: center;
-    justify-content: center;
+    flex: 1 !important;
+    min-width: 100px !important;
+    text-align: center !important;
+    justify-content: center !important;
+    padding: 8px 12px !important;
+    font-size: 0.82rem !important;
   }
   .edu-grid-cards,
   .edu-flow-grid {
     grid-template-columns: 1fr !important;
+    gap: 12px !important;
   }
 }
 

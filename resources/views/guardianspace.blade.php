@@ -9,11 +9,11 @@
   <meta name="description" content="KNOW YOUR SCAM - Platform edukasi dan simulasi pertahanan siber multi-level bertenaga Laravel dan AI Cognitive Core.">
 
   <!-- Core Cyber CSS Files -->
-  <link rel="stylesheet" href="{{ asset('css/hud-layout.css') }}?v=2.4">
-  <link rel="stylesheet" href="{{ asset('css/games.css') }}?v=2.4">
-  <link rel="stylesheet" href="{{ asset('css/edukasi.css') }}?v=2.4">
-  <link rel="stylesheet" href="{{ asset('css/cyber-theme.css') }}?v=2.4">
-  <link rel="stylesheet" href="{{ asset('css/responsive.css') }}?v=2.4">
+  <link rel="stylesheet" href="{{ asset('css/hud-layout.css') }}?v=2.5">
+  <link rel="stylesheet" href="{{ asset('css/games.css') }}?v=2.5">
+  <link rel="stylesheet" href="{{ asset('css/edukasi.css') }}?v=2.5">
+  <link rel="stylesheet" href="{{ asset('css/cyber-theme.css') }}?v=2.5">
+  <link rel="stylesheet" href="{{ asset('css/responsive.css') }}?v=2.5">
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
 </head>
@@ -839,7 +839,7 @@
           <strong>1. Data Fiktif Murni (Pure Fictional Data):</strong> Seluruh nama entitas ("Bank NeoArtha", "Elena Voss", "QuantumTech"), tautan domain (.mock/.fake), dan nomor kontak dalam simulasi ini 100% fiktif demi keselamatan edukasi.
         </div>
         <div style="background: rgba(5,5,10,0.7); border-left: 3px solid var(--neon-cyan); padding: 10px 14px; border-radius: 4px;">
-          <strong>2. Notifikasi Pemrosesan AI Pihak Ketiga:</strong> Fitur Deep Learning dan Scanner memproses argumen Anda semata-mata untuk mengukur ketepatan deteksi pola rekayasa sosial. Tidak ada data pribadi (PII) yang disimpan atau diteruskan ke model komersial eksternal.
+          <strong>2. Arsitektur Hibrida AI & Heuristik Siber:</strong> Deteksi ancaman siber dan transkripsi bukti didukung oleh model neural cloud <strong>Google Gemini 3.5</strong> yang dipadukan secara transparan dengan <strong>Engine Heuristik Deterministik</strong> (verifikasi protokol, taksonomi penipuan, dan whitelist resmi). Tidak ada data pribadi (PII) yang disimpan secara permanen.
         </div>
         <div style="background: rgba(5,5,10,0.7); border-left: 3px solid var(--neon-magenta); padding: 10px 14px; border-radius: 4px;">
           <strong>3. Metrik Skor Kerentanan:</strong> Indikator 1–10 merupakan sarana pembelajaran reflektif untuk meningkatkan kesadaran siber pengguna dalam mengenali manipulasi psikologis.
@@ -894,26 +894,26 @@
   </script>
 
   <!-- Core Scripts -->
-  <script src="{{ asset('js/audio-engine.js') }}?v=2.4"></script>
-  <script src="{{ asset('js/particle-canvas.js') }}?v=2.4"></script>
-  <script src="{{ asset('js/ai-wave-canvas.js') }}?v=2.4"></script>
-  <script src="{{ asset('js/hint-system.js') }}?v=2.4"></script>
-  <script src="{{ asset('js/game-briefing.js') }}?v=2.4"></script>
-  <script src="{{ asset('js/auth.js') }}?v=2.4"></script>
-  <script src="{{ asset('js/welcome-interactive.js') }}?v=2.4"></script>
-  <script src="{{ asset('js/module-edukasi.js') }}?v=2.4"></script>
-  <script src="{{ asset('js/leaderboard.js') }}?v=2.4"></script>
-  <script src="{{ asset('js/admin.js') }}?v=2.4"></script>
+  <script src="{{ asset('js/audio-engine.js') }}?v=2.5"></script>
+  <script src="{{ asset('js/particle-canvas.js') }}?v=2.5"></script>
+  <script src="{{ asset('js/ai-wave-canvas.js') }}?v=2.5"></script>
+  <script src="{{ asset('js/hint-system.js') }}?v=2.5"></script>
+  <script src="{{ asset('js/game-briefing.js') }}?v=2.5"></script>
+  <script src="{{ asset('js/auth.js') }}?v=2.5"></script>
+  <script src="{{ asset('js/welcome-interactive.js') }}?v=2.5"></script>
+  <script src="{{ asset('js/module-edukasi.js') }}?v=2.5"></script>
+  <script src="{{ asset('js/leaderboard.js') }}?v=2.5"></script>
+  <script src="{{ asset('js/admin.js') }}?v=2.5"></script>
 
   <!-- Game Modules -->
-  <script src="{{ asset('js/games/module-kasus.js') }}?v=2.4"></script>
-  <script src="{{ asset('js/games/module-diff.js') }}?v=2.4"></script>
-  <script src="{{ asset('js/games/module-criminal.js') }}?v=2.4"></script>
-  <script src="{{ asset('js/games/module-deeplearn.js') }}?v=2.4"></script>
-  <script src="{{ asset('js/games/module-scanner.js') }}?v=2.4"></script>
-  <script src="{{ asset('js/games/module-checker.js') }}?v=2.4"></script>
+  <script src="{{ asset('js/games/module-kasus.js') }}?v=2.5"></script>
+  <script src="{{ asset('js/games/module-diff.js') }}?v=2.5"></script>
+  <script src="{{ asset('js/games/module-criminal.js') }}?v=2.5"></script>
+  <script src="{{ asset('js/games/module-deeplearn.js') }}?v=2.5"></script>
+  <script src="{{ asset('js/games/module-scanner.js') }}?v=2.5"></script>
+  <script src="{{ asset('js/games/module-checker.js') }}?v=2.5"></script>
 
   <!-- Application Main Controller -->
-  <script src="{{ asset('js/app.js') }}?v=2.4"></script>
+  <script src="{{ asset('js/app.js') }}?v=2.5"></script>
 </body>
 </html>
