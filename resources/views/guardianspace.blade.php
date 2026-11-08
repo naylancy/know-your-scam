@@ -9,11 +9,11 @@
   <meta name="description" content="KNOW YOUR SCAM - Platform edukasi dan simulasi pertahanan siber multi-level bertenaga Laravel dan AI Cognitive Core.">
 
   <!-- Core Cyber CSS Files -->
-  <link rel="stylesheet" href="{{ asset('css/hud-layout.css') }}?v=2.7">
-  <link rel="stylesheet" href="{{ asset('css/games.css') }}?v=2.7">
-  <link rel="stylesheet" href="{{ asset('css/edukasi.css') }}?v=2.7">
-  <link rel="stylesheet" href="{{ asset('css/cyber-theme.css') }}?v=2.7">
-  <link rel="stylesheet" href="{{ asset('css/responsive.css') }}?v=2.7">
+  <link rel="stylesheet" href="{{ asset('css/hud-layout.css') }}?v=2.8">
+  <link rel="stylesheet" href="{{ asset('css/games.css') }}?v=2.8">
+  <link rel="stylesheet" href="{{ asset('css/edukasi.css') }}?v=2.8">
+  <link rel="stylesheet" href="{{ asset('css/cyber-theme.css') }}?v=2.8">
+  <link rel="stylesheet" href="{{ asset('css/responsive.css') }}?v=2.8">
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
 </head>
@@ -522,65 +522,105 @@
           </div>
 
           <div class="games-hub-grid">
-            <!-- Game 1: Kasus -->
-            <div class="game-hub-card">
+            <!-- Game 1: Scam Simulator (Multi-POV) -->
+            <div class="game-hub-card card-cyan" onclick="window.app.navigateTo('kasus')">
               <div>
-                <div class="game-hub-badge">MODUL 1 // MULTI-POV</div>
-                <h3 class="game-hub-title">🎭 Scam Simulator</h3>
+                <div class="game-hub-badge-bar">
+                  <span class="game-hub-badge">MODUL 1 // MULTI-POV</span>
+                  <span class="game-hub-xp" style="color:var(--neon-cyan); background:rgba(0,243,255,0.1);">🎮 +100 XP</span>
+                </div>
+                <div class="game-hub-icon">🎭</div>
+                <h3 class="game-hub-title">Scam Simulator</h3>
                 <p class="game-hub-desc">
-                  Simulasi interaktif roleplay Scammer vs Victim dengan karakter hewan pixel dan alur chat bercabang.
+                  Simulasi interaktif roleplay berganti peran (Scammer vs Korban) dengan karakter hewan pixel, alur chat WhatsApp bercabang, dan simulasi audio telepon.
                 </p>
+                <div class="game-hub-tags">
+                  <span class="game-hub-tag">🐾 Pixel Avatars</span>
+                  <span class="game-hub-tag">💬 WhatsApp UI</span>
+                  <span class="game-hub-tag">📞 Audio Call</span>
+                  <span class="game-hub-tag">⚡ Multi-Branching</span>
+                </div>
               </div>
               <div>
-                <button class="cyber-btn" style="width:100%; font-size:0.92rem; padding:12px;" onclick="window.app.navigateTo('kasus')">
+                <button class="cyber-btn" style="width:100%; font-size:0.92rem; padding:12px; justify-content:center;" onclick="event.stopPropagation(); window.app.navigateTo('kasus')">
                   <span>⚡</span> MAINKAN SCAM SIMULATOR ➔
                 </button>
               </div>
             </div>
 
-            <!-- Game 2: Finding Diff -->
-            <div class="game-hub-card">
+            <!-- Game 2: Finding Diff (Real vs Fake) -->
+            <div class="game-hub-card card-amber" onclick="window.app.navigateTo('diff')">
               <div>
-                <div class="game-hub-badge">MODUL 2 // REAL VS FAKE</div>
-                <h3 class="game-hub-title">⚖️ Finding Diff</h3>
+                <div class="game-hub-badge-bar">
+                  <span class="game-hub-badge" style="color:var(--neon-amber); border-color:rgba(255,184,0,0.3); background:rgba(255,184,0,0.08);">MODUL 2 // REAL VS FAKE</span>
+                  <span class="game-hub-xp" style="color:var(--neon-amber); background:rgba(255,184,0,0.1);">⚖️ +80 XP</span>
+                </div>
+                <div class="game-hub-icon">⚖️</div>
+                <h3 class="game-hub-title">Finding Diff</h3>
                 <p class="game-hub-desc">
-                  Periksa domain dan visual web berdampingan untuk vonis Real vs Fake.
+                  Uji ketelitian visual Anda sebagai Hakim Siber menginspeksi web tiruan berdampingan dengan web asli. Cek domain typosquatting dan keabsahan sertifikat SSL.
                 </p>
+                <div class="game-hub-tags">
+                  <span class="game-hub-tag">🔍 Split Browser</span>
+                  <span class="game-hub-tag">🔒 SSL Audit</span>
+                  <span class="game-hub-tag">🔎 Zoom Inspector</span>
+                  <span class="game-hub-tag">⚖️ Vonis Hakim</span>
+                </div>
               </div>
               <div>
-                <button class="cyber-btn" style="width:100%; font-size:0.92rem; padding:12px;" onclick="window.app.navigateTo('diff')">
+                <button class="cyber-btn" style="width:100%; font-size:0.92rem; padding:12px; justify-content:center; color:#05050A; background:var(--neon-amber); border-color:var(--neon-amber);" onclick="event.stopPropagation(); window.app.navigateTo('diff')">
                   <span>⚡</span> MAINKAN FINDING DIFF ➔
                 </button>
               </div>
             </div>
 
-            <!-- Game 3: Criminal Case -->
-            <div class="game-hub-card card-magenta">
+            <!-- Game 3: Criminal Case (Forensik Owl) -->
+            <div class="game-hub-card card-magenta" onclick="window.app.navigateTo('criminal')">
               <div>
-                <div class="game-hub-badge" style="color:var(--neon-magenta); background:rgba(189,0,255,0.1);">MODUL 3 // FORENSIK</div>
-                <h3 class="game-hub-title">🦉 Criminal Case</h3>
+                <div class="game-hub-badge-bar">
+                  <span class="game-hub-badge" style="color:var(--neon-magenta); border-color:rgba(189,0,255,0.3); background:rgba(189,0,255,0.08);">MODUL 3 // FORENSIK TKP</span>
+                  <span class="game-hub-xp" style="color:var(--neon-magenta); background:rgba(189,0,255,0.1);">🕵️ +120 XP</span>
+                </div>
+                <div class="game-hub-icon">🦉</div>
+                <h3 class="game-hub-title">Criminal Case</h3>
                 <p class="game-hub-desc">
-                  Pecahkan teka-teki TKP digital bersama Detektif Owl dan gagalkan aksi penipuan.
+                  Pecahkan teka-teki TKP digital bersama Detektif Owl. Aktifkan senter UV X-Ray untuk mengungkap bukti tersembunyi dan berikan stempel vonis kejahatan.
                 </p>
+                <div class="game-hub-tags">
+                  <span class="game-hub-tag">🔦 Senter UV X-Ray</span>
+                  <span class="game-hub-tag">🦉 Detektif Owl</span>
+                  <span class="game-hub-tag">🔍 Hotspot TKP</span>
+                  <span class="game-hub-tag">💥 Stempel Vonis</span>
+                </div>
               </div>
               <div>
-                <button class="cyber-btn btn-magenta" style="width:100%; font-size:0.92rem; padding:12px;" onclick="window.app.navigateTo('criminal')">
+                <button class="cyber-btn btn-magenta" style="width:100%; font-size:0.92rem; padding:12px; justify-content:center;" onclick="event.stopPropagation(); window.app.navigateTo('criminal')">
                   <span>⚡</span> MULAI INVESTIGASI ➔
                 </button>
               </div>
             </div>
 
-            <!-- Game 4: Analyzer -->
-            <div class="game-hub-card">
+            <!-- Game 4: AI Analyzer (Zero-Day Cognitive) -->
+            <div class="game-hub-card card-green" onclick="window.app.navigateTo('deeplearn')">
               <div>
-                <div class="game-hub-badge" style="color:var(--neon-green); background:rgba(0,255,136,0.1);">MODUL 4 // AI EVALUATOR</div>
-                <h3 class="game-hub-title">🧠 AI Analyzer</h3>
+                <div class="game-hub-badge-bar">
+                  <span class="game-hub-badge" style="color:var(--neon-green); border-color:rgba(0,255,136,0.3); background:rgba(0,255,136,0.08);">MODUL 4 // AI COGNITIVE</span>
+                  <span class="game-hub-xp" style="color:var(--neon-green); background:rgba(0,255,136,0.1);">🧠 +150 XP</span>
+                </div>
+                <div class="game-hub-icon">🧠</div>
+                <h3 class="game-hub-title">AI Analyzer</h3>
                 <p class="game-hub-desc">
-                  Tulis analisis mitigasi ancaman Zero-Day untuk dievaluasi oleh Gemini AI.
+                  Tulis strategi mitigasi ancaman Zero-Day cyber crime dan dapatkan evaluasi telemetri mendalam dari Google Gemini AI & Engine Heuristik Siber.
                 </p>
+                <div class="game-hub-tags">
+                  <span class="game-hub-tag">🤖 Google Gemini AI</span>
+                  <span class="game-hub-tag">🛡️ Heuristik Siber</span>
+                  <span class="game-hub-tag">📊 Telemetri Skor</span>
+                  <span class="game-hub-tag">🎯 Zero-Day Threat</span>
+                </div>
               </div>
               <div>
-                <button class="cyber-btn" style="width:100%; font-size:0.92rem; padding:12px;" onclick="window.app.navigateTo('deeplearn')">
+                <button class="cyber-btn btn-green" style="width:100%; font-size:0.92rem; padding:12px; justify-content:center;" onclick="event.stopPropagation(); window.app.navigateTo('deeplearn')">
                   <span>⚡</span> BUKA ANALYZER ➔
                 </button>
               </div>
@@ -894,26 +934,26 @@
   </script>
 
   <!-- Core Scripts -->
-  <script src="{{ asset('js/audio-engine.js') }}?v=2.7"></script>
-  <script src="{{ asset('js/particle-canvas.js') }}?v=2.7"></script>
-  <script src="{{ asset('js/ai-wave-canvas.js') }}?v=2.7"></script>
-  <script src="{{ asset('js/hint-system.js') }}?v=2.7"></script>
-  <script src="{{ asset('js/game-briefing.js') }}?v=2.7"></script>
-  <script src="{{ asset('js/auth.js') }}?v=2.7"></script>
-  <script src="{{ asset('js/welcome-interactive.js') }}?v=2.7"></script>
-  <script src="{{ asset('js/module-edukasi.js') }}?v=2.7"></script>
-  <script src="{{ asset('js/leaderboard.js') }}?v=2.7"></script>
-  <script src="{{ asset('js/admin.js') }}?v=2.7"></script>
+  <script src="{{ asset('js/audio-engine.js') }}?v=2.8"></script>
+  <script src="{{ asset('js/particle-canvas.js') }}?v=2.8"></script>
+  <script src="{{ asset('js/ai-wave-canvas.js') }}?v=2.8"></script>
+  <script src="{{ asset('js/hint-system.js') }}?v=2.8"></script>
+  <script src="{{ asset('js/game-briefing.js') }}?v=2.8"></script>
+  <script src="{{ asset('js/auth.js') }}?v=2.8"></script>
+  <script src="{{ asset('js/welcome-interactive.js') }}?v=2.8"></script>
+  <script src="{{ asset('js/module-edukasi.js') }}?v=2.8"></script>
+  <script src="{{ asset('js/leaderboard.js') }}?v=2.8"></script>
+  <script src="{{ asset('js/admin.js') }}?v=2.8"></script>
 
   <!-- Game Modules -->
-  <script src="{{ asset('js/games/module-kasus.js') }}?v=2.7"></script>
-  <script src="{{ asset('js/games/module-diff.js') }}?v=2.7"></script>
-  <script src="{{ asset('js/games/module-criminal.js') }}?v=2.7"></script>
-  <script src="{{ asset('js/games/module-deeplearn.js') }}?v=2.7"></script>
-  <script src="{{ asset('js/games/module-scanner.js') }}?v=2.7"></script>
-  <script src="{{ asset('js/games/module-checker.js') }}?v=2.7"></script>
+  <script src="{{ asset('js/games/module-kasus.js') }}?v=2.8"></script>
+  <script src="{{ asset('js/games/module-diff.js') }}?v=2.8"></script>
+  <script src="{{ asset('js/games/module-criminal.js') }}?v=2.8"></script>
+  <script src="{{ asset('js/games/module-deeplearn.js') }}?v=2.8"></script>
+  <script src="{{ asset('js/games/module-scanner.js') }}?v=2.8"></script>
+  <script src="{{ asset('js/games/module-checker.js') }}?v=2.8"></script>
 
   <!-- Application Main Controller -->
-  <script src="{{ asset('js/app.js') }}?v=2.7"></script>
+  <script src="{{ asset('js/app.js') }}?v=2.8"></script>
 </body>
 </html>
