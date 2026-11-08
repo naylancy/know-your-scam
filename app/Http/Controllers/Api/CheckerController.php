@@ -277,7 +277,8 @@ class CheckerController extends Controller
         }
 
         // Call Gemini Transcribe API Key
-        $apiKey = env('GEMINI_TRANSCRIBE_API_KEY') ?: env('GEMINI_API_KEY');
+        $rawTranscribeKey = env('GEMINI_TRANSCRIBE_API_KEY') ?: env('GEMINI_API_KEY') ?: '';
+        $apiKey = trim($rawTranscribeKey, " \t\n\r\0\x0B\"'");
 
         $curationPrompt = <<<PROMPT
 Anda adalah AI Transkripsi & Kurator Konten Siber pada platform "KNOW YOUR SCAM".
@@ -310,7 +311,7 @@ Tugas Anda:
 PROMPT;
 
         $geminiResult = null;
-        $modelsToTry = ['gemini-3.5-flash-lite', 'gemini-flash-latest', 'gemini-2.5-flash'];
+        $modelsToTry = ['gemini-3.5-flash', 'gemini-3.5-flash-lite', 'gemini-flash-latest'];
 
         foreach ($modelsToTry as $mName) {
             try {
@@ -441,12 +442,18 @@ PROMPT;
                 'threat_score' => 0.6,
                 'authenticity_score' => 96,
                 'is_threat' => false,
-                'stance' => 'Teks mencerminkan struktur siaran pers resmi yang objektif, tanpa taktik persuasi manipulatif atau tautan phish.'
+                'stance' => 'Teks mencerminkan struktur siaran pers resmi yang objektif, tanpa taktik persuasi manipulatif atau tautan phish.',
+                'connection_status' => 'WHITELISTED',
+                'connection_note' => 'Domain/referensi resmi terverifikasi'
             ];
         }
 
         // Try Live OpenAI API if key available
-        $apiKey = env('OPENAI_API_KEY');
+        $rawKey = env('OPENAI_API_KEY') ?: '';
+        $apiKey = trim($rawKey, " \t\n\r\0\x0B\"'");
+        $statusNote = 'Engine Siap';
+        $connectionStatus = 'FALLBACK';
+
         if (!empty($apiKey)) {
             try {
                 $response = Http::withOptions([
@@ -478,12 +485,28 @@ PROMPT;
                                 'threat_score' => $sc,
                                 'authenticity_score' => max(5, round((10 - $sc) * 10)),
                                 'is_threat' => (bool)$decoded['is_threat'],
-                                'stance' => $decoded['stance'] ?? 'Evaluasi OpenAI menemukan anomali komunikasi berisiko.'
+                                'stance' => $decoded['stance'] ?? 'Evaluasi OpenAI menemukan anomali komunikasi berisiko.',
+                                'connection_status' => 'LIVE',
+                                'connection_note' => 'Terhubung ke API OpenAI GPT-4o Live'
                             ];
                         }
                     }
+                } else {
+                    $st = $response->status();
+                    if ($st === 429) {
+                        $statusNote = 'Kuota/Saldo OpenAI Habis ($0 Credit - HTTP 429)';
+                    } elseif ($st === 401) {
+                        $statusNote = 'Kunci API OpenAI Tidak Valid (HTTP 401)';
+                    } else {
+                        $statusNote = "OpenAI Error HTTP {$st}";
+                    }
+                    \Illuminate\Support\Facades\Log::warning("OpenAI API (Checker) returned {$st}: " . substr($response->body(), 0, 150));
                 }
-            } catch (\Throwable $e) {}
+            } catch (\Throwable $e) {
+                $statusNote = 'OpenAI Timeout / Jaringan Terputus';
+            }
+        } else {
+            $statusNote = 'Kunci API OpenAI Belum Diisi';
         }
 
         $hasFlags = !empty($ruleEval['detected_vectors']);
@@ -496,7 +519,9 @@ PROMPT;
             'is_threat' => $hasFlags,
             'stance' => $hasFlags
                 ? "Menemukan kecocokan tinggi dengan taksonomi penipuan ({$ruleEval['primary_vector']}) dan pelanggaran standar komunikasi kredibel."
-                : 'Struktur pesan tidak menunjukkan pola penipuan atau pemerasan data.'
+                : 'Struktur pesan tidak menunjukkan pola penipuan atau pemerasan data.',
+            'connection_status' => $connectionStatus,
+            'connection_note' => $statusNote
         ];
     }
 
@@ -507,18 +532,24 @@ PROMPT;
     {
         if ($ruleEval['is_whitelisted']) {
             return [
-                'model' => 'Google Gemini 1.5',
+                'model' => 'Google Gemini',
                 'threat_score' => 0.5,
                 'authenticity_score' => 97,
                 'is_threat' => false,
-                'stance' => 'Verifikasi silang SafeBrowsing dan rujukan fakta mengonfirmasi keaslian informasi dari institusi resmi terdaftar.'
+                'stance' => 'Verifikasi silang SafeBrowsing dan rujukan fakta mengonfirmasi keaslian informasi dari institusi resmi terdaftar.',
+                'connection_status' => 'WHITELISTED',
+                'connection_note' => 'Domain/referensi resmi terverifikasi'
             ];
         }
 
         // Try Live Gemini Cloud API
-        $apiKey = env('GEMINI_API_KEY') ?: env('LLM_API_KEY');
+        $rawKey = env('GEMINI_API_KEY') ?: env('LLM_API_KEY') ?: '';
+        $apiKey = trim($rawKey, " \t\n\r\0\x0B\"'");
+        $statusNote = 'Engine Siap';
+        $connectionStatus = 'FALLBACK';
+
         if (!empty($apiKey)) {
-            $modelsToTry = ['gemini-3.5-flash-lite', 'gemini-flash-latest', 'gemini-2.5-flash'];
+            $modelsToTry = ['gemini-3.5-flash', 'gemini-3.5-flash-lite', 'gemini-flash-latest'];
             foreach ($modelsToTry as $mName) {
                 try {
                     $response = Http::withOptions([
@@ -540,14 +571,19 @@ PROMPT;
                             if ($decoded && isset($decoded['threat_score'])) {
                                 $sc = round((float)$decoded['threat_score'], 1);
                                 return [
-                                    'model' => 'Google Gemini 1.5',
+                                    'model' => 'Google Gemini',
                                     'threat_score' => $sc,
                                     'authenticity_score' => max(5, round((10 - $sc) * 10)),
                                     'is_threat' => (bool)$decoded['is_threat'],
                                     'stance' => $decoded['stance'] ?? 'Pemeriksaan Google Gemini mendeteksi indikasi anomali informasi.',
+                                    'connection_status' => 'LIVE',
+                                    'connection_note' => "Terhubung ke Google Gemini ({$mName}) Live"
                                 ];
                             }
                         }
+                    } else {
+                        $st = $response->status();
+                        \Illuminate\Support\Facades\Log::warning("Gemini API (Checker) {$mName} returned {$st}: " . substr($response->body(), 0, 150));
                     }
                 } catch (\Throwable $e) {}
             }
@@ -557,13 +593,15 @@ PROMPT;
         $score = $hasFlags ? min(9.9, max(6.2, $ruleEval['rule_threat_score'] + 0.4)) : 1.1;
 
         return [
-            'model' => 'Google Gemini 1.5',
+            'model' => 'Google Gemini',
             'threat_score' => round($score, 1),
             'authenticity_score' => max(5, round((10 - $score) * 10)),
             'is_threat' => $hasFlags,
             'stance' => $hasFlags
                 ? 'Analisis korelasi menemukan pola narasi identik dengan database laporan penipuan siber dan broadcast hoax yang telah diverifikasi.'
-                : 'Tidak terdeteksi anomali pada database laporan penipuan publik.'
+                : 'Tidak terdeteksi anomali pada database laporan penipuan publik.',
+            'connection_status' => $connectionStatus,
+            'connection_note' => $statusNote
         ];
     }
 
@@ -578,14 +616,19 @@ PROMPT;
                 'threat_score' => 0.5,
                 'authenticity_score' => 96,
                 'is_threat' => false,
-                'stance' => 'Rantai penalaran kognitif membuktikan ketiadaan bias psikologis, desakan palsu, atau taktik eksploitasi emosional.'
+                'stance' => 'Rantai penalaran kognitif membuktikan ketiadaan bias psikologis, desakan palsu, atau taktik eksploitasi emosional.',
+                'connection_status' => 'WHITELISTED',
+                'connection_note' => 'Domain/referensi resmi terverifikasi'
             ];
         }
 
         // Try Live DeepSeek API
-        $apiKey = env('DEEPSEEK_API_KEY');
+        $rawKey = env('DEEPSEEK_API_KEY') ?: '';
+        $apiKey = trim($rawKey, " \t\n\r\0\x0B\"'Z"); // Clean quotes, spaces, and accidental trailing 'Z'
+        $statusNote = 'Engine Siap';
+        $connectionStatus = 'FALLBACK';
+
         if (!empty($apiKey)) {
-            $cleanKey = rtrim(trim($apiKey), 'Z');
             try {
                 $response = Http::withOptions([
                     'curl' => [
@@ -594,7 +637,7 @@ PROMPT;
                     ],
                     'timeout' => 8,
                 ])->withHeaders([
-                    'Authorization' => "Bearer {$cleanKey}",
+                    'Authorization' => "Bearer {$apiKey}",
                     'Content-Type' => 'application/json'
                 ])->post('https://api.deepseek.com/chat/completions', [
                     'model' => 'deepseek-chat',
@@ -617,11 +660,27 @@ PROMPT;
                                 'authenticity_score' => max(5, round((10 - $sc) * 10)),
                                 'is_threat' => (bool)$decoded['is_threat'],
                                 'stance' => $decoded['stance'] ?? 'Rantai penalaran DeepSeek membongkar bias manipulasi emosi.',
+                                'connection_status' => 'LIVE',
+                                'connection_note' => 'Terhubung ke API DeepSeek R1 Live'
                             ];
                         }
                     }
+                } else {
+                    $st = $response->status();
+                    if ($st === 402) {
+                        $statusNote = 'Saldo Akun DeepSeek Habis ($0 Balance - HTTP 402)';
+                    } elseif ($st === 401) {
+                        $statusNote = 'Kunci API DeepSeek Tidak Valid (HTTP 401)';
+                    } else {
+                        $statusNote = "DeepSeek Error HTTP {$st}";
+                    }
+                    \Illuminate\Support\Facades\Log::warning("DeepSeek API (Checker) returned {$st}: " . substr($response->body(), 0, 150));
                 }
-            } catch (\Throwable $e) {}
+            } catch (\Throwable $e) {
+                $statusNote = 'DeepSeek Timeout / Jaringan Terputus';
+            }
+        } else {
+            $statusNote = 'Kunci API DeepSeek Belum Diisi';
         }
 
         $hasFlags = !empty($ruleEval['detected_vectors']);
@@ -634,7 +693,9 @@ PROMPT;
             'is_threat' => $hasFlags,
             'stance' => $hasFlags
                 ? 'Penalaran psikometrik membongkar eksploitasi emosi (kepanikan, keserakahan hadiah, atau asmara instan) untuk menjebak korban secara sadar mentransfer dana atau menginstal payload.'
-                : 'Pesan bernada wajar dan tidak mengeksploitasi celah psikologis manusia.'
+                : 'Pesan bernada wajar dan tidak mengeksploitasi celah psikologis manusia.',
+            'connection_status' => $connectionStatus,
+            'connection_note' => $statusNote
         ];
     }
 
@@ -740,11 +801,51 @@ PROMPT;
                 'consensus_title' => $consensusTitle,
                 'verdict' => $isThreat ? 'PENIPUAN // ANCAMAN AKTIF' : 'OTENTIK // AMAN',
                 'summary' => $debateSummary,
-                'models' => ['OpenAI GPT-4o', 'Google Gemini 1.5', 'DeepSeek R1'],
+                'models' => ['OpenAI GPT-4o', 'Google Gemini 3.5', 'DeepSeek R1'],
                 'votes' => [
                     'openai' => $openAI['is_threat'] ? 'PENIPUAN' : 'OTENTIK',
                     'gemini' => $gemini['is_threat'] ? 'PENIPUAN' : 'OTENTIK',
                     'deepseek' => $deepseek['is_threat'] ? 'PENIPUAN' : 'OTENTIK'
+                ],
+                'model_diagnostics' => [
+                    'openai' => [
+                        'model' => 'OpenAI GPT-4o',
+                        'status' => $openAI['connection_status'] ?? 'FALLBACK',
+                        'note' => $openAI['connection_note'] ?? 'Heuristik Kognitif Aktif',
+                        'is_live' => ($openAI['connection_status'] ?? '') === 'LIVE'
+                    ],
+                    'gemini' => [
+                        'model' => 'Google Gemini 3.5',
+                        'status' => $gemini['connection_status'] ?? 'FALLBACK',
+                        'note' => $gemini['connection_note'] ?? 'Heuristik Kognitif Aktif',
+                        'is_live' => ($gemini['connection_status'] ?? '') === 'LIVE'
+                    ],
+                    'deepseek' => [
+                        'model' => 'DeepSeek R1',
+                        'status' => $deepseek['connection_status'] ?? 'FALLBACK',
+                        'note' => $deepseek['connection_note'] ?? 'Heuristik Kognitif Aktif',
+                        'is_live' => ($deepseek['connection_status'] ?? '') === 'LIVE'
+                    ]
+                ]
+            ],
+            'model_diagnostics' => [
+                'openai' => [
+                    'model' => 'OpenAI GPT-4o',
+                    'status' => $openAI['connection_status'] ?? 'FALLBACK',
+                    'note' => $openAI['connection_note'] ?? 'Heuristik Kognitif Aktif',
+                    'is_live' => ($openAI['connection_status'] ?? '') === 'LIVE'
+                ],
+                'gemini' => [
+                    'model' => 'Google Gemini 3.5',
+                    'status' => $gemini['connection_status'] ?? 'FALLBACK',
+                    'note' => $gemini['connection_note'] ?? 'Heuristik Kognitif Aktif',
+                    'is_live' => ($gemini['connection_status'] ?? '') === 'LIVE'
+                ],
+                'deepseek' => [
+                    'model' => 'DeepSeek R1',
+                    'status' => $deepseek['connection_status'] ?? 'FALLBACK',
+                    'note' => $deepseek['connection_note'] ?? 'Heuristik Kognitif Aktif',
+                    'is_live' => ($deepseek['connection_status'] ?? '') === 'LIVE'
                 ]
             ],
             'detected_anomalies' => array_slice($ruleEval['matched_flags'], 0, 4),

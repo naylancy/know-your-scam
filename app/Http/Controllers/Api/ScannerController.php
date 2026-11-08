@@ -212,12 +212,18 @@ class ScannerController extends Controller
                 'risk_score' => 0.8,
                 'is_malicious' => false,
                 'stance' => 'Domain terdaftar pada institusi resmi kredibel. Struktur header dan sertifikat valid tanpa anomali kepatuhan.',
-                'flags' => ['Identitas domain resmi sesuai standar RFC']
+                'flags' => ['Identitas domain resmi sesuai standar RFC'],
+                'connection_status' => 'WHITELISTED',
+                'connection_note' => 'Domain resmi terverifikasi'
             ];
         }
 
         // Try Live OpenAI API if configured
-        $apiKey = env('OPENAI_API_KEY');
+        $rawKey = env('OPENAI_API_KEY') ?: '';
+        $apiKey = trim($rawKey, " \t\n\r\0\x0B\"'");
+        $statusNote = 'Engine Siap';
+        $connectionStatus = 'FALLBACK';
+
         if (!empty($apiKey)) {
             try {
                 $response = Http::withOptions([
@@ -248,12 +254,28 @@ class ScannerController extends Controller
                                 'risk_score' => round((float)$decoded['risk_score'], 1),
                                 'is_malicious' => (bool)$decoded['is_malicious'],
                                 'stance' => $decoded['stance'] ?? 'Analisis kepatuhan teknis OpenAI menemukan anomali.',
-                                'flags' => $ruleEval['rule_flags']
+                                'flags' => $ruleEval['rule_flags'],
+                                'connection_status' => 'LIVE',
+                                'connection_note' => 'Terhubung ke API OpenAI GPT-4o Live'
                             ];
                         }
                     }
+                } else {
+                    $st = $response->status();
+                    if ($st === 429) {
+                        $statusNote = 'Kuota/Saldo OpenAI Habis ($0 Credit - HTTP 429)';
+                    } elseif ($st === 401) {
+                        $statusNote = 'Kunci API OpenAI Tidak Valid (HTTP 401)';
+                    } else {
+                        $statusNote = "OpenAI Error HTTP {$st}";
+                    }
+                    \Illuminate\Support\Facades\Log::warning("OpenAI API returned {$st}: " . substr($response->body(), 0, 150));
                 }
-            } catch (\Throwable $e) {}
+            } catch (\Throwable $e) {
+                $statusNote = 'OpenAI Timeout / Jaringan Terputus';
+            }
+        } else {
+            $statusNote = 'Kunci API OpenAI Belum Diisi';
         }
 
         $hasFlags = ($ruleEval['flag_count'] > 0);
@@ -266,7 +288,9 @@ class ScannerController extends Controller
             'stance' => $hasFlags 
                 ? 'Mendeteksi indikasi kuat peniruan entitas resmi dan formulir pengumpul kredensial (credential harvesting) yang melanggar standar autentikasi.'
                 : 'Tidak ditemukan anomali kepatuhan transmisi atau formulir pencurian data pada target.',
-            'flags' => $ruleEval['rule_flags']
+            'flags' => $ruleEval['rule_flags'],
+            'connection_status' => $connectionStatus,
+            'connection_note' => $statusNote
         ];
     }
 
@@ -282,14 +306,20 @@ class ScannerController extends Controller
                 'risk_score' => 0.7,
                 'is_malicious' => false,
                 'stance' => 'Basis pengetahuan web Google SafeBrowsing mengonfirmasi domain ini aman, bereputasi tinggi, dan bukan phishing.',
-                'flags' => ['Reputasi domain Google SafeBrowsing: Bersih']
+                'flags' => ['Reputasi domain Google SafeBrowsing: Bersih'],
+                'connection_status' => 'WHITELISTED',
+                'connection_note' => 'Domain resmi terverifikasi'
             ];
         }
 
         // Try Live Gemini Cloud API if configured
-        $apiKey = env('GEMINI_API_KEY') ?: env('LLM_API_KEY');
+        $rawKey = env('GEMINI_API_KEY') ?: env('LLM_API_KEY') ?: '';
+        $apiKey = trim($rawKey, " \t\n\r\0\x0B\"'");
+        $statusNote = 'Engine Siap';
+        $connectionStatus = 'FALLBACK';
+
         if (!empty($apiKey)) {
-            $modelsToTry = ['gemini-3.5-flash-lite', 'gemini-flash-latest', 'gemini-2.5-flash'];
+            $modelsToTry = ['gemini-3.5-flash', 'gemini-3.5-flash-lite', 'gemini-flash-latest'];
             foreach ($modelsToTry as $mName) {
                 try {
                     $response = Http::withOptions([
@@ -310,14 +340,19 @@ class ScannerController extends Controller
                             $decoded = json_decode($matches[0], true);
                             if ($decoded && isset($decoded['risk_score'])) {
                                 return [
-                                    'model' => 'Google Gemini 1.5',
+                                    'model' => 'Google Gemini',
                                     'risk_score' => round((float)$decoded['risk_score'], 1),
                                     'is_malicious' => (bool)$decoded['is_malicious'],
                                     'stance' => $decoded['stance'] ?? 'Analisis Gemini mendeteksi potensi anomali pada target web.',
-                                    'flags' => $ruleEval['rule_flags']
+                                    'flags' => $ruleEval['rule_flags'],
+                                    'connection_status' => 'LIVE',
+                                    'connection_note' => "Terhubung ke Google Gemini ({$mName}) Live"
                                 ];
                             }
                         }
+                    } else {
+                        $st = $response->status();
+                        \Illuminate\Support\Facades\Log::warning("Gemini API ({$mName}) returned {$st}: " . substr($response->body(), 0, 150));
                     }
                 } catch (\Throwable $e) {}
             }
@@ -328,13 +363,15 @@ class ScannerController extends Controller
         $score = $hasFlags ? min(9.9, max(6.0, $ruleEval['rule_risk_score'] + 0.4)) : 1.1;
 
         return [
-            'model' => 'Google Gemini 1.5',
+            'model' => 'Google Gemini',
             'risk_score' => round($score, 1),
             'is_malicious' => $hasFlags,
             'stance' => $hasFlags
                 ? 'Pemetaan graf ancaman mendeteksi typosquatting domain tidak terdaftar dan korelasi negatif dengan repositori SafeBrowsing.'
                 : 'Verifikasi footprint web mengonfirmasi tidak ada riwayat aktivitas berbahaya yang tercatat.',
-            'flags' => $ruleEval['rule_flags']
+            'flags' => $ruleEval['rule_flags'],
+            'connection_status' => $connectionStatus,
+            'connection_note' => $statusNote
         ];
     }
 
@@ -350,14 +387,19 @@ class ScannerController extends Controller
                 'risk_score' => 0.6,
                 'is_malicious' => false,
                 'stance' => 'Analisis penalaran kognitif tidak menemukan manipulasi psikologis, rekayasa emosi mendesak, atau deceptive payload.',
-                'flags' => ['Bebas dari taktik Social Engineering']
+                'flags' => ['Bebas dari taktik Social Engineering'],
+                'connection_status' => 'WHITELISTED',
+                'connection_note' => 'Domain resmi terverifikasi'
             ];
         }
 
         // Try Live DeepSeek API
-        $apiKey = env('DEEPSEEK_API_KEY');
+        $rawKey = env('DEEPSEEK_API_KEY') ?: '';
+        $apiKey = trim($rawKey, " \t\n\r\0\x0B\"'Z"); // Clean quotes, spaces, and accidental trailing 'Z'
+        $statusNote = 'Engine Siap';
+        $connectionStatus = 'FALLBACK';
+
         if (!empty($apiKey)) {
-            $cleanKey = rtrim(trim($apiKey), 'Z');
             try {
                 $response = Http::withOptions([
                     'curl' => [
@@ -366,7 +408,7 @@ class ScannerController extends Controller
                     ],
                     'timeout' => 8,
                 ])->withHeaders([
-                    'Authorization' => "Bearer {$cleanKey}",
+                    'Authorization' => "Bearer {$apiKey}",
                     'Content-Type' => 'application/json'
                 ])->post('https://api.deepseek.com/chat/completions', [
                     'model' => 'deepseek-chat',
@@ -387,12 +429,28 @@ class ScannerController extends Controller
                                 'risk_score' => round((float)$decoded['risk_score'], 1),
                                 'is_malicious' => (bool)$decoded['is_malicious'],
                                 'stance' => $decoded['stance'] ?? 'Rantai penalaran DeepSeek menemukan manipulasi siber.',
-                                'flags' => $ruleEval['rule_flags']
+                                'flags' => $ruleEval['rule_flags'],
+                                'connection_status' => 'LIVE',
+                                'connection_note' => 'Terhubung ke API DeepSeek R1 Live'
                             ];
                         }
                     }
+                } else {
+                    $st = $response->status();
+                    if ($st === 402) {
+                        $statusNote = 'Saldo Akun DeepSeek Habis ($0 Balance - HTTP 402)';
+                    } elseif ($st === 401) {
+                        $statusNote = 'Kunci API DeepSeek Tidak Valid (HTTP 401)';
+                    } else {
+                        $statusNote = "DeepSeek Error HTTP {$st}";
+                    }
+                    \Illuminate\Support\Facades\Log::warning("DeepSeek API returned {$st}: " . substr($response->body(), 0, 150));
                 }
-            } catch (\Throwable $e) {}
+            } catch (\Throwable $e) {
+                $statusNote = 'DeepSeek Timeout / Jaringan Terputus';
+            }
+        } else {
+            $statusNote = 'Kunci API DeepSeek Belum Diisi';
         }
 
         $hasFlags = ($ruleEval['flag_count'] > 0);
@@ -405,7 +463,9 @@ class ScannerController extends Controller
             'stance' => $hasFlags
                 ? 'Penalaran forensik membongkar taktik manipulasi psikologis buatan (urgensi batas waktu / iming-iming instan) yang dirancang untuk mematikan akal sehat korban.'
                 : 'Pola kalimat dan struktur data berada dalam batas parameter transmisi normal tanpa bias manipulatif.',
-            'flags' => $ruleEval['rule_flags']
+            'flags' => $ruleEval['rule_flags'],
+            'connection_status' => $connectionStatus,
+            'connection_note' => $statusNote
         ];
     }
 
@@ -505,11 +565,51 @@ class ScannerController extends Controller
                 'consensus_title' => $consensusTitle,
                 'verdict' => $isMalicious ? 'BAHAYA // ANCAMAN AKTIF' : 'AMAN // TERVERIFIKASI',
                 'summary' => $debateSummary,
-                'models' => ['OpenAI GPT-4o', 'Google Gemini 1.5', 'DeepSeek R1'],
+                'models' => ['OpenAI GPT-4o', 'Google Gemini 3.5', 'DeepSeek R1'],
                 'votes' => [
                     'openai' => $openAI['is_malicious'] ? 'BAHAYA' : 'AMAN',
                     'gemini' => $gemini['is_malicious'] ? 'BAHAYA' : 'AMAN',
                     'deepseek' => $deepseek['is_malicious'] ? 'BAHAYA' : 'AMAN'
+                ],
+                'model_diagnostics' => [
+                    'openai' => [
+                        'model' => 'OpenAI GPT-4o',
+                        'status' => $openAI['connection_status'] ?? 'FALLBACK',
+                        'note' => $openAI['connection_note'] ?? 'Heuristik Kognitif Aktif',
+                        'is_live' => ($openAI['connection_status'] ?? '') === 'LIVE'
+                    ],
+                    'gemini' => [
+                        'model' => 'Google Gemini 3.5',
+                        'status' => $gemini['connection_status'] ?? 'FALLBACK',
+                        'note' => $gemini['connection_note'] ?? 'Heuristik Kognitif Aktif',
+                        'is_live' => ($gemini['connection_status'] ?? '') === 'LIVE'
+                    ],
+                    'deepseek' => [
+                        'model' => 'DeepSeek R1',
+                        'status' => $deepseek['connection_status'] ?? 'FALLBACK',
+                        'note' => $deepseek['connection_note'] ?? 'Heuristik Kognitif Aktif',
+                        'is_live' => ($deepseek['connection_status'] ?? '') === 'LIVE'
+                    ]
+                ]
+            ],
+            'model_diagnostics' => [
+                'openai' => [
+                    'model' => 'OpenAI GPT-4o',
+                    'status' => $openAI['connection_status'] ?? 'FALLBACK',
+                    'note' => $openAI['connection_note'] ?? 'Heuristik Kognitif Aktif',
+                    'is_live' => ($openAI['connection_status'] ?? '') === 'LIVE'
+                ],
+                'gemini' => [
+                    'model' => 'Google Gemini 3.5',
+                    'status' => $gemini['connection_status'] ?? 'FALLBACK',
+                    'note' => $gemini['connection_note'] ?? 'Heuristik Kognitif Aktif',
+                    'is_live' => ($gemini['connection_status'] ?? '') === 'LIVE'
+                ],
+                'deepseek' => [
+                    'model' => 'DeepSeek R1',
+                    'status' => $deepseek['connection_status'] ?? 'FALLBACK',
+                    'note' => $deepseek['connection_note'] ?? 'Heuristik Kognitif Aktif',
+                    'is_live' => ($deepseek['connection_status'] ?? '') === 'LIVE'
                 ]
             ],
             'matched_indicators' => array_slice($allIndicators, 0, 4),

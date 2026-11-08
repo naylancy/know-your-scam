@@ -1,6 +1,6 @@
 /* ========================================================
-   KNOW YOUR SCAM: ANTI-GRAVITY DEFENSE
-   W3Schools-Style Cyber Threat Education Hub CSS
+   KNOW YOUR SCAM: ANTI-GRAVITY CYBER DEFENSE
+   Cyber Threat Education Hub CSS (Enhanced Cyberpunk W3-Style)
    ======================================================== */
 
 .edu-w3-wrapper {
@@ -9,26 +9,29 @@
   min-height: calc(100vh - 160px);
   background: var(--bg-surface);
   border: 1px solid var(--border-cyan);
-  border-radius: 8px;
-  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4), 0 0 25px rgba(0, 243, 255, 0.05);
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 25px rgba(0, 243, 255, 0.06);
   position: relative;
+  overflow: hidden;
 }
 
 /* W3Schools Top Category Bar (Like HTML / CSS / JAVASCRIPT) */
 .w3-top-nav-bar {
   display: flex;
-  gap: 2px;
-  background: #282A35;
-  border-bottom: 1px solid rgba(0, 243, 255, 0.25);
+  gap: 6px;
+  background: rgba(10, 14, 28, 0.96);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border-cyan);
   overflow-x: auto;
-  padding: 0 8px;
+  padding: 8px 12px;
   white-space: nowrap;
-  scrollbar-width: none; /* Hide horizontal scrollbar line */
+  scrollbar-width: none;
   -ms-overflow-style: none;
   position: sticky;
-  top: 68px; /* Sticks directly below fixed HUD header */
+  top: 64px;
   z-index: 30;
-  border-radius: 7px 7px 0 0;
+  border-radius: 9px 9px 0 0;
 }
 
 .w3-top-nav-bar::-webkit-scrollbar {
@@ -36,30 +39,35 @@
 }
 
 .w3-top-tab {
-  background: transparent;
-  border: none;
-  color: #E2E8F0;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  color: var(--text-muted);
   font-family: var(--font-display);
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 700;
-  padding: 12px 18px;
+  letter-spacing: 0.6px;
+  padding: 8px 16px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  border-bottom: 3px solid transparent;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  user-select: none;
 }
 
 .w3-top-tab:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: #FFFFFF;
+  background: rgba(0, 243, 255, 0.1);
+  border-color: var(--neon-cyan);
+  color: var(--text-highlight);
+  transform: translateY(-1px);
 }
 
 .w3-top-tab.active {
-  background: #04AA6D !important;
+  background: linear-gradient(135deg, rgba(0, 243, 255, 0.25), rgba(0, 255, 136, 0.25)) !important;
+  border-color: var(--neon-cyan) !important;
   color: #FFFFFF !important;
-  border-bottom-color: #04AA6D !important;
+  box-shadow: 0 0 16px var(--neon-cyan-dim) !important;
 }
 
 /* Main Layout Body: Sidebar on Left, Content on Right */
@@ -68,20 +76,20 @@
   flex: 1;
   min-height: 0;
   position: relative;
-  align-items: flex-start; /* Crucial: allows sticky sidebar to stick without stretching */
-  border-radius: 0 0 7px 7px;
+  align-items: flex-start;
+  border-radius: 0 0 9px 9px;
 }
 
 /* Mobile Toggle Bar */
 .edu-mobile-bar {
   display: none;
-  background: rgba(14, 18, 36, 0.95);
+  background: rgba(8, 12, 26, 0.98);
   border-bottom: 1px solid var(--border-cyan);
-  padding: 10px 16px;
+  padding: 8px 14px;
   justify-content: space-between;
   align-items: center;
   position: sticky;
-  top: 110px;
+  top: 56px;
   z-index: 25;
 }
 
@@ -94,18 +102,18 @@
   display: flex;
   flex-direction: column;
   position: sticky;
-  top: 114px; /* 68px header + 46px top tab bar */
-  max-height: calc(100vh - 165px);
+  top: 116px;
+  max-height: calc(100vh - 170px);
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 243, 255, 0.25) transparent;
   z-index: 20;
-  border-bottom-left-radius: 7px;
+  border-bottom-left-radius: 9px;
 }
 
 .edu-sidebar-header {
-  padding: 14px 18px 8px 18px;
+  padding: 14px 18px 10px 18px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(0, 243, 255, 0.02);
 }
@@ -164,7 +172,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 7px 16px 7px 22px;
+  padding: 8px 16px 8px 22px;
   color: var(--text-muted);
   text-decoration: none;
   font-size: 0.84rem;
@@ -175,14 +183,15 @@
 .edu-sidebar-item:hover {
   background: rgba(0, 243, 255, 0.08);
   color: var(--text-highlight);
+  padding-left: 24px;
 }
 
-/* Iconic W3Schools Active Item: Green Left Bar + Highlight Background */
+/* Active Item: Neon Green/Cyan Left Bar + Glow Highlight */
 .edu-sidebar-item.active {
-  background: rgba(4, 170, 109, 0.16) !important;
+  background: rgba(0, 255, 157, 0.12) !important;
   color: #00FF9D !important;
   font-weight: 700 !important;
-  border-left: 4px solid #04AA6D !important;
+  border-left: 4px solid #00FF9D !important;
 }
 
 .item-badge {
@@ -195,20 +204,19 @@
 }
 
 .edu-sidebar-item.active .item-badge {
-  background: rgba(4, 170, 109, 0.3);
+  background: rgba(0, 255, 157, 0.25);
   color: #00FF9D;
 }
 
-/* Main Content Styling - Natural GPU Accelerated Smooth Scroll */
+/* Main Article Content Area */
 .edu-main-content {
   flex: 1;
-  padding: 24px 32px 40px 32px;
-  background: rgba(10, 14, 30, 0.6);
-  overflow: visible; /* Zero nested scroll container! Flows with window */
-  height: auto;
+  padding: 24px 36px 48px 36px;
   min-width: 0;
-  contain: layout style;
-  border-bottom-right-radius: 7px;
+  overflow-y: visible;
+  position: relative;
+  background: var(--bg-surface);
+  border-bottom-right-radius: 9px;
 }
 
 .edu-content-top-nav,
@@ -219,6 +227,7 @@
   padding: 12px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   margin-bottom: 24px;
+  gap: 10px;
 }
 
 .edu-content-bottom-nav {
@@ -232,58 +241,63 @@
   font-family: var(--font-mono);
   font-size: 0.78rem;
   color: var(--text-muted);
+  text-align: center;
 }
 
 /* Article Styling */
 .edu-article {
-  max-width: 860px;
-  contain: layout style;
+  max-width: 880px;
+  margin: 0 auto;
 }
 
 .edu-header-box {
   margin-bottom: 28px;
-  border-bottom: 1px solid rgba(0, 243, 255, 0.15);
+  border-bottom: 1px solid rgba(0, 243, 255, 0.2);
   padding-bottom: 18px;
 }
 
 .edu-header-box h2 {
-  font-size: 1.85rem;
+  font-size: clamp(1.4rem, 4vw, 1.95rem);
   color: var(--text-highlight);
   margin: 10px 0 8px 0;
-  line-height: 1.3;
+  line-height: 1.25;
+  letter-spacing: 0.4px;
 }
 
 .edu-lead {
   font-size: 1.05rem;
   color: var(--neon-cyan);
   line-height: 1.6;
+  margin-top: 8px;
 }
 
 .edu-section {
-  margin-bottom: 30px;
-  contain: content;
+  margin-bottom: 32px;
 }
 
 .edu-section h3 {
-  font-size: 1.25rem;
+  font-size: 1.22rem;
   color: var(--text-highlight);
-  margin-bottom: 12px;
+  margin-bottom: 14px;
+  border-left: 3px solid var(--neon-cyan);
+  padding-left: 10px;
 }
 
 .edu-section p {
   color: var(--text-main);
-  line-height: 1.7;
-  font-size: 0.95rem;
-  margin-bottom: 12px;
+  line-height: 1.75;
+  font-size: 0.96rem;
+  margin-bottom: 14px;
 }
 
-/* W3-Style Alert & Callout Boxes */
+/* Callout Boxes */
 .w3-info-box {
   background: rgba(0, 243, 255, 0.06);
   border-left: 4px solid var(--neon-cyan);
   padding: 16px 20px;
-  border-radius: 0 6px 6px 0;
+  border-radius: 0 8px 8px 0;
   margin: 18px 0;
+  box-shadow: inset 0 0 20px rgba(0, 243, 255, 0.02);
 }
 
 .w3-info-box h4 {
@@ -296,8 +310,9 @@
   background: rgba(255, 0, 85, 0.07);
   border-left: 4px solid var(--neon-red);
   padding: 16px 20px;
-  border-radius: 0 6px 6px 0;
+  border-radius: 0 8px 8px 0;
   margin: 18px 0;
+  box-shadow: inset 0 0 20px rgba(255, 0, 85, 0.02);
 }
 
 .w3-danger-box h4 {
@@ -334,13 +349,14 @@
   background: rgba(14, 18, 36, 0.85);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 8px;
-  padding: 16px;
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  padding: 18px;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .edu-card:hover {
   transform: translateY(-3px);
   border-color: var(--neon-cyan);
+  box-shadow: 0 8px 20px rgba(0, 243, 255, 0.1);
 }
 
 .card-icon {
@@ -387,12 +403,12 @@
 
 /* Interactive Quiz Card */
 .w3-quiz-card {
-  background: rgba(14, 18, 36, 0.95);
+  background: rgba(10, 14, 28, 0.95);
   border: 1px solid var(--border-cyan);
-  border-radius: 8px;
-  padding: 20px;
+  border-radius: 10px;
+  padding: 22px;
   margin: 24px 0;
-  box-shadow: 0 0 20px rgba(0, 243, 255, 0.05);
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4), 0 0 15px rgba(0, 243, 255, 0.08);
 }
 
 .quiz-badge {
@@ -422,23 +438,28 @@
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.12);
   color: var(--text-main);
-  padding: 10px 14px;
-  border-radius: 4px;
+  padding: 12px 16px;
+  border-radius: 6px;
   cursor: pointer;
   font-size: 0.9rem;
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .quiz-opt:hover:not(:disabled) {
   background: rgba(0, 243, 255, 0.1);
   border-color: var(--neon-cyan);
   color: var(--text-highlight);
+  transform: translateX(4px);
 }
 
 .quiz-opt.correct {
   background: rgba(0, 255, 136, 0.2) !important;
   border-color: var(--neon-green) !important;
   color: var(--neon-green) !important;
+  font-weight: 700;
 }
 
 .quiz-opt.wrong {
@@ -453,396 +474,15 @@
   line-height: 1.5;
 }
 
-/* ========================================================
-   DROPDOWN MENUS IN NAVBAR (GAMES & DETEKTOR)
-   ======================================================== */
-
-.dropdown-nav-item {
-  position: relative;
-}
-
-.dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: rgba(8, 12, 26, 0.96);
-  border: 1px solid var(--border-cyan);
-  border-radius: 6px;
-  list-style: none;
-  padding: 8px 0;
-  margin: 6px 0 0 0;
-  min-width: 190px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7), 0 0 20px var(--neon-cyan-dim);
-  display: none;
-  z-index: 100;
-  backdrop-filter: blur(10px);
-}
-
-.dropdown-nav-item:hover .dropdown-menu,
-.dropdown-nav-item:focus-within .dropdown-menu {
-  display: block;
-}
-
-.dropdown-link {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 9px 16px;
-  color: var(--text-main);
-  text-decoration: none;
-  font-family: var(--font-display);
-  font-size: 0.78rem;
-  letter-spacing: 0.5px;
-  transition: all 0.2s ease;
-}
-
-.dropdown-link:hover {
-  background: rgba(0, 243, 255, 0.15);
-  color: var(--neon-cyan);
-  padding-left: 20px;
-}
-
-/* ========================================================
-   GAMES HUB PAGE STYLING
-   ======================================================== */
-
-.games-hub-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-  margin-top: 24px;
-}
-
-.game-hub-card {
-  background: rgba(14, 18, 36, 0.85);
-  border: 1px solid var(--border-cyan);
-  border-radius: 10px;
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.game-hub-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 0 30px var(--neon-cyan-dim);
-  border-color: var(--neon-cyan);
-}
-
-.game-hub-card.card-magenta {
-  border-color: rgba(189, 0, 255, 0.35);
-}
-
-.game-hub-card.card-magenta:hover {
-  box-shadow: 0 0 30px rgba(189, 0, 255, 0.3);
-  border-color: var(--neon-magenta);
-}
-
-.game-hub-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--neon-cyan);
-  background: rgba(0, 243, 255, 0.08);
-  padding: 4px 10px;
-  border-radius: 4px;
-  margin-bottom: 12px;
-}
-
-.game-hub-title {
-  font-size: 1.35rem;
-  color: var(--text-highlight);
-  margin-bottom: 8px;
-}
-
-.game-hub-desc {
-  color: var(--text-muted);
-  font-size: 0.88rem;
-  line-height: 1.6;
-  margin-bottom: 20px;
-  flex: 1;
-}
-
-/* ========================================================
-   GAME START / BRIEFING SCREENS
-   ======================================================== */
-
-.game-briefing-overlay {
-  background: rgba(10, 14, 28, 0.95);
-  border: 1px solid var(--border-cyan);
-  border-radius: 10px;
-  padding: 32px;
-  max-width: 780px;
-  margin: 20px auto;
-  box-shadow: 0 0 50px rgba(0, 243, 255, 0.1);
-  animation: fadeIn 0.3s ease;
-}
-
-.game-briefing-title {
-  font-size: 1.6rem;
-  color: var(--text-highlight);
-  margin-bottom: 6px;
-}
-
-.game-briefing-subtitle {
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  color: var(--neon-cyan);
-  margin-bottom: 20px;
-}
-
-.game-briefing-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin-bottom: 24px;
-}
-
-.game-briefing-box {
-  background: rgba(5, 7, 16, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 6px;
-  padding: 14px 16px;
-}
-
-.game-briefing-box h4 {
-  font-size: 0.88rem;
-  color: var(--neon-cyan);
-  margin-bottom: 6px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.game-briefing-box p,
-.game-briefing-box ul {
-  font-size: 0.82rem;
-  color: var(--text-muted);
-  line-height: 1.5;
-  margin: 0;
-  padding-left: 14px;
-}
-
-/* Dedicated Real-time Game Score HUD */
-.game-live-hud-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgba(8, 12, 26, 0.85);
-  border: 1px solid rgba(0, 243, 255, 0.2);
-  border-radius: 8px;
-  padding: 10px 18px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.game-score-badge {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
-  color: var(--text-muted);
-}
-
-.game-score-badge strong {
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  color: var(--neon-green);
-  text-shadow: 0 0 10px rgba(0, 255, 136, 0.4);
-}
-
-.game-score-badge.badge-total strong {
-  color: var(--neon-cyan);
-  text-shadow: 0 0 10px rgba(0, 243, 255, 0.4);
-}
-
-/* ========================================================
-   RESPONSIVE DESIGN BREAKPOINTS (W3Schools Edukasi)
-   ======================================================== */
-
-@media (max-width: 900px) {
-  .edu-w3-wrapper {
-    flex-direction: column;
-  }
-  .w3-top-nav-bar {
-    top: 64px;
-    border-radius: 7px 7px 0 0;
-  }
-  .edu-mobile-bar {
-    display: flex;
-    position: sticky;
-    top: 108px;
-    z-index: 25;
-  }
-  .edu-sidebar {
-    position: static;
-    width: 100%;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease;
-    border-right: none;
-    border-bottom: 1px solid var(--border-cyan);
-    border-radius: 0;
-  }
-  .edu-sidebar.mobile-open {
-    max-height: 380px;
-    overflow-y: auto;
-  }
-  .edu-main-content {
-    padding: 20px 16px 36px 16px;
-    max-height: none;
-    border-radius: 0 0 7px 7px;
-  }
-  .game-briefing-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Light Mode Adaptations for W3Schools Edukasi */
-[data-theme="light"] .w3-top-nav-bar {
-  background: #FFFFFF !important;
-  border-bottom: 1px solid #E2E8F0 !important;
-}
-
-[data-theme="light"] .w3-top-tab {
-  color: #475569 !important;
-}
-
-[data-theme="light"] .w3-top-tab:hover {
-  background: #F1F5F9 !important;
-  color: #0F172A !important;
-}
-
-[data-theme="light"] .w3-top-tab.active {
-  background: #04AA6D !important;
-  color: #FFFFFF !important;
-}
-
-[data-theme="light"] .edu-sidebar {
-  background: #F8FAFC;
-  border-right: 1px solid #E2E8F0;
-}
-
-[data-theme="light"] .w3-sidebar-title {
-  color: #64748B;
-}
-
-[data-theme="light"] .w3-accordion-header {
-  color: #0F172A;
-}
-
-[data-theme="light"] .w3-accordion-header:hover {
-  background: #E2E8F0;
-}
-
-[data-theme="light"] .edu-sidebar-item {
-  color: #334155;
-}
-
-[data-theme="light"] .edu-sidebar-item:hover {
-  background: #E2E8F0;
-  color: #0F172A;
-}
-
-[data-theme="light"] .edu-sidebar-item.active {
-  background: #E7E9EB !important;
-  color: #0F172A !important;
-  border-left: 4px solid #04AA6D !important;
-}
-
-[data-theme="light"] .edu-main-content {
-  background: #FFFFFF !important;
-  color: #1E293B !important;
-}
-
-[data-theme="light"] .edu-w3-wrapper {
-  background: #FFFFFF !important;
-  border-color: #CBD5E1 !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
-}
-
-[data-theme="light"] .dropdown-menu {
-  background: #FFFFFF !important;
-  border: 1px solid #CBD5E1 !important;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 0 10px rgba(2, 132, 199, 0.08) !important;
-}
-
-[data-theme="light"] .dropdown-link {
-  color: #334155 !important;
-}
-
-[data-theme="light"] .dropdown-link:hover {
-  background: #F1F5F9 !important;
-  color: #0284C7 !important;
-  padding-left: 20px !important;
-}
-
-[data-theme="light"] .w3-info-box {
-  background: #F0FDF4 !important;
-  border-left: 4px solid #16A34A !important;
-  color: #166534 !important;
-}
-
-[data-theme="light"] .w3-danger-box {
-  background: #FEF2F2 !important;
-  border-left: 4px solid #DC2626 !important;
-  color: #991B1B !important;
-}
-
-[data-theme="light"] .w3-code-box {
-  background: #F8FAFC !important;
-  border: 1px solid #E2E8F0 !important;
-  color: #0F172A !important;
-}
-
-[data-theme="light"] .edu-card {
-  background: #F8FAFC !important;
-  border: 1px solid #E2E8F0 !important;
-  color: #1E293B !important;
-}
-
-[data-theme="light"] .edu-card h4 {
-  color: #0F172A !important;
-}
-
-[data-theme="light"] .edu-card p {
-  color: #475569 !important;
-}
-
-[data-theme="light"] .w3-quiz-card {
-  background: #F8FAFC !important;
-  border: 1px solid #E2E8F0 !important;
-}
-
-[data-theme="light"] .quiz-opt {
-  background: #FFFFFF !important;
-  border: 1px solid #CBD5E1 !important;
-  color: #1E293B !important;
-}
-
-[data-theme="light"] .quiz-opt:hover {
-  background: #F1F5F9 !important;
-  border-color: #0284C7 !important;
-  color: #0284C7 !important;
-}
-
+/* Nav Buttons */
 .w3-nav-btn {
   font-weight: 700 !important;
-  padding: 8px 18px !important;
+  padding: 9px 20px !important;
   font-size: 0.85rem !important;
-  border-radius: 4px !important;
+  border-radius: 6px !important;
 }
 
-/* ========================================================
-   Interactive Visual Education Assets & Flow Widgets
-   ======================================================== */
+/* Interactive Visual Education Assets & Flow Widgets */
 .edu-visual-container {
   background: rgba(14, 18, 36, 0.9);
   border: 1px solid var(--border-cyan);
@@ -851,11 +491,6 @@
   margin: 20px 0;
   position: relative;
   overflow: hidden;
-}
-
-[data-theme="light"] .edu-visual-container {
-  background: #F8FAFC !important;
-  border-color: #CBD5E1 !important;
 }
 
 .edu-flow-grid {
@@ -874,11 +509,6 @@
   position: relative;
   transition: all 0.25s ease;
   cursor: pointer;
-}
-
-[data-theme="light"] .edu-flow-card {
-  background: #FFFFFF !important;
-  border-color: #E2E8F0 !important;
 }
 
 .edu-flow-card:hover {
@@ -936,12 +566,6 @@
   user-select: none;
 }
 
-[data-theme="light"] .edu-check-item {
-  background: #FFFFFF !important;
-  border-color: #E2E8F0 !important;
-  color: #1E293B !important;
-}
-
 .edu-check-item:hover {
   border-color: var(--neon-cyan);
   background: rgba(0, 243, 255, 0.04);
@@ -979,13 +603,214 @@
   flex: 1;
 }
 
-[data-theme="light"] .edu-check-text {
-  color: #1E293B !important;
-}
-
 .edu-check-sub {
   font-size: 0.78rem;
   color: var(--text-muted);
 }
 
+/* ========================================================
+   RESPONSIVE DESIGN (max-width: 900px)
+   ======================================================== */
+@media (max-width: 900px) {
+  .edu-w3-wrapper {
+    flex-direction: column;
+    border-radius: 8px;
+    margin-bottom: 24px;
+  }
+  .w3-top-nav-bar {
+    top: 52px;
+    padding: 6px 8px;
+    border-radius: 7px 7px 0 0;
+    gap: 4px;
+  }
+  .w3-top-tab {
+    padding: 6px 12px;
+    font-size: 0.72rem;
+  }
+  .edu-mobile-bar {
+    display: flex;
+    position: sticky;
+    top: 92px;
+    z-index: 25;
+  }
+  .edu-sidebar {
+    position: static;
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    border-right: none;
+    border-bottom: 1px solid var(--border-cyan);
+    border-radius: 0;
+  }
+  .edu-sidebar.mobile-open {
+    max-height: 380px;
+    overflow-y: auto;
+  }
+  .edu-main-content {
+    padding: 16px 12px 28px 12px;
+    max-height: none;
+    border-radius: 0 0 7px 7px;
+  }
+  .edu-article-title {
+    font-size: 1.25rem !important;
+  }
+  .edu-content-top-nav,
+  .edu-content-bottom-nav {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .edu-progress-tag {
+    order: 3;
+    width: 100%;
+    text-align: center;
+  }
+  .w3-nav-btn {
+    flex: 1;
+    min-width: 100px;
+    text-align: center;
+    justify-content: center;
+  }
+  .edu-grid-cards,
+  .edu-flow-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
 
+/* ========================================================
+   LIGHT THEME ADAPTATIONS
+   ======================================================== */
+[data-theme="light"] .w3-top-nav-bar {
+  background: #FFFFFF !important;
+  border-bottom: 1px solid #E2E8F0 !important;
+}
+
+[data-theme="light"] .w3-top-tab {
+  background: #F8FAFC !important;
+  border-color: #E2E8F0 !important;
+  color: #475569 !important;
+}
+
+[data-theme="light"] .w3-top-tab:hover {
+  background: #F1F5F9 !important;
+  color: #0F172A !important;
+}
+
+[data-theme="light"] .w3-top-tab.active {
+  background: linear-gradient(135deg, #0284C7, #0EA5E9) !important;
+  border-color: #0284C7 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25) !important;
+}
+
+[data-theme="light"] .edu-sidebar {
+  background: #F8FAFC;
+  border-right: 1px solid #E2E8F0;
+}
+
+[data-theme="light"] .w3-sidebar-title {
+  color: #64748B;
+}
+
+[data-theme="light"] .w3-accordion-header {
+  color: #0F172A;
+}
+
+[data-theme="light"] .w3-accordion-header:hover {
+  background: #E2E8F0;
+}
+
+[data-theme="light"] .edu-sidebar-item {
+  color: #334155;
+}
+
+[data-theme="light"] .edu-sidebar-item:hover {
+  background: #E2E8F0;
+  color: #0F172A;
+}
+
+[data-theme="light"] .edu-sidebar-item.active {
+  background: #E0F2FE !important;
+  color: #0369A1 !important;
+  border-left: 4px solid #0284C7 !important;
+}
+
+[data-theme="light"] .edu-main-content {
+  background: #FFFFFF !important;
+  color: #1E293B !important;
+}
+
+[data-theme="light"] .edu-w3-wrapper {
+  background: #FFFFFF !important;
+  border-color: #CBD5E1 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+}
+
+[data-theme="light"] .w3-info-box {
+  background: #F0FDF4 !important;
+  border-left: 4px solid #16A34A !important;
+  color: #166534 !important;
+}
+
+[data-theme="light"] .w3-danger-box {
+  background: #FEF2F2 !important;
+  border-left: 4px solid #DC2626 !important;
+  color: #991B1B !important;
+}
+
+[data-theme="light"] .w3-code-box {
+  background: #F8FAFC !important;
+  border: 1px solid #E2E8F0 !important;
+  color: #0F172A !important;
+}
+
+[data-theme="light"] .edu-card {
+  background: #F8FAFC !important;
+  border: 1px solid #E2E8F0 !important;
+  color: #1E293B !important;
+}
+
+[data-theme="light"] .edu-card h4 {
+  color: #0F172A !important;
+}
+
+[data-theme="light"] .edu-card p {
+  color: #475569 !important;
+}
+
+[data-theme="light"] .w3-quiz-card {
+  background: #F8FAFC !important;
+  border: 1px solid #E2E8F0 !important;
+}
+
+[data-theme="light"] .quiz-opt {
+  background: #FFFFFF !important;
+  border: 1px solid #CBD5E1 !important;
+  color: #1E293B !important;
+}
+
+[data-theme="light"] .quiz-opt:hover {
+  background: #F1F5F9 !important;
+  border-color: #0284C7 !important;
+  color: #0284C7 !important;
+}
+
+[data-theme="light"] .edu-visual-container {
+  background: #F8FAFC !important;
+  border-color: #CBD5E1 !important;
+}
+
+[data-theme="light"] .edu-flow-card {
+  background: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+}
+
+[data-theme="light"] .edu-check-item {
+  background: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  color: #1E293B !important;
+}
+
+[data-theme="light"] .edu-check-text {
+  color: #1E293B !important;
+}

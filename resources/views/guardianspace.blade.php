@@ -9,11 +9,11 @@
   <meta name="description" content="KNOW YOUR SCAM - Platform edukasi dan simulasi pertahanan siber multi-level bertenaga Laravel dan AI Cognitive Core.">
 
   <!-- Core Cyber CSS Files -->
-  <link rel="stylesheet" href="{{ asset('css/hud-layout.css') }}?v=2.3">
-  <link rel="stylesheet" href="{{ asset('css/games.css') }}?v=2.3">
-  <link rel="stylesheet" href="{{ asset('css/edukasi.css') }}?v=2.3">
-  <link rel="stylesheet" href="{{ asset('css/cyber-theme.css') }}?v=2.3">
-  <link rel="stylesheet" href="{{ asset('css/responsive.css') }}?v=2.3">
+  <link rel="stylesheet" href="{{ asset('css/hud-layout.css') }}?v=2.4">
+  <link rel="stylesheet" href="{{ asset('css/games.css') }}?v=2.4">
+  <link rel="stylesheet" href="{{ asset('css/edukasi.css') }}?v=2.4">
+  <link rel="stylesheet" href="{{ asset('css/cyber-theme.css') }}?v=2.4">
+  <link rel="stylesheet" href="{{ asset('css/responsive.css') }}?v=2.4">
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
 </head>
@@ -894,26 +894,26 @@
   </script>
 
   <!-- Core Scripts -->
-  <script src="{{ asset('js/audio-engine.js') }}?v=2.2"></script>
-  <script src="{{ asset('js/particle-canvas.js') }}?v=2.2"></script>
-  <script src="{{ asset('js/ai-wave-canvas.js') }}?v=2.2"></script>
-  <script src="{{ asset('js/hint-system.js') }}?v=2.2"></script>
-  <script src="{{ asset('js/game-briefing.js') }}?v=2.2"></script>
-  <script src="{{ asset('js/auth.js') }}?v=2.2"></script>
-  <script src="{{ asset('js/welcome-interactive.js') }}?v=2.2"></script>
-  <script src="{{ asset('js/module-edukasi.js') }}?v=2.2"></script>
-  <script src="{{ asset('js/leaderboard.js') }}?v=2.2"></script>
-  <script src="{{ asset('js/admin.js') }}?v=2.2"></script>
+  <script src="{{ asset('js/audio-engine.js') }}?v=2.4"></script>
+  <script src="{{ asset('js/particle-canvas.js') }}?v=2.4"></script>
+  <script src="{{ asset('js/ai-wave-canvas.js') }}?v=2.4"></script>
+  <script src="{{ asset('js/hint-system.js') }}?v=2.4"></script>
+  <script src="{{ asset('js/game-briefing.js') }}?v=2.4"></script>
+  <script src="{{ asset('js/auth.js') }}?v=2.4"></script>
+  <script src="{{ asset('js/welcome-interactive.js') }}?v=2.4"></script>
+  <script src="{{ asset('js/module-edukasi.js') }}?v=2.4"></script>
+  <script src="{{ asset('js/leaderboard.js') }}?v=2.4"></script>
+  <script src="{{ asset('js/admin.js') }}?v=2.4"></script>
 
   <!-- Game Modules -->
-  <script src="{{ asset('js/games/module-kasus.js') }}?v=2.2"></script>
-  <script src="{{ asset('js/games/module-diff.js') }}?v=2.2"></script>
-  <script src="{{ asset('js/games/module-criminal.js') }}?v=2.2"></script>
-  <script src="{{ asset('js/games/module-deeplearn.js') }}?v=2.2"></script>
-  <script src="{{ asset('js/games/module-scanner.js') }}?v=2.2"></script>
-  <script src="{{ asset('js/games/module-checker.js') }}?v=2.2"></script>
+  <script src="{{ asset('js/games/module-kasus.js') }}?v=2.4"></script>
+  <script src="{{ asset('js/games/module-diff.js') }}?v=2.4"></script>
+  <script src="{{ asset('js/games/module-criminal.js') }}?v=2.4"></script>
+  <script src="{{ asset('js/games/module-deeplearn.js') }}?v=2.4"></script>
+  <script src="{{ asset('js/games/module-scanner.js') }}?v=2.4"></script>
+  <script src="{{ asset('js/games/module-checker.js') }}?v=2.4"></script>
 
   <!-- Application Main Controller -->
-  <script src="{{ asset('js/app.js') }}?v=2.2"></script>
+  <script src="{{ asset('js/app.js') }}?v=2.4"></script>
 </body>
 </html>

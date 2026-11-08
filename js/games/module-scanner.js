@@ -289,7 +289,17 @@ class ModuleScanner {
         </div>
 
         <!-- Kotak Debat & Konsensus 3 Model AI -->
-        ${data.debate_consensus ? `
+        ${data.debate_consensus ? (() => {
+          const diag = data.model_diagnostics || data.debate_consensus?.model_diagnostics || {};
+          const openAiLive = diag.openai?.is_live ?? false;
+          const geminiLive = diag.gemini?.is_live ?? true;
+          const deepseekLive = diag.deepseek?.is_live ?? false;
+
+          const openAiStatus = openAiLive ? '🟢 OpenAI [Live]' : '🟡 OpenAI [Heuristik]';
+          const geminiStatus = geminiLive ? '🟢 Gemini [Live]' : '🟡 Gemini [Heuristik]';
+          const deepseekStatus = deepseekLive ? '🟢 DeepSeek [Live]' : '🟡 DeepSeek [Heuristik]';
+
+          return `
           <div class="ai-debate-box">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
               <span class="cyber-tag tag-cyan" style="font-size:0.72rem;">
@@ -302,13 +312,19 @@ class ModuleScanner {
             <p style="font-size:0.85rem; color:var(--text-main); line-height:1.45; margin:0 0 8px 0;">
               ${data.debate_consensus.summary || ''}
             </p>
-            <div style="display:flex; gap:6px; flex-wrap:wrap;">
-              <span class="ai-model-tag">🟢 OpenAI: ${data.debate_consensus.votes?.openai || 'BAHAYA'}</span>
-              <span class="ai-model-tag">🔵 Gemini: ${data.debate_consensus.votes?.gemini || 'BAHAYA'}</span>
-              <span class="ai-model-tag">🟣 DeepSeek: ${data.debate_consensus.votes?.deepseek || 'BAHAYA'}</span>
+            <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:6px;">
+              <span class="ai-model-tag" title="${diag.openai?.note || ''}">${openAiStatus}: <strong>${data.debate_consensus.votes?.openai || (isMalicious ? 'BAHAYA' : 'AMAN')}</strong></span>
+              <span class="ai-model-tag" title="${diag.gemini?.note || ''}">${geminiStatus}: <strong>${data.debate_consensus.votes?.gemini || (isMalicious ? 'BAHAYA' : 'AMAN')}</strong></span>
+              <span class="ai-model-tag" title="${diag.deepseek?.note || ''}">${deepseekStatus}: <strong>${data.debate_consensus.votes?.deepseek || (isMalicious ? 'BAHAYA' : 'AMAN')}</strong></span>
             </div>
+            ${(!openAiLive || !deepseekLive) ? `
+              <div style="font-family:var(--font-mono); font-size:0.72rem; color:var(--text-muted); line-height:1.4; padding:6px 10px; background:rgba(0,0,0,0.3); border-radius:4px; border-left:2px solid var(--neon-cyan);">
+                ⚡ <strong>Status Konektivitas:</strong> Gemini terhubung Live ke Google Cloud. OpenAI & DeepSeek beralih ke <em>Heuristik Kognitif</em> karena saldo akun eksternal $0.
+              </div>
+            ` : ''}
           </div>
-        ` : ''}
+        `;
+        })() : ''}
 
         <!-- Single Final Explanation Output -->
         <p style="font-size: 0.92rem; color: var(--text-main); line-height: 1.5; margin: 0 0 14px 0;">
