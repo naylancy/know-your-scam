@@ -1,10 +1,15 @@
 #!/bin/sh
 set -e
 
-# 1. Ensure run & log directories exist
-mkdir -p /run/nginx /var/log/nginx
-chown -R www-data:www-data /run/nginx /var/log/nginx
-chmod -R 775 /run/nginx /var/log/nginx
+# 1. Ensure run, log, and tmp directories exist with proper permissions for www-data
+mkdir -p /run/nginx /var/log/nginx \
+    /var/lib/nginx/tmp/client_body \
+    /var/lib/nginx/tmp/fastcgi \
+    /var/lib/nginx/tmp/proxy \
+    /var/lib/nginx/tmp/uwsgi \
+    /var/lib/nginx/tmp/scgi
+chown -R www-data:www-data /run/nginx /var/log/nginx /var/lib/nginx
+chmod -R 775 /run/nginx /var/log/nginx /var/lib/nginx
 
 # 2. Switch nginx user to www-data so it matches PHP-FPM and Laravel storage
 sed -i 's/user nginx;/user www-data;/g' /etc/nginx/nginx.conf 2>/dev/null || true

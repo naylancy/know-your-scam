@@ -33,8 +33,16 @@ RUN mkdir -p /var/www/html/storage/framework/cache/data \
     /var/www/html/storage/framework/sessions \
     /var/www/html/storage/framework/views \
     /var/www/html/storage/logs \
-    /var/www/html/bootstrap/cache && \
-    chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+    /var/www/html/bootstrap/cache \
+    /run/nginx \
+    /var/log/nginx \
+    /var/lib/nginx/tmp/client_body \
+    /var/lib/nginx/tmp/fastcgi \
+    /var/lib/nginx/tmp/proxy \
+    /var/lib/nginx/tmp/uwsgi \
+    /var/lib/nginx/tmp/scgi && \
+    chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /run/nginx /var/log/nginx /var/lib/nginx && \
+    chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /run/nginx /var/log/nginx /var/lib/nginx
 
 # Copy Nginx config and entrypoint script
 COPY docker/nginx.conf /etc/nginx/http.d/default.conf
