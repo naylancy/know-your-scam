@@ -8,8 +8,8 @@ sed -i "s/LISTEN_PORT/${PORT}/g" /etc/nginx/http.d/default.conf
 # Clean optimize cache
 php artisan optimize:clear || true
 
-# Run database migration safely if DB is reachable
-php artisan migrate --force || true
+# Run database migration & seeding safely if DB is reachable
+php artisan migrate --force --seed || true
 
 # Start php-fpm in background
 php-fpm -D
