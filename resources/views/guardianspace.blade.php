@@ -9,11 +9,11 @@
   <meta name="description" content="KNOW YOUR SCAM - Platform edukasi dan simulasi pertahanan siber multi-level bertenaga Laravel dan AI Cognitive Core.">
 
   <!-- Core Cyber CSS Files -->
-  <link rel="stylesheet" href="{{ asset('css/hud-layout.css') }}?v=2.2">
-  <link rel="stylesheet" href="{{ asset('css/games.css') }}?v=2.2">
-  <link rel="stylesheet" href="{{ asset('css/edukasi.css') }}?v=2.2">
-  <link rel="stylesheet" href="{{ asset('css/cyber-theme.css') }}?v=2.2">
-  <link rel="stylesheet" href="{{ asset('css/responsive.css') }}?v=2.2">
+  <link rel="stylesheet" href="{{ asset('css/hud-layout.css') }}?v=2.3">
+  <link rel="stylesheet" href="{{ asset('css/games.css') }}?v=2.3">
+  <link rel="stylesheet" href="{{ asset('css/edukasi.css') }}?v=2.3">
+  <link rel="stylesheet" href="{{ asset('css/cyber-theme.css') }}?v=2.3">
+  <link rel="stylesheet" href="{{ asset('css/responsive.css') }}?v=2.3">
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
 </head>

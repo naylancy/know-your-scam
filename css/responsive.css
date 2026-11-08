@@ -1,7 +1,7 @@
 /* ========================================================
    KNOW YOUR SCAM: ANTI-GRAVITY CYBER DEFENSE
-   Comprehensive Pixel-Based Responsive Styles
-   Breakpoints: 320px, 480px, 768px, 992px, 1200px, 1440px+
+   Comprehensive Mobile & Tablet Responsive Architecture
+   Breakpoints: 320px, 480px, 640px, 768px, 992px, 1200px, 1440px+
    ======================================================== */
 
 /* --- 1440px+ (Ultra-Wide Screens) --- */
@@ -26,305 +26,629 @@
 /* --- Tablet / Netbook Breakpoint (max-width: 1024px) --- */
 @media (max-width: 1024px) {
   .diff-split-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
   }
-  .crim-columns {
-    grid-template-columns: 1fr;
-    gap: 16px;
+  .crim-board-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
   }
-  .deep-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
+  .deep-eval-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
   }
   .games-hub-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
   }
 }
 
-/* --- Mobile & Tablet Portrait Breakpoint (max-width: 992px) --- */
-/* Transform horizontal navbar into toggleable off-canvas sidebar drawer */
+/* ========================================================
+   TABLET & MOBILE PORTRAIT (max-width: 992px)
+   ======================================================== */
 @media (max-width: 992px) {
-  .hud-header {
-    height: 60px;
-    padding: 0 16px;
+  /* Prevent horizontal page overflow */
+  html, body {
+    overflow-x: hidden !important;
+    width: 100% !important;
   }
-  .hud-header-inner {
-    flex-wrap: nowrap;
-    gap: 10px;
+  .app-wrapper {
+    overflow-x: hidden !important;
+    width: 100% !important;
   }
 
-  /* Desktop Navbar Hidden on Mobile/Tablet */
+  /* Header adjustments */
+  .hud-header {
+    height: 58px !important;
+    padding: 0 14px !important;
+  }
+  .hud-header-inner {
+    flex-wrap: nowrap !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+
+  /* Hide desktop navbar on mobile/tablet */
   .hud-nav, 
   .hud-header nav {
     display: none !important;
   }
 
-  /* Show Mobile Hamburger Button */
+  /* Show mobile hamburger toggle */
   .mobile-nav-hamburger {
     display: flex !important;
   }
 
-  /* Main Viewport Spacing to prevent header overlap */
+  /* Main Viewport Spacing */
   .main-viewport {
-    padding: 76px 16px 60px 16px !important;
+    padding: 74px 16px 40px 16px !important;
   }
 
   /* Brand adjustments */
+  .brand-container {
+    gap: 8px !important;
+    flex-shrink: 0 !important;
+  }
+  .brand-icon {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 1.15rem !important;
+  }
   .brand-text h1 {
-    font-size: 1.05rem;
-    letter-spacing: 0.8px;
+    font-size: 1.05rem !important;
+    letter-spacing: 0.8px !important;
   }
   .brand-text .subtext {
-    font-size: 0.55rem;
+    font-size: 0.55rem !important;
   }
 
   /* Header Right Controls */
   .hud-right-controls {
-    gap: 6px;
+    gap: 6px !important;
   }
   .audio-vol-slider {
-    display: none;
+    display: none !important;
   }
   .audio-ctrl-capsule {
-    padding: 3px 6px;
-  }
-  .theme-toggle-btn {
-    padding: 4px 8px;
-    font-size: 0.72rem;
+    padding: 2px 6px !important;
+    gap: 2px !important;
   }
 
   /* Hero Section */
   .hero-title {
-    font-size: 2.2rem;
-    letter-spacing: 1px;
+    font-size: 2.2rem !important;
+    letter-spacing: 1px !important;
   }
   .hero-subtitle {
-    font-size: 0.85rem;
+    font-size: 0.85rem !important;
   }
   .hero-desc {
-    font-size: 0.9rem;
-    padding: 0 8px;
+    font-size: 0.9rem !important;
+    padding: 0 8px !important;
   }
   .hero-cta-group {
-    flex-direction: column;
-    width: 100%;
-    max-width: 440px;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0 12px;
-    gap: 10px;
+    flex-direction: column !important;
+    width: 100% !important;
+    max-width: 440px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding: 0 8px !important;
+    gap: 10px !important;
   }
   .hero-cta-group .cyber-btn {
-    width: 100%;
-    justify-content: center;
+    width: 100% !important;
+    justify-content: center !important;
     padding: 14px 20px !important;
     font-size: 0.95rem !important;
   }
 
-  /* Edu Cards & Grids */
+  /* Grids */
   .edu-grid-cards {
     grid-template-columns: repeat(2, 1fr) !important;
+    gap: 14px !important;
   }
   .menu-summary-grid {
     grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
+  }
+  .account-test-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
   }
 
   /* Modals */
   .cyber-modal-box {
     width: 95% !important;
     max-width: 95% !important;
-    padding: 18px !important;
-    margin: 10px auto;
+    padding: 18px 14px !important;
+    margin: 10px auto !important;
   }
 }
 
-/* --- Smartphones & Compact Tablets (max-width: 768px) --- */
+/* ========================================================
+   SMARTPHONES & COMPACT TABLETS (max-width: 768px)
+   ======================================================== */
 @media (max-width: 768px) {
+  /* --------------------------------------------------------
+     1. TOP NAVBAR / HEADER (ANTI-OVERLAPPING)
+     -------------------------------------------------------- */
   .hud-header {
-    height: 58px;
-    padding: 0 12px;
+    height: 56px !important;
+    padding: 0 10px !important;
+  }
+  .hud-header-inner {
+    gap: 6px !important;
+  }
+  .brand-container {
+    gap: 6px !important;
+  }
+  .brand-icon {
+    width: 30px !important;
+    height: 30px !important;
+    font-size: 1.1rem !important;
+  }
+  .brand-text h1 {
+    font-size: 0.92rem !important;
+    letter-spacing: 0.4px !important;
+  }
+  .brand-text .subtext {
+    display: none !important;
   }
 
+  /* Compact Right Controls */
+  .hud-right-controls {
+    gap: 4px !important;
+  }
+
+  /* Theme button: Icon only on mobile */
+  .theme-toggle-btn {
+    padding: 5px 7px !important;
+    font-size: 0.8rem !important;
+    min-width: 30px !important;
+    height: 32px !important;
+  }
+  .theme-toggle-btn span {
+    display: none !important;
+  }
+
+  /* Audio capsule compact */
+  .audio-ctrl-capsule {
+    padding: 2px 4px !important;
+  }
+  .audio-btn {
+    padding: 3px 5px !important;
+    font-size: 0.85rem !important;
+  }
+
+  /* Guest Action: Compact "MASUK" Button */
+  #btn-header-login {
+    padding: 5px 9px !important;
+    font-size: 0.72rem !important;
+    white-space: nowrap !important;
+    letter-spacing: 0.3px !important;
+  }
+
+  /* Authenticated User Capsule */
+  .hud-auth-actions {
+    gap: 6px !important;
+  }
+  .user-capsule {
+    padding: 2px 6px !important;
+    gap: 5px !important;
+  }
+  .user-avatar {
+    width: 24px !important;
+    height: 24px !important;
+    font-size: 0.75rem !important;
+  }
+  .user-stats-mini {
+    display: none !important;
+  }
+  .user-name {
+    font-size: 0.75rem !important;
+    max-width: 70px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+  #btn-header-logout {
+    padding: 4px 7px !important;
+    font-size: 0.7rem !important;
+  }
+
+  /* Mobile Hamburger Button */
+  .mobile-nav-hamburger {
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    font-size: 1.15rem !important;
+    padding: 0 !important;
+  }
+
+  /* --------------------------------------------------------
+     2. FOOTER (ANTI-OVERLAPPING: RELATIVE POSITION ON MOBILE)
+     -------------------------------------------------------- */
+  .hud-footer {
+    position: relative !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
+    height: auto !important;
+    min-height: 48px !important;
+    margin-top: 36px !important;
+    padding: 16px 14px 20px 14px !important;
+    background: var(--footer-bg) !important;
+    border-top: 1px solid var(--border-cyan) !important;
+    z-index: 10 !important;
+  }
+  .hud-footer-inner {
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    text-align: center !important;
+  }
+  .hud-footer-inner > div {
+    justify-content: center !important;
+    text-align: center !important;
+    font-size: 0.76rem !important;
+    flex-wrap: wrap !important;
+    line-height: 1.4 !important;
+  }
+  .ai-transparency-pill {
+    padding: 5px 12px !important;
+    font-size: 0.72rem !important;
+  }
+
+  /* --------------------------------------------------------
+     3. MAIN VIEWPORT & HERO SECTION
+     -------------------------------------------------------- */
   .main-viewport {
-    padding: 72px 12px 60px 12px !important;
+    padding: 70px 12px 24px 12px !important;
+    min-height: calc(100vh - 100px) !important;
   }
 
+  .hero-shield-emblem {
+    width: 68px !important;
+    height: 68px !important;
+    margin-bottom: 14px !important;
+  }
+  .hero-core-icon {
+    font-size: 2.2rem !important;
+  }
+  .hero-title {
+    font-size: clamp(1.6rem, 7vw, 2.2rem) !important;
+    letter-spacing: 0.8px !important;
+    margin-bottom: 8px !important;
+  }
+  .hero-subtitle {
+    font-size: clamp(0.7rem, 2.8vw, 0.82rem) !important;
+    letter-spacing: 0.5px !important;
+    margin-bottom: 12px !important;
+    padding: 0 4px !important;
+  }
+  .hero-desc {
+    font-size: 0.86rem !important;
+    line-height: 1.45 !important;
+    margin-bottom: 20px !important;
+    padding: 0 4px !important;
+  }
+
+  /* --------------------------------------------------------
+     4. GRIDS & CARDS STACKING
+     -------------------------------------------------------- */
   .edu-grid-cards {
     grid-template-columns: 1fr !important;
+    gap: 12px !important;
   }
   .menu-summary-grid {
     grid-template-columns: 1fr !important;
+    gap: 14px !important;
   }
   .games-hub-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+  .diff-split-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+  .crim-board-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+  .deep-eval-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
   }
 
-  /* Game Briefing & Arena */
+  /* --------------------------------------------------------
+     5. GAME MODULES RESPONSIVENESS
+     -------------------------------------------------------- */
+  /* Briefing & Live HUD */
   .game-page-start .hud-card {
-    padding: 20px 16px !important;
+    padding: 16px 12px !important;
   }
   .game-live-hud-bar {
-    flex-direction: column;
-    align-items: stretch;
-    padding: 10px 14px;
-    gap: 8px;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    padding: 10px 12px !important;
+    gap: 8px !important;
   }
   .game-live-hud-bar > div {
-    justify-content: space-between;
-    width: 100%;
+    justify-content: space-between !important;
+    width: 100% !important;
   }
 
-  /* Diff Bottom Dock */
+  /* Module 1: Scam Simulator */
+  .story-terminal-window {
+    padding: 14px 10px !important;
+  }
+  .story-terminal-window h2 {
+    font-size: 1.15rem !important;
+  }
+  .choice-options-list {
+    gap: 8px !important;
+  }
+  .choice-option-btn {
+    padding: 11px 10px !important;
+    align-items: flex-start !important;
+    width: 100% !important;
+  }
+  .choice-option-btn .choice-key {
+    width: 26px !important;
+    height: 26px !important;
+    min-width: 26px !important;
+    font-size: 0.8rem !important;
+    margin-top: 2px !important;
+  }
+  .choice-option-btn .choice-text {
+    font-size: 0.85rem !important;
+    line-height: 1.4 !important;
+    word-break: break-word !important;
+  }
+
+  /* Module 2: Finding Diff */
+  .diff-card {
+    padding: 14px 10px !important;
+  }
   .diff-decision-dock {
     flex-direction: column !important;
-    gap: 14px;
-    text-align: center;
+    gap: 12px !important;
+    text-align: center !important;
+    padding: 12px 10px !important;
   }
   .diff-decision-dock > div:last-child {
-    flex-direction: column;
-    width: 100%;
-    gap: 10px;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 8px !important;
   }
   .diff-btn-verdict {
     width: 100% !important;
-    justify-content: center;
+    justify-content: center !important;
+    padding: 12px !important;
   }
 
-  /* Scanner & Checker */
-  .scanner-input-group {
-    flex-direction: column;
+  /* Module 3: Criminal Case */
+  .crim-clues-drawer {
+    max-height: 220px !important;
+    padding: 12px 10px !important;
   }
-  .scanner-input-group .cyber-btn {
-    width: 100%;
+  .crim-target-slot {
+    padding: 12px 10px !important;
+  }
+
+  /* Module 4: Deep Learn / AI Analyzer */
+  .deep-scenario-viewer {
+    padding: 16px 12px !important;
+  }
+  .deep-ai-workbench {
+    padding: 16px 12px !important;
   }
   .threat-rating-group {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+  }
+
+  /* Detektor: Scanner & Checker */
+  .scanner-input-group {
+    flex-direction: column !important;
+    gap: 8px !important;
+  }
+  .scanner-input-group input {
+    width: 100% !important;
+    padding: 11px 10px !important;
+  }
+  .scanner-input-group .cyber-btn {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+  .checker-form-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
   }
 
   /* Edukasi Module */
   .edukasi-layout {
     grid-template-columns: 1fr !important;
-    gap: 16px;
+    gap: 14px !important;
   }
   .edukasi-sidebar {
-    max-height: 280px;
+    max-height: 220px !important;
+    padding: 10px !important;
+  }
+  .edukasi-content-card {
+    padding: 14px 10px !important;
   }
 
-  /* Footer Clean Layout */
-  .hud-footer {
-    padding: 14px 16px;
+  /* Leaderboard */
+  .leaderboard-table-wrapper {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    width: 100% !important;
+    margin-bottom: 12px !important;
   }
-  .hud-footer-inner {
-    flex-direction: column;
-    gap: 8px;
-    text-align: center;
+  .cyber-table {
+    min-width: 480px !important;
+  }
+  .cyber-table th, 
+  .cyber-table td {
+    padding: 8px 6px !important;
+    font-size: 0.74rem !important;
+  }
+
+  /* Guest Leaderboard Banner (Mobile Clean Stack) */
+  .guest-leaderboard-banner {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    text-align: center !important;
+    padding: 12px 14px !important;
+    gap: 10px !important;
+  }
+  .guest-leaderboard-banner > div:first-child {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 6px !important;
+  }
+  .guest-leaderboard-banner .cyber-btn {
+    width: 100% !important;
     justify-content: center !important;
+  }
+
+  /* Modals */
+  .cyber-modal-backdrop {
+    padding: 10px !important;
+  }
+  .cyber-modal-box {
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: 88vh !important;
+    overflow-y: auto !important;
+    padding: 16px 12px !important;
+    margin: 4vh auto !important;
   }
 }
 
-/* --- 320px - 480px (Small Handheld Mobile Phones) --- */
+/* ========================================================
+   SMALL SMARTPHONES (max-width: 480px)
+   ======================================================== */
 @media (max-width: 480px) {
   .hud-header {
-    height: 54px;
-    padding: 0 10px;
-  }
-  
-  .brand-text h1 {
-    font-size: 0.92rem;
-  }
-  .brand-text .subtext {
-    display: none;
+    height: 52px !important;
+    padding: 0 8px !important;
   }
   .brand-icon {
-    font-size: 1.15rem;
-    width: 28px;
-    height: 28px;
+    width: 26px !important;
+    height: 26px !important;
+    font-size: 0.95rem !important;
+  }
+  .brand-text h1 {
+    font-size: 0.84rem !important;
+    letter-spacing: 0.2px !important;
   }
 
   .main-viewport {
-    padding: 68px 8px 60px 8px !important;
+    padding: 64px 8px 20px 8px !important;
   }
 
-  /* User Capsule Compact */
-  .user-capsule {
-    padding: 2px 6px;
-    gap: 6px;
+  /* Header Controls on Smallest Phones */
+  .hud-right-controls {
+    gap: 3px !important;
   }
-  .user-avatar {
-    width: 24px;
-    height: 24px;
-    font-size: 0.75rem;
+  .theme-toggle-btn {
+    width: 28px !important;
+    height: 28px !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 0.75rem !important;
   }
-  .user-stats-mini {
-    display: none;
+  .audio-ctrl-capsule {
+    padding: 1px 3px !important;
   }
-  .user-name {
-    font-size: 0.75rem;
-    max-width: 80px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  .audio-btn {
+    padding: 2px 4px !important;
+    font-size: 0.75rem !important;
+  }
+  /* Hide drone sound toggle on ultra-compact screens */
+  #btn-toggle-drone {
+    display: none !important;
   }
 
-  #btn-header-logout {
-    padding: 4px 8px !important;
+  #btn-header-login {
+    padding: 4px 7px !important;
     font-size: 0.68rem !important;
   }
 
-  /* Mobile hamburger button */
+  .user-name {
+    max-width: 55px !important;
+    font-size: 0.7rem !important;
+  }
+  #btn-header-logout {
+    padding: 3px 5px !important;
+    font-size: 0.65rem !important;
+  }
+
   .mobile-nav-hamburger {
-    width: 34px;
-    height: 34px;
-    font-size: 1.2rem;
+    width: 30px !important;
+    height: 30px !important;
+    min-width: 30px !important;
+    font-size: 1.05rem !important;
   }
 
   /* Mobile Drawer Width */
   .mobile-sidebar-drawer {
-    width: min(280px, 86vw) !important;
+    width: min(290px, 88vw) !important;
   }
 
+  /* Hero Section */
+  .hero-shield-emblem {
+    width: 58px !important;
+    height: 58px !important;
+  }
+  .hero-core-icon {
+    font-size: 1.9rem !important;
+  }
   .hero-title {
-    font-size: 1.6rem;
-    letter-spacing: 0.5px;
-    margin-bottom: 6px;
+    font-size: 1.5rem !important;
+    letter-spacing: 0.4px !important;
   }
   .hero-subtitle {
-    font-size: 0.72rem;
-    margin-bottom: 12px;
+    font-size: 0.68rem !important;
+    margin-bottom: 10px !important;
   }
   .hero-desc {
-    font-size: 0.82rem;
-    line-height: 1.45;
+    font-size: 0.8rem !important;
+    line-height: 1.4 !important;
   }
-
-  .story-terminal-window {
-    padding: 16px 12px !important;
-  }
-  .story-terminal-window h2 {
-    font-size: 1.2rem !important;
-  }
-  .choice-option-btn {
-    padding: 10px 12px !important;
-  }
-  .choice-option-btn .choice-key {
-    width: 28px !important;
-    height: 28px !important;
+  .hero-cta-group .cyber-btn {
+    padding: 11px 14px !important;
     font-size: 0.85rem !important;
   }
 
-  .crim-target-slot {
+  /* Cards */
+  .account-test-console {
+    padding: 12px 10px !important;
+    margin-top: 18px !important;
+  }
+  .account-test-pod {
     padding: 12px 10px !important;
   }
-
-  /* Leaderboard Table Responsive Scroll */
-  .leaderboard-table-wrapper {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+  .menu-summary-card {
+    padding: 14px 10px !important;
   }
-  .cyber-table th, 
-  .cyber-table td {
-    padding: 8px 6px;
-    font-size: 0.72rem;
+  .edu-card {
+    padding: 14px 10px !important;
+  }
+
+  /* Floating Toast Notification on Small Phones */
+  #auth-floating-toast {
+    bottom: 14px !important;
+    left: 10px !important;
+    right: 10px !important;
+    max-width: calc(100% - 20px) !important;
+    width: auto !important;
   }
 }
