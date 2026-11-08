@@ -273,18 +273,28 @@ class CheckerController extends Controller
         $apiKey = trim($rawTranscribeKey, " \t\n\r\0\x0B\"'");
 
         $curationPrompt = <<<PROMPT
-Anda adalah AI Transkripsi & Kurator Konten Siber pada platform "KNOW YOUR SCAM".
+Anda adalah AI Transkripsi & Kurator Konten Siber Forensik pada platform "KNOW YOUR SCAM".
 Tugas Anda:
-1. Periksa berkas media (gambar/audio/video/dokumen).
+1. Periksa berkas media secara teliti (gambar/audio/video/dokumen).
 2. Tentukan kelayakan bukti (is_accepted: true/false):
-   - KRITERIA DITERIMA: Screenshot obrolan WA/SMS/DM, bukti transfer, nota, surat dinas, lowongan, poster promo, email phish, rekaman suara/video percakapan manusia, PDF tagihan/klaim.
-   - KRITERIA DITOLAK: Layar kosong satu warna, hening tanpa suara percakapan, berkas rusak parah, konten tidak pantas.
-3. Jika DITERIMA:
-   - Transkripsikan teks/ucapan secara lengkap ke "transcription".
-   - Buat ringkasan konteks ke "context_summary".
-4. Jika DITOLAK:
-   - Berikan alasan penolakan ramah dalam bahasa Indonesia ke "rejection_reason".
-5. Jawab HANYA JSON:
+   - WAJIB DITOLAK (is_accepted: false):
+     * GAMBAR BURAM / BLUR: Gambar buram, kabur, out-of-focus, resolusi terlalu rendah, teks terpotong, atau tulisan di dalamnya TIDAK DAPAT DIBACA DENGAN JELAS DAN PASTI.
+     * GAMBAR TIDAK RELEVAN: Foto manusia biasa/selfie, foto pemandangan, gambar objek acak tanpa konteks siber, meme, layar hitam/gelap polos, atau gambar kosong.
+     * MEDIA RUSAK: Audio/video hening, noise statis tanpa ucapan, berkas korup.
+   - HANYA TERIMA (is_accepted: true):
+     * Tangkapan layar (screenshot) obrolan chat (WA, SMS, Telegram, DM Instagram/TikTok, dll.), bukti transfer/struk bank, surat dinas/tilang/panggilan, nota tagihan, poster promo penipuan, email phishing, atau rekaman audio percakapan di mana teks atau ucapan TERBACA/TERDENGAR DENGAN JELAS.
+3. Jika DITOLAK (is_accepted: false):
+   - Set "is_accepted": false
+   - Set "transcription": ""
+   - Set "context_summary": "Bukti tidak memenuhi syarat verifikasi forensik"
+   - Tulis "rejection_reason" secara spesifik, ramah, dan solutif dalam bahasa Indonesia:
+     * Jika buram/blur: "Gambar terlalu buram (blur) atau teks tidak terbaca dengan jelas untuk dianalisis. Harap unggah tangkapan layar (screenshot) atau foto dokumen yang lebih fokus, tajam, dan terbaca."
+     * Jika tidak relevan: "Gambar tidak memuat teks atau indikasi percakapan/transaksi siber yang dapat diverifikasi keabsahannya. Harap unggah bukti percakapan atau dokumen yang ingin diperiksa."
+     * Jika hening/rusak: "Berkas media tampak kosong atau tidak memuat informasi yang dapat dievaluasi."
+4. Jika DITERIMA (is_accepted: true):
+   - "transcription": Salin seluruh teks atau transkrip percakapan yang terbaca secara utuh dan presisi tanpa halusinasi.
+   - "context_summary": Ringkasan singkat 1-2 kalimat mengenai isi pesan atau dokumen tersebut.
+5. Jawab HANYA dalam format JSON:
 {
   "is_accepted": boolean,
   "rejection_reason": "string",
@@ -335,46 +345,50 @@ PROMPT;
             } catch (\Throwable $e) {}
         }
 
-        // Fallback parser if external network is unavailable
+        // Fallback response if external network is unavailable
         if (!$geminiResult) {
-            $isSupported = str_starts_with($mimeType, 'image/') || str_starts_with($mimeType, 'audio/') || str_starts_with($mimeType, 'video/') || $mimeType === 'application/pdf';
-            if ($isSupported) {
-                $mType = str_starts_with($mimeType, 'image/') ? 'image' : (str_starts_with($mimeType, 'audio/') ? 'audio' : 'video');
-                $geminiResult = [
-                    'is_accepted' => true,
-                    'rejection_reason' => '',
-                    'media_type' => $mType,
-                    'transcription' => "Pesan dan bukti transaksi dari berkas {$fileName} berhasil diekstrak.",
-                    'context_summary' => "Media {$fileName} ({$mimeType}) diproses secara real-time tanpa persistensi berkas."
-                ];
-            } else {
-                $geminiResult = [
-                    'is_accepted' => false,
-                    'rejection_reason' => 'Format file tidak didukung. Mohon unggah berkas foto (JPG/PNG/WEBP), rekaman audio (MP3/WAV/M4A), video (MP4), atau dokumen PDF.',
-                    'media_type' => 'unknown',
-                    'transcription' => '',
-                    'context_summary' => 'Format tidak didukung'
-                ];
-            }
-        }
-
-        // Check rejection
-        if (empty($geminiResult['is_accepted'])) {
             return response()->json([
                 'status' => 'rejected',
-                'message' => 'Berkas Ditolak: ' . ($geminiResult['rejection_reason'] ?: 'Konten tidak memenuhi kriteria bukti siber.'),
-                'rejection_reason' => $geminiResult['rejection_reason'] ?: 'Media tidak memuat teks, suara, atau informasi yang dapat diverifikasi keabsahannya.',
+                'message' => 'Layanan kurasi visual AI sedang tidak dapat dijangkau. Silakan tempel (copy-paste) teks pesan langsung ke kolom input untuk diverifikasi.',
+                'rejection_reason' => 'Koneksi ke modul kurasi citra AI terputus. Pastikan gambar tidak blur dan koneksi internet stabil, atau salin teks pesan secara manual.',
+                'media_type' => str_starts_with($mimeType, 'image/') ? 'image' : 'media',
+                'context_summary' => 'Koneksi AI Visual terputus'
+            ], 422);
+        }
+
+        // Check rejection from Gemini Gatekeeper
+        if (empty($geminiResult['is_accepted'])) {
+            $reason = trim($geminiResult['rejection_reason'] ?? '');
+            if (empty($reason)) {
+                $reason = 'Gambar terlalu buram (blur) atau teks tidak terbaca dengan jelas untuk dianalisis keabsahannya. Harap unggah screenshot yang lebih tajam dan fokus.';
+            }
+            return response()->json([
+                'status' => 'rejected',
+                'message' => 'Berkas Ditolak: ' . $reason,
+                'rejection_reason' => $reason,
                 'media_type' => $geminiResult['media_type'] ?? 'unknown',
                 'context_summary' => $geminiResult['context_summary'] ?? ''
             ], 422);
         }
 
         $transcription = trim($geminiResult['transcription'] ?? '');
-        if (empty($transcription)) {
+
+        // Guardrail: Detect if transcription mentions blur, unreadable text, or placeholder
+        if (preg_match('/\b(buram|blur|tidak terbaca|kabur|tidak jelas|illegible|unreadable|out[- ]of[- ]focus|sulit dibaca)\b/i', $transcription)) {
             return response()->json([
                 'status' => 'rejected',
-                'message' => 'Berkas Ditolak: Tidak ditemukan teks atau suara yang dapat ditranskripsikan.',
-                'rejection_reason' => 'Berkas tampak kosong atau tidak mengandung informasi tertulis/suara yang dapat dievaluasi.',
+                'message' => 'Berkas Ditolak: Gambar terlalu buram (blur) untuk dianalisis.',
+                'rejection_reason' => 'Gambar terlalu buram (blur) atau teks di dalamnya tidak terbaca secara jelas. Harap unggah tangkapan layar (screenshot) atau foto yang lebih fokus dan tajam.',
+                'media_type' => $geminiResult['media_type'] ?? 'image',
+                'context_summary' => 'Gambar buram terdeteksi'
+            ], 422);
+        }
+
+        if (strlen($transcription) < 12) {
+            return response()->json([
+                'status' => 'rejected',
+                'message' => 'Berkas Ditolak: Tidak ditemukan teks yang cukup untuk dianalisis.',
+                'rejection_reason' => 'Berkas tidak memuat informasi teks atau data tertulis yang memadai untuk diverifikasi keabsahannya. Harap unggah screenshot pesan atau dokumen bukti yang jelas.',
                 'media_type' => $geminiResult['media_type'] ?? 'unknown'
             ], 422);
         }

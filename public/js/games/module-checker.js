@@ -483,36 +483,37 @@ class ModuleChecker {
     const resultBox = document.getElementById('checker-result-box');
     if (!resultBox) return;
 
+    const isBlur = /buram|blur|kabur|fokus|terbaca/i.test(reason);
+
     resultBox.innerHTML = `
-      <div class="hud-card holo-enter" style="padding: 24px; border-left: 5px solid var(--neon-amber);">
-        <div style="display:flex; align-items:center; gap: 12px; margin-bottom: 14px;">
-          <span style="font-size: 2.4rem;">⚠️</span>
+      <div class="hud-card holo-enter" style="padding: 24px; border-left: 5px solid ${isBlur ? 'var(--neon-red)' : 'var(--neon-amber)'};">
+        <div style="display:flex; align-items:center; gap: 14px; margin-bottom: 14px;">
+          <span style="font-size: 2.6rem;">${isBlur ? '📸⚠️' : '⚠️'}</span>
           <div>
-            <span class="cyber-tag tag-amber" style="font-size:0.75rem;">
-              BERKAS DITOLAK OLEH AI KURATOR
+            <span class="cyber-tag ${isBlur ? 'tag-red' : 'tag-amber'}" style="font-size:0.75rem; letter-spacing:0.8px;">
+              ${isBlur ? 'GAMBAR BURAM / TIDAK TERBACA' : 'BERKAS DITOLAK OLEH AI KURATOR'}
             </span>
-            <h3 style="font-size: 1.25rem; color: var(--neon-amber); margin: 4px 0 0 0;">
-              Media Tidak Memenuhi Kriteria Verifikasi Siber
+            <h3 style="font-size: 1.25rem; color: ${isBlur ? 'var(--neon-red)' : 'var(--neon-amber)'}; margin: 4px 0 0 0;">
+              ${isBlur ? 'Kualitas Gambar Tidak Memenuhi Syarat Forensik' : 'Media Tidak Memenuhi Kriteria Verifikasi Siber'}
             </h3>
           </div>
         </div>
 
-        <div style="background: rgba(255,184,0,0.08); border: 1px solid rgba(255,184,0,0.25); border-radius:6px; padding: 14px; margin-bottom: 14px;">
-          <div style="font-family:var(--font-display); font-size:0.78rem; color:var(--neon-amber); margin-bottom:4px;">
-            ALASAN PENOLAKAN DARI GEMINI GATEKEEPER:
+        <div style="background: ${isBlur ? 'rgba(255,0,85,0.08)' : 'rgba(255,184,0,0.08)'}; border: 1px solid ${isBlur ? 'rgba(255,0,85,0.3)' : 'rgba(255,184,0,0.25)'}; border-radius:6px; padding: 14px; margin-bottom: 14px;">
+          <div style="font-family:var(--font-display); font-size:0.78rem; color:${isBlur ? 'var(--neon-red)' : 'var(--neon-amber)'}; font-weight:700; margin-bottom:4px;">
+            CATATAN KURATOR GOOGLE GEMINI VISION:
           </div>
           <p style="font-size:0.92rem; color:var(--text-main); line-height:1.5; margin:0;">
             ${reason}
           </p>
         </div>
 
-        <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 10px;">
-          💡 <strong>Panduan Berkas yang Diterima:</strong>
+        <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 12px;">
+          💡 <strong>Panduan Agar Bukti Dapat Dianalisis:</strong>
           <ul style="margin: 6px 0 0 18px; padding: 0;">
-            <li>Tangkapan layar obrolan WA, SMS, DM, atau email yang memuat teks terbaca.</li>
-            <li>Foto bukti transfer, tagihan, atau surat edaran resmi/palsu.</li>
-            <li>Rekaman suara (voice note atau panggilan telepon) dengan percakapan jelas.</li>
-            <li>Dokumen PDF pengumuman atau tawaran kerja.</li>
+            <li><strong>Fokus & Tajam:</strong> Ambil screenshot layar langsung tanpa terkompresi atau gunakan kamera dengan pencahayaan cukup.</li>
+            <li><strong>Teks Jelas:</strong> Pastikan seluruh kalimat, nomor telepon, atau data rekening dapat dibaca manusia tanpa terpotong.</li>
+            <li><strong>Alternatif Langsung:</strong> Anda juga dapat menyalin (copy-paste) teks pesan langsung ke kolom teks di atas tanpa perlu mengunggah gambar.</li>
           </ul>
         </div>
       </div>
@@ -528,10 +529,10 @@ class ModuleChecker {
       <div class="hud-card holo-enter" style="padding: 30px; text-align: center;">
         <div class="pulsing-radar-ring" style="margin: 0 auto 16px auto;"></div>
         <h4 style="font-size: 1.15rem; color: var(--neon-cyan); margin: 0 0 6px 0;">
-          MENDEBATKAN & MENGANALISIS 3 MODEL AI...
+          MENGANALISIS DENGAN ENGINE HIBRIDA SIBER...
         </h4>
         <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">
-          Konsensus Komparatif: OpenAI GPT-4o &bull; Google Gemini &bull; DeepSeek R1
+          Evaluasi Terpadu: Google Gemini 3.5 Live Cloud AI &bull; Taksonomi Heuristik Siber
         </div>
         <div style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--neon-cyan); word-break: break-all; max-width: 650px; margin: 0 auto;">
           "${textInput.substring(0, 90)}..."

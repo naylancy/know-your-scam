@@ -883,14 +883,18 @@
             </button>
           </div>
 
-          <!-- Mobile Toggle Bar (Full Width Banner between Top Tabs and Content) -->
+          <!-- Mobile Edukasi Control Panel (Clean, Structured, Full Width) -->
           <div class="edu-mobile-bar">
-            <button class="cyber-btn btn-ghost" onclick="window.edukasiManager.toggleMobileSidebar()">
-              <span>☰</span> DAFTAR MATERI
+            <div class="edu-mobile-meta-row">
+              <span class="edu-mobile-badge" id="edu-mobile-cat-label">1. PENDAHULUAN</span>
+              <span class="edu-mobile-counter" id="edu-mobile-counter-label">Topik 1 dari 4</span>
+            </div>
+            <div class="edu-mobile-title-row">
+              <span id="edu-mobile-current-title" class="edu-mobile-title-text">Lanskap Ancaman Siber</span>
+            </div>
+            <button class="cyber-btn edu-mobile-toggle-btn" id="btn-toggle-edu-sidebar" onclick="window.edukasiManager.toggleMobileSidebar()">
+              <span>☰</span> <span id="edu-toggle-text">PILIH MODUL & BAB MATERI</span> <span class="toggle-chevron" id="edu-toggle-chevron">▾</span>
             </button>
-            <span id="edu-mobile-current-title" style="font-size: 0.8rem; color: var(--neon-cyan); font-weight: 700; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 58%;">
-              Lanskap Ancaman Siber
-            </span>
           </div>
 
           <!-- Main Layout Body (Sidebar + Content) -->
@@ -1016,9 +1020,17 @@
         el.classList.toggle('active', el.getAttribute('data-topic-id') === topic.id);
       });
 
-      // Update mobile title
+      // Update mobile title and meta labels
       const mobTitle = document.getElementById('edu-mobile-current-title');
       if (mobTitle) mobTitle.textContent = topic.title;
+
+      const mobCat = document.getElementById('edu-mobile-cat-label');
+      if (mobCat) mobCat.textContent = topic.category;
+
+      const catTopics = this.topics.filter(t => t.category === topic.category);
+      const catIdx = catTopics.findIndex(t => t.id === topic.id);
+      const mobCounter = document.getElementById('edu-mobile-counter-label');
+      if (mobCounter) mobCounter.textContent = `Modul ${catIdx + 1} dari ${catTopics.length}`;
 
       // Update top category tabs to highlight the active category
       document.querySelectorAll('.w3-top-tab').forEach(t => {
@@ -1027,8 +1039,6 @@
 
       // Update indicators
       const curIdx = this.topics.findIndex(t => t.id === topic.id);
-      const catTopics = this.topics.filter(t => t.category === topic.category);
-      const catIdx = catTopics.findIndex(t => t.id === topic.id);
       const indicator = document.getElementById('edu-topic-indicator');
       if (indicator) {
         indicator.textContent = `Topik ${catIdx + 1} dari ${catTopics.length} • Total ${curIdx + 1}/${this.topics.length} (${topic.category})`;
@@ -1066,9 +1076,13 @@
 
       // Close mobile sidebar if open
       const sb = document.getElementById('edu-sidebar-nav');
+      const chev = document.getElementById('edu-toggle-chevron');
+      const toggleBtn = document.getElementById('btn-toggle-edu-sidebar');
       if (sb && this.sidebarOpenMobile) {
         this.sidebarOpenMobile = false;
         sb.classList.remove('mobile-open');
+        if (toggleBtn) toggleBtn.classList.remove('active');
+        if (chev) chev.textContent = '▾';
       }
     }
 
@@ -1088,9 +1102,13 @@
 
     toggleMobileSidebar() {
       const sb = document.getElementById('edu-sidebar-nav');
+      const chev = document.getElementById('edu-toggle-chevron');
+      const toggleBtn = document.getElementById('btn-toggle-edu-sidebar');
       if (sb) {
         this.sidebarOpenMobile = !this.sidebarOpenMobile;
         sb.classList.toggle('mobile-open', this.sidebarOpenMobile);
+        if (toggleBtn) toggleBtn.classList.toggle('active', this.sidebarOpenMobile);
+        if (chev) chev.textContent = this.sidebarOpenMobile ? '▴' : '▾';
       }
     }
 
