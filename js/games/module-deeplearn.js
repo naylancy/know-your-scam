@@ -11,7 +11,7 @@
  * 3. Mekanisme "Stamp Verdict" (Stempel Vonis):
  *    - Tombol stempel besar PENIPUAN (SCAM) vs AMAN (SAFE) dengan efek bantingan stempel & screen shake.
  * 4. Animasi Evaluasi LLM ("Owl AI Forensics Lab"):
- *    - Detektif Burung Hantu mengetik cepat di depan radar forensik memindai kata kunci dan memberikan skor 0-100%.
+ *    - Detektif Owl mengetik cepat di depan radar forensik memindai kata kunci dan memberikan skor 0-100%.
  * 5. Uji Nalar Zero-Paranoia (Kasus Aman Resmi vs Kasus Scam Kritis).
  */
 
@@ -24,7 +24,7 @@
 
   function getPixelDetectiveOwlSVG(size = 72) {
     return `
-      <div class="pixel-owl-wrap" title="Detektif Burung Hantu (Owl Detective)">
+      <div class="pixel-owl-wrap" title="Detektif Owl (Owl Detective)">
         <svg width="${size}" height="${size}" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
           <!-- Detective Fedora Hat -->
           <rect x="7" y="1" width="14" height="4" fill="#78350F" />
@@ -101,62 +101,62 @@
   const ANALYZER_CASES = [
     {
       id: 'analyzer_case_01',
-      title: 'SMS Edukasi Keamanan Resmi Bank BCA',
+      title: 'SMS Edukasi Bank BCA',
       senderDisplay: 'BANK-BCA',
-      senderSub: 'Telkomsel Verified Sender ID • 14:15',
+      senderSub: 'Verified Sender • 14:15',
       deviceType: 'smartphone_sms',
       hasFakeTimer: false,
       fakeTimerSeconds: 0,
-      actualVerdict: 'SAFE', // Aman Resmi (Uji Zero-Paranoia)
-      scenarioText: '[PERINGATAN KEAMANAN BCA]\nJangan pernah bagikan kode OTP, PIN, atau Password m-BCA Anda kepada siapa pun termasuk pihak yang mengaku petugas bank. BCA tidak pernah meminta kode rahasia nasabah.\nInfo resmi hubungi HaloBCA 1500888.',
+      actualVerdict: 'SAFE',
+      scenarioText: '[PERINGATAN BCA]\nJangan pernah bagikan kode OTP, PIN, atau Password m-BCA kepada siapa pun. BCA tidak pernah meminta kode rahasia nasabah.\nInfo resmi: HaloBCA 1500888.',
       xrayData: {
-        sender: '✅ SENDER RESMI TERVERIFIKASI: Alpha-numeric Sender ID terdaftar resmi di operator seluler (PT Bank Central Asia Tbk). Anti-spoofing signature: VALID.',
-        content: '✅ KONTEN EDUKATIF MURNI: Tidak memuat tautan luar (.xyz/.apk), tidak meminta data pribadi, dan tidak ada nomor rekening pihak ketiga.',
-        hotline: '✅ HOTLINE RESMI: HaloBCA 1500888 adalah nomor kontak resmi terverifikasi OJK & Bank Indonesia.'
+        sender: '✅ SENDER RESMI: ID terdaftar resmi PT Bank Central Asia Tbk.',
+        content: '✅ AMAN: Tidak memuat tautan luar dan tidak meminta data rahasia.',
+        hotline: '✅ KONTAK RESMI: HaloBCA 1500888 terverifikasi OJK.'
       },
       keywordsRequired: ['resmi', 'tidak ada link', 'tidak minta otp', 'bukan apk', 'edukasi', 'halobca', 'aman', 'tidak minta data'],
-      paranoidFeedback: 'Wah, Detektif terlalu curiga nih! Coba perhatikan lagi dengan Mode X-Ray: pesan ini tidak memuat tautan mencurigakan, tidak melampirkan file APK, dan sama sekali tidak meminta data rahasia. Ini murni pesan edukasi resmi dari bank untuk melindungi nasabah!',
-      accurateSafeFeedback: 'Analisis brilian! Anda berhasil menerapkan nalar Zero-Paranoia: memverifikasi bahwa pesan edukasi resmi perbankan yang tidak meminta data atau tautan adalah aman dan otentik.'
+      paranoidFeedback: 'Pesan ini aman. Tidak ada link luar, file APK, atau permintaan data rahasia.',
+      accurateSafeFeedback: 'Tepat! Pesan edukasi resmi tanpa link/permintaan data adalah aman.'
     },
 
     {
       id: 'analyzer_case_02',
-      title: 'Ancaman Pemblokiran Rekening Bank Mandiri Online',
+      title: 'Phishing Akun Bank Mandiri',
       senderDisplay: 'MANDIRI-NOTIF',
-      senderSub: 'Pesan Sistem Eksternal • 14:22',
+      senderSub: 'Pesan Sistem • 14:22',
       deviceType: 'smartphone_sms',
       hasFakeTimer: true,
-      fakeTimerSeconds: 299, // 04:59
-      actualVerdict: 'SCAM', // Penipuan Kritis
-      scenarioText: '[MANDIRI ALERTA] Rekening Anda terindikasi akses transaksi ilegal dari IP Rusia. Batalkan transaksi & amankan saldo Anda sebelum batas waktu habis di: https://mandiri-security-update.xyz/verify',
+      fakeTimerSeconds: 299,
+      actualVerdict: 'SCAM',
+      scenarioText: '[MANDIRI ALERTA] Rekening terindikasi akses ilegal dari IP Rusia. Batalkan transaksi segera: https://mandiri-security-update.xyz/verify',
       xrayData: {
-        sender: '🚨 SENDER DISAMARKAN: Nomor asli transmisi: +7 921 442-1920 (Proxy Luar Negeri) • SPF Verification: FAILED • Display Name dipalsukan.',
-        content: '⚠️ DOMAIN FRAUD: Domain Age: 2 hari • Registrar: NameCheap Anon • IP: 194.87.12.8 (Hosting Fiktif) • SSL: Let\'s Encrypt Free Tier.',
-        hotline: '🧠 TAKTIK PSIKOLOGIS: Artificial Time Pressure (Batas waktu 5 menit berkedip merah sengaja dibuat untuk mematikan akal sehat korban).'
+        sender: '🚨 SENDER PALSU: Nomor asli transmisi +7 921 (Rusia). SPF failed.',
+        content: '⚠️ DOMAIN FRAUD: Domain .xyz baru berumur 2 hari, hosting fiktif.',
+        hotline: '🧠 TAKTIK PANIK: Batas waktu palsu 5 menit untuk memicu kepanikan.'
       },
       keywordsRequired: ['phishing', 'xyz', 'domain', 'urgensi', 'palsu', 'ip', 'rusia', 'link', 'kredensial', 'timer'],
-      paranoidFeedback: 'Waspada! Anda menilai ini AMAN, padahal ini adalah serangan phishing berbahaya! Domain .xyz berumur 2 hari sengaja dibuat untuk menguras kredensial rekening nasabah.',
-      accurateScamFeedback: 'Analisis forensik sangat tajam! Anda membongkar rekayasa domain .xyz yang baru berumur 2 hari, taktik panik batasan waktu 5 menit, serta nomor pengirim yang sebenarnya berasal dari luar negeri.'
+      paranoidFeedback: 'Waspada, ini phishing! Domain .xyz berumur 2 hari dibuat untuk mencuri data akun.',
+      accurateScamFeedback: 'Tepat! Domain .xyz palsu dan batasan waktu buatan membuktikan penipuan.'
     },
 
     {
       id: 'analyzer_case_03',
-      title: 'Undian Pemenang Poin Berhadiah Telkomsel Grand Prize',
+      title: 'Penipuan Poin Telkomsel',
       senderDisplay: 'TELKOMSEL-POIN',
-      senderSub: 'Pesan Program Promo • 14:30',
+      senderSub: 'Pesan Promo • 14:30',
       deviceType: 'smartphone_sms',
       hasFakeTimer: true,
-      fakeTimerSeconds: 165, // 02:45
-      actualVerdict: 'SCAM', // Penipuan Kritis
-      scenarioText: 'Selamat! Nomor Anda terpilih memenangkan Grand Prize Rp 50.000.000 dari Telkomsel Poin. Segera klaim sebelum kuota hangus via portal: https://klaim-poin-telkomsel-2026.net.fake/login dengan memasukkan nomor HP dan 6-digit OTP SMS.',
+      fakeTimerSeconds: 165,
+      actualVerdict: 'SCAM',
+      scenarioText: 'Selamat! Nomor Anda terpilih memenangkan Rp 50.000.000 dari Telkomsel Poin. Klaim hadiah via: https://klaim-poin-telkomsel-2026.net.fake/login dengan nomor HP & kode OTP SMS.',
       xrayData: {
-        sender: '⚠️ MODUS SOCIAL ENGINEERING: Pelaku mendompleng nama program loyalitas resmi untuk menjerat korban yang tergiur hadiah instan.',
-        content: '🚨 DOMAIN FAKE: Domain berakhiran .net.fake bukan domain resmi telkomsel.com • Server terindikasi sindikat pembajakan OTP.',
-        hotline: '⛔ RED FLAG FATAL: Meminta kode rahasia OTP SMS di formulir web! Kode OTP tidak boleh dibagikan kepada siapa pun.'
+        sender: '⚠️ MODUS SOSIAL: Mengatasnamakan hadiah undian.',
+        content: '🚨 DOMAIN PALSU: .net.fake bukan domain resmi telkomsel.com.',
+        hotline: '⛔ RED FLAG: Meminta kode rahasia OTP SMS di formulir web!'
       },
       keywordsRequired: ['otp', 'net.fake', 'hadiah', 'klaim', 'palsu', 'link', 'bukan resmi', 'kode rahasia'],
-      paranoidFeedback: 'Hati-hati! Hadiah uang fantastis tanpa mengikuti undian resmi adalah umpan penipuan klasik untuk mencuri kode OTP Anda.',
-      accurateScamFeedback: 'Deteksi akurat, Detektif! Permintaan kode OTP SMS melalui tautan .net.fake adalah indikator mutlak kejahatan siber pencurian akun.'
+      paranoidFeedback: 'Hati-hati! Hadiah uang fantastis yang meminta OTP adalah penipuan.',
+      accurateScamFeedback: 'Tepat! Permintaan OTP via tautan .net.fake adalah indikator penipuan.'
     }
   ];
 
@@ -325,10 +325,14 @@
       const isPlaying = window.gameBriefing?.isPlaying('deeplearn');
       const startScreenHtml = window.gameBriefing?.renderStartScreenHTML('deeplearn') || '';
       const hudBarHtml = window.gameBriefing?.renderGameHUDBar('deeplearn') || '';
+      const guestBanner = typeof window.renderGuestLeaderboardBanner === 'function'
+        ? window.renderGuestLeaderboardBanner({ margin: '0 0 16px 0' })
+        : '';
 
       const current = this.cases[this.currentIndex];
 
       container.innerHTML = `
+        ${guestBanner}
         ${startScreenHtml}
         <div id="view-game-deeplearn" class="game-page-arena holo-enter" style="${isPlaying ? 'display:block;' : 'display:none;'}">
           ${hudBarHtml}
@@ -338,24 +342,29 @@
             <div style="display:flex; align-items:center; gap: 10px;">
               ${getPixelDetectiveOwlSVG(44)}
               <div>
-                <span class="cyber-tag tag-magenta" style="font-size:0.72rem;">
-                  MODUL 4: ANALYZER // FORENSIK COGNITIVE AI
-                </span>
-                <h2 style="font-size: 1.25rem; color: var(--text-highlight); margin: 2px 0 0 0;">
+                <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                  <span class="cyber-tag tag-magenta" style="font-size:0.72rem;">
+                    MODUL 4 // ANALYZER
+                  </span>
+                  <div class="ai-disclaimer-badge" style="margin:0;">
+                    <span>🤖</span> <strong>AI:</strong> Evaluasi semantik
+                  </div>
+                </div>
+                <h2 style="font-size: 1.25rem; color: var(--text-highlight); margin: 4px 0 0 0;">
                   ${current.title}
                 </h2>
               </div>
             </div>
 
             <div style="display:flex; align-items:center; gap: 10px;">
-              <!-- Toggle Button X-Ray / UV Scanner -->
+              <!-- Toggle Button X-Ray -->
               <button 
                 class="xray-toggle-btn ${this.isXRayMode ? 'active' : ''}" 
                 onclick="window.moduleDeepLearning.toggleXRayMode()"
-                title="Aktifkan Mode Analisis Owl untuk menyorot metadata tersembunyi"
+                title="Sorot metadata"
               >
                 <span>🔎</span>
-                <span>${this.isXRayMode ? 'MODE ANALISIS OWL: AKTIF' : 'AKTIFKAN MODE ANALISIS OWL'}</span>
+                <span>${this.isXRayMode ? 'X-Ray: ON' : 'Mode X-Ray'}</span>
               </button>
 
               <button class="cyber-btn btn-ghost" style="padding: 4px 10px; font-size: 0.75rem;" onclick="window.gameBriefing.returnToBriefing('deeplearn')">
@@ -370,12 +379,11 @@
             <!-- Top Status Bar & Fake Scammer Timer -->
             <div class="live-gadget-topbar">
               <div style="display:flex; align-items:center; gap: 8px;">
-                <span>📶 5G &bull; 99% 🔋</span>
-                <span style="font-size: 0.7rem; color: #64748B;">SMS Gateway</span>
+                <span>📶 5G &bull; 99%</span>
               </div>
               ${current.hasFakeTimer ? `
                 <div class="scammer-fake-timer">
-                  <span>⚠️ SISA WAKTU BATALKAN:</span>
+                  <span>⚠️ BATAS WAKTU:</span>
                   <span id="scammer-fake-timer-val">${this.formatTime(this.fakeTimeLeft)}</span>
                 </div>
               ` : `
@@ -400,14 +408,13 @@
                   <div style="font-size: 0.7rem; color: #94A3B8;">${current.senderSub}</div>
                 </div>
               </div>
-              <span class="cyber-tag" style="font-size: 0.65rem;">Layar Korban</span>
+              <span class="cyber-tag" style="font-size: 0.65rem;">Layar Ponsel</span>
             </div>
 
             <!-- Message Area -->
             <div style="padding: 20px 18px; min-height: 180px; position: relative;">
               ${this.displayedMessages.map(msg => `
                 <div class="chat-bubble scammer holo-enter" style="max-width: 100%; margin-bottom: 10px; line-height: 1.6; font-size: 0.88rem; position: relative;">
-                  <!-- Render message with X-Ray inspectable spans -->
                   ${this.renderXRayInspectableText(msg, current)}
                   <div class="chat-time">Baru saja</div>
                 </div>
@@ -418,73 +425,69 @@
                   <div class="typing-dot"></div>
                   <div class="typing-dot"></div>
                   <div class="typing-dot"></div>
-                  <span style="margin-left: 6px; font-size: 0.75rem;">Pengirim sedang mentransmisikan pesan...</span>
+                  <span style="margin-left: 6px; font-size: 0.75rem;">Mengetik...</span>
                 </div>
               ` : ''}
 
               <!-- Physical Stamp Slammed Mark on Screen -->
               ${this.selectedVerdict ? `
                 <div class="slammed-stamp-mark ${this.selectedVerdict === 'SCAM' ? 'stamp-scam' : 'stamp-safe'}">
-                  VERDICT: ${this.selectedVerdict === 'SCAM' ? 'PENIPUAN (SCAM)' : 'AMAN (SAFE)'}
+                  VERDICT: ${this.selectedVerdict === 'SCAM' ? 'PENIPUAN' : 'AMAN'}
                 </div>
               ` : ''}
             </div>
 
           </div>
 
-          <!-- 2. MEKANISME "STAMP VERDICT" (STEMPEL BESAR) -->
-          <div style="text-align: center; margin-bottom: 18px;">
-            <div style="font-family: var(--font-display); font-size: 0.82rem; color: var(--neon-cyan); letter-spacing: 1px; margin-bottom: 8px;">
-              // JATUHKAN STEMPEL VONIS ANDA PADA LAYAR GADGET DI ATAS:
+          <!-- 2. STEMPEL VONIS -->
+          <div style="text-align: center; margin-bottom: 16px;">
+            <div style="font-family: var(--font-display); font-size: 0.78rem; color: var(--neon-cyan); letter-spacing: 1px; margin-bottom: 8px;">
+              VONIS:
             </div>
             <div class="stamp-verdict-deck">
               <button 
                 class="stamp-btn stamp-btn-scam ${this.selectedVerdict === 'SCAM' ? 'selected' : ''}"
                 onclick="window.moduleDeepLearning.stampVerdict('SCAM')"
               >
-                <span style="font-size: 1.8rem; margin-bottom: 4px;">🚨</span>
-                <strong style="font-size: 0.95rem; font-family: var(--font-display);">STEMPEL: PENIPUAN</strong>
-                <span style="font-size: 0.68rem; opacity: 0.8; margin-top: 2px;">(REKAYASA / MALICIOUS)</span>
+                <span style="font-size: 1.4rem; margin-bottom: 2px;">🚨</span>
+                <strong style="font-size: 0.92rem; font-family: var(--font-display);">PENIPUAN</strong>
               </button>
 
               <button 
                 class="stamp-btn stamp-btn-safe ${this.selectedVerdict === 'SAFE' ? 'selected' : ''}"
                 onclick="window.moduleDeepLearning.stampVerdict('SAFE')"
               >
-                <span style="font-size: 1.8rem; margin-bottom: 4px;">🛡️</span>
-                <strong style="font-size: 0.95rem; font-family: var(--font-display);">STEMPEL: AMAN</strong>
-                <span style="font-size: 0.68rem; opacity: 0.8; margin-top: 2px;">(EDUKASI RESMI / VALID)</span>
+                <span style="font-size: 1.4rem; margin-bottom: 2px;">🛡️</span>
+                <strong style="font-size: 0.92rem; font-family: var(--font-display);">AMAN</strong>
               </button>
             </div>
           </div>
 
-          <!-- 3. PENALARAN KRITIS & SUBMISSION KE OWL AI LAB -->
-          <div class="hud-card" style="padding: 22px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
-              <label style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--neon-cyan); letter-spacing: 1.5px;">
-                // EVALUASI PENALARAN KRITIS FORENSIK (MINIMAL 15 KARAKTER)
+          <!-- 3. PENALARAN & SUBMISSION -->
+          <div class="hud-card" style="padding: 18px;">
+            <div style="margin-bottom: 8px;">
+              <label style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--neon-cyan); letter-spacing: 1px;">
+                ALASAN (MIN. 15 KARAKTER):
               </label>
-              <span style="font-size: 0.72rem; color: var(--text-muted);">
-                Akan diuji oleh Owl AI Forensics Lab
-              </span>
             </div>
 
             <textarea 
               id="deep-reasoning-input" 
               class="deep-reasoning-area" 
-              placeholder="Contoh: Saya meneliti melalui Mode X-Ray bahwa pesan ini mencurigakan karena menggunakan domain .xyz berumur 2 hari, taktik panik batasan waktu 5 menit, dan nomor aslinya berasal dari luar negeri..."
+              placeholder="Tuliskan temuan atau bukti singkat..."
+              style="min-height: 75px;"
             ></textarea>
 
             <button 
               id="btn-submit-ai" 
               class="cyber-btn" 
-              style="padding: 14px 28px; font-size: 1rem; width: 100%; margin-top: 14px; box-shadow: 0 0 25px var(--neon-cyan-dim);" 
+              style="padding: 11px 24px; font-size: 0.92rem; width: 100%; margin-top: 10px; box-shadow: 0 0 25px var(--neon-cyan-dim);" 
               onclick="window.moduleDeepLearning.submitToOwlAILab()"
             >
-              <span>🧠</span> KIRIM KE OWL AI FORENSICS LAB ➔
+              <span>🧠</span> EVALUASI AI ➔
             </button>
 
-            <!-- 4. ANIMASI EVALUASI LLM ("OWL AI FORENSICS LAB") -->
+            <!-- 4. ANIMASI EVALUASI LLM ("OWL AI LAB") -->
             <div id="owl-forensic-lab-box" class="owl-forensic-lab holo-enter" style="display: none;">
               <div class="owl-radar-screen">
                 <div class="owl-radar-sweep"></div>
@@ -493,18 +496,18 @@
                 </div>
               </div>
 
-              ${getPixelOwlLabSVG(78)}
+              ${getPixelOwlLabSVG(74)}
 
-              <h4 style="font-size: 1.15rem; color: var(--neon-cyan); margin: 8px 0 4px 0;">
-                OWL AI FORENSICS LAB SEDANG MENGUJI ANALISIS ANDA...
+              <h4 style="font-size: 1.05rem; color: var(--neon-cyan); margin: 8px 0 4px 0;">
+                MEMPROSES EVALUASI...
               </h4>
-              <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0 0 12px 0;">
-                Detektif Burung Hantu sedang memindai kata kunci dan merekonstruksi taktik psikologis siber.
+              <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0 0 8px 0;">
+                Memindai indikator teks keamanan.
               </p>
 
               <!-- Dynamic Scanning Stream -->
-              <div style="background: rgba(0,0,0,0.5); border: 1px solid var(--border-cyan); border-radius: 6px; padding: 8px 14px; display:inline-block; font-family: var(--font-mono); font-size: 0.75rem; color: var(--neon-green);">
-                SCANNING KEYWORDS // [OTP, Domain Age, Urgensi, SPF Verification, Anti-Spoofing] ...
+              <div style="background: rgba(0,0,0,0.5); border: 1px solid var(--border-cyan); border-radius: 6px; padding: 5px 12px; display:inline-block; font-family: var(--font-mono); font-size: 0.72rem; color: var(--neon-green);">
+                SCANNING // [Domain, Urgensi, OTP] ...
               </div>
             </div>
 
@@ -648,56 +651,56 @@
             ${getPixelDetectiveOwlSVG(84)}
           </div>
 
-          <span class="cyber-tag ${isSuccess ? 'tag-green' : 'tag-red'}" style="font-size: 0.85rem; padding: 4px 14px; margin-bottom: 10px;">
-            ${isSuccess ? 'ANALISIS FORENSIK TERVERIFIKASI' : 'EVALUASI FORENSIK PERLU DIPERBAIKI'}
+          <span class="cyber-tag ${isSuccess ? 'tag-green' : 'tag-red'}" style="font-size: 0.82rem; padding: 4px 12px; margin-bottom: 8px;">
+            ${isSuccess ? 'ANALISIS VALID' : 'PERLU DIPERBAIKI'}
           </span>
 
-          <h2 style="font-size: 1.5rem; color: ${scoreColor}; margin: 8px 0;">
-            Skor Akurasi Forensik: ${report.score} / 100
+          <h2 style="font-size: 1.4rem; color: ${scoreColor}; margin: 6px 0;">
+            Skor Akurasi: ${report.score} / 100
           </h2>
 
-          <div style="display:flex; justify-content:center; gap: 14px; font-family: var(--font-mono); font-size: 0.8rem; margin-bottom: 16px;">
-            <span>Vonis Anda: <strong style="color:var(--text-highlight);">${report.userVerdict === 'SCAM' ? 'PENIPUAN (SCAM)' : 'AMAN (SAFE)'}</strong></span>
-            <span>Status Sebenarnya: <strong style="color:${report.actualVerdict === 'SCAM' ? 'var(--neon-red)' : 'var(--neon-green)'};">${report.actualVerdict === 'SCAM' ? 'PENIPUAN (SCAM)' : 'AMAN (SAFE)'}</strong></span>
+          <div style="display:flex; justify-content:center; gap: 14px; font-family: var(--font-mono); font-size: 0.8rem; margin-bottom: 14px;">
+            <span>Vonis Anda: <strong style="color:var(--text-highlight);">${report.userVerdict === 'SCAM' ? 'PENIPUAN' : 'AMAN'}</strong></span>
+            <span>Sebenarnya: <strong style="color:${report.actualVerdict === 'SCAM' ? 'var(--neon-red)' : 'var(--neon-green)'};">${report.actualVerdict === 'SCAM' ? 'PENIPUAN' : 'AMAN'}</strong></span>
           </div>
 
-          <!-- Detective Owl Feedback Speech Bubble -->
-          <div style="background: rgba(0, 243, 255, 0.06); border: 1px solid var(--border-cyan); border-radius: 8px; padding: 16px 20px; text-align: left; margin-bottom: 20px;">
-            <div style="display:flex; align-items:center; gap: 8px; margin-bottom: 6px;">
-              <span style="font-size: 1.2rem;">🦉</span>
-              <strong style="color: var(--neon-cyan); font-family: var(--font-display); font-size: 0.9rem;">
-                CATATAN EVALUASI DETEKTIF BURUNG HANTU:
+          <!-- Feedback Speech Bubble -->
+          <div style="background: rgba(0, 243, 255, 0.06); border: 1px solid var(--border-cyan); border-radius: 8px; padding: 14px 18px; text-align: left; margin-bottom: 16px;">
+            <div style="display:flex; align-items:center; gap: 8px; margin-bottom: 4px;">
+              <span style="font-size: 1.1rem;">🦉</span>
+              <strong style="color: var(--neon-cyan); font-family: var(--font-display); font-size: 0.85rem;">
+                CATATAN EVALUASI:
               </strong>
             </div>
-            <p style="font-size: 0.9rem; color: var(--text-main); line-height: 1.6; margin: 0;">
+            <p style="font-size: 0.88rem; color: var(--text-main); line-height: 1.5; margin: 0;">
               "${report.critique}"
             </p>
           </div>
 
           <!-- Matched Red Flag Keywords Pill Bar -->
-          <div style="text-align: left; background: rgba(5,7,15,0.6); padding: 12px 16px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px;">
+          <div style="text-align: left; background: rgba(5,7,15,0.6); padding: 10px 14px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 18px;">
             <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); margin-bottom: 6px;">
-              KATA KUNCI ANALISIS TERDETEKSI SISTEM (${report.matchedKeywords.length}):
+              KATA KUNCI (${report.matchedKeywords.length}):
             </div>
             <div style="display:flex; gap: 6px; flex-wrap: wrap;">
               ${report.matchedKeywords.length > 0 ? report.matchedKeywords.map(k => `
                 <span class="cyber-tag tag-green" style="font-size: 0.7rem;">✓ ${k}</span>
-              `).join('') : '<span style="font-size: 0.75rem; color: var(--text-muted);">Tidak ada kata kunci kunci yang terdeteksi.</span>'}
+              `).join('') : '<span style="font-size: 0.75rem; color: var(--text-muted);">Tidak ada kata kunci terdeteksi.</span>'}
             </div>
           </div>
 
           <!-- Navigation Actions -->
-          <div style="display:flex; justify-content:center; gap: 12px; flex-wrap: wrap;">
+          <div style="display:flex; justify-content:center; gap: 10px; flex-wrap: wrap;">
             <button class="cyber-btn btn-ghost" onclick="document.getElementById('modal-general-box').classList.remove('active'); window.gameBriefing.returnToBriefing('deeplearn');">
-              <span>📂</span> KEMBALI KE KATALOG
+              <span>📂</span> KATALOG
             </button>
             ${hasNext && isSuccess ? `
               <button class="cyber-btn" onclick="document.getElementById('modal-general-box').classList.remove('active'); window.moduleDeepLearning.startScenario(${this.currentIndex + 1});">
-                <span>⚡</span> SKENARIO BERIKUTNYA ➔
+                <span>⚡</span> LANJUT ➔
               </button>
             ` : `
               <button class="cyber-btn" onclick="document.getElementById('modal-general-box').classList.remove('active'); window.moduleDeepLearning.resetScenarioState(); window.moduleDeepLearning.render();">
-                <span>🔄</span> ULANGI SKENARIO INI
+                <span>🔄</span> ULANGI
               </button>
             `}
           </div>

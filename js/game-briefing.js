@@ -35,15 +35,15 @@
       key: 'diff',
       badge: 'MODUL 2 // FORENSIC COMPARISON',
       title: '⚖️ PROTOKOL FINDING DIFF (REAL VS FAKE)',
-      category: 'Hakim Digital: Uji Forensik Komparatif Visual',
-      desc: 'Bandingkan dua antarmuka web berdampingan secara visual. Bertindaklah sebagai Hakim Siber untuk memutuskan dokumen ASLI (REAL) vs TIRUAN (FAKE).',
+      category: 'Uji Forensik Komparatif Visual',
+      desc: 'Bandingkan dua antarmuka berdampingan secara visual untuk menentukan dokumen REAL dan FAKE.',
       objective: 'Temukan anomali domain, keabsahan SSL, dan ketidaksesuaian elemen visual antarmuka.',
       scoring: '+100 XP per vonis akurat. Penalti indeks kerentanan jika salah menetapkan status dokumen.',
       steps: [
-        'Pilih skenario terbuka pada katalog misi (skenario lanjutan terbuka bertahap).',
+        'Pilih skenario yang tersedia pada katalog misi.',
         'Klik salah satu jendela browser virtual (Skenario A atau B) untuk menginspeksi.',
-        'Periksa keabsahan URL bar, sertifikat SSL, dan daftar elemen visual terdeteksi.',
-        'Jatuhkan vonis dengan menekan tombol REAL atau FAKE pada dermaga kontrol bawah.'
+        'Periksa URL bar, sertifikat SSL, dan elemen visual yang terdeteksi.',
+        'Jatuhkan vonis dengan menekan tombol REAL atau FAKE.'
       ],
       startBtnText: '⚡ MULAI FINDING DIFF'
     },
@@ -51,35 +51,33 @@
     criminal: {
       key: 'criminal',
       badge: 'MODUL 3 // CRIMINAL CASE',
-      title: '🦉 PROTOKOL CRIMINAL CASE: DETEKTIF BURUNG HANTU',
-      category: 'Investigasi TKP Digital & Pemburu Red Flags Ala Criminal Case',
-      desc: 'Gim edukasi berbasis teka-teki investigasi kriminal ala Criminal Case. Pemain berperan sebagai Detektif Burung Hantu yang harus menganalisis TKP Digital, memilah berbagai skenario kasus harian (phishing, tawaran palsu, social engineering), mengumpulkan Red Flags (barang bukti), dan menggagalkan aksi penipu sebelum korban merugi.',
-      objective: 'Analisis TKP digital interaktif, temukan 3 Red Flags tersembunyi, dan jatuhkan keputusan mitigasi tepat untuk menyematkan stempel CASE CLOSED.',
-      scoring: '+150 XP per pemecahan kasus tepat sasaran (Case Closed) dan penurunan indeks kerentanan VULN.',
+      title: '🦉 PROTOKOL CRIMINAL CASE: DETEKTIF OWL',
+      category: 'Investigasi TKP Digital & Pemburu Red Flags',
+      desc: 'Investigasi TKP Digital bersama Detektif Owl. Analisis percakapan mencurigakan, kumpulkan 3 bukti Red Flags di layar ponsel korban, dan tentukan mitigasi teraman.',
+      objective: 'Inspeksi perangkat korban, temukan 3 Red Flags, dan tetapkan tindakan mitigasi tepat sasaran.',
+      scoring: '+150 XP per pemecahan kasus tepat sasaran (Case Closed) dan proteksi aset korban.',
       steps: [
-        'Buka map berkas kasus (CASE #01, CASE #02, CASE #03) di Meja Kerja Detektif.',
-        'Pelajari briefing dialog sinopsis bersama Korban (Raka, Tari, Ibu Sari) dan pahami identitas korban.',
-        'Inspeksi TKP Digital: Klik 3 titik Red Flags mencurigakan pada layar perangkat digital korban.',
-        'Rumuskan keputusan mitigasi terbaik dan tangkap pelaku untuk menyematkan stempel CASE CLOSED!'
+        'Buka berkas perkara (CASE #01, CASE #02, CASE #03) di Meja Kerja Detektif.',
+        'Pelajari laporan singkat kasus bersama Detektif Owl.',
+        'Inspeksi TKP Digital: Temukan 3 titik Red Flags mencurigakan pada perangkat korban.',
+        'Tetapkan keputusan mitigasi terbaik untuk menyelesaikan kasus!'
       ],
-      startBtnText: '🔎 BUKA MEJA KERJA DETEKTIF'
+      startBtnText: '🔎 BUKA MEJA INVESTIGASI'
     },
 
     deeplearn: {
       key: 'deeplearn',
-      badge: 'MODUL 4 // OWL AI ANALYZER',
-      title: '🧠 PROTOKOL ANALYZER: LIVE GADGET & OWL FORENSICS',
-      category: 'Simulasi Live Gadget, X-Ray Scanner & Stempel Vonis',
-      desc: 'Analisis pesan mencurigakan pada Live Gadget interaktif dengan animasi notifikasi masuk dan timer palsu. Gunakan Mode X-Ray Detektif Owl untuk menyingkap metadata tersembunyi, jatuhkan Stempel Vonis (PENIPUAN vs AMAN), dan uji nalar Anda di Owl AI Forensics Lab.',
-      objective: 'Bongkar manipulasi psikologis penipu dengan Mode X-Ray, jatuhkan stempel vonis akurat, dan dapatkan evaluasi forensik Detektif Owl.',
-      scoring: 'Skor Akurasi Forensik 0–100 XP per analisis berdasarkan ketepatan vonis dan deteksi red flags.',
+      badge: 'MODUL 4 // ANALYZER',
+      title: '🧠 ANALYZER SIBER',
+      category: 'Inspeksi Pesan & Vonis Forensik',
+      desc: 'Analisis pesan pada gadget, aktifkan Mode X-Ray untuk cek metadata tersembunyi, lalu tentukan Vonis (PENIPUAN / AMAN).',
+      objective: 'Deteksi manipulasi pesan dan tentukan vonis dengan tepat.',
+      scoring: '0–100 XP per kasus berdasarkan ketepatan vonis & analisis.',
       steps: [
-        'Buka skenario terbuka pada katalog (tersedia uji kasus edukasi aman vs phishing).',
-        'Amati pesan masuk satu per satu di Live Gadget dan rasakan kepanikan timer palsu penipu.',
-        'Aktifkan "Mode Analisis Owl" untuk menyorot metadata tersembunyi (nomor asli, umur domain, taktik panik).',
-        'Jatuhkan Stempel Vonis (PENIPUAN atau AMAN) dan kirimkan penalaran kritis ke Owl AI Forensics Lab!'
+        'Inspeksi pesan pada gadget & aktifkan Mode X-Ray.',
+        'Pilih vonis (PENIPUAN / AMAN) dan kirim alasan singkat.'
       ],
-      startBtnText: '⚡ BUKA LIVE GADGET ANALYZER'
+      startBtnText: '⚡ MULAI ANALISIS'
     }
   };
 
@@ -360,12 +358,21 @@
 
               <!-- Operator Live Stats Pill -->
               <div style="display:flex; flex-direction:column; align-items:flex-end; gap:6px;">
-                <div class="cyber-tag tag-green" style="font-size:0.85rem; padding:6px 14px;">
-                  SKOR GAME INI: <strong style="font-size:1.05rem; margin-left:4px;">${gameScore} XP</strong>
-                </div>
-                <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">
-                  Total Pertahanan: <span style="color:var(--neon-cyan);">${totalScore} XP</span> &bull; Kerentanan: <span style="color:var(--neon-magenta);">${vuln}/10</span>
-                </div>
+                ${user ? `
+                  <div class="cyber-tag tag-green" style="font-size:0.85rem; padding:6px 14px;">
+                    SKOR GAME INI: <strong style="font-size:1.05rem; margin-left:4px;">${gameScore} XP</strong>
+                  </div>
+                  <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">
+                    Total Pertahanan: <span style="color:var(--neon-cyan);">${totalScore} XP</span> &bull; Kerentanan: <span style="color:var(--neon-magenta);">${vuln}/10</span>
+                  </div>
+                ` : `
+                  <div class="cyber-tag" style="font-size:0.82rem; padding:6px 14px; border-color:var(--border-cyan); color:var(--neon-cyan); cursor:pointer;" onclick="window.authManager.openLoginModal()" title="Login opsional">
+                    🏆 Login untuk lihat progressmu di leaderboard ➔
+                  </div>
+                  <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">
+                    Status: <span style="color:var(--neon-green);">Tamu (Login Opsional)</span>
+                  </div>
+                `}
               </div>
             </div>
 
@@ -461,6 +468,11 @@
               <span>🏆 TOTAL AKUMULASI:</span>
               <strong id="live-total-score-${gameKey}">${totalScore} XP</strong>
             </div>
+            ${!user ? `
+              <button type="button" class="cyber-btn btn-ghost" style="padding: 4px 10px; font-size: 0.72rem; border-color: var(--border-cyan); color: var(--neon-cyan);" onclick="window.authManager.openLoginModal()" title="Login opsional untuk mencatat progress ke leaderboard">
+                🏆 Leaderboard
+              </button>
+            ` : ''}
             <button class="btn-intel-hint" onclick="window.hintSystem?.openHintModal()" title="Minta petunjuk intelijen pertahanan">
               <span>💡</span> HINT
             </button>

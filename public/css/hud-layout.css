@@ -114,9 +114,9 @@
   transition: var(--transition-smooth);
 }
 
-/* Guest Mode Rules: Hide all game modules when not logged in */
-.hud-header.guest-mode .nav-item-game {
-  display: none !important;
+/* Navigation item rules: Publicly accessible modules always visible */
+.hud-header .nav-item-game {
+  display: list-item;
 }
 
 .hud-header.guest-mode .hud-auth-actions {
@@ -127,11 +127,7 @@
   display: flex !important;
 }
 
-/* Authenticated Mode Rules: Display all unlocked modules */
-.hud-header:not(.guest-mode) .nav-item-game {
-  display: list-item !important;
-}
-
+/* Authenticated Mode Rules: Display user profile capsule */
 .hud-header:not(.guest-mode) .hud-auth-actions {
   display: flex !important;
 }
@@ -352,12 +348,18 @@
   box-sizing: border-box;
 }
 
-/* Page Section Container */
+/* Page Section Container (Zero-delay transitions) */
 .page-view {
-  display: none;
+  display: none !important;
 }
 .page-view.active {
-  display: block;
+  display: block !important;
+  animation: pageFadeInInstant 0.08s ease-out forwards;
+}
+
+@keyframes pageFadeInInstant {
+  from { opacity: 0.92; }
+  to { opacity: 1; }
 }
 
 /* Breadcrumb Sub-Header */
@@ -484,9 +486,9 @@
 /* Toast Notifications */
 #cyber-toast-container {
   position: fixed;
-  bottom: 30px;
-  right: 30px;
-  z-index: 99999;
+  bottom: 24px;
+  right: 24px;
+  z-index: 2147483647;
   display: flex;
   flex-direction: column;
   gap: 12px;

@@ -125,6 +125,11 @@ class CyberAudioEngine {
     }
   }
 
+  // Glitch Error Alias
+  playGlitch() {
+    this.playError();
+  }
+
   // Pulse Whoosh (for hover or card drop)
   playWhoosh() {
     if (!this.sfxEnabled) return;
@@ -178,6 +183,145 @@ class CyberAudioEngine {
       });
     } catch (e) {
       console.warn('Audio alert error:', e);
+    }
+  }
+
+  // Digital Gavel / Verdict Impact Chord
+  playVerdict() {
+    if (!this.sfxEnabled) return;
+    try {
+      this.initContext();
+      if (!this.ctx) return;
+
+      const now = this.ctx.currentTime;
+      // Low impact sub-thud
+      const subOsc = this.ctx.createOscillator();
+      const subGain = this.ctx.createGain();
+      subOsc.type = 'triangle';
+      subOsc.frequency.setValueAtTime(140, now);
+      subOsc.frequency.exponentialRampToValueAtTime(45, now + 0.2);
+      subGain.gain.setValueAtTime(0.4 * this.masterVolume, now);
+      subGain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+      subOsc.connect(subGain);
+      subGain.connect(this.ctx.destination);
+      subOsc.start(now);
+      subOsc.stop(now + 0.23);
+
+      // High digital impact ping
+      const pingOsc = this.ctx.createOscillator();
+      const pingGain = this.ctx.createGain();
+      pingOsc.type = 'sine';
+      pingOsc.frequency.setValueAtTime(1600, now);
+      pingOsc.frequency.exponentialRampToValueAtTime(600, now + 0.12);
+      pingGain.gain.setValueAtTime(0.25 * this.masterVolume, now);
+      pingGain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+      pingOsc.connect(pingGain);
+      pingGain.connect(this.ctx.destination);
+      pingOsc.start(now);
+      pingOsc.stop(now + 0.15);
+    } catch (e) {
+      console.warn('Audio verdict error:', e);
+    }
+  }
+
+  // Futuristic Notification Chime (2-Tone)
+  playNotification() {
+    if (!this.sfxEnabled) return;
+    try {
+      this.initContext();
+      if (!this.ctx) return;
+
+      const now = this.ctx.currentTime;
+      const notes = [880, 1174.66]; // A5 -> D6
+      notes.forEach((freq, idx) => {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+        gain.gain.setValueAtTime(0.22 * this.masterVolume, now + idx * 0.08);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.08 + 0.18);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now + idx * 0.08);
+        osc.stop(now + idx * 0.08 + 0.2);
+      });
+    } catch (e) {
+      console.warn('Audio notification error:', e);
+    }
+  }
+
+  // Frequency Sweep Radar Scan
+  playScan() {
+    if (!this.sfxEnabled) return;
+    try {
+      this.initContext();
+      if (!this.ctx) return;
+
+      const now = this.ctx.currentTime;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(300, now);
+      osc.frequency.linearRampToValueAtTime(1400, now + 0.25);
+      osc.frequency.linearRampToValueAtTime(500, now + 0.4);
+      gain.gain.setValueAtTime(0.12 * this.masterVolume, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.42);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.43);
+    } catch (e) {
+      console.warn('Audio scan error:', e);
+    }
+  }
+
+  // Subtle Digital Tick / Select
+  playSelect() {
+    if (!this.sfxEnabled) return;
+    try {
+      this.initContext();
+      if (!this.ctx) return;
+
+      const now = this.ctx.currentTime;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(1200, now);
+      osc.frequency.exponentialRampToValueAtTime(600, now + 0.03);
+      gain.gain.setValueAtTime(0.15 * this.masterVolume, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.035);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.04);
+    } catch (e) {
+      console.warn('Audio select error:', e);
+    }
+  }
+
+  // Milestone Fanfare
+  playBadgeUnlock() {
+    if (!this.sfxEnabled) return;
+    try {
+      this.initContext();
+      if (!this.ctx) return;
+
+      const now = this.ctx.currentTime;
+      const chords = [523.25, 659.25, 783.99, 1046.50, 1318.51]; // C5, E5, G5, C6, E6
+      chords.forEach((freq, i) => {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, now + i * 0.06);
+        gain.gain.setValueAtTime(0.2 * this.masterVolume, now + i * 0.06);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.06 + 0.35);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now + i * 0.06);
+        osc.stop(now + i * 0.06 + 0.38);
+      });
+    } catch (e) {
+      console.warn('Audio badge unlock error:', e);
     }
   }
 

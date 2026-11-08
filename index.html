@@ -3,14 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="U2fHsia4wRsxzPPYbkvdxZ82AWhM6hQU4qJ76I1g">
   <title>Know Your Scam: Anti-Gravity Defense Protocol</title>
-  <meta name="description" content="Platform Simulasi Pertahanan Siber Anti-Gravitasi: Edukasi Interaktif Deteksi Ancaman Phishing, Love Scam, Job Scam, Forensik Digital, dan Pemindaian Berita AI.">
+  <meta name="description" content="KNOW YOUR SCAM - Platform edukasi dan simulasi pertahanan siber multi-level bertenaga Laravel dan AI Cognitive Core.">
 
   <!-- Core Cyber CSS Files -->
-  <link rel="stylesheet" href="css/cyber-theme.css">
-  <link rel="stylesheet" href="css/hud-layout.css">
-  <link rel="stylesheet" href="css/games.css">
-  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/hud-layout.css?v=2.2">
+  <link rel="stylesheet" href="css/games.css?v=2.2">
+  <link rel="stylesheet" href="css/edukasi.css?v=2.2">
+  <link rel="stylesheet" href="css/cyber-theme.css?v=2.2">
+  <link rel="stylesheet" href="css/responsive.css?v=2.2">
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
 </head>
@@ -40,13 +42,32 @@
         <nav>
           <ul class="hud-nav" id="hud-nav-links">
             <li><a href="#welcome" class="nav-link active"><span>🚀</span> BERANDA</a></li>
-            <li class="nav-item-game"><a href="#kasus" class="nav-link"><span>📜</span> KASUS</a></li>
-            <li class="nav-item-game"><a href="#diff" class="nav-link"><span>⚖️</span> FINDING DIFF</a></li>
-            <li class="nav-item-game"><a href="#criminal" class="nav-link"><span>🕵️</span> CRIMINAL CASE</a></li>
-            <li class="nav-item-game"><a href="#deeplearn" class="nav-link"><span>🧠</span> DEEP LEARNING</a></li>
-            <li class="nav-item-game"><a href="#scanner" class="nav-link"><span>🔗</span> LINK SCANNER</a></li>
+            
+            <!-- W3Schools-Style Edukasi Menu -->
+            <li class="nav-item-game"><a href="#edukasi" class="nav-link" id="nav-edukasi-link"><span>📚</span> EDUKASI</a></li>
+
+            <!-- Combined GAMES Menu with Dropdown -->
+            <li class="nav-item-game dropdown-nav-item">
+              <a href="#games" class="nav-link dropdown-toggle" id="nav-games-link"><span>🎮</span> GAMES ▾</a>
+              <ul class="dropdown-menu">
+                <li><a href="#kasus" class="dropdown-link"><span>🎭</span> SCAM SIMULATOR</a></li>
+                <li><a href="#diff" class="dropdown-link"><span>⚖️</span> FINDING DIFF</a></li>
+                <li><a href="#criminal" class="dropdown-link"><span>🦉</span> CRIMINAL CASE</a></li>
+                <li><a href="#deeplearn" class="dropdown-link"><span>🧠</span> ANALYZER</a></li>
+              </ul>
+            </li>
+
+            <!-- Combined DETEKTOR Menu (Link Scanner & Legit Checker) -->
+            <li class="nav-item-game dropdown-nav-item">
+              <a href="#scanner" class="nav-link dropdown-toggle" id="nav-detector-link"><span>🛡️</span> DETEKTOR ▾</a>
+              <ul class="dropdown-menu">
+                <li><a href="#scanner" class="dropdown-link"><span>🔗</span> LINK SCANNER</a></li>
+                <li><a href="#checker" class="dropdown-link"><span>🛡️</span> LEGIT CHECKER</a></li>
+              </ul>
+            </li>
+
             <li class="nav-item-game"><a href="#leaderboard" class="nav-link"><span>🏆</span> LEADERBOARD</a></li>
-            <li class="nav-item-game"><a href="#admin" id="nav-admin-link" class="nav-link"><span>🛡️</span> ADMIN</a></li>
+            <li class="nav-item-game" id="nav-admin-li" style="display: none;"><a href="#admin" id="nav-admin-link" class="nav-link" style="display: none;"><span>🛡️</span> ADMIN</a></li>
           </ul>
         </nav>
 
@@ -68,10 +89,10 @@
             <input id="audio-volume-slider" type="range" class="audio-vol-slider" min="0" max="1" step="0.05" value="0.5" title="Volume Suara">
           </div>
 
-          <!-- GUEST VIEW: MASUK / UJI LOGIN BUTTON -->
+          <!-- GUEST VIEW: MASUK / DAFTAR AKUN BUTTON -->
           <div id="hud-guest-actions" class="hud-guest-actions">
             <button id="btn-header-login" class="cyber-btn" onclick="window.authManager.openLoginModal()" style="padding: 7px 16px; font-size: 0.8rem; box-shadow: 0 0 15px var(--neon-cyan-dim);">
-              <span>🔑</span> MASUK / UJI LOGIN
+              <span>🔑</span> MASUK / DAFTAR
             </button>
           </div>
 
@@ -93,9 +114,124 @@
               <span>⏻</span> KELUAR
             </button>
           </div>
+
+          <!-- Mobile Hamburger Toggle Button -->
+          <button id="btn-mobile-sidebar-toggle" class="mobile-nav-hamburger" onclick="window.app.toggleMobileSidebar()" aria-label="Buka Menu Navigasi" title="Menu Navigasi Seluler">
+            ☰
+          </button>
         </div>
       </div>
     </header>
+
+    <!-- ========================================================
+         MOBILE SIDEBAR NAVIGATION DRAWER (OFF-CANVAS)
+         ======================================================== -->
+    <aside id="mobile-sidebar-drawer" class="mobile-sidebar-drawer" aria-label="Menu Navigasi Seluler">
+      <div class="mobile-sidebar-header">
+        <a href="#welcome" class="brand-container" onclick="window.app.toggleMobileSidebar(true)" style="text-decoration:none;">
+          <div class="brand-icon">🛡️</div>
+          <div class="brand-text">
+            <h2 style="font-size: 1rem; margin:0; line-height:1.1; color:var(--text-highlight);">KNOW YOUR SCAM</h2>
+            <div class="subtext">CYBER DEFENSE</div>
+          </div>
+        </a>
+        <button class="mobile-sidebar-close" onclick="window.app.toggleMobileSidebar(true)" aria-label="Tutup Menu">✕</button>
+      </div>
+
+      <div class="mobile-sidebar-body">
+        <!-- Mobile Profile Banner (Visible when logged in) -->
+        <div id="mobile-user-profile-banner" class="mobile-user-banner" style="display:none;">
+          <div id="mobile-user-avatar" class="mobile-user-avatar">⚡</div>
+          <div class="mobile-user-info">
+            <strong id="mobile-user-name" class="mobile-name">Cadet Aris</strong>
+            <div class="mobile-stats">
+              <span id="mobile-user-score" class="mobile-score">680 XP</span> &bull; 
+              <span id="mobile-user-vuln" class="mobile-vuln">VULN: 4.5/10</span>
+            </div>
+          </div>
+        </div>
+
+        <ul class="mobile-nav-list">
+          <li>
+            <a href="#welcome" class="mobile-nav-link" onclick="window.app.navigateTo('welcome'); window.app.toggleMobileSidebar(true);">
+              <span>🚀</span> BERANDA
+            </a>
+          </li>
+
+          <!-- Edukasi Section -->
+          <li class="mobile-nav-section-title">📚 EDUKASI & LITERASI SIBER</li>
+          <li>
+            <a href="#edukasi" class="mobile-nav-link" onclick="window.app.navigateTo('edukasi'); window.app.toggleMobileSidebar(true);">
+              <span>📚</span> Modul Edukasi Anti-Scam
+            </a>
+          </li>
+
+          <!-- Games Section -->
+          <li class="mobile-nav-section-title">🎮 SIMULASI TAKTIS (GAMES)</li>
+          <li class="mobile-nav-subitem">
+            <a href="#kasus" class="mobile-nav-link" onclick="window.app.navigateTo('kasus'); window.app.toggleMobileSidebar(true);">
+              <span>🎭</span> Scam Simulator (Multi-POV)
+            </a>
+          </li>
+          <li class="mobile-nav-subitem">
+            <a href="#diff" class="mobile-nav-link" onclick="window.app.navigateTo('diff'); window.app.toggleMobileSidebar(true);">
+              <span>⚖️</span> Finding Diff (Real vs Fake)
+            </a>
+          </li>
+          <li class="mobile-nav-subitem">
+            <a href="#criminal" class="mobile-nav-link" onclick="window.app.navigateTo('criminal'); window.app.toggleMobileSidebar(true);">
+              <span>🦉</span> Criminal Case (Detektif Owl)
+            </a>
+          </li>
+          <li class="mobile-nav-subitem">
+            <a href="#deeplearn" class="mobile-nav-link" onclick="window.app.navigateTo('deeplearn'); window.app.toggleMobileSidebar(true);">
+              <span>🧠</span> AI Analyzer (Evaluator)
+            </a>
+          </li>
+
+          <!-- Detektor Section -->
+          <li class="mobile-nav-section-title">🛡️ DETEKTOR HIBRIDA</li>
+          <li class="mobile-nav-subitem">
+            <a href="#scanner" class="mobile-nav-link" onclick="window.app.navigateTo('scanner'); window.app.toggleMobileSidebar(true);">
+              <span>🔗</span> Link Scanner
+            </a>
+          </li>
+          <li class="mobile-nav-subitem">
+            <a href="#checker" class="mobile-nav-link" onclick="window.app.navigateTo('checker'); window.app.toggleMobileSidebar(true);">
+              <span>🛡️</span> Legit Checker
+            </a>
+          </li>
+
+          <!-- Leaderboard & Admin Section -->
+          <li class="mobile-nav-section-title">🏆 PERINGKAT & KOMPETISI</li>
+          <li>
+            <a href="#leaderboard" class="mobile-nav-link" onclick="window.app.navigateTo('leaderboard'); window.app.toggleMobileSidebar(true);">
+              <span>🏆</span> Live Leaderboard
+            </a>
+          </li>
+          <li id="mobile-admin-link-li" style="display:none;">
+            <a href="#admin" class="mobile-nav-link" onclick="window.app.navigateTo('admin'); window.app.toggleMobileSidebar(true);">
+              <span>🛡️</span> Panel Admin
+            </a>
+          </li>
+        </ul>
+
+        <!-- Mobile Drawer Footer Actions -->
+        <div class="mobile-sidebar-footer">
+          <div id="mobile-guest-actions">
+            <button class="cyber-btn" style="width:100%; font-size:0.85rem; padding:10px;" onclick="window.authManager.openLoginModal(); window.app.toggleMobileSidebar(true);">
+              <span>🔑</span> MASUK / DAFTAR AKUN
+            </button>
+          </div>
+          <div id="mobile-auth-actions" style="display:none;">
+            <button class="cyber-btn btn-ghost" style="width:100%; font-size:0.85rem; padding:10px; border-color:rgba(255,0,85,0.4); color:var(--neon-red);" onclick="window.authManager.logout(); window.app.toggleMobileSidebar(true);">
+              <span>⏻</span> KELUAR DARI AKUN
+            </button>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <div id="mobile-sidebar-backdrop" class="mobile-sidebar-backdrop" onclick="window.app.toggleMobileSidebar(true)"></div>
 
     <!-- MAIN VIEWPORT -->
     <main class="main-viewport">
@@ -111,126 +247,94 @@
           </div>
 
           <h1 class="hero-title">KNOW YOUR SCAM</h1>
-          <div class="hero-subtitle">ANTI-GRAVITY CYBER DEFENSE // REKAYASA SOSIAL & DETEKSI PENIPUAN</div>
+          <div class="hero-subtitle">ZERO-TRUST CYBER DEFENSE // SIMULASI REKAYASA SOSIAL</div>
 
           <p class="hero-desc">
-            Pusat simulasi dan edukasi taktis pertahanan siber generasi baru. Lakukan uji coba peran akun (User atau Admin) pada konsol di bawah dan telusuri ringkasan spesifikasi protokol misi pertahanan siber.
+            Platform simulasi taktis pertahanan siber bertenaga AI. Asah ketahanan nalar digital Anda melalui skenario interaktif.
           </p>
 
-          <!-- Hero Actions: Account Testing & Menu Summaries (No direct game trial) -->
-          <div class="hero-cta-group">
+          <!-- Hero Actions: Authentication & Navigation -->
+          <!-- 1. Guest Hero Actions (Visible when NOT logged in) -->
+          <div class="hero-cta-group" id="hero-guest-cta">
             <button class="cyber-btn hero-cta-btn" onclick="window.authManager.openLoginModal()">
-              <span>🔑</span> MASUK / UJI LOGIN
+              <span>🔑</span> MASUK / DAFTAR AKUN
             </button>
-            <button class="cyber-btn btn-ghost" style="font-size: 1.05rem; padding: 16px 28px;" onclick="window.welcomeInteractive.scrollToAccountTest()">
-              <span>⚡</span> KONSOL PROFIL & SANDI
+            <button class="cyber-btn btn-ghost" style="font-size: 1.05rem; padding: 16px 28px;" onclick="window.app.navigateTo('edukasi')">
+              <span>📚</span> JELAJAHI MATERI EDUKASI
             </button>
             <button class="cyber-btn btn-ghost" style="font-size: 1.05rem; padding: 16px 28px;" onclick="document.getElementById('menu-summary-section').scrollIntoView({behavior:'smooth'})">
-              <span>📜</span> RINGKASAN MENU MODUL
+              <span>📜</span> RINGKASAN MENU MISI
             </button>
           </div>
 
+          <!-- 2. Authenticated User Hero Actions (Visible when Logged In - No Login Option) -->
+          <div class="hero-cta-group" id="hero-auth-cta" style="display:none;">
+            <button class="cyber-btn hero-cta-btn" onclick="window.app.navigateTo('games')">
+              <span>🎮</span> MULAI MISI SIMULASI (GAMES)
+            </button>
+            <button class="cyber-btn btn-ghost" style="font-size: 1.05rem; padding: 16px 28px;" onclick="window.app.navigateTo('edukasi')">
+              <span>📚</span> JELAJAHI MATERI EDUKASI
+            </button>
+            <button class="cyber-btn btn-ghost" style="font-size: 1.05rem; padding: 16px 28px;" onclick="window.app.navigateTo('leaderboard')">
+              <span>🏆</span> LIHAT LEADERBOARD
+            </button>
+          </div>
+
+          <!-- Active Operator Welcome Capsule (When Logged In) -->
+          <div id="hero-auth-status-card" class="hud-card" style="display:none; max-width: 620px; margin: 24px auto 0 auto; padding: 14px 20px; border-color: var(--border-cyan); text-align: center; box-shadow: 0 0 30px rgba(0, 243, 255, 0.08);">
+            <div style="display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom: 4px; flex-wrap:wrap;">
+              <span style="font-size:1.3rem;" id="hero-auth-avatar">⚡</span>
+              <span style="font-family: var(--font-display); font-size: 1.05rem; color: var(--text-highlight);">
+                OPERATOR AKTIF: <strong id="hero-auth-username" style="color: var(--neon-cyan);">Cadet Aris</strong>
+              </span>
+              <span id="hero-auth-role-tag" class="cyber-tag tag-green">USER</span>
+            </div>
+            <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">
+              Total Pertahanan: <strong id="hero-auth-score" style="color: var(--neon-green);">0 XP</strong> &bull; Indeks Kerentanan: <strong id="hero-auth-vuln" style="color: var(--neon-magenta);">5.0/10</strong>
+            </div>
+          </div>
+
           <!-- ========================================================
-               KONSOL UJI COBA AKUN SIBER (INTERACTIVE ACCOUNT TESTING)
+               KAPABILITAS SISTEM PERTAHANAN SIBER (PROFESSIONAL SHOWCASE)
                ======================================================== -->
-          <div id="account-test-console" class="account-test-console">
+          <div class="account-test-console" style="border-color: var(--border-cyan); margin-top: 36px;">
             <div class="account-test-header">
               <div style="display:flex; align-items:center; gap: 10px;">
-                <span style="font-size: 1.5rem;">⚡</span>
+                <span style="font-size: 1.5rem;">🛡️</span>
                 <div>
                   <h3 style="font-size: 1.25rem; color: var(--text-highlight); letter-spacing: 1px;">
-                    KONSOL UJI COBA AKUN SIBER (ACCOUNT TESTING CONSOLE)
+                    ARSITEKTUR PERTAHANAN ZERO-TRUST
                   </h3>
                   <div style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--neon-cyan);">
-                    GUNAKAN KREDENSIAL PROFIL & SANDI RESMI DI BAWAH UNTUK MEMBUKA AKSES MODUL
+                    STANDAR EDUKASI & SIMULASI REKAYASA SOSIAL INDONESIA
                   </div>
                 </div>
               </div>
-              <div id="test-active-badge" class="cyber-tag tag-amber">
-                STATUS: BELUM LOGIN (MODE TAMU)
+              <div class="cyber-tag tag-green">
+                SISTEM SIAP DIGUNAKAN
               </div>
             </div>
 
-            <!-- Side-by-Side Pods: User Pod vs Admin Pod -->
-            <div class="account-test-grid">
-              <!-- POD A: USER (KADET SIBER) -->
-              <div id="pod-test-user" class="account-test-pod" style="border-color: var(--neon-cyan); box-shadow: 0 0 15px var(--neon-cyan-dim);">
-                <div>
-                  <div class="pod-title-bar">
-                    <div style="display:flex; align-items:center; gap: 8px;">
-                      <span style="font-size: 1.6rem;">👤</span>
-                      <div>
-                        <h4 style="font-size: 1.1rem; color: var(--neon-cyan);">KADET SIBER (USER / MAHASISWA)</h4>
-                        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">PERAN: PESERTA EDUKASI & SIMULASI</div>
-                      </div>
-                    </div>
-                    <span class="cyber-tag">ROLE: USER</span>
-                  </div>
-
-                  <div class="pod-credentials-box">
-                    <span>NAMA PROFIL: <strong>Cadet Aris</strong></span>
-                    <span>USERNAME: <code>cadet</code></span>
-                    <span>SANDI / PASSWORD: <code style="color: var(--neon-green); font-weight: bold;">cadet123</code></span>
-                    <span style="color: var(--text-muted); font-size: 0.72rem;">STATISTIK: 680 XP | VULN: 4.5/10 (Security Cadet)</span>
-                  </div>
-
-                  <ul class="pod-permissions-list">
-                    <li style="color: var(--text-main);"><span style="color: var(--neon-green);">✓</span> Mengakses 5 Modul Game & Skenario Simulasi</li>
-                    <li style="color: var(--text-main);"><span style="color: var(--neon-green);">✓</span> Menerima Evaluasi Indikator Skor Kerentanan (1–10)</li>
-                    <li style="color: var(--text-main);"><span style="color: var(--neon-green);">✓</span> Memperoleh Poin XP & Tercatat di Leaderboard Global</li>
-                    <li style="color: var(--text-muted);"><span style="color: var(--neon-red);">✗</span> Akses Panel Kontrol & Log Telemetri Terbatas</li>
-                  </ul>
-                </div>
-
-                <button class="cyber-btn" style="width: 100%; font-size: 0.92rem; padding: 12px 16px;" onclick="window.welcomeInteractive.testAccount('user')">
-                  ⚡ LOGIN SEBAGAI CADET ARIS (USER)
-                </button>
+            <div class="edu-grid-cards" style="margin: 10px 0;">
+              <div class="edu-card">
+                <div class="card-icon">🎮</div>
+                <h4 style="color:var(--neon-cyan);">4 Modul Simulasi</h4>
+                <p>Simulasi taktis deteksi phishing, malware, dan rekayasa sosial.</p>
               </div>
-
-              <!-- POD B: ADMIN (PUSAT KOMANDO SIBER) -->
-              <div id="pod-test-admin" class="account-test-pod pod-admin" style="border-color: rgba(255,255,255,0.15);">
-                <div>
-                  <div class="pod-title-bar">
-                    <div style="display:flex; align-items:center; gap: 8px;">
-                      <span style="font-size: 1.6rem;">🛡️</span>
-                      <div>
-                        <h4 style="font-size: 1.1rem; color: var(--neon-magenta);">KOMANDAN SISTEM (ADMINISTRATOR)</h4>
-                        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">PERAN: PENGELOLA WEBSITE & PEMBUAT GIM</div>
-                      </div>
-                    </div>
-                    <span class="cyber-tag tag-magenta">ROLE: ADMIN</span>
-                  </div>
-
-                  <div class="pod-credentials-box" style="border-color: rgba(189,0,255,0.3);">
-                    <span>NAMA PROFIL: <strong>Commander Vektor</strong></span>
-                    <span>USERNAME: <code>admin</code></span>
-                    <span>SANDI / PASSWORD: <code style="color: var(--neon-magenta); font-weight: bold;">admin123</code></span>
-                    <span style="color: var(--text-muted); font-size: 0.72rem;">STATISTIK: 1250 XP | VULN: 1.2/10 (Grand Sentinel)</span>
-                  </div>
-
-                  <ul class="pod-permissions-list">
-                    <li style="color: var(--text-main);"><span style="color: var(--neon-green);">✓</span> Hak Penuh Panel Kontrol & Manajemen Kasus (CRUD)</li>
-                    <li style="color: var(--text-main);"><span style="color: var(--neon-green);">✓</span> Dashboard Telemetri Log Aktivitas Real-time</li>
-                    <li style="color: var(--text-main);"><span style="color: var(--neon-green);">✓</span> Fasilitas Ekspor Laporan Audit & Pembersihan Log</li>
-                    <li style="color: var(--text-main);"><span style="color: var(--neon-green);">✓</span> Menguji Seluruh Skenario Modul dengan Elevasi Penuh</li>
-                  </ul>
-                </div>
-
-                <button class="cyber-btn btn-magenta" style="width: 100%; font-size: 0.92rem; padding: 12px 16px;" onclick="window.welcomeInteractive.testAccount('admin')">
-                  🛡️ LOGIN SEBAGAI COMMANDER VEKTOR (ADMIN)
-                </button>
+              <div class="edu-card">
+                <div class="card-icon">🛡️</div>
+                <h4 style="color:var(--neon-magenta);">Detektor Cerdas Hibrida</h4>
+                <p>Validasi multi-ancaman URL dan pesan mencurigakan bertenaga AI.</p>
               </div>
-            </div>
-
-            <!-- Real-time Test Feedback Status Bar -->
-            <div class="account-test-feedback-bar">
-              <div id="test-terminal-status">
-                <span style="color: var(--neon-cyan);">⚡ MODE TAMU: Pilih salah satu akun uji coba di atas untuk membuka navigasi modul pertahanan.</span>
+              <div class="edu-card">
+                <div class="card-icon">📚</div>
+                <h4 style="color:var(--neon-green);">Pusat Edukasi Interaktif</h4>
+                <p>Panduan mitigasi scam berstruktur rapi ala W3Schools.</p>
               </div>
-              <div id="test-unlocked-launchers" style="display: flex; gap: 10px; flex-wrap: wrap;">
-                <button class="cyber-btn" onclick="window.authManager.openLoginModal()" style="padding: 8px 18px; font-size: 0.85rem;">
-                  <span>🔑</span> MASUK DENGAN AKUN UJI COBA
-                </button>
+              <div class="edu-card">
+                <div class="card-icon">🏆</div>
+                <h4 style="color:var(--neon-amber);">Live Leaderboard</h4>
+                <p>Telemetri skor real-time per game dan akumulasi peringkat global.</p>
               </div>
             </div>
           </div>
@@ -240,13 +344,13 @@
                ======================================================== -->
           <div id="menu-summary-section" style="text-align: center; margin-bottom: 24px; max-width: 800px;">
             <span class="cyber-tag tag-magenta" style="font-size: 0.85rem; padding: 6px 16px; margin-bottom: 8px;">
-              KATALOG SPESIFIKASI MENU
+              KATALOG SPESIFIKASI
             </span>
             <h2 style="font-size: 1.8rem; color: var(--text-highlight); margin: 6px 0;">
-              RINGKASAN PROTOKOL & MATERI EDUKASI
+              RINGKASAN PROTOKOL & MATERI
             </h2>
             <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.5;">
-              Berikut adalah ringkasan kurikulum dan kapabilitas teknis dari seluruh modul yang tersedia. Klik kartu di bawah untuk membuka dokumen ringkasan & intelijen modul tanpa langsung memulai permainan.
+              Katalog kapabilitas dan intelijen modul pertahanan siber. Klik kartu untuk meninjau detail modul.
             </p>
           </div>
 
@@ -257,16 +361,16 @@
               <div>
                 <div class="menu-summary-badge-bar">
                   <span class="cyber-tag">MODUL 1</span>
-                  <span class="cyber-tag tag-amber">MULTI-POV STORY</span>
+                  <span class="cyber-tag tag-amber">MULTI-POV</span>
                 </div>
-                <div class="menu-summary-icon">📜</div>
-                <h4 style="font-size: 1.15rem; color: var(--text-highlight); margin-bottom: 6px;">KASUS (MULTI-POV)</h4>
+                <div class="menu-summary-icon">🎭</div>
+                <h4 style="font-size: 1.15rem; color: var(--text-highlight); margin-bottom: 6px;">SCAM SIMULATOR (MULTI-POV)</h4>
                 <p class="menu-summary-teaser">
-                  Simulasi narasi percakapan terminal siber dengan alur Phishing Bank NeoArtha, Love Scam Helios, dan Job Scam QuantumTech dari sudut pandang Korban & Pemburu Ancaman.
+                  Simulasi interaktif roleplay Scammer vs Victim dengan karakter hewan pixel dan alur chat bercabang.
                 </p>
               </div>
               <div class="menu-summary-inspect-link">
-                <span>🔍</span> BACA RINGKASAN PROTOKOL ➔
+                <span>🔍</span> RINGKASAN PROTOKOL ➔
               </div>
             </div>
 
@@ -275,16 +379,16 @@
               <div>
                 <div class="menu-summary-badge-bar">
                   <span class="cyber-tag">MODUL 2</span>
-                  <span class="cyber-tag tag-magenta">JUDGE REAL VS FAKE</span>
+                  <span class="cyber-tag tag-magenta">REAL VS FAKE</span>
                 </div>
                 <div class="menu-summary-icon">⚖️</div>
                 <h4 style="font-size: 1.15rem; color: var(--text-highlight); margin-bottom: 6px;">FINDING DIFF</h4>
                 <p class="menu-summary-teaser">
-                  Uji ketelitian visual bertindak sebagai Hakim Siber membandingkan skenario berdampingan dengan hover zoom-in lens dan 2 tombol raksasa neon REAL vs FAKE.
+                  Inspeksi browser komparatif untuk memutuskan keaslian dokumen digital.
                 </p>
               </div>
               <div class="menu-summary-inspect-link">
-                <span>🔍</span> BACA RINGKASAN PROTOKOL ➔
+                <span>🔍</span> RINGKASAN PROTOKOL ➔
               </div>
             </div>
 
@@ -293,20 +397,20 @@
               <div>
                 <div class="menu-summary-badge-bar">
                   <span class="cyber-tag">MODUL 3</span>
-                  <span class="cyber-tag tag-red">FORENSIC PUZZLE</span>
+                  <span class="cyber-tag tag-red">FORENSIK</span>
                 </div>
-                <div class="menu-summary-icon">🕵️</div>
+                <div class="menu-summary-icon">🦉</div>
                 <h4 style="font-size: 1.15rem; color: var(--text-highlight); margin-bottom: 6px;">CRIMINAL CASE</h4>
                 <p class="menu-summary-teaser">
-                  Teka-teki investigasi kriminal harian drag-and-drop memetakan anatomi penipuan korporat BEC dan investasi palsu sebelum batas waktu panik habis.
+                  Investigasi teka-teki TKP digital bersama Detektif Owl membongkar Red Flags.
                 </p>
               </div>
               <div class="menu-summary-inspect-link">
-                <span>🔍</span> BACA RINGKASAN PROTOKOL ➔
+                <span>🔍</span> RINGKASAN PROTOKOL ➔
               </div>
             </div>
 
-            <!-- 4. DEEP LEARNING -->
+            <!-- 4. ANALYZER -->
             <div class="menu-summary-card" onclick="window.welcomeInteractive.openMenuSummary('deeplearn')">
               <div>
                 <div class="menu-summary-badge-bar">
@@ -314,143 +418,208 @@
                   <span class="cyber-tag tag-green">AI EVALUATION</span>
                 </div>
                 <div class="menu-summary-icon">🧠</div>
-                <h4 style="font-size: 1.15rem; color: var(--text-highlight); margin-bottom: 6px;">DEEP LEARNING</h4>
+                <h4 style="font-size: 1.15rem; color: var(--text-highlight); margin-bottom: 6px;">ANALYZER (AI EVALUATOR)</h4>
                 <p class="menu-summary-teaser">
-                  Evaluasi kritis ancaman Zero-Day di mana penalaran tertulis Anda dievaluasi secara mendalam oleh AI Know Your Scam dengan animasi gelombang siber neural matrix.
+                  Evaluasi tertulis ancaman Zero-Day berumpan balik evaluasi AI cerdas.
                 </p>
               </div>
               <div class="menu-summary-inspect-link">
-                <span>🔍</span> BACA RINGKASAN PROTOKOL ➔
+                <span>🔍</span> RINGKASAN PROTOKOL ➔
               </div>
             </div>
 
-            <!-- 5. LINK & NEWS SCANNER -->
+            <!-- 5. LINK SCANNER -->
             <div class="menu-summary-card" onclick="window.welcomeInteractive.openMenuSummary('scanner')">
               <div>
                 <div class="menu-summary-badge-bar">
-                  <span class="cyber-tag">MODUL 5</span>
-                  <span class="cyber-tag">SECURITY UTILITY</span>
+                  <span class="cyber-tag">DETEKTOR 1</span>
+                  <span class="cyber-tag">URL SCANNER</span>
                 </div>
                 <div class="menu-summary-icon">🔗</div>
                 <h4 style="font-size: 1.15rem; color: var(--text-highlight); margin-bottom: 6px;">NEWS & LINK SCANNER</h4>
                 <p class="menu-summary-teaser">
-                  Utilitas mandiri untuk memindai keabsahan URL dan teks berita dengan skor kerentanan neon 1–10, transparansi pemrosesan AI, dan petunjuk keamanan interaktif.
+                  Pindai URL & indikator phishing dengan kalkulasi skor risiko instan.
                 </p>
               </div>
               <div class="menu-summary-inspect-link">
-                <span>🔍</span> BACA RINGKASAN PROTOKOL ➔
+                <span>🔍</span> RINGKASAN PROTOKOL ➔
               </div>
             </div>
 
-            <!-- 6. LEADERBOARD -->
+            <!-- 6. LEGIT CHECKER -->
+            <div class="menu-summary-card" onclick="window.welcomeInteractive.openMenuSummary('checker')">
+              <div>
+                <div class="menu-summary-badge-bar">
+                  <span class="cyber-tag">DETEKTOR 2</span>
+                  <span class="cyber-tag tag-magenta">OMNI-THREAT</span>
+                </div>
+                <div class="menu-summary-icon">🛡️</div>
+                <h4 style="font-size: 1.15rem; color: var(--text-highlight); margin-bottom: 6px;">LEGIT CHECKER</h4>
+                <p class="menu-summary-teaser">
+                  Validasi pesan chat, tawaran kerja, dan malware multi-vektor.
+                </p>
+              </div>
+              <div class="menu-summary-inspect-link">
+                <span>🔍</span> RINGKASAN PROTOKOL ➔
+              </div>
+            </div>
+
+            <!-- 7. LEADERBOARD -->
             <div class="menu-summary-card" onclick="window.welcomeInteractive.openMenuSummary('leaderboard')">
               <div>
                 <div class="menu-summary-badge-bar">
                   <span class="cyber-tag">PERINGKAT</span>
-                  <span class="cyber-tag tag-amber">GLOBAL TELEMETRY</span>
+                  <span class="cyber-tag tag-amber">TELEMETRI</span>
                 </div>
                 <div class="menu-summary-icon">🏆</div>
                 <h4 style="font-size: 1.15rem; color: var(--text-highlight); margin-bottom: 6px;">LEADERBOARD GLOBAL</h4>
                 <p class="menu-summary-teaser">
-                  Papan peringkat real-time yang memeringkat operator siber berdasarkan skor XP pertahanan, konsistensi misi, dan skor kerentanan terendah dengan medali kejuaraan.
+                  Peringkat global real-time berdasarkan akumulasi XP & kerentanan.
                 </p>
               </div>
               <div class="menu-summary-inspect-link">
-                <span>🔍</span> BACA RINGKASAN PROTOKOL ➔
+                <span>🔍</span> RINGKASAN PROTOKOL ➔
               </div>
             </div>
 
-            <!-- 7. PANEL ADMIN -->
-            <div class="menu-summary-card" onclick="window.welcomeInteractive.openMenuSummary('admin')">
+            <!-- 8. PANEL ADMIN (Only Visible for Admin Role) -->
+            <div class="menu-summary-card" id="summary-card-admin" onclick="window.welcomeInteractive.openMenuSummary('admin')" style="display:none;">
               <div>
                 <div class="menu-summary-badge-bar">
                   <span class="cyber-tag tag-magenta">KONTROL SISTEM</span>
-                  <span class="cyber-tag">CRUD & AUDIT</span>
+                  <span class="cyber-tag">CRUD</span>
                 </div>
                 <div class="menu-summary-icon">🛡️</div>
                 <h4 style="font-size: 1.15rem; color: var(--text-highlight); margin-bottom: 6px;">PANEL KONTROL ADMIN</h4>
                 <p class="menu-summary-teaser">
-                  Konsol manajemen khusus pengelola platform untuk memodifikasi atau menambah skenario kasus, memantau log aktivitas peserta secara real-time, dan mengekspor telemetri.
+                  Manajemen skenario kasus kustom dan pemantauan aktivitas peserta.
                 </p>
               </div>
               <div class="menu-summary-inspect-link">
-                <span>🔍</span> BACA RINGKASAN PROTOKOL ➔
+                <span>🔍</span> RINGKASAN PROTOKOL ➔
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- PAGE 2: MODUL 1 - KASUS -->
-      <section id="page-kasus" class="page-view">
-        <div class="sub-hud-bar">
-          <div class="sub-hud-left">
-            <span style="font-size: 1.5rem;">📜</span>
-            <div class="sub-hud-title">PROTOKOL KASUS: MULTI-POV SIMULATION</div>
+      <!-- ========================================================
+           PAGE: GAMES HUB (PUSAT SIMULASI GIM TAKTIS)
+           ======================================================== -->
+      <section id="page-games" class="page-view">
+        <div class="holo-enter">
+          <div style="text-align: center; margin-bottom: 24px;">
+            <span class="cyber-tag tag-cyan" style="font-size: 0.82rem; padding: 6px 16px;">
+              ARENA SIMULASI
+            </span>
+            <h2 style="font-size: 1.85rem; color: var(--text-highlight); margin: 8px 0;">
+              PILIH MODUL SIMULASI (GAMES)
+            </h2>
+            <p style="font-size: 0.95rem; color: var(--text-muted); max-width: 650px; margin: 0 auto;">
+              Pilih arena simulasi untuk melatih respon siber. Skor terupdate otomatis ke Leaderboard.
+            </p>
           </div>
-          <div class="sub-hud-right">
-            <button class="btn-intel-hint" onclick="window.hintSystem.openHintModal()">
-              <span>💡</span> MINTA INTEL / HINT
-            </button>
+
+          <div class="games-hub-grid">
+            <!-- Game 1: Kasus -->
+            <div class="game-hub-card">
+              <div>
+                <div class="game-hub-badge">MODUL 1 // MULTI-POV</div>
+                <h3 class="game-hub-title">🎭 Scam Simulator</h3>
+                <p class="game-hub-desc">
+                  Simulasi interaktif roleplay Scammer vs Victim dengan karakter hewan pixel dan alur chat bercabang.
+                </p>
+              </div>
+              <div>
+                <button class="cyber-btn" style="width:100%; font-size:0.92rem; padding:12px;" onclick="window.app.navigateTo('kasus')">
+                  <span>⚡</span> MAINKAN SCAM SIMULATOR ➔
+                </button>
+              </div>
+            </div>
+
+            <!-- Game 2: Finding Diff -->
+            <div class="game-hub-card">
+              <div>
+                <div class="game-hub-badge">MODUL 2 // REAL VS FAKE</div>
+                <h3 class="game-hub-title">⚖️ Finding Diff</h3>
+                <p class="game-hub-desc">
+                  Periksa domain dan visual web berdampingan untuk vonis Real vs Fake.
+                </p>
+              </div>
+              <div>
+                <button class="cyber-btn" style="width:100%; font-size:0.92rem; padding:12px;" onclick="window.app.navigateTo('diff')">
+                  <span>⚡</span> MAINKAN FINDING DIFF ➔
+                </button>
+              </div>
+            </div>
+
+            <!-- Game 3: Criminal Case -->
+            <div class="game-hub-card card-magenta">
+              <div>
+                <div class="game-hub-badge" style="color:var(--neon-magenta); background:rgba(189,0,255,0.1);">MODUL 3 // FORENSIK</div>
+                <h3 class="game-hub-title">🦉 Criminal Case</h3>
+                <p class="game-hub-desc">
+                  Pecahkan teka-teki TKP digital bersama Detektif Owl dan gagalkan aksi penipuan.
+                </p>
+              </div>
+              <div>
+                <button class="cyber-btn btn-magenta" style="width:100%; font-size:0.92rem; padding:12px;" onclick="window.app.navigateTo('criminal')">
+                  <span>⚡</span> MULAI INVESTIGASI ➔
+                </button>
+              </div>
+            </div>
+
+            <!-- Game 4: Analyzer -->
+            <div class="game-hub-card">
+              <div>
+                <div class="game-hub-badge" style="color:var(--neon-green); background:rgba(0,255,136,0.1);">MODUL 4 // AI EVALUATOR</div>
+                <h3 class="game-hub-title">🧠 AI Analyzer</h3>
+                <p class="game-hub-desc">
+                  Tulis analisis mitigasi ancaman Zero-Day untuk dievaluasi oleh Gemini AI.
+                </p>
+              </div>
+              <div>
+                <button class="cyber-btn" style="width:100%; font-size:0.92rem; padding:12px;" onclick="window.app.navigateTo('deeplearn')">
+                  <span>⚡</span> BUKA ANALYZER ➔
+                </button>
+              </div>
+            </div>
           </div>
         </div>
+      </section>
+
+      <!-- PAGE 2: MODUL 1 - KASUS (SEPARATED PAGE START & PAGE GAME) -->
+      <section id="page-kasus" class="page-view">
         <div id="kasus-module-container"></div>
       </section>
 
-      <!-- PAGE 3: MODUL 2 - FINDING DIFF -->
+      <!-- PAGE 3: MODUL 2 - FINDING DIFF (SEPARATED PAGE START & PAGE GAME) -->
       <section id="page-diff" class="page-view">
-        <div class="sub-hud-bar">
-          <div class="sub-hud-left">
-            <span style="font-size: 1.5rem;">⚖️</span>
-            <div class="sub-hud-title">PROTOKOL FINDING DIFF: JUDGE REAL VS FAKE</div>
-          </div>
-          <div class="sub-hud-right">
-            <button class="btn-intel-hint" onclick="window.hintSystem.openHintModal()">
-              <span>💡</span> MINTA INTEL / HINT
-            </button>
-          </div>
-        </div>
         <div id="diff-module-container"></div>
       </section>
 
-      <!-- PAGE 4: MODUL 3 - CRIMINAL CASE -->
+      <!-- PAGE 4: MODUL 3 - CRIMINAL CASE (SEPARATED PAGE START & PAGE GAME) -->
       <section id="page-criminal" class="page-view">
-        <div class="sub-hud-bar">
-          <div class="sub-hud-left">
-            <span style="font-size: 1.5rem;">🕵️</span>
-            <div class="sub-hud-title">PROTOKOL CRIMINAL CASE: INVESTIGASI FORENSIK</div>
-          </div>
-          <div class="sub-hud-right">
-            <button class="btn-intel-hint" onclick="window.hintSystem.openHintModal()">
-              <span>💡</span> MINTA INTEL / HINT
-            </button>
-          </div>
-        </div>
         <div id="criminal-module-container"></div>
       </section>
 
-      <!-- PAGE 5: MODUL 4 - DEEP LEARNING -->
+      <!-- PAGE 5: MODUL 4 - ANALYZER (SEPARATED PAGE START & PAGE GAME) -->
       <section id="page-deeplearn" class="page-view">
-        <div class="sub-hud-bar">
-          <div class="sub-hud-left">
-            <span style="font-size: 1.5rem;">🧠</span>
-            <div class="sub-hud-title">PROTOKOL DEEP LEARNING: EVALUASI SEMANTIK AI</div>
-          </div>
-          <div class="sub-hud-right">
-            <button class="btn-intel-hint" onclick="window.hintSystem.openHintModal()">
-              <span>💡</span> MINTA INTEL / HINT
-            </button>
-          </div>
-        </div>
         <div id="deeplearn-module-container"></div>
       </section>
 
       <!-- PAGE 6: MODUL 5 - LLM NEWS / LINK SCANNER -->
       <section id="page-scanner" class="page-view">
+        <!-- Unified Detector Sub-Navigation Tabs -->
+        <div class="detector-tab-bar" style="display:flex; gap:10px; margin-bottom:18px; border-bottom:1px solid var(--border-cyan); padding-bottom:12px;">
+          <a href="#scanner" class="cyber-btn" id="det-tab-scanner" style="padding: 8px 20px; font-size: 0.85rem;"><span>🔗</span> LINK SCANNER</a>
+          <a href="#checker" class="cyber-btn btn-ghost" id="det-tab-checker" style="padding: 8px 20px; font-size: 0.85rem;"><span>🛡️</span> LEGIT CHECKER</a>
+        </div>
+
         <div class="sub-hud-bar">
           <div class="sub-hud-left">
             <span style="font-size: 1.5rem;">🔗</span>
-            <div class="sub-hud-title">LLM NEWS & URL SCANNER TOOL</div>
+            <div class="sub-hud-title">LINK & NEWS SCANNER (KONSENSUS 3 MODEL AI)</div>
           </div>
           <div class="sub-hud-right">
             <button class="btn-intel-hint" onclick="window.hintSystem.openHintModal()">
@@ -459,6 +628,33 @@
           </div>
         </div>
         <div id="scanner-module-container"></div>
+      </section>
+
+      <!-- PAGE 7: MODUL 6 - LEGIT CHECKER -->
+      <section id="page-checker" class="page-view">
+        <!-- Unified Detector Sub-Navigation Tabs -->
+        <div class="detector-tab-bar" style="display:flex; gap:10px; margin-bottom:18px; border-bottom:1px solid var(--border-cyan); padding-bottom:12px;">
+          <a href="#scanner" class="cyber-btn btn-ghost" id="det-tab-scanner-alt" style="padding: 8px 20px; font-size: 0.85rem;"><span>🔗</span> LINK SCANNER</a>
+          <a href="#checker" class="cyber-btn" id="det-tab-checker-alt" style="padding: 8px 20px; font-size: 0.85rem;"><span>🛡️</span> LEGIT CHECKER</a>
+        </div>
+
+        <div class="sub-hud-bar">
+          <div class="sub-hud-left">
+            <span style="font-size: 1.5rem;">🛡️</span>
+            <div class="sub-hud-title">LEGIT CHECKER (KONSENSUS 3 MODEL AI)</div>
+          </div>
+          <div class="sub-hud-right">
+            <button class="btn-intel-hint" onclick="window.hintSystem.openHintModal()">
+              <span>💡</span> MINTA INTEL / HINT
+            </button>
+          </div>
+        </div>
+        <div id="checker-module-container"></div>
+      </section>
+
+      <!-- PAGE: EDUKASI (W3SCHOOLS STYLE SIDEBAR HUB) -->
+      <section id="page-edukasi" class="page-view">
+        <div id="edukasi-container"></div>
       </section>
 
       <!-- PAGE 7: LEADERBOARD -->
@@ -473,143 +669,148 @@
 
     </main>
 
-    <!-- FOOTER HUD STATUS -->
+    <!-- CLEAN MINIMALIST FOOTER -->
     <footer class="hud-footer">
-      <div class="hud-footer-inner">
-        <div style="display:flex; align-items:center; gap: 12px;">
-          <span style="color: var(--neon-cyan); font-weight: 700;">KNOW YOUR SCAM</span>
-          <span>//</span>
-          <span>ZERO-TRUST ARCHITECTURE</span>
+      <div class="hud-footer-inner" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+        <div style="display:flex; align-items:center; gap: 8px; font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">
+          <span style="color: var(--neon-cyan); font-weight: 700; letter-spacing: 0.5px;">KNOW YOUR SCAM</span>
+          <span>&bull;</span>
+          <span>Zero-Trust Cyber Defense Platform</span>
         </div>
 
-        <div style="display:flex; align-items:center; gap: 16px;">
-          <!-- AI Transparency Pill -->
-          <div class="ai-transparency-pill" onclick="window.app.openTransparencyModal()">
-            <span class="pulsing-dot"></span>
-            <span>AI TRANSPARENCY: VERIFIED // ZERO-PII</span>
-          </div>
-
-          <div style="color: var(--text-muted); font-size: 0.72rem;">
-            DATA FIKTIF MURNI &bull; TANPA DOKSLI &bull; LISENSI EDUKASI
-          </div>
+        <div class="ai-transparency-pill" onclick="window.app.openTransparencyModal()" style="cursor:pointer;" title="Klik untuk informasi transparansi AI">
+          <span class="pulsing-dot"></span>
+          <span style="font-size:0.75rem;">AI TRANSPARENCY: VERIFIED</span>
         </div>
       </div>
     </footer>
 
   </div>
 
-  <!-- ========================================================
-       MODALS & OVERLAYS
-       ======================================================== -->
-
-  <!-- 0. Cyber Authentication & Test Accounts Modal -->
+  <!-- MODALS -->
+  <!-- MODAL: CYBER LOGIN & TEST ACCOUNTS -->
   <div id="modal-auth-box" class="cyber-modal-backdrop">
     <div class="cyber-modal-box" style="max-width: 650px; border-color: var(--neon-cyan); box-shadow: 0 0 50px var(--neon-cyan-dim);">
-      <!-- Header -->
+      <!-- Modal Header -->
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 18px; border-bottom: 1px solid rgba(0,243,255,0.2); padding-bottom: 12px;">
         <div style="display:flex; align-items:center; gap: 12px;">
           <div style="font-size: 2rem;">🛡️</div>
           <div>
             <span class="cyber-tag tag-cyan">GATEWAY OTENTIKASI SIBER</span>
-            <h3 style="font-size: 1.35rem; color: var(--text-highlight); margin-top: 4px;">MASUK KE KNOW YOUR SCAM</h3>
+            <h3 style="font-size: 1.35rem; color: var(--text-highlight); margin-top: 4px;">KNOW YOUR SCAM DEFENSE</h3>
           </div>
         </div>
         <button class="modal-close-btn" onclick="window.authManager.closeLoginModal()" style="background:none; border:none; color:var(--text-muted); font-size:1.6rem; cursor:pointer; line-height:1;">&times;</button>
       </div>
 
-      <!-- Quick Test Accounts Cheat Sheet (Cards with Profiles & Sandi) -->
-      <div style="margin-bottom: 20px;">
-        <div style="font-family: var(--font-display); font-size: 0.82rem; color: var(--neon-cyan); letter-spacing: 1px; margin-bottom: 10px; display:flex; align-items:center; gap:6px;">
-          <span>⚡</span> PILIH AKUN UJI COBA (KLIK UNTUK ISI PROFIL & SANDI OTOMATIS):
-        </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-          <!-- User Test Card -->
-          <div class="auth-test-card" onclick="window.authManager.quickFillAndLogin('cadet', 'cadet123')" style="background: rgba(14,18,36,0.85); border: 1px solid var(--border-cyan); border-radius: 8px; padding: 12px; cursor: pointer;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px;">
-              <div style="font-weight:700; color:var(--neon-cyan); font-size:0.92rem;">👤 Cadet Aris</div>
-              <span class="cyber-tag" style="font-size:0.65rem;">ROLE: USER</span>
-            </div>
-            <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-main); display:flex; flex-direction:column; gap:3px;">
-              <div>Username: <strong style="color:var(--text-highlight);">cadet</strong></div>
-              <div>Sandi: <strong style="color:var(--neon-green);">cadet123</strong></div>
-              <div style="color: var(--text-muted); font-size: 0.7rem;">Pangkat: Security Cadet (680 XP)</div>
-            </div>
-            <div style="margin-top: 10px; font-size: 0.72rem; color: var(--neon-cyan); font-family: var(--font-display); font-weight: 700; display:flex; align-items:center; gap:4px;">
-              <span>⚡</span> KLIK UNTUK MASUK SEBAGAI CADET ➔
-            </div>
-          </div>
-
-          <!-- Admin Test Card -->
-          <div class="auth-test-card" onclick="window.authManager.quickFillAndLogin('admin', 'admin123')" style="background: rgba(25,12,36,0.85); border: 1px solid rgba(189,0,255,0.4); border-radius: 8px; padding: 12px; cursor: pointer;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px;">
-              <div style="font-weight:700; color:var(--neon-magenta); font-size:0.92rem;">🛡️ Commander Vektor</div>
-              <span class="cyber-tag tag-magenta" style="font-size:0.65rem;">ROLE: ADMIN</span>
-            </div>
-            <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-main); display:flex; flex-direction:column; gap:3px;">
-              <div>Username: <strong style="color:var(--text-highlight);">admin</strong></div>
-              <div>Sandi: <strong style="color:var(--neon-magenta);">admin123</strong></div>
-              <div style="color: var(--text-muted); font-size: 0.7rem;">Pangkat: Sentinel (1250 XP)</div>
-            </div>
-            <div style="margin-top: 10px; font-size: 0.72rem; color: var(--neon-magenta); font-family: var(--font-display); font-weight: 700; display:flex; align-items:center; gap:4px;">
-              <span>🛡️</span> KLIK UNTUK MASUK SEBAGAI ADMIN ➔
-            </div>
-          </div>
-        </div>
+      <!-- Professional Cyber Tabs: MASUK (LOGIN) vs DAFTAR AKUN (REGISTER) -->
+      <div style="display:flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
+        <button type="button" id="tab-btn-login" class="cyber-btn active" style="flex:1; padding: 10px; font-size: 0.9rem;" onclick="window.authManager.switchTab('login')">
+          <span>🔑</span> MASUK (LOGIN)
+        </button>
+        <button type="button" id="tab-btn-register" class="cyber-btn btn-ghost" style="flex:1; padding: 10px; font-size: 0.9rem;" onclick="window.authManager.switchTab('register')">
+          <span>⚡</span> DAFTAR AKUN BARU
+        </button>
       </div>
 
-      <!-- Divider -->
-      <div style="text-align:center; position:relative; margin: 18px 0;">
-        <span style="background: var(--bg-surface); padding: 0 12px; font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); position:relative; z-index:1;">
-          ATAU MASUKKAN USERNAME & SANDI MANUAL
-        </span>
-        <div style="position:absolute; top:50%; left:0; right:0; height:1px; background:rgba(255,255,255,0.1); z-index:0;"></div>
-      </div>
+      <!-- Feedback Alerts -->
+      <div id="auth-form-success" style="display:none; background:rgba(0,255,136,0.15); border:1px solid var(--neon-green); border-radius:4px; padding:10px 14px; margin-bottom:14px; font-size:0.85rem; color:var(--neon-green);"></div>
+      <div id="auth-form-error" style="display:none; background:rgba(255,0,85,0.15); border:1px solid var(--neon-red); border-radius:4px; padding:10px 14px; margin-bottom:14px; font-size:0.85rem; color:var(--neon-red);"></div>
 
-      <!-- Manual Input Form -->
+      <!-- FORM 1: MASUK (LOGIN) -->
       <form id="auth-manual-form" onsubmit="window.authManager.handleFormSubmit(event)">
-        <!-- Error Alert Container -->
-        <div id="auth-form-error" style="display:none; background:rgba(255,0,85,0.15); border:1px solid var(--neon-red); border-radius:4px; padding:10px 14px; margin-bottom:14px; font-size:0.82rem; color:var(--neon-red);"></div>
-
         <div style="margin-bottom: 14px;">
           <label style="display:block; font-family:var(--font-display); font-size:0.8rem; color:var(--text-muted); margin-bottom:6px;">USERNAME SIBER</label>
-          <input type="text" id="auth-input-username" class="cyber-input" placeholder="contoh: cadet atau admin" style="width:100%; padding:10px 14px; font-family:var(--font-mono); font-size:0.9rem;" required autocomplete="username">
+          <input type="text" id="auth-input-username" class="cyber-input" placeholder="Masukkan username Anda" style="width:100%; padding:10px 14px; font-family:var(--font-mono); font-size:0.9rem;" required autocomplete="username">
         </div>
 
         <div style="margin-bottom: 20px;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
             <label style="font-family:var(--font-display); font-size:0.8rem; color:var(--text-muted);">SANDI / PASSWORD</label>
-            <span style="font-size:0.72rem; color:var(--neon-cyan); cursor:pointer;" onclick="window.authManager.togglePasswordVisibility()">👁️ Tampilkan Sandi</span>
+            <span style="font-size:0.72rem; color:var(--neon-cyan); cursor:pointer;" onclick="window.authManager.togglePasswordVisibility('auth-input-password')">👁️ Tampilkan Sandi</span>
           </div>
-          <input type="password" id="auth-input-password" class="cyber-input" placeholder="contoh: cadet123 atau admin123" style="width:100%; padding:10px 14px; font-family:var(--font-mono); font-size:0.9rem;" required autocomplete="current-password">
+          <input type="password" id="auth-input-password" class="cyber-input" placeholder="Masukkan sandi Anda" style="width:100%; padding:10px 14px; font-family:var(--font-mono); font-size:0.9rem;" required autocomplete="new-password">
         </div>
 
-        <div style="display:flex; justify-content:flex-end; gap:12px;">
-          <button type="button" class="cyber-btn btn-ghost" onclick="window.authManager.closeLoginModal()">
-            BATAL
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <button type="button" class="cyber-btn btn-ghost" onclick="window.authManager.switchTab('register')" style="font-size:0.8rem; padding:8px 14px;">
+            Belum punya akun? Daftar
           </button>
-          <button type="submit" id="btn-submit-login" class="cyber-btn" style="padding:10px 24px; font-size:0.95rem;">
-            <span>⚡</span> OTENTIKASI & MASUK MISI
+          <div style="display:flex; gap:10px;">
+            <button type="button" class="cyber-btn btn-ghost" onclick="window.authManager.closeLoginModal()">
+              BATAL
+            </button>
+            <button type="submit" id="btn-submit-login" class="cyber-btn" style="padding:10px 24px; font-size:0.95rem;">
+              <span>⚡</span> OTENTIKASI & MASUK MISI
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <!-- FORM 2: DAFTAR AKUN BARU (REGISTER) -->
+      <form id="auth-register-form" style="display:none;" onsubmit="window.authManager.handleRegisterSubmit(event)">
+        <div style="margin-bottom: 14px;">
+          <label style="display:block; font-family:var(--font-display); font-size:0.8rem; color:var(--text-muted); margin-bottom:6px;">NAMA LENGKAP PROFIL</label>
+          <input type="text" id="reg-input-name" class="cyber-input" placeholder="Contoh: Aris Setiawan" style="width:100%; padding:10px 14px; font-family:var(--font-mono); font-size:0.9rem;" required>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+          <div>
+            <label style="display:block; font-family:var(--font-display); font-size:0.8rem; color:var(--text-muted); margin-bottom:6px;">USERNAME SIBER</label>
+            <input type="text" id="reg-input-username" class="cyber-input" placeholder="contoh: aris_cyber" style="width:100%; padding:10px 14px; font-family:var(--font-mono); font-size:0.9rem;" required autocomplete="username">
+          </div>
+          <div>
+            <label style="display:block; font-family:var(--font-display); font-size:0.8rem; color:var(--text-muted); margin-bottom:6px;">EMAIL (OPSIONAL)</label>
+            <input type="email" id="reg-input-email" class="cyber-input" placeholder="contoh: aris@email.com" style="width:100%; padding:10px 14px; font-family:var(--font-mono); font-size:0.9rem;">
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <label style="font-family:var(--font-display); font-size:0.8rem; color:var(--text-muted);">SANDI BARU</label>
+              <span style="font-size:0.7rem; color:var(--neon-cyan); cursor:pointer;" onclick="window.authManager.togglePasswordVisibility('reg-input-password')">👁️</span>
+            </div>
+            <input type="password" id="reg-input-password" class="cyber-input" placeholder="Minimal 6 karakter" style="width:100%; padding:10px 14px; font-family:var(--font-mono); font-size:0.9rem;" required autocomplete="new-password">
+          </div>
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <label style="font-family:var(--font-display); font-size:0.8rem; color:var(--text-muted);">KONFIRMASI SANDI</label>
+              <span style="font-size:0.7rem; color:var(--neon-cyan); cursor:pointer;" onclick="window.authManager.togglePasswordVisibility('reg-input-password-confirm')">👁️</span>
+            </div>
+            <input type="password" id="reg-input-password-confirm" class="cyber-input" placeholder="Ulangi sandi" style="width:100%; padding:10px 14px; font-family:var(--font-mono); font-size:0.9rem;" required autocomplete="new-password">
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <button type="button" class="cyber-btn btn-ghost" onclick="window.authManager.switchTab('login')" style="font-size:0.8rem; padding:8px 14px;">
+            Sudah punya akun? Masuk
           </button>
+          <div style="display:flex; gap:10px;">
+            <button type="button" class="cyber-btn btn-ghost" onclick="window.authManager.closeLoginModal()">
+              BATAL
+            </button>
+            <button type="submit" id="btn-submit-register" class="cyber-btn btn-green" style="padding:10px 24px; font-size:0.95rem;">
+              <span>⚡</span> DAFTAR & AKTIFKAN AKUN
+            </button>
+          </div>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- 1. General Feedback / Choice Modal -->
   <div id="modal-general-box" class="cyber-modal-backdrop">
     <div class="cyber-modal-box">
       <div id="modal-general-content"></div>
     </div>
   </div>
 
-  <!-- 2. Vulnerability Score Indicator Modal (1-10 Neon Bar) -->
   <div id="modal-vuln-box" class="cyber-modal-backdrop">
     <div class="cyber-modal-box" style="border-color: var(--neon-magenta); box-shadow: 0 0 50px rgba(189,0,255,0.3);">
       <div id="modal-vuln-content"></div>
     </div>
   </div>
 
-  <!-- 3. Hint / Intel Modal -->
   <div id="modal-hint-box" class="cyber-modal-backdrop">
     <div class="cyber-modal-box" style="border-color: var(--neon-amber); box-shadow: 0 0 40px rgba(255,184,0,0.3);">
       <div id="modal-hint-content"></div>
@@ -621,7 +822,6 @@
     </div>
   </div>
 
-  <!-- 4. AI Transparency & Privacy Modal -->
   <div id="modal-transparency-box" class="cyber-modal-backdrop">
     <div class="cyber-modal-box" style="max-width: 600px;">
       <div style="text-align: center; margin-bottom: 16px;">
@@ -652,27 +852,49 @@
     </div>
   </div>
 
-  <!-- Toast Notification Container -->
   <div id="cyber-toast-container"></div>
 
+  <!-- Injected Initial Database State from Laravel -->
+  <script>
+    window.__LARAVEL_INITIAL_DATA__ = {
+      system_info: {
+        project: "KNOW YOUR SCAM: ANTI-GRAVITY DEFENSE",
+        event: "GLOBAL CYBER SENTINEL DEFENSE",
+        framework: "Laravel 10",
+        database: "pgsql"
+      },
+      cases_kasus: [{"id":"KASUS-01","type":"phishing","title":"Protokol Phishing: Hadiah Mewah & Dana Hibah Bank NeoArtha","subtitle":"Manipulasi kepanikan batas waktu dan hadiah fiktif 50.000 NeoCredits","difficulty":"Sedang","pov_options":[{"id":"victim","label":"Sudut Pandang Korban (Mahasiswa)","avatar":"\ud83d\udc64"},{"id":"hunter","label":"Sudut Pandang Investigator Siber","avatar":"\ud83d\udd75\ufe0f"}],"story_steps":[{"step":1,"sender":"NeoArtha Alert System <notif@bank-neoartha.net.fake>","message":"[URGENT] Selamat! Akun Anda terpilih menerima Grand Grant AstraNova 2026 sebesar 50.000 NeoCredits. Dana akan hangus dalam 15 menit jika otentikasi kunci enkripsi tidak segera dikonfirmasi melalui tautan resmi: https:\/\/auth-neoartha-grant.net.fake\/claim","context":"Anda sedang menyelesaikan tugas kuliah larut malam saat notifikasi neon berkedip di konsol Anda.","clues":["Domain sender bukan domain resmi (.net.fake bukan .bank.mock)","Psikologi batas waktu sempit (15 menit) untuk memicu kepanikan","Permintaan kunci enkripsi pribadi"],"choices":[{"id":"A","text":"Segera klik tautan dan masukkan kunci autentikasi agar dana 50.000 NeoCredits tidak hangus.","score":0,"vulnerability_delta":3.5,"feedback":"BAHAYA KRITIS! Anda terjebak perangkap Phishing. Pelaku mengantongi kunci enkripsi akun Anda dan menguras saldo cadangan dalam hitungan detik.","status":"COMPROMISED"},{"id":"B","text":"Salin tautan ke LLM Link Scanner untuk memeriksa struktur domain dan header otentikasi.","score":50,"vulnerability_delta":0.5,"feedback":"LANGKAH BAGUS. Scanner mendeteksi URL spoofing dengan sertifikat anonim dan formulir pembajak sesi.","status":"CAUTION"},{"id":"C","text":"Abaikan tautan, buka portal resmi Bank NeoArtha di tab baru, lalu laporkan pesan ke Cyber Security Center.","score":100,"vulnerability_delta":-1,"feedback":"SEMPURNA! Anda menerapkan Zero Trust. Saldo terlindungi dan server phishing fiktif berhasil dibekukan oleh tim keamanan.","status":"SECURED"}],"choices_by_pov":{"victim":[{"id":"A","text":"Segera klik tautan dan masukkan kunci enkripsi pribadi karena tergiur dana hibah 50.000 NeoCredits.","score":0,"vulnerability_delta":3.5,"feedback":"BAHAYA KRITIS! Kredensial akun mahasiswa Anda dicuri seketika. Saldo terkuras dan akun Anda dijadikan proxy botnet.","status":"COMPROMISED"},{"id":"B","text":"Abaikan tautan yang mencurigakan, jangan berikan kredensial, dan buka aplikasi perbankan resmi untuk verifikasi.","score":100,"vulnerability_delta":-1,"feedback":"SEMPURNA! Anda berhasil menghindari manipulasi emosional batas waktu sempit dan melindungi rekening Anda.","status":"SECURED"}],"hunter":[{"id":"A","text":"Lakukan reverse DNS & WHOIS lookup pada domain 'auth-neoartha-grant.net.fake', lalu injeksikan blokir darurat pada firewall gateway.","score":100,"vulnerability_delta":-1.5,"feedback":"INVESTIGASI FORENSIK PRESISI! Domain phishing terbukti baru diregistrasi dari server anonim dan langsung dinetralisir pada DNS pusat.","status":"SECURED"},{"id":"B","text":"Hanya tandai pesan sebagai spam biasa di inbox tanpa menyelidiki IP server asal atau memblokir domain di DNS jaringan.","score":25,"vulnerability_delta":1.5,"feedback":"KELALAIAN INVESTIGASI! Mengabaikan transmisi tanpa pemblokiran infrastruktur membuat ratusan mahasiswa lain tetap rentan terkena jebakan.","status":"CAUTION"}]}},{"step":2,"sender":"Panggilan Anonim Suara AI: +99-0182-NEO","message":"\"Halo, kami dari Divisi Verifikasi Siber NeoArtha. Sistem mendeteksi anomali pada klaim dana Anda. Tolong sebutkan 6 digit kode OTP yang baru kami kirimkan ke terminal komunikasi Anda untuk membatalkan klaim ilegal.\"","context":"Sesaat setelah keputusan pertama, terminal Anda menerima transmisi suara mendesak bernada teknis.","clues":["Pihak institusi resmi tidak pernah meminta kode OTP melalui panggilan","Modus vishing (voice phishing) berlapis setelah target ragu"],"choices":[{"id":"A","text":"Bacakan kode OTP karena penelepon mengaku dari Divisi Verifikasi resmi.","score":0,"vulnerability_delta":4,"feedback":"PELANGGARAN TOTAL! Kode OTP adalah benteng terakhir otentikasi 2FA. Penyerang langsung mengalihkan akses akun ke server relay luar angkasa.","status":"COMPROMISED"},{"id":"B","text":"Putus panggilan seketika, tandai nomor sebagai ancaman Vishing, dan kunci akses sementara di panel keamanan.","score":100,"vulnerability_delta":-1.5,"feedback":"PERTENANGAN LUAR BIASA! Upaya pengambilalihan akun berhasil digagalkan seutuhnya.","status":"SECURED"}],"choices_by_pov":{"victim":[{"id":"A","text":"Bacakan 6 digit kode OTP karena takut akun diblokir oleh penelpon yang mengaku staf verifikasi resmi.","score":0,"vulnerability_delta":4,"feedback":"FATAL! Pihak bank TIDAK PERNAH meminta kode OTP. Pembobol langsung menguras seluruh tabungan kuliah Anda.","status":"COMPROMISED"},{"id":"B","text":"Langsung tutup panggilan, jangan beri kode OTP apapun, dan aktifkan kunci keamanan sementara di aplikasi perbankan.","score":100,"vulnerability_delta":-1.5,"feedback":"LINDUNGI DIRI DENGAN HEBAT! Anda berhasil mengenali modus Social Engineering Vishing (Voice Phishing).","status":"SECURED"}],"hunter":[{"id":"A","text":"Tangkap sampel audio digital untuk voice biometric matching, lacak nomor virtual via SS7 \/ VoIP relay trace, dan eskalasi pencekalan nomor.","score":100,"vulnerability_delta":-1.8,"feedback":"LANGKAH OPERASIONAL MASTER! Rekaman suara teridentifikasi sebagai model AI voice cloner dan trunk VoIP penyedia botnet berhasil ditutup.","status":"SECURED"},{"id":"B","text":"Matikan panggilan secara pasif tanpa merekam metadata panggilan, log transmisi suara, atau rute trunk VoIP penyerang.","score":35,"vulnerability_delta":1,"feedback":"PELUANG INVESTIGASI HILANG. Penyerang langsung mengganti Virtual Caller ID untuk menyerang target lainnya tanpa meninggalkan jejak.","status":"CAUTION"}]}}]},{"id":"KASUS-02","type":"lovescam","title":"Protokol Love Scam: Elena Voss & Stasiun Orbital Helios","subtitle":"Manipulasi afeksi emosional, cerita dramatis luar angkasa, dan permintaan token darurat","difficulty":"Tinggi","pov_options":[{"id":"victim","label":"Sudut Pandang Target (Korban)","avatar":"\ud83d\udc96"},{"id":"hunter","label":"Sudut Pandang Profiler Ancaman","avatar":"\ud83d\udd0d"}],"story_steps":[{"step":1,"sender":"Elena Voss (Holonet AeroLover Nexus)","message":"\"Halo... aku melihat artikel riset energimu di Holonet. Jarang sekali ada insinyur secemerlang dirimu. Aku saat ini sedang bertugas solo di Stasiun Penelitian Orbital Helios-4. Di sini sangat sepi... bolehkah kita bertukar sinyal privat?\"","context":"Percakapan berlanjut intens selama 3 minggu. Elena tampak sangat perhatian, mengirim foto stasiun fiktif, namun selalu menolak panggilan video dengan alasan gangguan radiasi gravitasi.","clues":["Grooming cepat dan pujian berlebihan untuk membangun keterikatan emosional","Selalu menolak verifikasi video langsung dengan alasan teknis fiktif","Membangun latar belakang profesi bergengsi namun terisolasi"],"choices":[{"id":"A","text":"Lanjutkan obrolan intim dan kirimkan data kredensial stasiun kerja pribadi Anda agar Elena merasa lebih dekat.","score":0,"vulnerability_delta":3,"feedback":"FATAL. Anda memberikan informasi sensitif kepada entitas tanpa identitas terverifikasi.","status":"COMPROMISED"},{"id":"B","text":"Lakukan penelusuran citra terbalik (reverse holographic image lookup) pada foto profil dan data stasiun Helios-4.","score":100,"vulnerability_delta":-1.2,"feedback":"CERMAT! Citra Elena ternyata hasil sintesis model AI generasi lama, dan stasiun Helios-4 sudah dinonaktifkan sejak 2021.","status":"SECURED"}],"choices_by_pov":{"victim":[{"id":"A","text":"Terbujuk oleh perhatian romantis Elena dan mulai menceritakan data pribadi serta rutinitas pekerjaan secara mendalam.","score":0,"vulnerability_delta":3,"feedback":"TERPERANGKAP LOVE SCAM! Anda memberikan bahan eksploitasi psikologis kepada operator romance scammer.","status":"COMPROMISED"},{"id":"B","text":"Tetap skeptis, tolak berbagi data privat, dan lakukan pencarian gambar terbalik (reverse image search) terhadap foto yang dikirim.","score":100,"vulnerability_delta":-1.2,"feedback":"SANGAT CERDAS! Foto terbukti hasil curian dari akun model luar negeri dan stasiun luar angkasa yang disebut sudah lama nonaktif.","status":"SECURED"}],"hunter":[{"id":"A","text":"Ekstrak metadata EXIF gambar, telusuri footprint AI synthetic generator, dan sinkronkan pola narasi dengan taksonomi sindikat Romance Fraud.","score":100,"vulnerability_delta":-1.5,"feedback":"IDENTIFIKASI ANCAMAN AKURAT! Pola script chat terdeteksi identik 98% dengan playbook sindikat penipuan asmara transnasional.","status":"SECURED"},{"id":"B","text":"Biarkan akun target berkomunikasi tanpa pengawasan intelijen atau profiling risiko pencucian uang sindikat.","score":20,"vulnerability_delta":1.8,"feedback":"KEGAGALAN MITIGASI RISIKO! Penyerang leluasa mempersiapkan fase panen dana darurat terhadap korban.","status":"CAUTION"}]}},{"step":2,"sender":"Elena Voss <Transmisi Darurat Saluran Enkripsi>","message":"\"Sayang, reaktor pendingin modulku meledak! Otoritas stasiun menahan jalur evakuasiku kecuali aku membayar deposit darurat 2.500 Quantum Credits sekarang juga. Tolong kirim ke dompet anonim: 0x98A...F4. Begitu mendarat, aku akan langsung menemuimu dan mengganti 10x lipat!\"","context":"Pesan diiringi rekaman suara gemuruh alarm darurat palsu yang terdengar sangat meyakinkan.","clues":["Situasi hidup-mati palsu untuk mematikan rasionalitas","Permintaan dana ke dompet kripto anonim yang tidak bisa dilacak","Janji pengembalian 10x lipat yang tidak realistis"],"choices":[{"id":"A","text":"Kirim 2.500 Quantum Credits karena takut nyawa Elena terancam di stasiun antariksa.","score":0,"vulnerability_delta":4.5,"feedback":"KERUGIAN TELAK! Sindikat Love Scam langsung mencuci dana ke berbagai mixer kripto fiktif. Profil Elena menghilang seketika.","status":"COMPROMISED"},{"id":"B","text":"Tolak transfer, simpan log percakapan sebagai bukti forensik, dan laporkan akun ke Cyber Crime Syndicate Taskforce.","score":100,"vulnerability_delta":-2,"feedback":"ANALISIS TAJAM! Anda berhasil membongkar sindikat penipuan asmara lintas jaringan tanpa kehilangan sepeserpun.","status":"SECURED"}],"choices_by_pov":{"victim":[{"id":"A","text":"Kirim 2.500 Quantum Credits ke dompet kripto anonim karena panik mengira nyawa Elena benar-benar terancam.","score":0,"vulnerability_delta":4.5,"feedback":"KERUGIAN TELAK! Begitu dana terkirim, akun Elena langsung dihapus dan dana dicuci melalui mixer anonim.","status":"COMPROMISED"},{"id":"B","text":"Tolak keras permintaan transfer uang kripto, putus kontak, dan laporkan profil penipu ke pihak berwenang.","score":100,"vulnerability_delta":-2,"feedback":"BENTENG PERTAHANAN KOKOH! Anda berhasil menolak manipulasi drama krisis palsu dan menyelamatkan tabungan Anda.","status":"SECURED"}],"hunter":[{"id":"A","text":"Lacak alur on-chain dompet kripto '0x98A...F4', petakan cluster wallet mixer, dan kirimkan flag blacklist darurat ke seluruh bursa sentral.","score":100,"vulnerability_delta":-2,"feedback":"OPERASI FORENSIK ON-CHAIN BRILIAN! Wallet penampung terhubung ke kasino ilegal dan dibekukan oleh regulator sebelum dana ditarik tunai.","status":"SECURED"},{"id":"B","text":"Kirim peringatan teks ke profil penipu tanpa melacak alamat dompet kripto atau membekukan jalur pencucian uang.","score":30,"vulnerability_delta":1.2,"feedback":"TAKTIK PREMATUR. Pelaku segera melarikan aset cadangan ke bridge blockchain lain sebelum audit on-chain tuntas.","status":"CAUTION"}]}}]},{"id":"KASUS-03","type":"jobscam","title":"Protokol Job Scam: Tawaran Remote QuantumTech Systems","subtitle":"Gaji $25.000\/bulan tanpa wawancara teknis, kewajiban deposit alat kerja","difficulty":"Sedang","pov_options":[{"id":"victim","label":"Sudut Pandang Pencari Kerja","avatar":"\ud83d\udcbc"},{"id":"hunter","label":"Sudut Pandang Auditor Tenaga Kerja","avatar":"\ud83d\udcd1"}],"story_steps":[{"step":1,"sender":"HR Talent Nexus <recruitment@quantumtech-jobs-portal.mock>","message":"\"Surat Penerimaan Kerja Langsung: Selamat! Berdasarkan portofolio siber Anda, dewan direksi menerima Anda sebagai Senior Quantum Security Lead dengan kompensasi $25.000\/bulan (Remote WFH). Tidak diperlukan tes tambahan. Silakan tanda tangani kontrak digital berikut.\"","context":"Anda bahkan belum pernah mengirimkan lamaran ke entitas bernama QuantumTech Systems.","clues":["Gaji sangat tinggi tanpa melalui proses interview atau uji teknis","Menerima tawaran dari perusahaan yang belum pernah dilamar","Domain perekrutan mencurigakan (.mock alih-alih perusahaan induk)"],"choices":[{"id":"A","text":"Langsung tanda tangani kontrak dan bagikan nomor rekening bank utama beserta foto KTP digital.","score":0,"vulnerability_delta":3,"feedback":"TERKENA JEBAKAN! Identitas pribadi Anda disalahgunakan untuk pinjaman ilegal lintas galaksi.","status":"COMPROMISED"},{"id":"B","text":"Verifikasi legalitas QuantumTech Systems di pangkalan data resmi korporasi dan hubungi HR resmi.","score":100,"vulnerability_delta":-1,"feedback":"TEPAT! Perusahaan resmi menyatakan mereka tidak pernah menggunakan domain portal pihak ketiga tersebut.","status":"SECURED"}],"choices_by_pov":{"victim":[{"id":"A","text":"Langsung tanda tangani kontrak dan serahkan foto KTP & nomor rekening karena tergiur gaji $25.000 per bulan.","score":0,"vulnerability_delta":3,"feedback":"IDENTITAS TERCURI! Data KTP Anda disalahgunakan untuk pinjol ilegal dan rekening Anda dijadikan rekening tampungan scam.","status":"COMPROMISED"},{"id":"B","text":"Waspadai tawaran tanpa interview, hubungi kanal resmi korporasi QuantumTech untuk mengonfirmasi keaslian lowongan.","score":100,"vulnerability_delta":-1,"feedback":"KEPUTUSAN BIJAK! HR resmi QuantumTech mengonfirmasi bahwa tawaran tersebut adalah modus penipuan identitas palsu.","status":"SECURED"}],"hunter":[{"id":"A","text":"Audit header mail exchanger, cek otentikasi SPF\/DKIM portal perekrutan, dan periksa izin legalitas PT di pangkalan data regulator ketenagakerjaan.","score":100,"vulnerability_delta":-1.5,"feedback":"VERIFIKASI AUDITOR VALID! Domain email gagal otentikasi DMARC dan entitas perekrut tidak tercatat di dinas ketenagakerjaan resmi.","status":"SECURED"},{"id":"B","text":"Asumsikan lowongan adalah genuine headhunter tanpa memeriksa validitas badan hukum atau riwayat perizinan operasional.","score":20,"vulnerability_delta":2,"feedback":"AUDIT TIDAK KOMPREHENSIF! Sindikat memanfaatkan celah kelalaian auditor untuk menjerat ribuan pelamar lain.","status":"CAUTION"}]}},{"step":2,"sender":"Onboarding Logistic Team","message":"\"Untuk memulai pekerjaan hari Senin, Anda diwajibkan membeli 'Quantum Hardware Dongle v4' seharga $1.200 dari vendor resmi kami di vendor-dongle-secure.mock. Biaya ini akan di-reimburse 100% bersamaan dengan gaji pertama Anda.\"","context":"Permintaan pembayaran di awal dengan alasan pengadaan perangkat kerja standar industri.","clues":["Perusahaan kredibel menyediakan perangkat kerja tanpa meminta uang muka dari karyawan","Tautan vendor fiktif yang terafiliasi langsung dengan penipu"],"choices":[{"id":"A","text":"Bayar deposit $1.200 karena yakin akan diganti pada gaji pertama $25.000.","score":0,"vulnerability_delta":4,"feedback":"MODUS DEPOSIT PALSU! Pelaku kabur setelah menerima uang muka, barang tidak pernah dikirim, dan kontrak kerja palsu.","status":"COMPROMISED"},{"id":"B","text":"Tolak keras skema pembayaran uang muka dan laporkan domain vendor ke anti-fraud registrar.","score":100,"vulnerability_delta":-1.5,"feedback":"LUAR BIASA! Anda mengenali ciri klasik Advance-Fee Scam dalam perekrutan tenaga kerja.","status":"SECURED"}],"choices_by_pov":{"victim":[{"id":"A","text":"Transfer uang muka $1.200 ke vendor karena yakin uang akan diganti pada penerimaan gaji pertama.","score":0,"vulnerability_delta":4,"feedback":"PENIPUAN UANG MUKA (ADVANCE FEE SCAM)! Begitu uang ditransfer, vendor palsu dan HR gadungan langsung memblokir Anda.","status":"COMPROMISED"},{"id":"B","text":"Tolak tegas kewajiban membeli alat ke vendor pihak ketiga dan laporkan nomor rekening pelaku ke satgas anti-fraud.","score":100,"vulnerability_delta":-1.5,"feedback":"PERLINDUNGAN DIRI SEMPURNA! Perusahaan resmi tidak pernah membebankan biaya peralatan kerja kepada calon karyawan.","status":"SECURED"}],"hunter":[{"id":"A","text":"Infiltrasi jaringan pembayaran merchant 'vendor-dongle-secure.mock', bekukan rekening escrow fiktif, dan keluarkan notifikasi abuse ke registrar domain.","score":100,"vulnerability_delta":-2,"feedback":"OPERASI INTERVENSI TUNTAS! Situs web vendor diturunkan (take-down) dan rekening bank penampung uang deposit dibekukan secara nasional.","status":"SECURED"},{"id":"B","text":"Kirim komplain biasa melalui formulir kontak web vendor tanpa mengajukan takedown darurat ke pihak registrar atau bank.","score":30,"vulnerability_delta":1.5,"feedback":"TINDAKAN KURANG TEGAS. Pelaku segera mengalihkan dana dan menduplikasi situs ke nama domain baru.","status":"CAUTION"}]}}]}],
+      cases_diff: [{"id":"DIFF-01","title":"Analisis Portal Perbankan Fiktif: NeoArtha Gate","category":"Web Phishing","scenario":"Pemain bertindak sebagai Hakim Siber (Judge) untuk menilai apakah portal yang ditampilkan berdampingan berstatus REAL (Asli) atau FAKE (Tiruan).","left_card":{"label":"Tampilan Skenario A","url":"https:\/\/identity.bank-neoartha.mock\/auth\/v2","ssl":"Valid EV SSL - Bank NeoArtha Security Corp","visual_elements":["Logo beresolusi tinggi vektor dengan anti-aliasing tajam","Menu bantuan interaktif terhubung ke call center 14099-MOCK","Formulir login meminta Username & Password dengan Captcha adaptif","Tidak ada hitungan mundur panik (countdown timer)"],"is_real":true},"right_card":{"label":"Tampilan Skenario B","url":"https:\/\/identity-bankneoartha-secure-login.xyz.fake\/session","ssl":"Sertifikat Gratis Anonim (Let's Scramble)","visual_elements":["Logo buram\/kompresi rendah (low quality copy-paste)","Peringatan merah menyala: 'Akun Terkunci! Konfirmasi 100 Detik!'","Formulir login meminta Nomor Kartu, PIN ATM, CVV, dan Jawaban Ibu Kandung","Terdapat tombol unduh 'NeoArtha-Security-Patch.apk'"],"is_real":false},"correct_target":"right_is_fake","analysis":"Skenario B memiliki indikator phishing fatal: URL tipuan typosquatting (.xyz.fake), kepanikan buatan (countdown), permintaan CVV\/PIN di formulir awal, dan payload malware APK.","hint":"Perhatikan domain URL dan permintaan kredensial yang tidak lazim (PIN & CVV pada formulir login)."},{"id":"DIFF-02","title":"Verifikasi Notifikasi Surel Beasiswa: AstraNova Grant","category":"Email Spoofing","scenario":"Bandingkan pesan email beasiswa untuk memilah dokumen autentik dari serangan social engineering.","left_card":{"label":"Tampilan Skenario A","url":"Header: from <grant-officer@astranova-awards.xyz.fake>","ssl":"SPF: Softfail, DKIM: None, DMARC: Action=None","visual_elements":["Format salam: 'Yth. Mahasiswa Beruntung' (tidak menyebutkan nama calon)","Lampiran: 'Surat-Kelulusan-Beasiswa.docx.exe'","Instruksi: 'Wajib transfer biaya administrasi stempel digital 150 ribu'","Font tidak seragam dengan spasi acak"],"is_real":false},"right_card":{"label":"Tampilan Skenario B","url":"Header: from <scholarship@astranova.ac.mock>","ssl":"SPF: Pass, DKIM: Pass, DMARC: Reject","visual_elements":["Format salam personal: 'Yth. Sdr. Aris (NIM: 2026-AST-991)'","Lampiran dokumen PDF terenkripsi dengan tanda tangan kriptografis","Penegasan: 'Program beasiswa tidak pernah memungut biaya apapun'","Tautan terarah langsung ke sub-domain internal resmi kampus"],"is_real":true},"correct_target":"left_is_fake","analysis":"Skenario A menggunakan teknik double extension (.docx.exe) untuk menyamarkan malware, domain palsu, dan meminta pungutan biaya administrasi yang bertentangan dengan prinsip beasiswa resmi.","hint":"Cek ekstensi file lampiran dan autentikasi SPF\/DKIM pada header email."},{"id":"DIFF-03","title":"Analisis Pengumuman Lowongan Kerja Antariksa","category":"Career Scam","scenario":"Evaluasi tawaran karir engineering luar angkasa antara sindikat bot hunter dan biro resmi.","left_card":{"label":"Tampilan Skenario A","url":"https:\/\/careers.quantumtech.mock\/positions\/sec-engineer","ssl":"Verified Enterprise TLS 1.3","visual_elements":["Daftar kualifikasi teknis spesifik (Reverse Engineering, Kernel Rust)","Rentang gaji transparan sesuai standar industri ($6.000 - $8.500)","Siklus wawancara bertahap (Screening, Technical Interview, Culture Fit)","Penyediaan perangkat kerja resmi diantar ke domisili kandidat"],"is_real":true},"right_card":{"label":"Tampilan Skenario B","url":"https:\/\/quantumtech-global-hiring-now.top.fake\/instant-hire","ssl":"Self-Signed Untrusted Certificate","visual_elements":["Kualifikasi: 'Hanya butuh ponsel & internet, langsung diterima'","Gaji tidak masuk akal: '$500 per hari hanya dengan like & subscribe'","Proses wawancara instan melalui grup Telegram rahasia","Syarat deposit awal 'biaya materai dan jaminan akun agen'"],"is_real":false},"correct_target":"right_is_fake","analysis":"Skenario B adalah tipikal skema Ponzi\/Task Scam yang mengiming-imingi tugas sepele dengan bayaran fantastis dan mewajibkan deposit awal.","hint":"Waspadai tawaran kerja instan tanpa kualifikasi teknis yang menjanjikan gaji harian tidak rasional."}],
+      cases_criminal: [{"id":"CRIM-001","title":"Operasi Phantom Wire: Pembobolan Transaksi Korporat","victim":"PT Orion Logistik Semesta (Fiktif)","potential_loss":"120.000 NeoCredits","description":"Departemen keuangan PT Orion hampir mengirimkan transfer tagihan bahan bakar stasiun kargo ke rekening rekening penipu. Susun bukti-bukti forensik dan tempatkan pada slot investigasi yang tepat sebelum waktu habis!","timer_seconds":90,"clues":[{"id":"clue-1","type":"origin","title":"IP Server Penyerang","description":"Log koneksi berasal dari proxy terbuka: 198.51.100.42 (Server Relay Bayangan)","category":"actor_origin"},{"id":"clue-2","type":"vector","title":"Email Spoofing CEO Fraud","description":"Surel dikirim menggunakan display name 'Direktur Utama Orion' dengan alamat asli ceo-orion@logistik-orion.co.fake","category":"attack_vector"},{"id":"clue-3","type":"redflag","title":"Perubahan Rekening Mendadak","description":"Surat invoice melampirkan rekening baru di Bank Gelap dengan catatan 'Rekening lama sedang diaudit pajak'","category":"critical_redflag"},{"id":"clue-4","type":"action","title":"Verifikasi Multi-Jalur (Out-of-Band)","description":"Lakukan konfirmasi langsung via telepon suara terenkripsi ke nomor internal Direktur Keuangan sebelum eksekusi pembayaran","category":"intervention_strategy"},{"id":"clue-5","type":"distractor","title":"Stempel Basah Digital Berwarna Emas","description":"Grafis stempel mewah bertuliskan 'PRIORITAS UTAMA DOKUMEN RESMI'","category":"distractor"},{"id":"clue-6","type":"distractor","title":"Voucher Diskon Bahan Bakar 5%","description":"Kupon potongan harga pengisian bahan bakar antar galaksi","category":"distractor"}],"required_slots":{"actor_origin":"clue-1","attack_vector":"clue-2","critical_redflag":"clue-3","intervention_strategy":"clue-4"},"debrief":"Sindikat BEC (Business Email Compromise) menggunakan taktik pergantian rekening bank vendor secara mendadak. Verifikasi tatap muka atau telepon langsung adalah benteng utama."},{"id":"CRIM-002","title":"Sindikat Love-Drain: Penipuan Investasi Kripto Galaktik","victim":"Sdr. Danial (Insinyur Sistem)","potential_loss":"45.000 NeoCredits","description":"Korban terpikat oleh profil kencan fiktif dan dipandu untuk memasukkan tabungannya ke platform trading palsu 'GalaxyTrade.mock'. Petakan anatomi kejahatan siber ini!","timer_seconds":80,"clues":[{"id":"clue-7","type":"origin","title":"Sindikat Call Center Scam","description":"Jaringan penipuan terorganisir di kompleks kasino perbatasan nebula terisolasi","category":"actor_origin"},{"id":"clue-8","type":"vector","title":"Taktik 'Pig Butchering' (Sha Zhu Pan)","description":"Membangun kepercayaan romantis intensif lalu memandu korban ke platform investasi buatan","category":"attack_vector"},{"id":"clue-9","type":"redflag","title":"Profit Palsu & Pajak Penarikan","description":"Dashboard menampilkan saldo melonjak 400%, namun saldo tidak bisa ditarik kecuali membayar 'pajak likuiditas 20%'","category":"critical_redflag"},{"id":"clue-10","type":"action","title":"Pembekuan Alamat Dompet & Lapor Gugus Tugas","description":"Blokir komunikasi, laporkan transaksi ke bursa sentral untuk penandaan blacklist alamat on-chain","category":"intervention_strategy"},{"id":"clue-11","type":"distractor","title":"Puisi Romantis Luar Angkasa","description":"Koleksi bait puisi cinta yang dikirim tiap pagi","category":"distractor"}],"required_slots":{"actor_origin":"clue-7","attack_vector":"clue-8","critical_redflag":"clue-9","intervention_strategy":"clue-10"},"debrief":"Skema Pig Butchering menggabungkan manipulasi psikologis dan simulasi keuntungan trading palsu. Kuncinya: platform penipu selalu menuntut biaya baru saat penarikan dana dilakukan."}],
+      cases_deeplearn: [{"id":"DEEP-01","title":"Evaluasi Insiden: Transmisi Peringatan Pembaruan Protokol Keamanan","scenario_text":"Dari: System Administrator <admin-update@nexus-security-patch.net.fake>\nKepada: Seluruh Personel Siber\nSubjek: [MANDATORI] Pembaruan Patch Enkripsi Kunci Sesi v9.42\n\nSistem utama mendeteksi celah kerentanan Zero-Day pada stasiun kerja Anda. Sesuai direktif keamanan nomor 09\/GS\/2026, Anda diwajibkan mengunggah file kunci sertifikat privat (private_key.pem) ke repositori sementara melalui: https:\/\/nexus-security-patch.net.fake\/upload-key dalam waktu 30 menit. Kegagalan melakukan pembaruan akan berakibat pemutusan akses jaringan dan pencabutan hak izin kerja secara permanen.","threat_level":"CRITICAL_SCAM","target_indicators":["Permintaan private key atau sertifikat enkripsi privat","Tekanan ancaman pemecatan \/ sanksi berat","Batas waktu sempit (30 menit) memanipulasi psikologis","Domain sender fiktif (.net.fake alih-alih repositori resmi)"],"min_keywords_required":["private key","domain","ancaman","urgensi","sanksi","phishing","palsu","sertifikat"]},{"id":"DEEP-02","title":"Evaluasi Insiden: Tawaran Airdrop Token Komunitas Inovator Siber","scenario_text":"Pesan Terusan dari Komunitas Antariksa:\n\"Pemberitahuan Komite Sentral Inovasi Siber 2026: Dapatkan 10.000 Token Tata Kelola Tata Surya gratis! Cukup tautkan dompet Web3 Anda dan setujui izin transaksi 'Unlimited Allowance \/ SetApprovalForAll' pada smart contract di tautan: https:\/\/claim-airdrop-sentinel.cloud.fake. Kuota tersisa hanya untuk 50 pendaftar tercepat!\"","threat_level":"CRITICAL_SCAM","target_indicators":["Permintaan otorisasi SetApprovalForAll \/ Unlimited Allowance (pembobol dompet)","Taktik kelangkaan buatan (hanya 50 pendaftar tercepat)","Domain gratisan cloud pihak ketiga (.cloud.fake)","Smart contract airdrop tanpa audit transparansi"],"min_keywords_required":["approval","allowance","drainer","dompet","kontrak","kelangkaan","phishing","izin"]}],
+      cases_scanner: [{"type":"url","target":"https:\/\/secure-login.bank-neoartha.net.fake\/auth?redirect=home","title":"Portal Phishing Bank NeoArtha (Palsu)","is_malicious":true,"risk_score":9.4,"threat_type":"Credential Harvester \/ Typosquatting","explanation":"Domain menggunakan ekstensi .net.fake dengan subdomain menyesatkan 'bank-neoartha'. Form mengarah ke script pencuri password.","security_hints":["Periksa nama domain utama sebelum tanda slash pertama","Jangan memasukkan data otentikasi pada subdomain mencurigakan","Pastikan sertifikat SSL dikeluarkan atas nama legal korporasi"]},{"type":"url","target":"https:\/\/portal.bank-neoartha.mock\/dashboard","title":"Portal Resmi Bank NeoArtha (Simulasi Asli)","is_malicious":false,"risk_score":1.1,"threat_type":"Verified Secure Entity","explanation":"Domain resmi terdaftar pada top-level domain institusi perbankan resmi dengan enkripsi terverifikasi.","security_hints":["Simpan URL resmi pada bookmark browser untuk menghindari salah ketik","Gunakan otentikasi dua faktor berbasis token fisik\/aplikasi otentikator"]},{"type":"news","target":"GEMPAR! Dewan Antariksa Bagikan Subsidi 100 Juta Bagi Siapa Saja yang Mengisi Formulir Ini Hari Ini Juga!","title":"Berita Umpan Klik & Jebakan Data (Hoax Phishing)","is_malicious":true,"risk_score":8.9,"threat_type":"Clickbait Social Engineering & Data Scraping","explanation":"Menggunakan kata-kata bombastis (GEMPAR!), janji dana tanpa syarat, dan mendesak korban mengisi formulir data pribadi.","security_hints":["Waspadai judul berita berhuruf kapital penuh dengan tanda seru berlebih","Konfirmasi pengumuman resmi hanya di situs web otoritas berwenang"]},{"type":"news","target":"Penyelenggaraan KNOW YOUR SCAM Defense Workshop Keamanan Siber Terapan bagi Mahasiswa","title":"Siaran Pers Resmi KNOW YOUR SCAM Cyber Center","is_malicious":false,"risk_score":0.8,"threat_type":"Official Educational Broadcast","explanation":"Bahasa jurnalistik netral, mengedukasi, dan tidak menuntut input kredensial rahasia pengguna.","security_hints":["Pastikan informasi agenda sesuai jadwal akademik resmi"]}],
+      cases_checker: [{"icon":"\ud83d\udc94","type":"love_scam","title":"Love Scam: Koper Hadiah Emas Tertahan Bea Cukai","text":"Halo sayangku, koper berisi hadiah emas, berlian, dan dokumen penting dari luar negeri tertahan di bea cukai bandara internasional. Petugas meminta biaya tebusan administrasi darurat 5 juta rupiah ke rekening pribadi petugas, tolong transfer sekarang agar paket tidak disita."},{"icon":"\ud83d\udce2","type":"hoax","title":"Hoax Viral: Sebarkan Sebelum Dihapus","text":"SEBARKAN SEBELUM DIHAPUS PEMERINTAH! Rahasia dokter spesialis terbongkar, jangan pernah mengonsumsi makanan kemasan ini karena terbukti secara gaib dan konspirasi mengandung racun sintetis berbahaya. Viralkan pesan ini ke 10 grup WhatsApp demi keselamatan keluarga!"},{"icon":"\ud83d\udcbc","type":"job_scam","title":"Job Scam: Kerja Paruh Waktu Like YouTube & Deposit Telegram","text":"Lowongan kerja paruh waktu resmi online tanpa syarat keahlian! Cukup like dan subscribe video YouTube dapat komisi 300 ribu hingga 1 juta rupiah per hari. Gabung grup tugas Telegram kami sekarang dan lakukan deposit awal 150 ribu rupiah untuk aktivasi ID member VIP Anda."},{"icon":"\ud83d\udce6","type":"malware","title":"Malware APK: Surat Undangan \/ Resi Kurir Paket","text":"Selamat siang kak, mohon maaf paket kiriman Anda tertahan di kurir karena nomor rumah tidak jelas. Silakan unduh dan pasang aplikasi Surat-Undangan-Paket.apk ini di ponsel Android Anda untuk melihat detail resi foto paket secara langsung."},{"icon":"\ud83c\udfe6","type":"phishing","title":"Phishing: Ancaman Pemblokiran Rekening Darurat","text":"Pemberitahuan Darurat Bank: Rekening Anda terindikasi aktivitas mencurigakan dan akan diblokir dalam 30 menit. Segera perbarui data kredensial serta nomor kartu debit Anda melalui formulir verifikasi: https:\/\/bca-klik-promo2026.xyz\/login"},{"icon":"\ud83c\udfdb\ufe0f","type":"official","title":"Info Resmi: Siaran Pers Imunisasi Nasional Kemkes","text":"Kementerian Kesehatan Republik Indonesia (Kemenkes RI) mengumumkan pembukaan posko Pekan Imunisasi Nasional untuk seluruh balita secara serentak di Puskesmas terdekat tanpa dipungut biaya. Kunjungi portal resmi kemkes.go.id untuk jadwal dan lokasi lengkap."}],
+      users: [{"id":"USR-001","username":"admin","password":"admin123","name":"Commander Vektor","role":"admin","score":1170,"game_scores":{"kasus":380,"diff":320,"criminal":300,"deeplearn":170},"vulnerability":1.2,"rank":"Grand Cyber Sentinel","modules_completed":15},{"id":"USR-002","username":"cadet","password":"cadet123","name":"Cadet Aris","role":"admin","score":630,"game_scores":{"kasus":220,"diff":180,"criminal":150,"deeplearn":80},"vulnerability":4.5,"rank":"Security Cadet","modules_completed":5},{"id":"USR-003","username":"kira_t","password":"kira123","name":"Sgt. Kira Thorne","role":"user","score":1060,"game_scores":{"kasus":350,"diff":290,"criminal":270,"deeplearn":150},"vulnerability":1.8,"rank":"Elite Vanguard","modules_completed":12},{"id":"USR-004","username":"nyx_shadow","name":"Specialist Nyx","role":"user","score":890,"game_scores":{"kasus":300,"diff":250,"criminal":220,"deeplearn":120},"vulnerability":2.4,"rank":"Threat Hunter","modules_completed":9},{"id":"USR-005","username":"cipher_zero","name":"Analyst Zero","role":"user","score":770,"game_scores":{"kasus":260,"diff":220,"criminal":190,"deeplearn":100},"vulnerability":3.1,"rank":"Incident Responder","modules_completed":7},{"id":"USR-679","user_code":"USR-679","name":"Kadet Penguji","username":"kadet_uji_91","email":"kadet_uji_91@knowyourscam.test","password":"$2y$12$m2uNwSEnjTmDHgQmTSAjvOGXvFH88snBqe.9Q3EFTMrDCCLFYardi","role":"user","score":0,"vulnerability":5,"rank":"Cyber Trainee","modules_completed":0,"game_scores":{"kasus":0,"diff":0,"criminal":0,"deeplearn":0}},{"id":"USR-858","user_code":"USR-858","name":"Baru 1","username":"satu","email":"satu@gmail.com","password":"$2y$12$tyCP6JYuG5bKhNSEO2yDvOvNlRG.st5rXuH8wnqxWNjOiAj0DQEwu","role":"user","score":0,"vulnerability":5,"rank":"Cyber Trainee","modules_completed":0,"game_scores":{"kasus":0,"diff":0,"criminal":0,"deeplearn":0}},{"id":"USR-374","user_code":"USR-374","name":"john pork","username":"john","email":"johnpork@gmail.com","password":"$2y$12$m4AUzfQC7EsADFmK8QaxwOctmOGoa8ZQ5UTGsHlG3DHydLGqW21FO","role":"user","score":0,"vulnerability":5,"rank":"Cyber Trainee","modules_completed":0,"game_scores":{"kasus":0,"diff":0,"criminal":0,"deeplearn":0,"scanner":0,"checker":0}},{"id":"USR-889","user_code":"USR-889","name":"john","username":"pork","email":"johnpork123@gmial.com","password":"$2y$12$\/35hCnJwMFNfoUdt35ZsoeruQTz9rJISIlCqT9jV\/My.7EQ4H\/SWy","role":"user","score":0,"vulnerability":5,"rank":"Cyber Trainee","modules_completed":0,"game_scores":{"kasus":0,"diff":0,"criminal":0,"deeplearn":0,"scanner":0,"checker":0}},{"id":"USR-913","user_code":"USR-913","name":"nayie","username":"nay","email":"nay@gmail.com","password":"$2y$12$zew1NKMyAXE8g4.lRlzFzeDzhWL26SP7WtjicDvz85UX6at59fz3i","role":"user","score":1286,"vulnerability":3.7,"rank":"Cyber Trainee","modules_completed":26,"game_scores":{"kasus":500,"diff":400,"criminal":200,"deeplearn":186}},{"id":"USR-510","user_code":"USR-510","name":"coba","username":"cobain","email":"coba@gmail.com","password":"$2y$12$A4IQC2VTbrSvlTMShjuTiO4j\/6AigzANkfPpwXMadw.svmDQQfH6q","role":"user","score":25,"vulnerability":5.6,"rank":"Cyber Trainee","modules_completed":8,"game_scores":{"kasus":0,"diff":0,"criminal":25,"deeplearn":0}},{"id":"USR-684","user_code":"USR-684","name":"coba","username":"coba1","email":"coba@gmail.com","password":"$2y$12$3I1uyJlHMHxO7Nbo89Vrlek64BQb4qjWTnvDtTIrcOLmOK2BXN\/cO","role":"user","score":0,"vulnerability":4.4,"rank":"Cyber Trainee","modules_completed":3,"game_scores":{"kasus":0,"diff":0,"criminal":0,"deeplearn":0}}],
+      activity_logs: [{"id":"LOG-7991","timestamp":"2026-11-03 01:56:19","user_id":"USR-001","user_name":"Commander Vektor","module":"CRIMINAL CASE","decision":"Waktu investigasi habis! Korban mengalami kerugian finansial.","vulnerability_score":5.2,"status":"COMPROMISED"},{"id":"LOG-1586","timestamp":"2026-11-03 01:55:51","user_id":"USR-001","user_name":"Commander Vektor","module":"SYSTEM AUTH","decision":"Login protokol otentikasi (ADMIN)","vulnerability_score":3.2,"status":"SECURED"},{"id":"LOG-4079","timestamp":"2026-11-03 01:55:48","user_id":"USR-002","user_name":"Cadet Aris","module":"SYSTEM AUTH","decision":"Login protokol otentikasi (USER)","vulnerability_score":10,"status":"SECURED"},{"id":"LOG-5396","timestamp":"2026-11-03 01:52:33","user_id":"USR-002","user_name":"Cadet Aris","module":"SYSTEM AUTH","decision":"Login protokol otentikasi (USER)","vulnerability_score":10,"status":"SECURED"},{"id":"LOG-3503","timestamp":"2026-11-02 14:55:51","user_id":"USR-001","user_name":"Commander Vektor","module":"CRIMINAL CASE","decision":"Waktu investigasi habis! Korban mengalami kerugian finansial.","vulnerability_score":5.2,"status":"COMPROMISED"},{"id":"LOG-2815","timestamp":"2026-11-02 14:50:39","user_id":"USR-001","user_name":"Commander Vektor","module":"CRIMINAL CASE","decision":"Waktu investigasi habis! Korban mengalami kerugian finansial.","vulnerability_score":3.2,"status":"COMPROMISED"},{"id":"LOG-2290","timestamp":"2026-11-02 14:49:14","user_id":"USR-001","user_name":"Commander Vektor","module":"SYSTEM AUTH","decision":"Login protokol otentikasi (ADMIN)","vulnerability_score":1.2,"status":"SECURED"},{"id":"LOG-8599","timestamp":"2026-11-02 14:49:12","user_id":"USR-002","user_name":"Cadet Aris","module":"SYSTEM AUTH","decision":"Login protokol otentikasi (USER)","vulnerability_score":10,"status":"SECURED"},{"id":"LOG-5283","timestamp":"2026-11-02 14:45:53","user_id":"USR-002","user_name":"Cadet Aris","module":"SYSTEM AUTH","decision":"Login protokol otentikasi (USER)","vulnerability_score":10,"status":"SECURED"},{"id":"LOG-5275","timestamp":"2026-11-02 14:45:43","user_id":"USR-001","user_name":"Commander Vektor","module":"SYSTEM AUTH","decision":"Login protokol otentikasi (ADMIN)","vulnerability_score":1.2,"status":"SECURED"},{"id":"LOG-2200","timestamp":"2026-11-02 14:23:55","user_id":"USR-002","user_name":"Cadet Aris","module":"SYSTEM AUTH","decision":"Login protokol otentikasi (USER)","vulnerability_score":4.5,"status":"SECURED"},{"id":"LOG-1001","timestamp":"2026-11-02 20:15:30","user_id":"USR-002","user_name":"Cadet Aris","module":"KASUS (Phishing)","decision":"Memilih verifikasi via portal resmi Bank NeoArtha","vulnerability_score":2.1,"status":"SECURED"},{"id":"LOG-1002","timestamp":"2026-11-02 20:22:14","user_id":"USR-003","user_name":"Sgt. Kira Thorne","module":"FINDING DIFF","decision":"Menetapkan Portal B sebagai FAKE (Skor akurasi 100%)","vulnerability_score":1.4,"status":"SECURED"},{"id":"LOG-1003","timestamp":"2026-11-02 20:31:05","user_id":"USR-002","user_name":"Cadet Aris","module":"CRIMINAL CASE","decision":"Menyelesaikan Operasi Phantom Wire dalam 64 detik","vulnerability_score":2.8,"status":"BREACH_PREVENTED"},{"id":"LOG-1004","timestamp":"2026-11-02 20:41:48","user_id":"USR-004","user_name":"Specialist Nyx","module":"DEEP LEARNING","decision":"Analisis AI: Mendeteksi upaya ekstraksi Private Key","vulnerability_score":1.9,"status":"SECURED"}]
+    };
+  </script>
+
   <!-- Core Scripts -->
-  <script src="js/audio-engine.js"></script>
-  <script src="js/particle-canvas.js"></script>
-  <script src="js/ai-wave-canvas.js"></script>
-  <script src="js/hint-system.js"></script>
-  <script src="js/auth.js"></script>
-  <script src="js/welcome-interactive.js"></script>
-  <script src="js/leaderboard.js"></script>
-  <script src="js/admin.js"></script>
+  <script src="js/audio-engine.js?v=2.2"></script>
+  <script src="js/particle-canvas.js?v=2.2"></script>
+  <script src="js/ai-wave-canvas.js?v=2.2"></script>
+  <script src="js/hint-system.js?v=2.2"></script>
+  <script src="js/game-briefing.js?v=2.2"></script>
+  <script src="js/auth.js?v=2.2"></script>
+  <script src="js/welcome-interactive.js?v=2.2"></script>
+  <script src="js/module-edukasi.js?v=2.2"></script>
+  <script src="js/leaderboard.js?v=2.2"></script>
+  <script src="js/admin.js?v=2.2"></script>
 
   <!-- Game Modules -->
-  <script src="js/games/module-kasus.js"></script>
-  <script src="js/games/module-diff.js"></script>
-  <script src="js/games/module-criminal.js"></script>
-  <script src="js/games/module-deeplearn.js"></script>
-  <script src="js/games/module-scanner.js"></script>
+  <script src="js/games/module-kasus.js?v=2.2"></script>
+  <script src="js/games/module-diff.js?v=2.2"></script>
+  <script src="js/games/module-criminal.js?v=2.2"></script>
+  <script src="js/games/module-deeplearn.js?v=2.2"></script>
+  <script src="js/games/module-scanner.js?v=2.2"></script>
+  <script src="js/games/module-checker.js?v=2.2"></script>
 
   <!-- Application Main Controller -->
-  <script src="js/app.js"></script>
+  <script src="js/app.js?v=2.2"></script>
 </body>
 </html>

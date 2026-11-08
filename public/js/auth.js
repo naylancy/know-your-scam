@@ -61,7 +61,7 @@ class AuthManager {
   }
 
   switchTab(tab) {
-    window.cyberAudio?.playClick();
+    window.cyberAudio?.playSelect?.() || window.cyberAudio?.playClick();
     const loginTabBtn = document.getElementById('tab-btn-login');
     const regTabBtn = document.getElementById('tab-btn-register');
     const loginForm = document.getElementById('auth-manual-form');
@@ -79,13 +79,25 @@ class AuthManager {
     }
 
     if (tab === 'register') {
-      if (loginTabBtn) loginTabBtn.classList.remove('active');
-      if (regTabBtn) regTabBtn.classList.add('active');
+      if (loginTabBtn) {
+        loginTabBtn.classList.remove('active');
+        loginTabBtn.classList.add('btn-ghost');
+      }
+      if (regTabBtn) {
+        regTabBtn.classList.add('active');
+        regTabBtn.classList.remove('btn-ghost');
+      }
       if (loginForm) loginForm.style.display = 'none';
       if (regForm) regForm.style.display = 'block';
     } else {
-      if (loginTabBtn) loginTabBtn.classList.add('active');
-      if (regTabBtn) regTabBtn.classList.remove('active');
+      if (loginTabBtn) {
+        loginTabBtn.classList.add('active');
+        loginTabBtn.classList.remove('btn-ghost');
+      }
+      if (regTabBtn) {
+        regTabBtn.classList.remove('active');
+        regTabBtn.classList.add('btn-ghost');
+      }
       if (loginForm) loginForm.style.display = 'block';
       if (regForm) regForm.style.display = 'none';
     }
@@ -97,6 +109,93 @@ class AuthManager {
     if (passInput) {
       passInput.type = passInput.type === 'password' ? 'text' : 'password';
     }
+  }
+
+  // Universal Toast Notification Handler
+  notify(message, type = 'cyan') {
+    if (typeof window.showCyberToast === 'function') {
+      window.showCyberToast(message, type);
+    } else if (window.app && typeof window.app.showToast === 'function') {
+      window.app.showToast(message, type);
+    } else {
+      this.displayToastFallback(message, type);
+    }
+  }
+
+  // Standalone Bulletproof Toast Fallback
+  displayToastFallback(message, type = 'error') {
+    let container = document.getElementById('cyber-toast-container');
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'cyber-toast-container';
+      document.body.appendChild(container);
+    }
+
+    container.style.cssText = 'position:fixed !important; bottom:24px !important; right:24px !important; z-index:2147483647 !important; display:flex !important; flex-direction:column !important; gap:10px !important; pointer-events:none !important; max-width:440px !important; width:calc(100vw - 48px) !important;';
+
+    const isError = type === 'error';
+    const isSuccess = type === 'success';
+    const isMagenta = type === 'magenta';
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+
+    let borderColor = isError ? '#ff0055' : isSuccess ? '#00ff88' : isMagenta ? '#ff00ea' : '#00f3ff';
+    let bgColor = isLight ? (isError ? '#FEF2F2' : isSuccess ? '#F0FDF4' : '#FFFFFF') : (isError ? 'rgba(30, 10, 20, 0.98)' : 'rgba(15, 23, 42, 0.98)');
+    let textColor = isLight ? (isError ? '#991B1B' : isSuccess ? '#166534' : '#0F172A') : '#ffffff';
+    let titleColor = isLight ? (isError ? '#DC2626' : isSuccess ? '#16A34A' : '#0284C7') : borderColor;
+    let glowColor = isError ? 'rgba(255,0,85,0.45)' : isSuccess ? 'rgba(0,255,136,0.35)' : 'rgba(0,243,255,0.35)';
+    const icon = isError ? '🚨' : isSuccess ? '✅' : isMagenta ? '⚡' : '🛡️';
+    const title = isError ? 'GAGAL OTENTIKASI' : isSuccess ? 'SUKSES' : 'PEMBERITAHUAN';
+
+    const toast = document.createElement('div');
+    toast.className = `cyber-toast ${isError ? 'toast-error' : isSuccess ? 'toast-success' : ''}`;
+    toast.style.cssText = `
+      pointer-events: auto !important;
+      background: ${bgColor} !important;
+      border-left: 5px solid ${borderColor} !important;
+      border-top: 1px solid ${isLight ? '#E2E8F0' : 'rgba(255,255,255,0.18)'} !important;
+      border-right: 1px solid ${isLight ? '#E2E8F0' : 'rgba(255,255,255,0.18)'} !important;
+      border-bottom: 1px solid ${isLight ? '#CBD5E1' : 'rgba(255,255,255,0.18)'} !important;
+      padding: 14px 18px !important;
+      border-radius: 6px !important;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.85), 0 0 25px ${glowColor} !important;
+      color: ${textColor} !important;
+      min-width: 300px !important;
+      max-width: 440px !important;
+      display: flex !important;
+      align-items: flex-start !important;
+      gap: 12px !important;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+      font-size: 0.92rem !important;
+      opacity: 1 !important;
+      transform: none !important;
+      transition: all 0.35s ease !important;
+      margin-left: auto !important;
+    `;
+
+    toast.innerHTML = `
+      <div style="font-size: 1.6rem; line-height: 1; flex-shrink: 0; margin-top: 2px;">${icon}</div>
+      <div style="flex: 1; line-height: 1.4;">
+        <div style="font-size: 0.72rem; font-weight: 700; color: ${titleColor}; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 2px; font-family: monospace;">
+          ${title}
+        </div>
+        <div style="color: ${textColor}; font-size: 0.88rem; font-weight: 500;">${message}</div>
+      </div>
+      <button type="button" style="background:none; border:none; color:${isLight ? '#64748B' : '#94a3b8'}; font-size:1.1rem; cursor:pointer; padding:0 4px; line-height:1;" onclick="this.parentElement.remove()">✕</button>
+    `;
+
+    container.appendChild(toast);
+
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateX(100px)';
+      setTimeout(() => {
+        if (typeof toast.remove === 'function') {
+          toast.remove();
+        } else if (toast.parentElement) {
+          toast.parentElement.removeChild(toast);
+        }
+      }, 350);
+    }, 4500);
   }
 
   // Handle User Self-Registration
@@ -138,51 +237,67 @@ class AuthManager {
       btnSubmit.disabled = true;
     }
 
+    const path = window.location.pathname;
+    const isSubfolder = path.includes('/KnowYourScam');
+    const basePath = isSubfolder ? path.substring(0, path.indexOf('/KnowYourScam') + '/KnowYourScam'.length) : '';
+
+    const endpoints = [];
+    if (isSubfolder) {
+      endpoints.push(`${basePath}/api.php?action=register`);
+      endpoints.push(`${basePath}/public/api/register`);
+    } else {
+      endpoints.push('/api/register');
+      endpoints.push('api.php?action=register');
+    }
+
+    const csrf = document.querySelector('meta[name="csrf-token"]')?.content || '';
+    const payload = JSON.stringify({ name, username, email, password });
+    let registered = false;
+
     try {
-      const csrf = document.querySelector('meta[name="csrf-token"]')?.content || '';
-      const res = await fetch('/api/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': csrf,
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          name: name,
-          username: username,
-          email: email,
-          password: password
-        })
-      });
+      for (const endpoint of endpoints) {
+        try {
+          const res = await fetch(endpoint, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-TOKEN': csrf,
+              'Accept': 'application/json'
+            },
+            body: payload
+          });
 
-      const data = await res.json();
+          const contentType = res.headers.get('content-type') || '';
+          if (res.status === 404 && !contentType.includes('json')) continue;
 
-      if (res.ok && data.status === 'success') {
-        window.cyberAudio?.playSuccess();
-        window.app?.showToast('Registrasi Berhasil! Silakan masuk dengan akun baru Anda.', 'success');
-        
-        // Auto-switch to login tab and prefill username
-        this.switchTab('login');
-        const loginUserInput = document.getElementById('auth-input-username');
-        const loginPassInput = document.getElementById('auth-input-password');
-        const succBox = document.getElementById('auth-form-success');
+          let data = null;
+          try {
+            data = await res.json();
+          } catch (jsonErr) {
+            continue;
+          }
 
-        if (loginUserInput) loginUserInput.value = username;
-        if (loginPassInput) {
-          loginPassInput.value = '';
-          loginPassInput.focus();
-        }
-        if (succBox) {
-          succBox.textContent = 'Pendaftaran berhasil! Masukkan sandi Anda untuk melanjutkan.';
-          succBox.style.display = 'block';
-        }
-      } else {
-        const errMsg = data.message || 'Pendaftaran gagal. Silakan coba kembali.';
-        this.showLoginError(errMsg);
+          if (res.ok && data.status === 'success') {
+            registered = true;
+            window.cyberAudio?.playSuccess?.();
+            this.notify(`Pendaftaran Berhasil! Selamat datang, ${name}.`, 'success');
+
+            // Auto-login directly without manual form filling
+            await this.loginWithCredentials(username, password);
+            this.closeLoginModal();
+            window.app?.navigateTo('welcome');
+            break;
+          } else {
+            const errMsg = data.message || 'Pendaftaran gagal. Silakan coba kembali.';
+            this.showLoginError(errMsg);
+            return;
+          }
+        } catch (netErr) {}
       }
-    } catch (err) {
-      console.error('Registration error:', err);
-      this.showLoginError('Terjadi kendala jaringan saat mendaftar. Silakan coba kembali.');
+
+      if (!registered) {
+        this.showLoginError('Terjadi kendala jaringan saat mendaftar. Silakan coba kembali.');
+      }
     } finally {
       if (btnSubmit) {
         btnSubmit.innerHTML = originalText;
@@ -215,19 +330,33 @@ class AuthManager {
       return;
     }
 
+    if (!password) {
+      this.showLoginError('Kata sandi siber wajib diisi.');
+      return;
+    }
+
     await this.loginWithCredentials(username, password);
   }
 
   showLoginError(msg) {
-    window.cyberAudio?.playGlitch();
+    const errorText = msg || 'Gagal Masuk: Username atau kata sandi siber salah!';
+
+    try {
+      window.cyberAudio?.playError?.();
+      window.cyberAudio?.playGlitch?.();
+    } catch (e) {}
+
     const errBox = document.getElementById('auth-form-error');
     if (errBox) {
-      errBox.textContent = msg;
+      errBox.textContent = errorText;
       errBox.style.display = 'block';
       errBox.classList.remove('shake');
       void errBox.offsetWidth;
       errBox.classList.add('shake');
     }
+
+    // High-priority toast notification at bottom-right
+    this.notify(errorText, 'error');
   }
 
   // Authenticate with Backend API
@@ -239,56 +368,83 @@ class AuthManager {
       btnSubmit.disabled = true;
     }
 
+    const path = window.location.pathname;
+    const isSubfolder = path.includes('/KnowYourScam');
+    const basePath = isSubfolder ? path.substring(0, path.indexOf('/KnowYourScam') + '/KnowYourScam'.length) : '';
+
+    const endpoints = [];
+    if (isSubfolder) {
+      endpoints.push(`${basePath}/api.php?action=login`);
+      endpoints.push(`${basePath}/public/api/login`);
+      endpoints.push(`${basePath}/public/index.php/api/login`);
+    } else {
+      endpoints.push('/api/login');
+      endpoints.push('api.php?action=login');
+    }
+
+    const csrf = document.querySelector('meta[name="csrf-token"]')?.content || '';
+    const payload = JSON.stringify({ username, password });
+
+    let authSuccess = false;
+    let handledError = false;
+
     try {
-      const csrf = document.querySelector('meta[name="csrf-token"]')?.content || '';
-      const apiEndpoint = window.__LARAVEL_INITIAL_DATA__ ? '/api/login' : 'api.php?action=login';
+      for (const endpoint of endpoints) {
+        try {
+          const res = await fetch(endpoint, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-TOKEN': csrf,
+              'Accept': 'application/json'
+            },
+            body: payload
+          });
 
-      const res = await fetch(apiEndpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': csrf,
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          username: username,
-          password: password
-        })
-      });
+          const contentType = res.headers.get('content-type') || '';
+          if (res.status === 404 && !contentType.includes('json')) {
+            continue;
+          }
 
-      const data = await res.json();
+          let data = null;
+          try {
+            data = await res.json();
+          } catch (jsonErr) {
+            continue;
+          }
 
-      if (res.ok && data.status === 'success' && data.user) {
-        // Success
-        await this.setUser(data.user);
-        this.closeLoginModal();
-        window.cyberAudio?.playSuccess();
-        window.app?.showToast(`Otentikasi Berhasil: Selamat bertugas, ${data.user.name}!`, data.user.role === 'admin' ? 'magenta' : 'success');
+          handledError = true;
 
-        // Update welcome page console state if currently on welcome
-        if (window.welcomeInteractive) {
-          window.welcomeInteractive.updateTestedPod(data.user.role);
-        }
+          if (res.ok && data && data.status === 'success' && data.user) {
+            authSuccess = true;
+            await this.setUser(data.user);
+            this.closeLoginModal();
+            window.cyberAudio?.playSuccess?.();
+            this.notify(`Otentikasi Berhasil: Selamat bertugas, ${data.user.name}!`, data.user.role === 'admin' ? 'magenta' : 'success');
 
-        // Navigate to mission or show unlocked routes
-        if (window.location.hash === '#welcome' || !window.location.hash) {
-          // Keep on welcome or offer launcher
-        }
-      } else {
-        const errMsg = data.message || 'Otentikasi gagal. Periksa username dan sandi Anda.';
-        this.showLoginError(errMsg);
+            if (window.welcomeInteractive) {
+              window.welcomeInteractive.updateTestedPod(data.user.role);
+            }
+            break;
+          } else {
+            const errMsg = (data && data.message) ? data.message : 'Username atau password salah! Otentikasi gagal.';
+            this.showLoginError(errMsg);
+            break;
+          }
+        } catch (netErr) {}
       }
-    } catch (err) {
-      // Local fallback for offline mode
-      console.warn('API login request error, using fallback:', err);
-      if (username === 'admin' && (password === 'admin123' || password === 'password123')) {
-        await this.loginDemoAdmin();
-        this.closeLoginModal();
-      } else if (username === 'cadet' && (password === 'cadet123' || password === 'password123')) {
-        await this.loginDemoUser();
-        this.closeLoginModal();
-      } else {
-        this.showLoginError('Username atau sandi yang Anda masukkan tidak valid.');
+
+      if (!authSuccess && !handledError) {
+        console.warn('API login request error, using fallback');
+        if (username === 'admin' && (password === 'admin123' || password === 'password123')) {
+          await this.loginDemoAdmin();
+          this.closeLoginModal();
+        } else if (username === 'cadet' && (password === 'cadet123' || password === 'password123')) {
+          await this.loginDemoUser();
+          this.closeLoginModal();
+        } else {
+          this.showLoginError('Username atau password salah! Otentikasi gagal.');
+        }
       }
     } finally {
       if (btnSubmit) {
@@ -310,7 +466,7 @@ class AuthManager {
       modules_completed: 5
     };
     await this.setUser(userPayload);
-    window.app?.showToast('Otentikasi Berhasil: Masuk sebagai Cadet Aris', 'success');
+    this.notify('Otentikasi Berhasil: Masuk sebagai Cadet Aris', 'success');
   }
 
   // Quick Demo Login: Admin (Commander)
@@ -325,7 +481,7 @@ class AuthManager {
       modules_completed: 15
     };
     await this.setUser(adminPayload);
-    window.app?.showToast('Otentikasi Berhasil: Hak Akses Administrator Aktif', 'magenta');
+    this.notify('Otentikasi Berhasil: Hak Akses Administrator Aktif', 'magenta');
   }
 
   async setUser(userData) {
@@ -338,6 +494,9 @@ class AuthManager {
 
     if (window.app) {
       window.app.checkAdminAccess();
+      if (typeof window.app.handleRoute === 'function') {
+        window.app.handleRoute();
+      }
     }
   }
 
@@ -393,7 +552,7 @@ class AuthManager {
     }
 
     window.app?.navigateTo('welcome');
-    window.app?.showToast('Anda telah keluar dari sistem pertahanan siber.', 'cyan');
+    this.notify('Anda telah keluar dari sistem pertahanan siber.', 'cyan');
   }
 
   updateHUD() {
@@ -655,3 +814,59 @@ class AuthManager {
 }
 
 window.authManager = new AuthManager();
+
+// Guarantee window.showCyberToast exists globally
+if (typeof window.showCyberToast !== 'function') {
+  window.showCyberToast = function(message, type = 'cyan') {
+    window.authManager?.displayToastFallback(message, type);
+  };
+}
+
+/**
+ * Universal Guest Leaderboard Banner for 4 Core Games
+ * Informs guest users to login to record scores onto leaderboard, keeping login 100% optional.
+ */
+window.renderGuestLeaderboardBanner = function(options = {}) {
+  if (window.authManager && window.authManager.isLoggedIn()) {
+    return '';
+  }
+
+  const margin = options.margin || '0 0 18px 0';
+  const isCompact = !!options.compact;
+
+  if (isCompact) {
+    return `
+      <div class="guest-leaderboard-banner guest-compact holo-enter" style="margin: ${margin};">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 1.1rem; line-height: 1;">🏆</span>
+          <span class="guest-title" style="font-weight: 600; font-size: 0.86rem;">Login untuk lihat progressmu di leaderboard</span>
+          <span class="guest-sub" style="font-size: 0.74rem; opacity: 0.8; font-family: var(--font-mono);">(Opsional — Anda tetap dapat bermain)</span>
+        </div>
+        <button type="button" class="cyber-btn" style="padding: 4px 14px; font-size: 0.74rem;" onclick="window.authManager.openLoginModal()">
+          <span>⚡</span> MASUK
+        </button>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="guest-leaderboard-banner holo-enter" style="margin: ${margin};">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div style="font-size: 1.7rem; line-height: 1;">🏆</div>
+        <div>
+          <div class="guest-title" style="font-size: 0.96rem; font-weight: 700; color: var(--text-highlight); letter-spacing: 0.3px;">
+            Login untuk lihat progressmu di leaderboard
+          </div>
+          <div class="guest-sub" style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.4; margin-top: 2px;">
+            Mode Tamu aktif &bull; Login bersifat opsional (Anda tetap dapat memainkan seluruh skenario simulasi)
+          </div>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <button type="button" class="cyber-btn" style="padding: 8px 20px; font-size: 0.85rem; box-shadow: 0 0 15px var(--neon-cyan-dim);" onclick="window.authManager.openLoginModal()">
+          <span>⚡</span> MASUK / LOGIN
+        </button>
+      </div>
+    </div>
+  `;
+};

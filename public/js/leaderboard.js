@@ -207,6 +207,11 @@ class LeaderboardManager {
     if (this.isFetching) return;
     this.isFetching = true;
 
+    // Immediately render cached users so user never sees an empty or delayed table
+    if (!silent && this.users.length > 0) {
+      this.render(true);
+    }
+
     try {
       const res = await fetch('/api/leaderboard');
       const json = await res.json();
@@ -246,16 +251,13 @@ class LeaderboardManager {
     if (!container) return;
 
     // Sort by Total Score descending, then Vulnerability ascending
-    let sorted = [...this.users].sort((a, b) => {
-      if (b.score !== a.score) return b.score - a.score;
-      return a.vulnerability - b.vulnerability;
-    });
-
-    if (this.currentFilter === 'sentinel') {
-      sorted = sorted.filter(u => u.vulnerability <= 2.5);
-    } else if (this.currentFilter === 'cadet') {
-      sorted = sorted.filter(u => u.role === 'user');
-    }
+    // STRICT ROLE EXCLUSION: Only regular users are shown on the leaderboard (exclude role 'admin')
+    let sorted = this.users
+      .filter(u => u.role !== 'admin' && String(u.username).toLowerCase() !== 'admin')
+      .sort((a, b) => {
+        if (b.score !== a.score) return b.score - a.score;
+        return a.vulnerability - b.vulnerability;
+      });
 
     const currentUserId = window.authManager?.currentUser?.id;
     const currentUsername = window.authManager?.currentUser?.username;
@@ -272,7 +274,6 @@ class LeaderboardManager {
                     rankNum === 3 ? '<span class="rank-medal-3">🥉</span>' : 
                     `#${rankNum}`;
 
-      const v = parseFloat(u.vulnerability).toFixed(1);
       const gs = u.game_scores || { kasus: 0, diff: 0, criminal: 0, deeplearn: 0 };
       const isExpanded = this.expandedUserId === u.id;
 
@@ -283,7 +284,7 @@ class LeaderboardManager {
             <td style="font-weight: 700; width: 55px; text-align: center;">${medal}</td>
             <td>
               <div style="display:flex; align-items:center; gap: 8px;">
-                <span style="font-size: 1.15rem;">${u.role === 'admin' ? '🛡️' : '👤'}</span>
+                <span style="font-size: 1.15rem;">👤</span>
                 <div>
                   <strong style="color: ${isMe ? 'var(--neon-cyan)' : 'var(--text-highlight)'}; font-size: 0.92rem;">
                     ${u.name} ${isMe ? '<span class="cyber-tag" style="margin-left:4px; font-size:0.6rem; padding:1px 5px;">ANDA</span>' : ''}
@@ -298,7 +299,7 @@ class LeaderboardManager {
             <td style="color: var(--neon-cyan); font-weight: 800; font-size: 1.05rem; white-space: nowrap; text-align: right; padding-right: 18px;">
               ${u.score.toLocaleString()} XP
             </td>
-            <!-- Individual 4 Game Breakdown Columns (Click to navigate to respective game) -->
+            <!-- Individual 4 Game Breakdown Columns -->
             <td style="text-align: center; cursor: pointer;" onclick="window.app.navigateTo('kasus')" title="Mainkan Scam Simulator">
               <span class="cyber-tag" style="padding:3px 10px; font-size:0.78rem; border-color:rgba(255,184,0,0.5); color:var(--neon-amber); transition: transform 0.2s;">
                 ${gs.kasus} XP ↗
@@ -319,21 +320,19 @@ class LeaderboardManager {
                 ${gs.deeplearn} XP ↗
               </span>
             </td>
-            <td style="text-align: center;">
-              <span class="cyber-tag ${v <= 2.5 ? 'tag-green' : v <= 5.5 ? 'tag-amber' : 'tag-red'}" style="font-size:0.75rem;">
-                ${v} / 10
-              </span>
+            <td style="text-align: center; font-weight: 700; font-family: var(--font-mono);">
+              ${u.modules_completed || 0}
             </td>
           </tr>
         `;
       } else {
-        // Standard View with expandable row for Game Breakdown
+        // Standard View with clean columns: Rank, Nama User, Total Defense Score, Detail Skor, Misi Selesai
         return `
           <tr style="${isMe ? 'background: rgba(0, 243, 255, 0.12); border-left: 3px solid var(--neon-cyan);' : ''}">
             <td style="font-weight: 700; width: 60px; text-align: center;">${medal}</td>
             <td>
               <div style="display:flex; align-items:center; gap: 10px;">
-                <span style="font-size: 1.2rem;">${u.role === 'admin' ? '🛡️' : '👤'}</span>
+                <span style="font-size: 1.2rem;">👤</span>
                 <div>
                   <strong style="color: ${isMe ? 'var(--neon-cyan)' : 'var(--text-highlight)'}; font-size: 0.95rem;">
                     ${u.name} ${isMe ? '<span class="cyber-tag" style="margin-left:6px; font-size:0.65rem;">ANDA</span>' : ''}
@@ -343,11 +342,6 @@ class LeaderboardManager {
                   </div>
                 </div>
               </div>
-            </td>
-            <td>
-              <span class="cyber-tag ${u.role === 'admin' ? 'tag-magenta' : ''}">
-                ${u.role.toUpperCase()}
-              </span>
             </td>
             <!-- TOTAL SCORE DISPLAY -->
             <td style="color: var(--neon-cyan); font-weight: 800; font-size: 1.05rem;">
@@ -366,20 +360,15 @@ class LeaderboardManager {
                 <span>📊</span> DETAIL SKOR ➔
               </button>
             </td>
-            <td style="text-align: center;">
+            <td style="text-align: center; font-weight: 700; font-family: var(--font-mono);">
               ${u.modules_completed || 0}
-            </td>
-            <td>
-              <span class="cyber-tag ${v <= 2.5 ? 'tag-green' : v <= 5.5 ? 'tag-amber' : 'tag-red'}">
-                ${v} / 10
-              </span>
             </td>
           </tr>
 
           <!-- Expandable Row: Per-Game Score Breakdown Card (4 Core Games Only) -->
           ${isExpanded ? `
             <tr class="leaderboard-breakdown-row" style="border-bottom: 2px solid var(--border-cyan);">
-              <td colspan="7" style="padding: 16px 22px;">
+              <td colspan="${isDetailView ? 8 : 5}" style="padding: 16px 22px;">
                 <div class="holo-enter" style="display:flex; flex-direction:column; gap:10px;">
                   <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
                     <div style="font-family: var(--font-display); font-size: 0.85rem; color: var(--neon-cyan); font-weight:700;">
@@ -487,19 +476,12 @@ class LeaderboardManager {
           </div>
         </div>
 
-        <!-- Filter Pills Bar -->
-        <div class="leaderboard-filter-bar" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom: 16px; border-radius:6px; padding:8px 14px;">
+        <!-- Status / Active Operator Counter Bar (Clean & Focused) -->
+        <div class="leaderboard-filter-bar" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom: 16px; border-radius:6px; padding:10px 16px;">
           <div style="display:flex; align-items:center; gap:8px;">
-            <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);">FILTER OPERATOR:</span>
-            <button class="cyber-btn ${this.currentFilter === 'all' ? '' : 'btn-ghost'}" style="font-size: 0.72rem; padding: 3px 10px;" onclick="window.leaderboardManager.setFilter('all')">
-              SEMUA (${this.users.length})
-            </button>
-            <button class="cyber-btn ${this.currentFilter === 'sentinel' ? '' : 'btn-ghost'}" style="font-size: 0.72rem; padding: 3px 10px;" onclick="window.leaderboardManager.setFilter('sentinel')">
-              SENTINEL (VULN &le; 2.5)
-            </button>
-            <button class="cyber-btn ${this.currentFilter === 'cadet' ? '' : 'btn-ghost'}" style="font-size: 0.72rem; padding: 3px 10px;" onclick="window.leaderboardManager.setFilter('cadet')">
-              CADET / MAHASISWA
-            </button>
+            <span style="font-family:var(--font-mono); font-size:0.8rem; color:var(--text-muted);">
+              PESERTA TERTAMPIL: <strong style="color:var(--neon-cyan);">${sorted.length} KADET REGULER</strong>
+            </span>
           </div>
 
           <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--neon-magenta);">
@@ -514,8 +496,8 @@ class LeaderboardManager {
               ${isDetailView ? `
                 <tr>
                   <th style="width: 55px; text-align: center;">POSISI</th>
-                  <th>OPERATOR SIBER</th>
-                  <th style="text-align: right; padding-right: 18px; color:var(--neon-cyan);">TOTAL XP</th>
+                  <th>NAMA USER</th>
+                  <th style="text-align: right; padding-right: 18px; color:var(--neon-cyan);">TOTAL DEFENSE SCORE</th>
                   <th style="text-align: center; color:var(--neon-amber); cursor:pointer;" onclick="window.app.navigateTo('kasus')" title="Klik untuk mainkan Scam Simulator">
                     🎭 SCAM SIM ↗
                   </th>
@@ -528,17 +510,15 @@ class LeaderboardManager {
                   <th style="text-align: center; color:var(--neon-green); cursor:pointer;" onclick="window.app.navigateTo('deeplearn')" title="Klik untuk mainkan game AI Analyzer">
                     🧠 ANALYZER ↗
                   </th>
-                  <th style="text-align: center;">VULNERABILITY</th>
+                  <th style="text-align: center;">MISI SELESAI</th>
                 </tr>
               ` : `
                 <tr>
                   <th style="width: 60px; text-align: center;">POSISI</th>
-                  <th>OPERATOR SIBER</th>
-                  <th>ROLE</th>
+                  <th>NAMA USER</th>
                   <th style="color:var(--neon-cyan);">TOTAL DEFENSE SCORE</th>
                   <th style="text-align: center;">DETAIL SKOR</th>
                   <th style="text-align: center;">MISI SELESAI</th>
-                  <th>INDEKS KERENTANAN</th>
                 </tr>
               `}
             </thead>

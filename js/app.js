@@ -10,14 +10,45 @@ class GuardianApp {
     this.init();
   }
 
-  async init() {
+  init() {
     this.initTheme();
     this.bindDOMEvents();
-    await this.loadDatabase();
+    this.trySyncInitDatabase();
     window.authManager?.updateHUD();
     this.checkAdminAccess();
     this.handleRoute();
     window.addEventListener('hashchange', () => this.handleRoute());
+    window.addEventListener('popstate', () => this.handleRoute());
+
+    // Asynchronously load database if not already loaded from inline data
+    if (!this.db) {
+      this.loadDatabase().then(() => {
+        window.authManager?.updateHUD();
+        this.checkAdminAccess();
+      });
+    }
+  }
+
+  trySyncInitDatabase() {
+    if (window.__LARAVEL_INITIAL_DATA__ && window.__LARAVEL_INITIAL_DATA__.users) {
+      this.db = window.__LARAVEL_INITIAL_DATA__;
+      this.initModulesWithData();
+      return true;
+    }
+    return false;
+  }
+
+  initModulesWithData() {
+    if (!this.db) return;
+    window.moduleKasus?.init(this.db.cases_kasus);
+    window.moduleDiff?.init(this.db.cases_diff);
+    window.moduleCriminal?.init(this.db.cases_criminal);
+    window.moduleDeepLearning?.init(this.db.cases_deeplearn);
+    window.moduleScanner?.init(this.db.cases_scanner);
+    window.moduleChecker?.init(this.db.cases_checker);
+    window.edukasiManager?.init();
+    window.leaderboardManager?.init(this.db.users);
+    window.adminManager?.init();
   }
 
   initTheme() {
@@ -88,19 +119,26 @@ class GuardianApp {
 
     // Initialize modules with loaded data
     if (this.db) {
-      window.moduleKasus?.init(this.db.cases_kasus);
-      window.moduleDiff?.init(this.db.cases_diff);
-      window.moduleCriminal?.init(this.db.cases_criminal);
-      window.moduleDeepLearning?.init(this.db.cases_deeplearn);
-      window.moduleScanner?.init(this.db.cases_scanner);
-      window.moduleChecker?.init(this.db.cases_checker);
-      window.edukasiManager?.init();
-      window.leaderboardManager?.init(this.db.users);
-      window.adminManager?.init();
+      this.initModulesWithData();
     }
   }
 
   bindDOMEvents() {
+    // Intercept ALL internal hash links to guarantee immediate 0ms navigation without needing page refresh
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('a[href^="#"]');
+      if (link) {
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          const target = href.replace('#', '').trim();
+          if (target) {
+            e.preventDefault();
+            this.navigateTo(target);
+          }
+        }
+      }
+    });
+
     // Theme toggle button
     const themeBtn = document.getElementById('btn-toggle-theme');
     if (themeBtn) {
@@ -157,7 +195,16 @@ class GuardianApp {
 
   navigateTo(route) {
     this.toggleMobileSidebar(true);
-    window.location.hash = '#' + route;
+    const target = (route || 'welcome').replace('#', '').trim();
+    const targetHash = '#' + target;
+    if (window.location.hash !== targetHash) {
+      try {
+        history.pushState(null, '', targetHash);
+      } catch (e) {
+        window.location.hash = targetHash;
+      }
+    }
+    this.handleRoute(target);
   }
 
   toggleMobileSidebar(forceClose = false) {
@@ -209,32 +256,26 @@ class GuardianApp {
     }
   }
 
-  handleRoute() {
+  handleRoute(explicitRoute = null) {
     this.toggleMobileSidebar(true);
-    const rawHash = window.location.hash.replace('#', '') || 'welcome';
+    const rawHash = (explicitRoute || window.location.hash.replace('#', '') || 'welcome').trim();
 
-    // Route Guard 1: Guests cannot access game modules or admin
-    if (!window.authManager?.isLoggedIn() && rawHash !== 'welcome') {
-      window.cyberAudio?.playGlitch();
-      this.showToast('Akses Ditolak: Anda belum login. Silakan gunakan akun uji coba untuk masuk.', 'error');
-      window.location.hash = '#welcome';
-      window.authManager?.openLoginModal();
-      return;
-    }
-
-    // Route Guard 2: Only Admin role can access admin panel
+    // Route Guard: Only Admin role can access admin panel
     if (rawHash === 'admin' && !window.authManager?.isAdmin()) {
-      window.cyberAudio?.playGlitch();
-      this.showToast('Akses Terbatas: Hanya Administrator (Commander Vektor) yang diizinkan mengakses panel kontrol.', 'error');
-      window.location.hash = '#welcome';
+      window.cyberAudio?.playGlitch?.();
+      this.showToast('Akses Terbatas: Hanya Administrator yang diizinkan mengakses panel kontrol.', 'error');
+      this.navigateTo('welcome');
       return;
     }
 
     this.currentRoute = rawHash;
-    window.cyberAudio?.playWhoosh();
+    window.cyberAudio?.playWhoosh?.();
 
-    // Hide all pages
-    document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
+    // Hide all pages immediately (0ms)
+    const pages = document.querySelectorAll('.page-view');
+    for (let i = 0; i < pages.length; i++) {
+      pages[i].classList.remove('active');
+    }
 
     // Highlight nav
     document.querySelectorAll('.nav-link').forEach(link => {
@@ -259,24 +300,14 @@ class GuardianApp {
     if (detectorNav) detectorNav.classList.toggle('active', detectorSubroutes.includes(rawHash));
     if (edukasiNav) edukasiNav.classList.toggle('active', rawHash === 'edukasi');
 
-    // Show active page
+    // Show active page instantly with 0ms delay
     const activePage = document.getElementById(`page-${rawHash}`);
     if (activePage) {
       activePage.classList.add('active');
-      activePage.classList.remove('holo-enter');
-      void activePage.offsetWidth; // trigger reflow
-      activePage.classList.add('holo-enter');
     }
 
     // Update Live In-Game Score HUD
-    window.authManager?.updateInGameScoreHUD(rawHash);
-
-    // Ensure Criminal Case timer only runs while inside #criminal
-    if (rawHash === 'criminal') {
-      window.moduleCriminal?.onEnterRoute();
-    } else {
-      window.moduleCriminal?.onLeaveRoute();
-    }
+    window.authManager?.updateInGameScoreHUD?.(rawHash);
 
     // Specific route initializations
     if (rawHash === 'kasus') {
@@ -284,7 +315,7 @@ class GuardianApp {
     } else if (rawHash === 'diff') {
       window.moduleDiff?.render();
     } else if (rawHash === 'criminal') {
-      // onEnterRoute handled above
+      window.moduleCriminal?.render();
     } else if (rawHash === 'deeplearn') {
       window.moduleDeepLearning?.render();
     } else if (rawHash === 'scanner') {
@@ -292,19 +323,16 @@ class GuardianApp {
     } else if (rawHash === 'checker') {
       window.moduleChecker?.render();
     } else if (rawHash === 'edukasi') {
-      window.edukasiManager?.init();
+      window.edukasiManager?.renderLayoutIfEmpty();
     } else if (rawHash === 'leaderboard') {
-      window.leaderboardManager?.fetchLive();
+      window.leaderboardManager?.render(true);
+      window.leaderboardManager?.fetchLive(true);
     } else if (rawHash === 'admin') {
-      if (!window.authManager?.isAdmin()) {
-        this.navigateTo('welcome');
-        this.showToast('Akses Ditolak: Panel Admin hanya dapat diakses oleh Administrator.', 'error');
-        return;
-      }
       window.adminManager?.render();
     }
 
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Instant scroll to top without smooth scroll lag
+    window.scrollTo(0, 0);
   }
 
   checkAdminAccess() {
@@ -327,24 +355,9 @@ class GuardianApp {
   }
 
   showToast(message, type = 'cyan') {
-    const container = document.getElementById('cyber-toast-container');
-    if (!container) return;
-
-    const toast = document.createElement('div');
-    toast.className = `cyber-toast ${type === 'magenta' ? 'toast-magenta' : type === 'error' ? 'toast-error' : type === 'success' ? 'toast-success' : ''}`;
-    toast.innerHTML = `
-      <div style="font-size: 1.2rem;">${type === 'error' ? '🚨' : type === 'magenta' ? '⚡' : '🛡️'}</div>
-      <div style="font-size: 0.9rem; line-height: 1.4;">${message}</div>
-    `;
-
-    container.appendChild(toast);
-
-    setTimeout(() => {
-      toast.style.opacity = '0';
-      toast.style.transform = 'translateX(100px)';
-      toast.style.transition = 'all 0.3s ease';
-      setTimeout(() => toast.remove(), 300);
-    }, 3800);
+    if (typeof window.showCyberToast === 'function') {
+      window.showCyberToast(message, type);
+    }
   }
 
   showVulnerabilityScreen(data) {
@@ -451,8 +464,103 @@ class GuardianApp {
   }
 }
 
-// Instantiate App
-window.addEventListener('DOMContentLoaded', () => {
-  window.app = new GuardianApp();
-});
+/**
+ * Global Bulletproof Toast Notification System
+ * Guaranteed to display fixed at bottom-right corner above all layers
+ */
+window.showCyberToast = function(message, type = 'cyan') {
+  let container = document.getElementById('cyber-toast-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'cyber-toast-container';
+    document.body.appendChild(container);
+  }
+
+  // Force position at bottom-right with maximum integer z-index
+  container.style.cssText = 'position:fixed !important; bottom:24px !important; right:24px !important; z-index:2147483647 !important; display:flex !important; flex-direction:column !important; gap:10px !important; pointer-events:none !important; max-width:440px !important; width:calc(100vw - 48px) !important;';
+
+  if (type === 'error') {
+    window.cyberAudio?.playError?.();
+  } else if (type === 'success') {
+    window.cyberAudio?.playSuccess?.();
+  } else {
+    window.cyberAudio?.playNotification?.();
+  }
+
+  const isError = type === 'error';
+  const isSuccess = type === 'success';
+  const isMagenta = type === 'magenta';
+  const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+
+  let borderColor = isError ? '#ff0055' : isSuccess ? '#00ff88' : isMagenta ? '#ff00ea' : '#00f3ff';
+  let bgColor = isLight ? (isError ? '#FEF2F2' : isSuccess ? '#F0FDF4' : '#FFFFFF') : (isError ? 'rgba(30, 10, 20, 0.98)' : 'rgba(15, 23, 42, 0.98)');
+  let textColor = isLight ? (isError ? '#991B1B' : isSuccess ? '#166534' : '#0F172A') : '#ffffff';
+  let titleColor = isLight ? (isError ? '#DC2626' : isSuccess ? '#16A34A' : '#0284C7') : borderColor;
+  let glowColor = isError ? 'rgba(255,0,85,0.45)' : isSuccess ? 'rgba(0,255,136,0.35)' : 'rgba(0,243,255,0.35)';
+  const icon = isError ? '🚨' : isSuccess ? '✅' : isMagenta ? '⚡' : '🛡️';
+  const title = isError ? 'GAGAL OTENTIKASI' : isSuccess ? 'SUKSES' : 'PEMBERITAHUAN';
+
+  const toast = document.createElement('div');
+  toast.className = `cyber-toast ${isError ? 'toast-error' : isSuccess ? 'toast-success' : ''}`;
+  toast.style.cssText = `
+    pointer-events: auto !important;
+    background: ${bgColor} !important;
+    border-left: 5px solid ${borderColor} !important;
+    border-top: 1px solid ${isLight ? '#E2E8F0' : 'rgba(255,255,255,0.18)'} !important;
+    border-right: 1px solid ${isLight ? '#E2E8F0' : 'rgba(255,255,255,0.18)'} !important;
+    border-bottom: 1px solid ${isLight ? '#CBD5E1' : 'rgba(255,255,255,0.18)'} !important;
+    padding: 14px 18px !important;
+    border-radius: 6px !important;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.85), 0 0 25px ${glowColor} !important;
+    color: ${textColor} !important;
+    min-width: 300px !important;
+    max-width: 440px !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    font-size: 0.92rem !important;
+    opacity: 1 !important;
+    transform: none !important;
+    transition: all 0.35s ease !important;
+    margin-left: auto !important;
+  `;
+
+  toast.innerHTML = `
+    <div style="font-size: 1.6rem; line-height: 1; flex-shrink: 0; margin-top: 2px;">${icon}</div>
+    <div style="flex: 1; line-height: 1.4;">
+      <div style="font-size: 0.72rem; font-weight: 700; color: ${titleColor}; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 2px; font-family: monospace;">
+        ${title}
+      </div>
+      <div style="color: ${textColor}; font-size: 0.88rem; font-weight: 500;">${message}</div>
+    </div>
+    <button type="button" style="background:none; border:none; color:${isLight ? '#64748B' : '#94a3b8'}; font-size:1.1rem; cursor:pointer; padding:0 4px; line-height:1;" onclick="this.parentElement.remove()">✕</button>
+  `;
+
+  container.appendChild(toast);
+
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateX(100px)';
+    setTimeout(() => {
+      if (typeof toast.remove === 'function') {
+        toast.remove();
+      } else if (toast.parentElement) {
+        toast.parentElement.removeChild(toast);
+      }
+    }, 350);
+  }, 4500);
+};
+
+// Safely instantiate GuardianApp whether DOMContentLoaded has fired or not
+function initGuardianApp() {
+  if (!window.app) {
+    window.app = new GuardianApp();
+  }
+}
+if (document.readyState === 'loading') {
+  window.addEventListener('DOMContentLoaded', initGuardianApp);
+} else {
+  initGuardianApp();
+}
 

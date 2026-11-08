@@ -614,99 +614,71 @@
       const container = document.getElementById('kasus-module-container');
       if (!container) return;
 
+      const guestBanner = typeof window.renderGuestLeaderboardBanner === 'function'
+        ? window.renderGuestLeaderboardBanner({ margin: '0 0 18px 0' })
+        : '';
+
       switch (this.currentStage) {
         case 'start':
-          container.innerHTML = this.renderStartScreenHTML();
+          container.innerHTML = guestBanner + this.renderStartScreenHTML();
           break;
         case 'tutorial':
-          container.innerHTML = this.renderTutorialScreenHTML();
+          container.innerHTML = guestBanner + this.renderTutorialScreenHTML();
           break;
         case 'role_select':
-          container.innerHTML = this.renderRoleSelectScreenHTML();
+          container.innerHTML = guestBanner + this.renderRoleSelectScreenHTML();
           break;
         case 'char_select':
-          container.innerHTML = this.renderCharSelectScreenHTML();
+          container.innerHTML = guestBanner + this.renderCharSelectScreenHTML();
           break;
         case 'gameplay':
-          container.innerHTML = this.renderGameplayHTML();
+          container.innerHTML = guestBanner + this.renderGameplayHTML();
           break;
         default:
-          container.innerHTML = this.renderStartScreenHTML();
+          container.innerHTML = guestBanner + this.renderStartScreenHTML();
       }
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // --- VIEW 1: START SCREEN ---
+    // --- VIEW 1: START SCREEN (CLEAN & MINIMALIST) ---
     renderStartScreenHTML() {
       const user = window.authManager?.currentUser;
       const score = user?.game_scores?.kasus || 0;
 
       return `
-        <div class="holo-enter" style="max-width: 960px; margin: 0 auto;">
-          <div class="hud-card" style="padding: 36px 30px; text-align: center; position: relative;">
+        <div class="holo-enter" style="max-width: 780px; margin: 0 auto;">
+          <div class="hud-card" style="padding: 30px 24px; text-align: center; position: relative;">
             
-            <div style="display:flex; justify-content:center; gap:8px; margin-bottom:12px;">
-              <span class="cyber-tag tag-magenta">ARENA SIMULASI PSIKOLOGI</span>
+            <div style="display:flex; justify-content:center; gap:8px; margin-bottom:10px;">
+              <span class="cyber-tag tag-magenta">SIMULASI PSIKOLOGI</span>
               <span class="cyber-tag tag-cyan">MULTI-POV INTERAKTIF</span>
             </div>
 
-            <h1 style="font-size: 2.1rem; color: var(--text-highlight); margin: 6px 0 10px 0; letter-spacing: 1px;">
+            <h1 style="font-size: 2rem; color: var(--text-highlight); margin: 4px 0 8px 0; letter-spacing: 1px;">
               🎭 SCAM SIMULATOR
             </h1>
-            <p style="font-size: 1rem; color: var(--text-muted); max-width: 680px; margin: 0 auto 26px auto; line-height: 1.6;">
-              Jelajahi dinamika penipuan siber dari dua sudut pandang nyata: sebagai <strong>Scammer</strong> yang menyusun strategi rekayasa sosial, atau sebagai <strong>Victim</strong> yang mempertahankan aset digital melalui smartphone pribadi.
+
+            <div class="ai-disclaimer-badge">
+              <span>🤖</span> <strong>AI Evaluator:</strong> Percabangan skenario dilatih untuk mengenali dinamika rekayasa sosial.
+            </div>
+
+            <p style="font-size: 0.95rem; color: var(--text-muted); max-width: 580px; margin: 0 auto 22px auto; line-height: 1.5;">
+              Eksplorasi dua sudut pandang siber: jalankan taktik <strong>Scammer</strong> atau uji ketahanan nalar sebagai <strong>Victim</strong>.
             </p>
 
-            <!-- Dual Role Explanatory Cards -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; text-align: left; margin-bottom: 30px;">
-              
-              <div class="scam-role-card role-scammer" style="cursor: default;">
-                <div style="display:flex; align-items:center; gap:12px; margin-bottom: 12px;">
-                  <span style="font-size: 2rem;">🐊</span>
-                  <div>
-                    <h3 style="color: var(--neon-red); margin:0; font-size: 1.15rem;">ROLE: SCAMMER</h3>
-                    <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">PERSPEKTIF PENYERANG</span>
-                  </div>
-                </div>
-                <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin:0 0 10px 0;">
-                  Pahami pola pikir sindikat siber. Susun pesan manipulatif, ciptakan urgensi palsu, dan pancing korban agar menuruti instruksi Anda sebelum kesempatan habis.
-                </p>
-                <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--neon-red);">
-                  Karakter: Buaya (Love), Singa (Phish), Elang (Job)
-                </div>
-              </div>
-
-              <div class="scam-role-card role-victim" style="cursor: default;">
-                <div style="display:flex; align-items:center; gap:12px; margin-bottom: 12px;">
-                  <span style="font-size: 2rem;">🐱</span>
-                  <div>
-                    <h3 style="color: var(--neon-cyan); margin:0; font-size: 1.15rem;">ROLE: VICTIM</h3>
-                    <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">PERSPEKTIF BERTAHAN</span>
-                  </div>
-                </div>
-                <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin:0 0 10px 0;">
-                  Hadapi notifikasi pesan masuk pada smartphone realistis. Latih nalar Zero-Trust, identifikasi indikator mencurigakan, dan tuliskan analisis forensik Anda.
-                </p>
-                <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--neon-cyan);">
-                  Karakter: Kucing, Hamster, Kelinci
-                </div>
-              </div>
-
-            </div>
-
             <!-- Action Buttons -->
-            <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
-              <button class="cyber-btn btn-ghost" style="padding: 12px 28px; font-size: 0.95rem;" onclick="window.scamSimulator.openTutorial()">
-                <span>📖</span> BUKA PANDUAN TUTORIAL
+            <div style="display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
+              <button class="cyber-btn btn-ghost" style="padding: 10px 24px; font-size: 0.9rem;" onclick="window.scamSimulator.openTutorial()">
+                <span>📖</span> TUTORIAL
               </button>
-              <button class="cyber-btn" style="padding: 12px 36px; font-size: 1rem; box-shadow: 0 0 25px var(--neon-cyan-dim);" onclick="window.scamSimulator.goToRoleSelect()">
-                <span>⚡</span> MULAI / PLAY ➔
+              <button class="cyber-btn" style="padding: 10px 32px; font-size: 0.95rem; box-shadow: 0 0 20px var(--neon-cyan-dim);" onclick="window.scamSimulator.goToRoleSelect()">
+                <span>⚡</span> MULAI PLAY ➔
               </button>
             </div>
 
-            <div style="margin-top: 24px; font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">
-              Skor Terkumpul di Game Ini: <strong style="color: var(--neon-green); font-size: 0.95rem;">${score} XP</strong>
+            <div style="margin-top: 18px; font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">
+              Skor Terkumpul: <strong style="color: var(--neon-green); font-size: 0.95rem;">${score} XP</strong>
             </div>
 
           </div>
@@ -935,16 +907,6 @@
             <div class="scam-char-grid">
               ${cardsHtml}
             </div>
-
-            <!-- Alternative scenario: Legitimate official message -->
-            ${!isScammer ? `
-              <div style="margin-top: 18px; text-align: center; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 14px;">
-                <span style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-muted);">Uji Skenario Khusus Kasus Resmi: </span>
-                <button class="cyber-btn btn-ghost" style="font-size: 0.78rem; padding: 4px 12px; margin-left: 8px;" onclick="window.scamSimulator.pickChar('kucing', 3)">
-                  📦 UJI KASUS NOTIFIKASI RESMI KURIR LOGISTIK (LEGITIMATE)
-                </button>
-              </div>
-            ` : ''}
 
             <div style="text-align: center; margin-top: 24px;">
               <button class="cyber-btn" style="padding: 12px 36px; font-size: 1rem; box-shadow: 0 0 25px var(--neon-cyan-dim);" onclick="window.scamSimulator.launchGameplay()">

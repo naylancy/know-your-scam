@@ -1,9 +1,9 @@
 /**
  * KNOW YOUR SCAM: ANTI-GRAVITY CYBER DEFENSE
- * MODUL 3: CRIMINAL CASE - DETEKTIF BURUNG HANTU
+ * MODUL 3: CRIMINAL CASE - DETEKTIF OWL
  * 
  * Gim edukasi teka-teki investigasi kriminal ala Criminal Case.
- * Pemain berperan sebagai Detektif Burung Hantu yang menganalisis TKP Digital,
+ * Pemain berperan sebagai Detektif Owl yang menganalisis TKP Digital,
  * memilah skenario kasus harian, mengumpulkan Red Flags (barang bukti),
  * dan menggagalkan aksi penipu sebelum korban merugi.
  * 
@@ -24,7 +24,7 @@
 
   function getPixelDetectiveOwlSVG(size = 96) {
     return `
-      <div class="pixel-owl-wrap" title="Detektif Burung Hantu (Owl Detective)">
+      <div class="pixel-owl-wrap" title="Detektif Owl (Owl Detective)">
         <svg width="${size}" height="${size}" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
           <!-- Detective Fedora Hat -->
           <rect x="7" y="1" width="14" height="4" fill="#78350F" />
@@ -198,7 +198,7 @@
       dialogues: [
         {
           speaker: 'owl',
-          speakerName: 'Detektif Burung Hantu',
+          speakerName: 'Detektif Owl',
           text: 'Laporan masuk dari Sektor Mahasiswa! Raka baru saja menerima pesan WhatsApp dari nomor asing yang mengaku kurir ekspedisi. Karena sedang menunggu barang, Raka hampir saja menekan file yang dikirimkan!'
         },
         {
@@ -208,7 +208,7 @@
         },
         {
           speaker: 'owl',
-          speakerName: 'Detektif Burung Hantu',
+          speakerName: 'Detektif Owl',
           text: 'Tenang Raka, jangan sentuh file itu! Mari kita amankan TKP Digital dan periksa pesan tersebut. Temukan 3 Red Flags mencurigakan di layar ponsel korban!'
         }
       ],
@@ -280,7 +280,7 @@
       dialogues: [
         {
           speaker: 'owl',
-          speakerName: 'Detektif Burung Hantu',
+          speakerName: 'Detektif Owl',
           text: 'Kasus kedua di meja detektif! Tari diundang ke grup Telegram "Mitra E-Commerce Global". Awalnya dia benar-benar dibayar komisi Rp 50.000 hanya dengan memberikan "Like" pada produk toko. Tapi sekarang situasinya berubah berbahaya.'
         },
         {
@@ -290,7 +290,7 @@
         },
         {
           speaker: 'owl',
-          speakerName: 'Detektif Burung Hantu',
+          speakerName: 'Detektif Owl',
           text: 'Tahan tanganmu, Tari! Jangan biarkan euforia uang kecil membutakan logika. Mari kita bedah percakapan grup Telegram tersebut di meja forensik kita!'
         }
       ],
@@ -360,7 +360,7 @@
       dialogues: [
         {
           speaker: 'owl',
-          speakerName: 'Detektif Burung Hantu',
+          speakerName: 'Detektif Owl',
           text: 'Kasus darurat tingkat tinggi! Ibu Sari menerima panggilan telepon dari seseorang yang mengaku pihak Rumah Sakit dan Polisi. Mereka mengklaim anak Ibu Sari mengalami kecelakaan parah dan butuh biaya operasi darurat sekarang juga!'
         },
         {
@@ -370,7 +370,7 @@
         },
         {
           speaker: 'owl',
-          speakerName: 'Detektif Burung Hantu',
+          speakerName: 'Detektif Owl',
           text: 'Tarik napas dalam-dalam, Ibu Sari. Jangan biarkan teror psikologis mematikan logika. Mari kita bedah bukti panggilan darurat dan pesan intimidasi ini di meja detektif!'
         }
       ],
@@ -474,24 +474,28 @@
       const container = document.getElementById('criminal-module-container');
       if (!container) return;
 
+      const guestBanner = typeof window.renderGuestLeaderboardBanner === 'function'
+        ? window.renderGuestLeaderboardBanner({ margin: '0 0 18px 0' })
+        : '';
+
       switch (this.currentStage) {
         case 'desk':
-          container.innerHTML = this.renderDeskScreenHTML();
+          container.innerHTML = guestBanner + this.renderDeskScreenHTML();
           break;
         case 'briefing':
-          container.innerHTML = this.renderBriefingScreenHTML();
+          container.innerHTML = guestBanner + this.renderBriefingScreenHTML();
           break;
         case 'crime_scene':
-          container.innerHTML = this.renderCrimeSceneHTML();
+          container.innerHTML = guestBanner + this.renderCrimeSceneHTML();
           break;
         case 'decision':
-          container.innerHTML = this.renderDecisionScreenHTML();
+          container.innerHTML = guestBanner + this.renderDecisionScreenHTML();
           break;
         case 'verdict':
-          container.innerHTML = this.renderVerdictScreenHTML();
+          container.innerHTML = guestBanner + this.renderVerdictScreenHTML();
           break;
         default:
-          container.innerHTML = this.renderDeskScreenHTML();
+          container.innerHTML = guestBanner + this.renderDeskScreenHTML();
       }
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -529,8 +533,8 @@
             </p>
 
             <div style="display:flex; justify-content:space-between; align-items:center; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 12px;">
-              <span style="font-family: var(--font-mono); font-size: 0.72rem; color: ${isSolved ? 'var(--neon-green)' : (isUnlocked ? 'var(--neon-cyan)' : 'var(--text-muted)')};">
-                ${isSolved ? '✓ CASE CLOSED 🏆' : (isUnlocked ? '⚡ SIAP DIINVESTIGASI' : '🔒 TERKUNCI')}
+              <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--neon-green);">
+                ${isSolved ? '✓ CASE CLOSED 🏆' : ''}
               </span>
               <button class="cyber-btn ${isUnlocked ? '' : 'btn-ghost'}" style="padding: 6px 14px; font-size: 0.78rem;">
                 ${isUnlocked ? 'BUKA MAP ➔' : 'TERKUNCI'}
@@ -552,7 +556,7 @@
                     MEJA KERJA DETEKTIF SIBER // CRIMINAL CASE
                   </div>
                   <h1 style="font-size: 1.6rem; color: var(--text-highlight); margin: 0;">
-                    KANTOR INVESTIGASI DETEKTIF BURUNG HANTU
+                    KANTOR INVESTIGASI DETEKTIF OWL
                   </h1>
                 </div>
               </div>
@@ -562,7 +566,7 @@
             </div>
 
             <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; margin: 18px 0 8px 0;">
-              Pilih salah satu map berkas kasus di meja kerja di bawah ini untuk memulai penyelidikan TKP Digital, mengumpulkan bukti Red Flags, dan menyelamatkan korban dari kerugian:
+              Pilih salah satu berkas kasus untuk memulai investigasi TKP Digital bersama Detektif Owl:
             </p>
 
             <div class="case-folders-grid">
@@ -574,19 +578,48 @@
       `;
     }
 
-    // --- VIEW 2: FASE 1 - INTRO & SINOPSIS (BRIEFING DIALOG RPG) ---
+    // --- VIEW 2: FASE 1 - INTRO & SINOPSIS (ANIMATED BUBBLE CHAT) ---
     renderBriefingScreenHTML() {
       const scenario = this.cases[this.currentCaseIndex];
-      const dialogue = scenario.dialogues[this.briefingStep] || scenario.dialogues[0];
-      const isOwl = dialogue.speaker === 'owl';
+      const dialoguesSoFar = scenario.dialogues.slice(0, this.briefingStep + 1);
       const isLastStep = this.briefingStep >= scenario.dialogues.length - 1;
+      const nextDialogue = !isLastStep ? scenario.dialogues[this.briefingStep + 1] : null;
+
+      const chatRowsHtml = dialoguesSoFar.map((d, i) => {
+        const isOwl = d.speaker === 'owl';
+        const isLatest = i === dialoguesSoFar.length - 1;
+        return `
+          <div class="chat-bubble-row ${isOwl ? 'chat-row-owl' : 'chat-row-victim'}" style="${isLatest ? 'animation: bubbleSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;' : ''}">
+            <div style="flex-shrink: 0;">
+              ${isOwl ? getPixelDetectiveOwlSVG(38) : getPixelVictimSVG(scenario.victimKey, 38)}
+            </div>
+            <div class="chat-bubble ${isOwl ? 'bubble-owl' : 'bubble-victim'}">
+              <div class="chat-bubble-header" style="color: ${isOwl ? 'var(--neon-cyan)' : 'var(--neon-amber)'};">
+                <span>${isOwl ? '🦉 Detektif Owl' : `👤 ${d.speakerName}`}</span>
+              </div>
+              <div style="font-size: 0.92rem; line-height: 1.55;">
+                "${d.text}"
+              </div>
+              <div class="chat-bubble-meta">
+                <span>${isOwl ? '10:15 • Terkirim ✓✓' : '10:14 • Diterima'}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // Auto-scroll chat thread to bottom after render
+      setTimeout(() => {
+        const thread = document.getElementById('criminal-chat-thread-container');
+        if (thread) thread.scrollTop = thread.scrollHeight;
+      }, 50);
 
       return `
         <div class="holo-enter" style="max-width: 860px; margin: 0 auto;">
           <div class="briefing-dialog-card">
             
             <!-- Top Status Bar -->
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 16px; border-bottom: 1px solid rgba(0,243,255,0.15); padding-bottom: 10px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 14px; border-bottom: 1px solid rgba(0,243,255,0.15); padding-bottom: 10px; flex-wrap:wrap; gap:8px;">
               <div style="display:flex; align-items:center; gap: 8px;">
                 <span class="cyber-tag tag-cyan">FASE 1: BRIEFING KASUS</span>
                 <strong style="color: var(--text-highlight); font-size: 0.95rem;">${scenario.code}: ${scenario.title}</strong>
@@ -596,61 +629,56 @@
               </button>
             </div>
 
-            <!-- Avatars Confrontation Stage -->
-            <div class="briefing-avatars-stage">
-              <div class="dialog-portrait-box">
-                ${getPixelDetectiveOwlSVG(84)}
-                <span style="font-family: var(--font-display); font-size: 0.8rem; color: var(--neon-cyan); font-weight: 700; margin-top: 6px;">
-                  Detektif Owl
-                </span>
-                <span style="font-size: 0.68rem; color: var(--text-muted);">Penyelidik</span>
-              </div>
-
-              <div style="font-size: 1.8rem; color: var(--neon-cyan); opacity: 0.6;">
-                🔍
-              </div>
-
-              <div class="dialog-portrait-box">
-                ${getPixelVictimSVG(scenario.victimKey, 84)}
-                <span style="font-family: var(--font-display); font-size: 0.8rem; color: var(--neon-amber); font-weight: 700; margin-top: 6px;">
-                  ${scenario.victimInfo.name}
-                </span>
-                <span style="font-size: 0.68rem; color: var(--text-muted);">${scenario.victimInfo.occupation}</span>
-              </div>
-            </div>
-
-            <!-- Speech Bubble Deck -->
-            <div class="dialog-speech-deck">
-              <div class="dialog-speaker-tag" style="color: ${isOwl ? 'var(--neon-cyan)' : 'var(--neon-amber)'};">
-                ${isOwl ? '🦉 Detektif Burung Hantu:' : `🗣️ ${dialogue.speakerName}:`}
-              </div>
-              <p style="font-size: 0.95rem; color: var(--text-main); line-height: 1.6; margin: 0;">
-                "${dialogue.text}"
-              </p>
-            </div>
-
-            <!-- Victim Identity Dossier -->
-            <div class="victim-id-card">
-              <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap: 8px; margin-bottom: 4px;">
+            <!-- Victim Identity Dossier Strip -->
+            <div class="victim-id-card" style="margin-top: 0; margin-bottom: 14px;">
+              <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap: 8px;">
                 <span>👤 KORBAN: <strong style="color:var(--text-main);">${scenario.victimInfo.name} (${scenario.victimInfo.age}, ${scenario.victimInfo.occupation})</strong></span>
-                <span>⚠️ RISIKO: <strong style="color:var(--neon-red);">${scenario.victimInfo.potentialLoss}</strong></span>
+                <span>⚠️ POTENSI KERUGIAN: <strong style="color:var(--neon-red);">${scenario.victimInfo.potentialLoss}</strong></span>
               </div>
-              <div>
-                📌 KONTEKS: <em>${scenario.victimInfo.context}</em>
+              <div style="margin-top: 4px;">
+                📌 KASUS: <em>${scenario.victimInfo.context}</em>
               </div>
             </div>
 
-            <!-- Action Progression -->
-            <div style="display:flex; justify-content:flex-end; gap: 12px; margin-top: 20px;">
-              ${!isLastStep ? `
-                <button class="cyber-btn" style="padding: 10px 24px; font-size: 0.9rem;" onclick="window.moduleCriminal.nextBriefingDialog()">
-                  LANJUT DIALOG ➔
-                </button>
-              ` : `
-                <button class="cyber-btn" style="padding: 12px 32px; font-size: 0.95rem; box-shadow: 0 0 25px var(--neon-cyan-dim);" onclick="window.moduleCriminal.startCrimeSceneInvestigation()">
-                  <span>🔎</span> MULAI INVESTIGASI TKP DIGITAL ➔
-                </button>
-              `}
+            <!-- Animated Bubble Chat Thread -->
+            <div class="criminal-chat-thread" id="criminal-chat-thread-container">
+              ${chatRowsHtml}
+
+              ${nextDialogue ? `
+                <div class="chat-bubble-row ${nextDialogue.speaker === 'owl' ? 'chat-row-owl' : 'chat-row-victim'}" style="opacity: 0.75;">
+                  <div style="flex-shrink: 0;">
+                    ${nextDialogue.speaker === 'owl' ? getPixelDetectiveOwlSVG(32) : getPixelVictimSVG(scenario.victimKey, 32)}
+                  </div>
+                  <div style="font-size: 0.78rem; font-family: var(--font-mono); color: var(--text-muted); display:flex; align-items:center; gap:6px; padding: 6px 12px; background: rgba(0,0,0,0.3); border-radius: 12px;">
+                    <span class="typing-dot"></span>
+                    <span class="typing-dot"></span>
+                    <span class="typing-dot"></span>
+                    <span>${nextDialogue.speaker === 'owl' ? 'Detektif Owl' : scenario.victimInfo.name} sedang berbicara...</span>
+                  </div>
+                </div>
+              ` : ''}
+            </div>
+
+            <!-- Action Progression Bar -->
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap: 12px; margin-top: 14px;">
+              <div style="font-size: 0.8rem; color: var(--text-muted); font-family: var(--font-mono);">
+                Percakapan ${this.briefingStep + 1} dari ${scenario.dialogues.length}
+              </div>
+
+              <div style="display:flex; gap: 8px;">
+                ${!isLastStep ? `
+                  <button class="cyber-btn btn-ghost" style="padding: 8px 14px; font-size: 0.8rem;" onclick="window.moduleCriminal.revealAllDialogues()">
+                    ⚡ TAMPILKAN SEMUA
+                  </button>
+                  <button class="cyber-btn" style="padding: 10px 22px; font-size: 0.88rem;" onclick="window.moduleCriminal.nextBriefingDialog()">
+                    LANJUT CHAT 💬 ➔
+                  </button>
+                ` : `
+                  <button class="cyber-btn" style="padding: 12px 30px; font-size: 0.95rem; box-shadow: 0 0 25px var(--neon-cyan-dim);" onclick="window.moduleCriminal.startCrimeSceneInvestigation()">
+                    <span>🔎</span> MULAI INVESTIGASI TKP DIGITAL ➔
+                  </button>
+                `}
+              </div>
             </div>
 
           </div>
@@ -936,10 +964,10 @@
             <!-- Detective Owl Guidance -->
             <div class="dialog-speech-deck" style="margin-bottom: 20px;">
               <div class="dialog-speaker-tag">
-                🦉 Detektif Burung Hantu:
+                🦉 Detektif Owl:
               </div>
-              <p style="font-size: 0.95rem; color: var(--text-main); line-height: 1.6; margin: 0;">
-                "Semua bukti kunci telah terkumpul di berkas perkara! Berdasarkan 3 Red Flags yang Anda temukan di TKP Digital, tentukan keputusan mitigasi terbaik untuk menggagalkan aksi pelaku sebelum korban menanggung kerugian!"
+              <p style="font-size: 0.95rem; color: var(--text-main); line-height: 1.5; margin: 0;">
+                "Semua bukti terkumpul di berkas perkara! Tentukan keputusan mitigasi terbaik untuk melindungi korban dan menggagalkan penipuan."
               </p>
             </div>
 
@@ -1076,12 +1104,19 @@
     }
 
     nextBriefingDialog() {
-      window.cyberAudio?.playClick();
       const scenario = this.cases[this.currentCaseIndex];
       if (this.briefingStep < scenario.dialogues.length - 1) {
         this.briefingStep++;
+        window.cyberAudio?.playNotification ? window.cyberAudio.playNotification() : window.cyberAudio?.playClick();
         this.render();
       }
+    }
+
+    revealAllDialogues() {
+      window.cyberAudio?.playClick();
+      const scenario = this.cases[this.currentCaseIndex];
+      this.briefingStep = scenario.dialogues.length - 1;
+      this.render();
     }
 
     startCrimeSceneInvestigation() {

@@ -8,11 +8,11 @@
   <meta name="description" content="KNOW YOUR SCAM - Platform edukasi dan simulasi pertahanan siber multi-level bertenaga Laravel dan AI Cognitive Core.">
 
   <!-- Core Cyber CSS Files -->
-  <link rel="stylesheet" href="{{ asset('css/hud-layout.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/games.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/edukasi.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/cyber-theme.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/hud-layout.css') }}?v=2.2">
+  <link rel="stylesheet" href="{{ asset('css/games.css') }}?v=2.2">
+  <link rel="stylesheet" href="{{ asset('css/edukasi.css') }}?v=2.2">
+  <link rel="stylesheet" href="{{ asset('css/cyber-theme.css') }}?v=2.2">
+  <link rel="stylesheet" href="{{ asset('css/responsive.css') }}?v=2.2">
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
 </head>
@@ -402,7 +402,7 @@
                 <div class="menu-summary-icon">🦉</div>
                 <h4 style="font-size: 1.15rem; color: var(--text-highlight); margin-bottom: 6px;">CRIMINAL CASE</h4>
                 <p class="menu-summary-teaser">
-                  Investigasi teka-teki TKP digital bersama Detektif Burung Hantu membongkar Red Flags.
+                  Investigasi teka-teki TKP digital bersama Detektif Owl membongkar Red Flags.
                 </p>
               </div>
               <div class="menu-summary-inspect-link">
@@ -559,7 +559,7 @@
                 <div class="game-hub-badge" style="color:var(--neon-magenta); background:rgba(189,0,255,0.1);">MODUL 3 // FORENSIK</div>
                 <h3 class="game-hub-title">🦉 Criminal Case</h3>
                 <p class="game-hub-desc">
-                  Pecahkan teka-teki TKP digital bersama Detektif Burung Hantu dan gagalkan aksi penipuan.
+                  Pecahkan teka-teki TKP digital bersama Detektif Owl dan gagalkan aksi penipuan.
                 </p>
               </div>
               <div>
@@ -619,7 +619,7 @@
         <div class="sub-hud-bar">
           <div class="sub-hud-left">
             <span style="font-size: 1.5rem;">🔗</span>
-            <div class="sub-hud-title">LINK & NEWS SCANNER (HYBRID DETECTOR)</div>
+            <div class="sub-hud-title">LINK & NEWS SCANNER (KONSENSUS 3 MODEL AI)</div>
           </div>
           <div class="sub-hud-right">
             <button class="btn-intel-hint" onclick="window.hintSystem.openHintModal()">
@@ -641,7 +641,7 @@
         <div class="sub-hud-bar">
           <div class="sub-hud-left">
             <span style="font-size: 1.5rem;">🛡️</span>
-            <div class="sub-hud-title">LEGIT CHECKER: VALIDASI KEASLIAN MULTI-ANCAMAN</div>
+            <div class="sub-hud-title">LEGIT CHECKER (KONSENSUS 3 MODEL AI)</div>
           </div>
           <div class="sub-hud-right">
             <button class="btn-intel-hint" onclick="window.hintSystem.openHintModal()">
@@ -729,7 +729,7 @@
             <label style="font-family:var(--font-display); font-size:0.8rem; color:var(--text-muted);">SANDI / PASSWORD</label>
             <span style="font-size:0.72rem; color:var(--neon-cyan); cursor:pointer;" onclick="window.authManager.togglePasswordVisibility('auth-input-password')">👁️ Tampilkan Sandi</span>
           </div>
-          <input type="password" id="auth-input-password" class="cyber-input" placeholder="Masukkan sandi Anda" style="width:100%; padding:10px 14px; font-family:var(--font-mono); font-size:0.9rem;" required autocomplete="current-password">
+          <input type="password" id="auth-input-password" class="cyber-input" placeholder="Masukkan sandi Anda" style="width:100%; padding:10px 14px; font-family:var(--font-mono); font-size:0.9rem;" required autocomplete="new-password">
         </div>
 
         <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -893,26 +893,26 @@
   </script>
 
   <!-- Core Scripts -->
-  <script src="{{ asset('js/audio-engine.js') }}"></script>
-  <script src="{{ asset('js/particle-canvas.js') }}"></script>
-  <script src="{{ asset('js/ai-wave-canvas.js') }}"></script>
-  <script src="{{ asset('js/hint-system.js') }}"></script>
-  <script src="{{ asset('js/game-briefing.js') }}"></script>
-  <script src="{{ asset('js/auth.js') }}"></script>
-  <script src="{{ asset('js/welcome-interactive.js') }}"></script>
-  <script src="{{ asset('js/module-edukasi.js') }}"></script>
-  <script src="{{ asset('js/leaderboard.js') }}"></script>
-  <script src="{{ asset('js/admin.js') }}"></script>
+  <script src="{{ asset('js/audio-engine.js') }}?v=2.2"></script>
+  <script src="{{ asset('js/particle-canvas.js') }}?v=2.2"></script>
+  <script src="{{ asset('js/ai-wave-canvas.js') }}?v=2.2"></script>
+  <script src="{{ asset('js/hint-system.js') }}?v=2.2"></script>
+  <script src="{{ asset('js/game-briefing.js') }}?v=2.2"></script>
+  <script src="{{ asset('js/auth.js') }}?v=2.2"></script>
+  <script src="{{ asset('js/welcome-interactive.js') }}?v=2.2"></script>
+  <script src="{{ asset('js/module-edukasi.js') }}?v=2.2"></script>
+  <script src="{{ asset('js/leaderboard.js') }}?v=2.2"></script>
+  <script src="{{ asset('js/admin.js') }}?v=2.2"></script>
 
   <!-- Game Modules -->
-  <script src="{{ asset('js/games/module-kasus.js') }}"></script>
-  <script src="{{ asset('js/games/module-diff.js') }}"></script>
-  <script src="{{ asset('js/games/module-criminal.js') }}"></script>
-  <script src="{{ asset('js/games/module-deeplearn.js') }}"></script>
-  <script src="{{ asset('js/games/module-scanner.js') }}"></script>
-  <script src="{{ asset('js/games/module-checker.js') }}"></script>
+  <script src="{{ asset('js/games/module-kasus.js') }}?v=2.2"></script>
+  <script src="{{ asset('js/games/module-diff.js') }}?v=2.2"></script>
+  <script src="{{ asset('js/games/module-criminal.js') }}?v=2.2"></script>
+  <script src="{{ asset('js/games/module-deeplearn.js') }}?v=2.2"></script>
+  <script src="{{ asset('js/games/module-scanner.js') }}?v=2.2"></script>
+  <script src="{{ asset('js/games/module-checker.js') }}?v=2.2"></script>
 
   <!-- Application Main Controller -->
-  <script src="{{ asset('js/app.js') }}"></script>
+  <script src="{{ asset('js/app.js') }}?v=2.2"></script>
 </body>
 </html>

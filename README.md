@@ -100,7 +100,7 @@ Proyek ini telah dikonfigurasi untuk integrasi cloud database **Neon PostgreSQL*
 
 ### Langkah 1: Clone atau Buka Folder Proyek
 ```powershell
-cd C:\laragon\www\GuardianSpace
+cd C:\laragon\www\KnowYourScam
 ```
 
 ### Langkah 2: Jalankan Laravel Server
@@ -108,7 +108,7 @@ cd C:\laragon\www\GuardianSpace
 php artisan serve
 ```
 Buka browser Anda dan akses:
-👉 **[http://localhost:8000](http://localhost:8000)** (atau melalui Laragon: **[http://guardianspace.test](http://guardianspace.test)**)
+👉 **[http://localhost:8000](http://localhost:8000)** (atau melalui Laragon: **[http://knowyourscam.test](http://knowyourscam.test)**)
 
 ---
 

@@ -75,7 +75,7 @@
       id: 'zero-trust',
       category: '1. PENDAHULUAN',
       title: 'Prinsip Zero-Trust & "3-Second Rule"',
-      readingTime: '4 menit',
+      readingTime: '3 menit',
       badge: 'Mindset',
       html: `
         <div class="edu-article">
@@ -86,22 +86,32 @@
           </div>
 
           <div class="edu-section">
-            <h3>Apa itu Paradigma Zero-Trust?</h3>
-            <p>Zero-Trust adalah filosofi keamanan di mana Anda tidak langsung mempercayai pesan, telepon, atau tautan apapun—bahkan jika pesan tersebut tampak berasal dari teman akrab, nomor instansi resmi, atau logo bank ternama.</p>
-            <p>Di dunia digital, identitas pengirim (Caller ID, foto profil, nama pengirim email) sangat mudah dipalsukan (<em>spoofed</em>).</p>
-          </div>
+            <h3>Visualisasi Kompas Keputusan Taktis: 3-Second Rule</h3>
+            <p>Penipu siber selalu mengeksploitasi <strong>keputusan impulsif</strong>. Saat menerima pesan mendesak atau mencurigakan, terapkan 3 langkah taktis ini:</p>
 
-          <div class="edu-section">
-            <h3>Metode Pertahanan "3-Second Rule"</h3>
-            <p>Penipu siber selalu mengandalkan <strong>keputusan impulsif</strong>. Mereka memicu emosi tinggi: rasa panik (akun diblokir!), rasa takut (surat tilang/polisi!), atau rasa serakah (menang undian 100 juta!).</p>
-            
-            <div class="w3-danger-box">
-              <h4>🛑 Praktikkan 3-Second Rule:</h4>
-              <ol style="margin-left: 20px; line-height: 1.8;">
-                <li><strong>Detik 1 (Stop):</strong> Lepaskan jari Anda dari tombol klik atau layar ponsel. Jangan langsung bereaksi.</li>
-                <li><strong>Detik 2 (Breathe & Analyze):</strong> Sadari emosi Anda. Apakah pesan ini memaksa Anda bertindak cepat dalam hitungan menit? Mengapa meminta data rahasia?</li>
-                <li><strong>Detik 3 (Verify Separately):</strong> Tutup pesan tersebut. Buka saluran komunikasi resmi terpisah (Out-of-Band) untuk memastikan kebenarannya.</li>
-              </ol>
+            <div class="edu-visual-container">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <span class="cyber-tag tag-cyan" style="font-size:0.75rem;">KOMPAS KEPUTUSAN TAKTIS</span>
+                <span class="cyber-tag tag-green" style="font-size:0.75rem;">INTERAKTIF</span>
+              </div>
+              <div class="edu-flow-grid">
+                <div class="edu-flow-card flow-danger" onclick="window.edukasiManager.showHotspot(this, 'Detik 1 (STOP): Lepaskan jari Anda dari tombol klik atau layar ponsel. Jangan langsung bereaksi impulsif!')">
+                  <div class="edu-flow-num">1</div>
+                  <h4 style="font-size:0.92rem; color:var(--neon-red); margin-bottom:4px;">STOP (Berhenti)</h4>
+                  <p style="font-size:0.78rem; color:var(--text-muted); margin:0;">Lepaskan jari dari tombol. Hentikan reaksi otomatis terhadap pesan mendesak.</p>
+                </div>
+                <div class="edu-flow-card flow-warning" onclick="window.edukasiManager.showHotspot(this, 'Detik 2 (ANALYZE): Sadari pemicu emosi Anda—apakah ada desakan waktu sempit, ancaman denda polisi, atau iming-iming hadiah besar?')">
+                  <div class="edu-flow-num">2</div>
+                  <h4 style="font-size:0.92rem; color:var(--neon-amber); margin-bottom:4px;">ANALYZE (Analisis)</h4>
+                  <p style="font-size:0.78rem; color:var(--text-muted); margin:0;">Identifikasi pemicu manipulasi emosi (kepanikan, tenggat waktu, atau keserakahan).</p>
+                </div>
+                <div class="edu-flow-card flow-success" onclick="window.edukasiManager.showHotspot(this, 'Detik 3 (VERIFY): Tutup pesan tersebut. Hubungi nomor atau kanal resmi instansi terkait melalui jalur komunikasi terpisah (Out-of-Band).')">
+                  <div class="edu-flow-num">3</div>
+                  <h4 style="font-size:0.92rem; color:var(--neon-green); margin-bottom:4px;">VERIFY (Verifikasi)</h4>
+                  <p style="font-size:0.78rem; color:var(--text-muted); margin:0;">Tutup pesan dan konfirmasi langsung via kanal resmi terpisah.</p>
+                </div>
+              </div>
+              <div class="edu-hotspot-info w3-info-box" style="margin-top:14px; margin-bottom:0; display:none;"></div>
             </div>
           </div>
 
@@ -198,39 +208,57 @@
       id: 'phishing',
       category: '2. ANATOMI PENIPUAN',
       title: 'Phishing & Typosquatting Domain',
-      readingTime: '5 menit',
+      readingTime: '4 menit',
       badge: 'Kritis',
       html: `
         <div class="edu-article">
           <div class="edu-header-box">
             <span class="cyber-tag tag-magenta">SUBBAB 2 // ANATOMI: PHISHING & SPOOFING</span>
             <h2>Phishing & Typosquatting Domain</h2>
-            <p class="edu-lead">Mengenali situs web palsu yang didesain 99% mirip aslinya untuk menjebak kredensial login Anda.</p>
+            <p class="edu-lead">Mengenali situs web palsu yang didesain 99% mirip aslinya untuk mencuri kredensial login Anda.</p>
           </div>
 
           <div class="edu-section">
-            <h3>Bagaimana Phishing Bekerja?</h3>
-            <p>Pelaku menduplikasi antarmuka website perbankan, e-commerce, atau media sosial. Korban yang diarahkan ke situs tiruan ini tanpa sadar mengetikkan username, password, nomor kartu ATM, dan kode OTP. Data tersebut langsung terkirim ke server pelaku.</p>
+            <h3>Inspektor Anatomi Pesan Phishing Interaktif</h3>
+            <p>Klik elemen merah pada simulasi email berikut untuk menganalisis indikator manipulasi siber:</p>
+
+            <div class="edu-visual-container">
+              <div style="background:rgba(5,7,16,0.95); border:1px solid rgba(255,255,255,0.1); border-radius:6px; padding:14px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:8px; margin-bottom:10px;">
+                  <span style="font-size:0.8rem; color:var(--text-muted);">📧 INCOMING TRANSMISSION</span>
+                  <button class="cyber-btn btn-ghost" style="padding:2px 8px; font-size:0.7rem;" onclick="window.edukasiManager.showHotspot(this, 'Header spoofing: Penyerang memalsukan nama display Layanan Nasabah BCA, padahal alamat email pengirim berasal dari domain gratis .xyz!')">
+                    🔍 Cek Header
+                  </button>
+                </div>
+                <div style="font-size:0.85rem; line-height:1.6;">
+                  <p style="margin-bottom:6px;">
+                    <strong>Dari:</strong> Layanan Nasabah BCA &lt;<span style="color:var(--neon-red); text-decoration:underline; cursor:pointer;" onclick="window.edukasiManager.showHotspot(this, 'Red Flag Domain: Alamat email pengirim memakai domain .xyz, bukan domain resmi bank (@bca.co.id).')">admin@klikbca-update-tarif.xyz</span>&gt;
+                  </p>
+                  <p style="margin-bottom:6px;">
+                    <strong>Subjek:</strong> <span style="color:var(--neon-amber); cursor:pointer;" onclick="window.edukasiManager.showHotspot(this, 'Red Flag Urgensi: Penyerang menciptakan ancaman panik agar korban buru-buru mengklik formulir.')">🚨 PENTING: Perubahan Tarif Transaksi! Segera Konfirmasi dalam 1x24 Jam</span>
+                  </p>
+                  <div style="background:rgba(255,255,255,0.03); padding:10px; border-radius:4px; margin:10px 0;">
+                    <p style="margin:0 0 8px 0; color:var(--text-main);">Yth. Nasabah, tarif transfer bulanan akan dinaikkan otomatis menjadi Rp 150.000 jika Anda tidak menolak formulir di bawah ini:</p>
+                    <div style="text-align:center; padding:6px 0;">
+                      <button class="cyber-btn btn-danger" style="font-size:0.82rem;" onclick="window.edukasiManager.showHotspot(this, 'Jebakan Tautan: Tombol ini mengarah ke IP Server asing (185.220.101.5) bukan domain resmi bank!')">
+                        ⚠️ Klik Di Sini untuk Tolak Kenaikan Tarif
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="edu-hotspot-info w3-danger-box" style="margin-top:12px; margin-bottom:0; display:none;"></div>
+            </div>
 
             <div class="w3-code-box">
               <div class="code-title">🔍 CONTOH PERBANDINGAN DOMAIN TYPOSQUATTING:</div>
-              <div style="font-family: var(--font-mono); font-size: 0.88rem; line-height: 1.8;">
+              <div style="font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.8;">
                 <div style="color: var(--neon-green);">✓ DOMAIN ASLI: &nbsp;&nbsp;https://klikbca.com / https://bca.co.id</div>
                 <div style="color: var(--neon-red);">✗ DOMAIN PALSU: &nbsp;https://klikbca-update-tarif.net</div>
                 <div style="color: var(--neon-red);">✗ DOMAIN PALSU: &nbsp;https://bca-perubahan-biaya.site/login.php</div>
                 <div style="color: var(--neon-red);">✗ DOMAIN PALSU: &nbsp;http://185.220.101.5/klikbca</div>
               </div>
             </div>
-          </div>
-
-          <div class="edu-section">
-            <h3>Ciri Khas URL Phishing:</h3>
-            <ul class="edu-checklist">
-              <li><strong>Ekstensi Domain Asing:</strong> Menggunakan domain gratis atau murah seperti <code>.xyz</code>, <code>.top</code>, <code>.site</code>, <code>.tk</code>, bukan domain korporat resmi seperti <code>.co.id</code> atau <code>.go.id</code>.</li>
-              <li><strong>Subdomain Menipu:</strong> Menempatkan nama bank di awal, padahal domain utamanya berbeda, contoh: <code>bca.co.id.login-verifikasi.xyz</code> (domain aslinya adalah <em>login-verifikasi.xyz</em>, bukan BCA!).</li>
-              <li><strong>Penggunaan Alamat IP Langsung:</strong> Tautan berupa deretan angka seperti <code>http://192.168.1.1/update</code> tanpa nama domain.</li>
-              <li><strong>Protokol HTTP Tanpa SSL:</strong> Tidak memiliki sertifikat gembok enkripsi HTTPS.</li>
-            </ul>
           </div>
 
           <div class="edu-section">
@@ -252,7 +280,7 @@
       id: 'apk-malware',
       category: '2. ANATOMI PENIPUAN',
       title: 'Modus APK Malware (Surat Tilang/Undangan)',
-      readingTime: '5 menit',
+      readingTime: '4 menit',
       badge: 'Sangat Berbahaya',
       html: `
         <div class="edu-article">
@@ -263,45 +291,45 @@
           </div>
 
           <div class="edu-section">
-            <h3>Modus Operandi:</h3>
-            <p>Korban menerima pesan WhatsApp dari nomor asing yang mengaku sebagai pihak resmi, kurir paket, atau kepolisian. Pelaku menyertakan file berekstensi <code>.apk</code> dengan nama yang dirancang memancing klik:</p>
-            
-            <div class="edu-grid-cards">
-              <div class="edu-card">
-                <div class="card-icon">📬</div>
-                <h4>Foto Resi Paket / Kurir</h4>
-                <p>Nama file: <code>LIHAT_FOTO_PAKET.apk</code>. Korban mengira sedang melihat resi pengiriman paket belanja.</p>
+            <h3>Visual Vektor Serangan Malware APK (4 Langkah Infeksi)</h3>
+            <p>Klik langkah di bawah untuk menganalisis bagaimana malware membobol smartphone korban:</p>
+
+            <div class="edu-visual-container">
+              <div class="edu-flow-grid">
+                <div class="edu-flow-card flow-danger" onclick="window.edukasiManager.showHotspot(this, 'Langkah 1: Pelaku menyamar sebagai kurir paket, kepolisian (surat tilang ETLE), atau kerabat mengirim undangan pernikahan .apk via WhatsApp.')">
+                  <div class="edu-flow-num">1</div>
+                  <h4 style="font-size:0.85rem; color:var(--neon-red); margin-bottom:4px;">Umpan Sosial</h4>
+                  <p style="font-size:0.75rem; color:var(--text-muted); margin:0;">File APK dikirim dengan nama palsu: "Foto_Paket.apk" atau "Surat_Tilang.apk".</p>
+                </div>
+                <div class="edu-flow-card flow-warning" onclick="window.edukasiManager.showHotspot(this, 'Langkah 2: Korban mengklik file. Android meminta izin instalasi dari sumber tidak dikenal (Unknown Sources).')">
+                  <div class="edu-flow-num">2</div>
+                  <h4 style="font-size:0.85rem; color:var(--neon-amber); margin-bottom:4px;">Bypass Keamanan</h4>
+                  <p style="font-size:0.75rem; color:var(--text-muted); margin:0;">Korban mengizinkan instalasi aplikasi dari luar Google Play Store.</p>
+                </div>
+                <div class="edu-flow-card flow-warning" onclick="window.edukasiManager.showHotspot(this, 'Langkah 3: Malware meminta izin READ_SMS dan RECEIVE_SMS untuk menyadap semua SMS masuk, terutama kode OTP perbankan.')">
+                  <div class="edu-flow-num">3</div>
+                  <h4 style="font-size:0.85rem; color:var(--neon-amber); margin-bottom:4px;">Penyadapan SMS</h4>
+                  <p style="font-size:0.75rem; color:var(--text-muted); margin:0;">Izin SMS dan Aksesibilitas diaktifkan secara diam-diam.</p>
+                </div>
+                <div class="edu-flow-card flow-danger" onclick="window.edukasiManager.showHotspot(this, 'Langkah 4: Pelaku login ke mobile banking korban. Kode OTP SMS diteruskan langsung ke bot Telegram pelaku tanpa notifikasi ke korban.')">
+                  <div class="edu-flow-num">4</div>
+                  <h4 style="font-size:0.85rem; color:var(--neon-red); margin-bottom:4px;">Pengurasan Dana</h4>
+                  <p style="font-size:0.75rem; color:var(--text-muted); margin:0;">Saldo ditransfer keluar dalam hitungan menit tanpa disadari korban.</p>
+                </div>
               </div>
-              <div class="edu-card">
-                <div class="card-icon">💌</div>
-                <h4>Surat Undangan Pernikahan</h4>
-                <p>Nama file: <code>Surat_Undangan_Digital.apk</code>. Memanfaatkan rasa penasaran dan etika sosial korban.</p>
-              </div>
-              <div class="edu-card">
-                <div class="card-icon">🚓</div>
-                <h4>Konfirmasi Surat Tilang</h4>
-                <p>Nama file: <code>Surat_Tilang_ETLE_Polri.apk</code>. Memanfaatkan rasa panik didenda tilang elektronik kepolisian.</p>
-              </div>
+              <div class="edu-hotspot-info w3-danger-box" style="margin-top:14px; margin-bottom:0; display:none;"></div>
             </div>
           </div>
 
           <div class="edu-section">
-            <h3>Apa yang Terjadi Jika APK Diinstal?</h3>
-            <p>APK tersebut meminta izin sensitif (Permissions):</p>
-            <div class="w3-danger-box">
-              <p>🔴 <strong>RECEIVE_SMS & READ_SMS:</strong> Aplikasi diam-diam menyadap SMS yang masuk ke ponsel korban.</p>
-              <p>🔴 <strong>FORWARD_SMS:</strong> Saat bank mengirimkan kode OTP untuk transfer dana, malware langsung meneruskannya ke bot Telegram pelaku tanpa sepengetahuan korban.</p>
-              <p>🔴 <strong>ACCESSIBILITY_SERVICE:</strong> Mengambil alih layar ponsel dan mengeksekusi klik otomatis.</p>
+            <div class="w3-info-box">
+              <h4>🛡️ Langkah Pencegahan Mutlak:</h4>
+              <ul class="edu-checklist" style="margin-top:8px;">
+                <li><strong>JANGAN PERNAH</strong> menginstal file berekstensi <code>.apk</code> yang dikirim melalui WhatsApp atau Telegram.</li>
+                <li>Unduh aplikasi HANYA dari toko aplikasi resmi (Google Play Store atau Apple App Store).</li>
+                <li>Pastikan opsi <em>"Install unknown apps"</em> pada pengaturan Android selalu <strong>NONAKTIF</strong>.</li>
+              </ul>
             </div>
-          </div>
-
-          <div class="edu-section">
-            <h3>Langkah Pencegahan Mutlak:</h3>
-            <ul class="edu-checklist">
-              <li><strong>JANGAN PERNAH</strong> menginstal file berekstensi <code>.apk</code> yang dikirim melalui WhatsApp atau Telegram.</li>
-              <li>Unduh aplikasi HANYA dari toko aplikasi resmi (Google Play Store atau Apple App Store).</li>
-              <li>Periksa pengaturan ponsel Anda: Pastikan opsi <em>"Install unknown apps"</em> atau <em>"Sumber Tidak Dikenal"</em> dalam kondisi <strong>NONAKTIF</strong>.</li>
-            </ul>
           </div>
         </div>
       `
@@ -321,22 +349,43 @@
           </div>
 
           <div class="edu-section">
-            <h3>Pola Serangan (The Playbook):</h3>
-            <ol style="margin-left: 20px; line-height: 1.8;">
-              <li><strong>Penciptaan Profil Impian:</strong> Pelaku menggunakan foto curian pria/wanita berparas rupawan, berprofesi bergengsi (pilot, dokter militer di luar negeri, pengusaha migas).</li>
-              <li><strong>Love Bombing:</strong> Menghujani korban dengan perhatian intens, kasih sayang, dan janji pernikahan dalam waktu singkat.</li>
-              <li><strong>Krisis Finansial Palsu:</strong> Setelah korban terpikat, pelaku tiba-tiba mengalami kemalangan palsu: paspor ditahan, kiriman paket emas/hibah tersangkut di bea cukai bandara, atau biaya operasi darurat.</li>
-              <li><strong>Permintaan Uang Berkala:</strong> Meminta korban mentransfer uang ke rekening perantara dengan janji akan diganti berlipat ganda.</li>
-            </ol>
+            <h3>Visual Siklus Manipulasi Love Scam (The Playbook)</h3>
+            <p>Klik tiap fase untuk mempelajari taktik manipulasi psikologis pelaku:</p>
+
+            <div class="edu-visual-container">
+              <div class="edu-flow-grid">
+                <div class="edu-flow-card" onclick="window.edukasiManager.showHotspot(this, 'Fase 1 (The Hook): Pelaku menggunakan foto curian pria/wanita rupawan dengan profesi bergengsi (pilot, dokter luar negeri, pengusaha migas).')">
+                  <div class="edu-flow-num">1</div>
+                  <h4 style="font-size:0.85rem; color:var(--neon-cyan); margin-bottom:4px;">Profil Impian</h4>
+                  <p style="font-size:0.75rem; color:var(--text-muted); margin:0;">Memikat korban via dating app dengan identitas sempurna palsu.</p>
+                </div>
+                <div class="edu-flow-card" onclick="window.edukasiManager.showHotspot(this, 'Fase 2 (Love Bombing): Menghujani korban dengan perhatian konstan, rayuan puitis, dan janji masa depan dalam hitungan hari.')">
+                  <div class="edu-flow-num">2</div>
+                  <h4 style="font-size:0.85rem; color:var(--neon-magenta); margin-bottom:4px;">Love Bombing</h4>
+                  <p style="font-size:0.75rem; color:var(--text-muted); margin:0;">Membangun keterikatan emosi mendalam secara instan.</p>
+                </div>
+                <div class="edu-flow-card flow-warning" onclick="window.edukasiManager.showHotspot(this, 'Fase 3 (Isolasi & Alibi): Menolak video call dengan alasan keamanan militer, sinyal buruk, atau kamera rusak, seraya membujuk korban merahasiakan hubungan.')">
+                  <div class="edu-flow-num">3</div>
+                  <h4 style="font-size:0.85rem; color:var(--neon-amber); margin-bottom:4px;">Isolasi & Alibi</h4>
+                  <p style="font-size:0.75rem; color:var(--text-muted); margin:0;">Selalu menolak video call dan minta hubungan dirahasiakan.</p>
+                </div>
+                <div class="edu-flow-card flow-danger" onclick="window.edukasiManager.showHotspot(this, 'Fase 4 (Krisis Finansial): Menciptakan drama palsu (paket hibah emas tertahan bea cukai bandara, biaya rumah sakit mendesak) dan meminta transfer uang!')">
+                  <div class="edu-flow-num">4</div>
+                  <h4 style="font-size:0.85rem; color:var(--neon-red); margin-bottom:4px;">Drama Finansial</h4>
+                  <p style="font-size:0.75rem; color:var(--text-muted); margin:0;">Meminta transfer uang darurat berkali-kali ke rekening asing.</p>
+                </div>
+              </div>
+              <div class="edu-hotspot-info w3-info-box" style="margin-top:14px; margin-bottom:0; display:none;"></div>
+            </div>
           </div>
 
           <div class="edu-section">
             <div class="w3-info-box">
-              <h4>🚩 Red Flags Utama Love Scam:</h4>
+              <h4>🚩 3 Red Flag Mutlak Romance Scam:</h4>
               <ul style="margin-left: 16px; margin-top: 8px;">
-                <li>Menolak panggilan video (video call) dengan berbagai dalih sinyal buruk atau aturan militer.</li>
-                <li>Menyatakan cinta sangat cepat padahal belum pernah bertemu langsung.</li>
-                <li>Ujung-ujungnya SELALU meminta transfer uang atau investasi mata uang kripto bersama.</li>
+                <li>Menolak panggilan video (video call) secara konsisten dengan berbagai alasan.</li>
+                <li>Menyatakan cinta sangat cepat padahal belum pernah bertemu fisik secara langsung.</li>
+                <li>Ujung percakapan SELALU bermuara pada permintaan transfer uang atau investasi bodong.</li>
               </ul>
             </div>
           </div>
@@ -578,32 +627,54 @@
       id: 'emergency',
       category: '4. RESPON & DARURAT',
       title: 'Protokol Golden 1-Hour: Penyelamatan Rekening',
-      readingTime: '5 menit',
+      readingTime: '3 menit',
       badge: 'Darurat',
       html: `
         <div class="edu-article">
           <div class="edu-header-box">
-            <span class="cyber-tag tag-amber">SUBBAB 4 // RESPON: GOLDEN 1-HOUR EMERGENCY</span>
-            <h2>Prosedur Tanggap Darurat Siber (Golden 1-Hour)</h2>
-            <p class="edu-lead">Apa yang harus segera Anda lakukan dalam 60 menit pertama jika Anda tidak sengaja mengklik tautan, menginstal APK, atau mentransfer uang.</p>
+            <span class="cyber-tag tag-red">SUBBAB 4 // RESPON: GOLDEN 1-HOUR EMERGENCY</span>
+            <h2>Protokol Tanggap Darurat 60 Menit</h2>
+            <p class="edu-lead">Tindakan penyelamatan cepat dalam 1 jam pertama saat menyadari data atau rekening Anda telah terkompromi.</p>
           </div>
 
           <div class="edu-section">
-            <h3>Skenario A: Jika Anda Menginstal APK Berbahaya</h3>
-            <ol style="margin-left: 20px; line-height: 2;">
-              <li><strong>Aktifkan Airplane Mode (Mode Pesawat) Seketika:</strong> Matikan semua koneksi Wi-Fi dan data seluler untuk memutus transmisi data antara malware dan server pelaku.</li>
-              <li><strong>Copot Pemasangan (Uninstall) Aplikasi Terkait:</strong> Buka Pengaturan Ponsel ➔ Aplikasi ➔ Cari aplikasi mencurigakan yang baru saja terpasang ➔ Paksa Berhenti (Force Stop) & Copot Pemasangan (Uninstall).</li>
-              <li><strong>Lakukan Factory Reset (Jika Perlu):</strong> Jika aplikasi sulit dihapus atau meminta hak Administrator perangkat, lakukan pencadangan data foto/kontak dan segera lakukan reset ke setelan pabrik.</li>
-            </ol>
-          </div>
-
-          <div class="edu-section">
-            <h3>Skenario B: Jika Anda Mentransfer Uang / Memberikan Kredensial</h3>
-            <ol style="margin-left: 20px; line-height: 2;">
-              <li><strong>Telepon Call Center Bank Sekarang Juga:</strong> Minta petugas bank untuk segera <strong>memblokir kartu ATM, akun mobile banking, dan nomor rekening penerima</strong> penipu. Semakin cepat Anda melapor, semakin besar kemungkinan dana dibekukan di rekening penampung.</li>
-              <li><strong>Ganti Password dan PIN:</strong> Ubah seluruh password email, internet banking, dan akun media sosial dari perangkat lain yang aman.</li>
-              <li><strong>Simpan Bukti Tangkapan Layar (Screenshot):</strong> Ambil tangkapan layar percakapan, nomor telepon penipu, nomor rekening tujuan transfer, dan tautan phishing sebagai bukti laporan kepolisian.</li>
-            </ol>
+            <h3>Checklist Taktis Penyelamatan (Klik untuk Menandai Selesai):</h3>
+            <div class="edu-visual-container">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <span class="cyber-tag tag-cyan" style="font-size:0.75rem;">PROTOKOL RESPON INSIDEN</span>
+                <span class="cyber-tag tag-green edu-checklist-counter" style="font-size:0.75rem;">0/4 Selesai</span>
+              </div>
+              <div class="edu-checklist-interactive">
+                <div class="edu-check-item" onclick="window.edukasiManager.toggleCheckItem(this)">
+                  <div class="edu-check-box">✓</div>
+                  <div style="flex:1;">
+                    <div class="edu-check-text">1. Hubungi Call Center Bank & Minta Freeze Rekening Segera</div>
+                    <div class="edu-check-sub">Blokir sementara kartu ATM, akses mobile banking, dan nomor rekening penerima pelaku.</div>
+                  </div>
+                </div>
+                <div class="edu-check-item" onclick="window.edukasiManager.toggleCheckItem(this)">
+                  <div class="edu-check-box">✓</div>
+                  <div style="flex:1;">
+                    <div class="edu-check-text">2. Putus Koneksi Internet Ponsel (Mode Pesawat / Lepas SIM)</div>
+                    <div class="edu-check-sub">Mencegah malware APK meneruskan SMS OTP atau menerima perintah remote dari server penyerang.</div>
+                  </div>
+                </div>
+                <div class="edu-check-item" onclick="window.edukasiManager.toggleCheckItem(this)">
+                  <div class="edu-check-box">✓</div>
+                  <div style="flex:1;">
+                    <div class="edu-check-text">3. Ganti Password Utama & Cabut Sesi Aktif Akun (Sign Out All)</div>
+                    <div class="edu-check-sub">Gunakan perangkat lain yang aman untuk mereset kata sandi email, WhatsApp, dan dompet digital.</div>
+                  </div>
+                </div>
+                <div class="edu-check-item" onclick="window.edukasiManager.toggleCheckItem(this)">
+                  <div class="edu-check-box">✓</div>
+                  <div style="flex:1;">
+                    <div class="edu-check-text">4. Simpan Bukti Tangkapan Layar (Screenshot) Chat & Mutasi</div>
+                    <div class="edu-check-sub">Simpan bukti nomor pelaku, riwayat chat, dan bukti transfer untuk pelaporan kepolisian dan bank.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       `
@@ -722,14 +793,75 @@
       this.currentTopicId = 'intro';
       this.sidebarOpenMobile = false;
       this.activeTopCategory = '1. PENDAHULUAN';
+      this.hasFetchedCustomTopics = false;
     }
 
     init() {
       const container = document.getElementById('edukasi-container');
       if (!container) return;
 
-      this.renderLayout(container);
-      this.loadTopic(this.currentTopicId);
+      // Only build the layout wrapper if it does not already exist
+      if (!container.querySelector('.edu-w3-wrapper')) {
+        this.renderLayout(container);
+        this.loadTopic(this.currentTopicId);
+      }
+
+      // Fetch custom topics in background without blocking route transitions
+      this.fetchCustomTopics();
+    }
+
+    renderLayoutIfEmpty() {
+      this.init();
+    }
+
+    async fetchCustomTopics() {
+      if (this.hasFetchedCustomTopics) return;
+      try {
+        const res = await fetch('/api/edukasi');
+        const json = await res.json();
+        if (json.status === 'success' && Array.isArray(json.data) && json.data.length > 0) {
+          let hasNew = false;
+          json.data.forEach(customTopic => {
+            if (!this.topics.some(t => t.id === customTopic.id)) {
+              this.topics.push(customTopic);
+              hasNew = true;
+            }
+          });
+          if (hasNew) {
+            this.renderSidebar();
+          }
+        }
+        this.hasFetchedCustomTopics = true;
+      } catch (e) {
+        // silent fallback
+      }
+    }
+
+    toggleCheckItem(el) {
+      window.cyberAudio?.playClick?.();
+      el.classList.toggle('checked');
+      const parent = el.closest('.edu-visual-container');
+      if (parent) {
+        const total = parent.querySelectorAll('.edu-check-item').length;
+        const checked = parent.querySelectorAll('.edu-check-item.checked').length;
+        const counter = parent.querySelector('.edu-checklist-counter');
+        if (counter) {
+          counter.textContent = `${checked}/${total} Selesai`;
+          if (checked === total) {
+            window.cyberAudio?.playSuccess?.();
+          }
+        }
+      }
+    }
+
+    showHotspot(el, infoText) {
+      window.cyberAudio?.playSelect?.();
+      const parent = el.closest('.edu-visual-container');
+      const box = parent?.querySelector('.edu-hotspot-info');
+      if (box) {
+        box.innerHTML = `<span style="font-weight:700;">🔍 ANALISIS FORENSIK:</span> ${infoText}`;
+        box.style.display = 'block';
+      }
     }
 
     renderLayout(container) {

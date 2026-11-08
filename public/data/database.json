@@ -28,7 +28,7 @@
             "username": "cadet",
             "password": "cadet123",
             "name": "Cadet Aris",
-            "role": "user",
+            "role": "admin",
             "score": 630,
             "game_scores": {
                 "kasus": 220,
@@ -117,9 +117,9 @@
             "password": "$2y$12$tyCP6JYuG5bKhNSEO2yDvOvNlRG.st5rXuH8wnqxWNjOiAj0DQEwu",
             "role": "user",
             "score": 0,
-            "vulnerability": 5,
+            "vulnerability": 3.9,
             "rank": "Cyber Trainee",
-            "modules_completed": 0,
+            "modules_completed": 4,
             "game_scores": {
                 "kasus": 0,
                 "diff": 0,
@@ -167,6 +167,63 @@
                 "deeplearn": 0,
                 "scanner": 0,
                 "checker": 0
+            }
+        },
+        {
+            "id": "USR-913",
+            "user_code": "USR-913",
+            "name": "nayie",
+            "username": "nay",
+            "email": "nay@gmail.com",
+            "password": "$2y$12$zew1NKMyAXE8g4.lRlzFzeDzhWL26SP7WtjicDvz85UX6at59fz3i",
+            "role": "user",
+            "score": 1286,
+            "vulnerability": 3.7,
+            "rank": "Cyber Trainee",
+            "modules_completed": 26,
+            "game_scores": {
+                "kasus": 500,
+                "diff": 400,
+                "criminal": 200,
+                "deeplearn": 186
+            }
+        },
+        {
+            "id": "USR-510",
+            "user_code": "USR-510",
+            "name": "coba",
+            "username": "cobain",
+            "email": "coba@gmail.com",
+            "password": "$2y$12$A4IQC2VTbrSvlTMShjuTiO4j/6AigzANkfPpwXMadw.svmDQQfH6q",
+            "role": "user",
+            "score": 25,
+            "vulnerability": 5.6,
+            "rank": "Cyber Trainee",
+            "modules_completed": 8,
+            "game_scores": {
+                "kasus": 0,
+                "diff": 0,
+                "criminal": 25,
+                "deeplearn": 0
+            }
+        },
+        {
+            "id": "USR-684",
+            "user_code": "USR-684",
+            "name": "coba",
+            "username": "coba1",
+            "email": "coba@gmail.com",
+            "password": "$2y$12$3I1uyJlHMHxO7Nbo89Vrlek64BQb4qjWTnvDtTIrcOLmOK2BXN/cO",
+            "role": "user",
+            "score": 0,
+            "vulnerability": 4.4,
+            "rank": "Cyber Trainee",
+            "modules_completed": 3,
+            "game_scores": {
+                "kasus": 0,
+                "diff": 0,
+                "criminal": 0,
+                "deeplearn": 0
             }
         }
     ],

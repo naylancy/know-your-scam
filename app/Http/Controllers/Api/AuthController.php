@@ -116,22 +116,28 @@ class AuthController extends Controller
             if (!$user) {
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'Username atau sandi yang Anda masukkan tidak valid.'
+                    'message' => 'Username atau password salah! Otentikasi gagal.'
                 ], 401);
             }
 
-            // Verify password using Bcrypt Hash (or fallback check)
+            // Verify password safely (support both plain & bcrypt hashes without throwing RuntimeException)
             $isPasswordValid = false;
             if (!empty($user->password)) {
-                if (Hash::check($password, $user->password) || $password === $user->password) {
+                if ($password === $user->password) {
                     $isPasswordValid = true;
+                } else {
+                    try {
+                        if (Hash::check($password, $user->password)) {
+                            $isPasswordValid = true;
+                        }
+                    } catch (\Throwable $hashEx) {}
                 }
             }
 
             if (!$isPasswordValid) {
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'Username atau sandi yang Anda masukkan tidak valid.'
+                    'message' => 'Username atau password salah! Otentikasi gagal.'
                 ], 401);
             }
 
@@ -168,17 +174,28 @@ class AuthController extends Controller
             if (!$found) {
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'Username atau sandi yang Anda masukkan tidak valid.'
+                    'message' => 'Username atau password salah! Otentikasi gagal.'
                 ], 401);
             }
 
             $userPass = $found['password'] ?? '';
-            $isPasswordValid = (!empty($userPass) && (Hash::check($password, $userPass) || $password === $userPass));
+            $isPasswordValid = false;
+            if (!empty($userPass)) {
+                if ($password === $userPass) {
+                    $isPasswordValid = true;
+                } else {
+                    try {
+                        if (Hash::check($password, $userPass)) {
+                            $isPasswordValid = true;
+                        }
+                    } catch (\Throwable $hashEx) {}
+                }
+            }
 
             if (!$isPasswordValid) {
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'Username atau sandi yang Anda masukkan tidak valid.'
+                    'message' => 'Username atau password salah! Otentikasi gagal.'
                 ], 401);
             }
 

@@ -105,14 +105,18 @@ class ModuleDiff {
     const isPlaying = window.gameBriefing?.isPlaying('diff');
     const startScreenHtml = window.gameBriefing?.renderStartScreenHTML('diff') || '';
     const hudBarHtml = window.gameBriefing?.renderGameHUDBar('diff') || '';
+    const guestBanner = typeof window.renderGuestLeaderboardBanner === 'function'
+      ? window.renderGuestLeaderboardBanner({ margin: '0 0 16px 0' })
+      : '';
 
     container.innerHTML = `
+      ${guestBanner}
       ${startScreenHtml}
       <div id="view-game-diff" class="game-page-arena holo-enter diff-container" style="${isPlaying ? 'display:block;' : 'display:none;'}">
         ${hudBarHtml}
 
-        <!-- Single Selected Scenario Header - NO Tab Switcher -->
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom: 16px;">
+        <!-- Single Selected Scenario Header -->
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom: 14px;">
           <div style="display:flex; gap: 8px; align-items:center; flex-wrap:wrap;">
             <span class="cyber-tag tag-cyan" style="font-size: 0.82rem; letter-spacing: 0.5px;">
               ⚖️ SKENARIO ${this.currentIndex + 1} DARI ${this.diffCases.length}
@@ -122,9 +126,6 @@ class ModuleDiff {
             </span>
             ${isCustom ? `<span class="cyber-tag" style="border-color: var(--neon-magenta); color: var(--neon-magenta);">⭐ KASUS KUSTOM</span>` : ''}
           </div>
-          <div style="display:flex; gap: 8px; align-items: center;">
-            <span class="cyber-tag tag-green">MODE JURI SIBER (JUDGE)</span>
-          </div>
         </div>
 
         ${isCustom ? `
@@ -133,10 +134,10 @@ class ModuleDiff {
               <span style="font-size: 1.3rem;">🛡️</span>
               <div>
                 <strong style="color: var(--neon-magenta); font-family: var(--font-display); font-size: 0.9rem;">
-                  MODUL KUSTOM ADMINISTRATOR (COMMANDER VEKTOR)
+                  MODUL KUSTOM ADMINISTRATOR
                 </strong>
                 <div style="font-size: 0.82rem; color: var(--text-muted);">
-                  Skenario ini dikonfigurasi melalui Admin Case Builder untuk pengujian taktis lanjutan.
+                  Skenario pengujian taktis lanjutan.
                 </div>
               </div>
             </div>
@@ -144,24 +145,14 @@ class ModuleDiff {
           </div>
         ` : ''}
 
-        <!-- Scenario Prompt Banner -->
-        <div class="hud-card diff-scenario-prompt">
-          <div>
-            <h2 style="font-size: 1.35rem; color: var(--text-highlight); margin-bottom: 4px;">
-              ${currentDiff.title}
-            </h2>
-            <p style="font-size: 0.92rem; color: var(--text-muted); margin: 0;">
-              ${currentDiff.scenario}
-            </p>
-          </div>
-          <div style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--neon-cyan); text-align: right;">
-            STATUS: <strong style="color: #FFFFFF;">${this.userJudgments.left ? '1/2' : '0/2'} DINILAI</strong>
-          </div>
-        </div>
-
-        <!-- Instruction Notice -->
-        <div style="text-align: center; font-size: 0.9rem; color: var(--text-muted); margin: 10px 0 16px 0;">
-          💡 Klik salah satu kartu browser di bawah, lalu jatuhkan vonis <strong style="color: var(--neon-cyan);">REAL</strong> atau <strong style="color: var(--neon-magenta);">FAKE</strong> di dermaga kontrol.
+        <!-- Scenario Prompt Banner (Focused Clean Case Description) -->
+        <div class="hud-card diff-scenario-prompt" style="padding: 16px 20px; margin-bottom: 16px;">
+          <h2 style="font-size: 1.25rem; color: var(--text-highlight); margin-bottom: 6px;">
+            ${currentDiff.title}
+          </h2>
+          <p style="font-size: 0.95rem; color: var(--text-main); margin: 0; line-height: 1.5;">
+            ${currentDiff.scenario}
+          </p>
         </div>
 
         <!-- Split Grid (Side-by-Side) -->
@@ -281,27 +272,19 @@ class ModuleDiff {
           </div>
         </div>
 
-        <!-- Big Decision Dock -->
-        <div class="diff-decision-dock">
-          <div style="font-family: var(--font-display); font-size: 0.95rem; color: var(--text-highlight);">
-            VONIS UNTUK: <span style="color: var(--neon-cyan); font-weight: 700; text-transform: uppercase;">SKENARIO ${this.selectedSide === 'left' ? 'A (KIRI)' : 'B (KANAN)'}</span>
+        <!-- Clean Decision Dock: REAL vs FAKE Buttons -->
+        <div class="diff-decision-dock" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; margin-top:16px;">
+          <div style="font-family: var(--font-display); font-size: 0.92rem; color: var(--text-highlight);">
+            PILIHAN: <span style="color: var(--neon-cyan); font-weight: 700; text-transform: uppercase;">SKENARIO ${this.selectedSide === 'left' ? 'A (KIRI)' : 'B (KANAN)'}</span>
           </div>
 
-          <div style="display:flex; gap: 14px; align-items:center; flex-wrap: wrap;">
-            <button class="diff-btn-verdict btn-real" onclick="window.moduleDiff.submitVerdict('REAL')">
-              <span style="font-size: 1.4rem;">🛡️</span>
-              <div>
-                <strong>DOKUMEN ASLI (REAL)</strong>
-                <div style="font-size: 0.72rem; opacity: 0.85;">Otentikasi Sah</div>
-              </div>
+          <div style="display:flex; gap: 14px; align-items:center;">
+            <button class="diff-btn-verdict btn-real" style="padding: 12px 28px; font-size: 1.05rem; font-weight: 800; letter-spacing: 1px;" onclick="window.moduleDiff.submitVerdict('REAL')">
+              🛡️ REAL
             </button>
 
-            <button class="diff-btn-verdict btn-fake" onclick="window.moduleDiff.submitVerdict('FAKE')">
-              <span style="font-size: 1.4rem;">⚠️</span>
-              <div>
-                <strong>TIRUAN / PENIPU (FAKE)</strong>
-                <div style="font-size: 0.72rem; opacity: 0.85;">Social Engineering</div>
-              </div>
+            <button class="diff-btn-verdict btn-fake" style="padding: 12px 28px; font-size: 1.05rem; font-weight: 800; letter-spacing: 1px;" onclick="window.moduleDiff.submitVerdict('FAKE')">
+              ⚠️ FAKE
             </button>
           </div>
         </div>
@@ -310,6 +293,7 @@ class ModuleDiff {
   }
 
   submitVerdict(verdict) {
+    window.cyberAudio?.playVerdict?.() || window.cyberAudio?.playClick?.();
     this.userJudgments[this.selectedSide] = verdict;
     this.evaluateVerdict(verdict);
   }

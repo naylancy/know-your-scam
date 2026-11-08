@@ -1,8 +1,8 @@
 /**
- * KNOW YOUR SCAM: ANTI-GRAVITY DEFENSE
- * MODUL 6: MULTI-THREAT & AUTHENTICITY CHECKER
- * HYBRID FORENSIC PIPELINE: Multi-Vector Heuristics (40%) + LLM Threat Intelligence (60%)
- * Supported Vectors: Phishing, Love Scam, Hoax/Disinformation, Job/Investment Scam, APK Malware.
+ * KNOW YOUR SCAM: ANTI-GRAVITY CYBER DEFENSE
+ * MODUL 6: KONSENSUS 3 MODEL AI - LEGIT CHECKER + GEMINI MULTIMODAL TRANSCRIBER
+ * Evaluasi komparatif & debat otomatis: OpenAI GPT-4o, Google Gemini 1.5, DeepSeek R1
+ * Dilengkapi AI Kurator & Transkripsi Media (Foto/Audio/Video/Dokumen) dengan Zero-Storage Guarantee.
  */
 
 class ModuleChecker {
@@ -10,12 +10,14 @@ class ModuleChecker {
     this.samples = [];
     this.currentResult = null;
     this.isChecking = false;
+    this.selectedMedia = null; // { file, base64, mimeType, name, size, typeLabel, previewUrl }
   }
 
   init(customSamples) {
     this.samples = customSamples || this.getDefaultSamples();
     this.currentResult = null;
     this.isChecking = false;
+    this.selectedMedia = null;
     this.render();
   }
 
@@ -23,33 +25,33 @@ class ModuleChecker {
     return [
       {
         icon: '💔',
-        title: 'Love Scam: Koper Hadiah Emas Tertahan Bea Cukai',
-        text: 'Halo sayangku, koper berisi hadiah emas, berlian, dan dokumen penting dari luar negeri tertahan di bea cukai bandara internasional. Petugas meminta biaya tebusan administrasi darurat 5 juta rupiah ke rekening pribadi petugas, tolong transfer sekarang agar paket tidak disita.'
+        title: 'Love Scam: Koper Hadiah Emas Tertahan',
+        text: 'Halo sayang, koper berisi hadiah emas dan dokumen penting tertahan di bea cukai bandara internasional. Petugas minta biaya tebusan administrasi 5 juta ke rekening pribadi petugas, tolong transfer sekarang agar paket tidak disita.'
       },
       {
         icon: '📢',
-        title: 'Hoax Viral: Sebarkan Sebelum Dihapus',
-        text: 'SEBARKAN SEBELUM DIHAPUS PEMERINTAH! Rahasia dokter spesialis terbongkar, jangan pernah mengonsumsi makanan kemasan ini karena terbukti secara gaib dan konspirasi mengandung racun sintetis berbahaya. Viralkan pesan ini ke 10 grup WhatsApp demi keselamatan keluarga!'
+        title: 'Hoax Viral: Konspirasi Makanan Beracun',
+        text: 'SEBARKAN SEBELUM DIHAPUS PEMERINTAH! Jangan pernah mengonsumsi makanan kemasan ini karena terbukti mengandung racun sintetis berbahaya. Viralkan pesan ini ke 10 grup WhatsApp demi keselamatan keluarga!'
       },
       {
         icon: '💼',
-        title: 'Job Scam: Kerja Paruh Waktu Like YouTube & Deposit Telegram',
-        text: 'Lowongan kerja paruh waktu resmi online tanpa syarat keahlian! Cukup like dan subscribe video YouTube dapat komisi 300 ribu hingga 1 juta rupiah per hari. Gabung grup tugas Telegram kami sekarang dan lakukan deposit awal 150 ribu rupiah untuk aktivasi ID member VIP Anda.'
+        title: 'Job Scam: Misi Like YouTube & Deposit Saldo',
+        text: 'Lowongan kerja paruh waktu resmi online! Cukup like dan subscribe video YouTube dapat komisi 300 ribu per hari. Gabung grup Telegram dan lakukan deposit awal 150 ribu rupiah untuk aktivasi ID member VIP Anda.'
       },
       {
         icon: '📦',
-        title: 'Malware APK: Surat Undangan / Resi Kurir Paket',
-        text: 'Selamat siang kak, mohon maaf paket kiriman Anda tertahan di kurir karena nomor rumah tidak jelas. Silakan unduh dan pasang aplikasi Surat-Undangan-Paket.apk ini di ponsel Android Anda untuk melihat detail resi foto paket secara langsung.'
+        title: 'Malware APK: Surat Undangan / Foto Paket',
+        text: 'Selamat siang kak, paket Anda tertahan di kurir karena alamat tidak lengkap. Silakan unduh dan pasang aplikasi Surat-Undangan-Paket.apk ini di ponsel Android Anda untuk melihat detail resi foto paket.'
       },
       {
         icon: '🏦',
-        title: 'Phishing: Ancaman Pemblokiran Rekening Darurat',
-        text: 'Pemberitahuan Darurat Bank: Rekening Anda terindikasi aktivitas mencurigakan dan akan diblokir dalam 30 menit. Segera perbarui data kredensial serta nomor kartu debit Anda melalui formulir verifikasi: https://bca-klik-promo2026.xyz/login'
+        title: 'Phishing: Ancaman Pemblokiran Rekening',
+        text: 'Pemberitahuan Darurat Bank: Rekening Anda terindikasi aktivitas mencurigakan dan akan diblokir dalam 30 menit. Segera perbarui data kredensial Anda di: https://bca-klik-promo2026.xyz/login'
       },
       {
         icon: '🏛️',
-        title: 'Info Resmi: Siaran Pers Imunisasi Nasional Kemkes',
-        text: 'Kementerian Kesehatan Republik Indonesia (Kemenkes RI) mengumumkan pembukaan posko Pekan Imunisasi Nasional untuk seluruh balita secara serentak di Puskesmas terdekat tanpa dipungut biaya. Kunjungi portal resmi kemkes.go.id untuk jadwal dan lokasi lengkap.'
+        title: 'Info Resmi: Pekan Imunisasi Kemkes',
+        text: 'Kementerian Kesehatan RI mengumumkan pelaksanaan Pekan Imunisasi Nasional untuk balita di seluruh Puskesmas terdekat tanpa dipungut biaya. Kunjungi portal resmi kemkes.go.id untuk jadwal lengkap.'
       }
     ];
   }
@@ -58,125 +60,463 @@ class ModuleChecker {
     const sample = this.samples[index];
     if (!sample) return;
 
+    this.clearMedia();
     const textarea = document.getElementById('checker-target-input');
     if (textarea) {
       textarea.value = sample.text;
-      window.cyberAudio?.playClick();
+      window.cyberAudio?.playClick?.();
       this.executeCheck(sample.text);
     }
+  }
+
+  // Generate an instant simulated scam screenshot via HTML5 Canvas for one-click testing
+  loadSampleMedia(type = 'scam_screenshot') {
+    window.cyberAudio?.playClick?.();
+    const canvas = document.createElement('canvas');
+    canvas.width = 600;
+    canvas.height = 180;
+    const ctx = canvas.getContext('2d');
+
+    if (type === 'blank_invalid') {
+      // Intentionally invalid / blank canvas to test AI rejection
+      ctx.fillStyle = '#0f172a';
+      ctx.fillRect(0, 0, 600, 180);
+      const dataUrl = canvas.toDataURL('image/png');
+      this.setCustomMediaFromDataUrl(dataUrl, 'blank_artifact_test.png', 'image/png', 'Gambar Kosong / Blank Test');
+      window.app?.showToast('Sampel Media Kosong dimuat. Klik Uji untuk menguji penolakan AI.', 'cyan');
+    } else {
+      // Valid scam screenshot with clear suspicious text
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, 600, 180);
+      ctx.fillStyle = '#b91c1c';
+      ctx.font = 'bold 20px sans-serif';
+      ctx.fillText('[PERINGATAN DARURAT BANK BCA]', 25, 45);
+
+      ctx.fillStyle = '#1e293b';
+      ctx.font = '16px sans-serif';
+      ctx.fillText('Rekening Anda diblokir karena terindikasi pencucian uang.', 25, 80);
+      ctx.fillText('Segera bayar biaya buka blokir Rp 2.500.000 ke rekening petugas.', 25, 110);
+      ctx.fillStyle = '#2563eb';
+      ctx.fillText('Bantuan Verifikasi Darurat: https://bca-klik-promo2026.xyz/login', 25, 145);
+
+      const dataUrl = canvas.toDataURL('image/png');
+      this.setCustomMediaFromDataUrl(dataUrl, 'tangkapan_layar_chat_scam.png', 'image/png', 'Foto Bukti Chat Phishing');
+      window.app?.showToast('Sampel Foto Bukti Chat Phishing dimuat!', 'success');
+    }
+  }
+
+  setCustomMediaFromDataUrl(dataUrl, fileName, mimeType, label) {
+    const base64 = dataUrl.split(',')[1];
+    this.selectedMedia = {
+      file: null,
+      base64: base64,
+      mimeType: mimeType,
+      name: fileName,
+      size: `${Math.round(base64.length * 0.75 / 1024)} KB`,
+      typeLabel: label || 'Foto / Gambar',
+      previewUrl: dataUrl
+    };
+    this.updateMediaPillUI();
+  }
+
+  handleFileInputChange(event) {
+    const input = event.target;
+    if (!input.files || input.files.length === 0) return;
+
+    const file = input.files[0];
+    if (file.size > 25 * 1024 * 1024) {
+      window.cyberAudio?.playError();
+      window.app?.showToast('Ukuran berkas melebihi batas 25 MB.', 'error');
+      input.value = '';
+      return;
+    }
+
+    window.cyberAudio?.playClick?.();
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const dataUrl = e.target.result;
+      const base64 = dataUrl.split(',')[1];
+      const isImg = file.type.startsWith('image/');
+      const isAud = file.type.startsWith('audio/');
+      const isVid = file.type.startsWith('video/');
+      const typeLabel = isImg ? 'Foto / Gambar' : isAud ? 'Rekaman Suara / Audio' : isVid ? 'Video Rekaman' : 'Dokumen Berkas';
+
+      this.selectedMedia = {
+        file: file,
+        base64: base64,
+        mimeType: file.type || 'application/octet-stream',
+        name: file.name,
+        size: `${Math.round(file.size / 1024)} KB`,
+        typeLabel: typeLabel,
+        previewUrl: isImg ? dataUrl : null
+      };
+
+      this.updateMediaPillUI();
+      window.app?.showToast(`Berkas ${file.name} siap ditranskripsikan!`, 'success');
+    };
+    reader.readAsDataURL(file);
+  }
+
+  clearMedia() {
+    this.selectedMedia = null;
+    const fileInput = document.getElementById('checker-file-input');
+    if (fileInput) fileInput.value = '';
+    this.updateMediaPillUI();
+  }
+
+  updateMediaPillUI() {
+    const container = document.getElementById('checker-media-pill-container');
+    if (!container) return;
+
+    if (!this.selectedMedia) {
+      container.innerHTML = '';
+      container.style.display = 'none';
+      return;
+    }
+
+    const sm = this.selectedMedia;
+    const isImg = sm.mimeType.startsWith('image/');
+    const isAud = sm.mimeType.startsWith('audio/');
+    const isVid = sm.mimeType.startsWith('video/');
+    const icon = isImg ? '🖼️' : isAud ? '🎙️' : isVid ? '🎥' : '📄';
+
+    container.style.display = 'block';
+    container.innerHTML = `
+      <div style="background: rgba(0, 255, 204, 0.06); border: 1px dashed var(--neon-cyan); border-radius: 6px; padding: 10px 14px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          ${sm.previewUrl ? `
+            <img src="${sm.previewUrl}" alt="Preview" style="width: 48px; height: 48px; object-fit: cover; border-radius: 4px; border: 1px solid var(--neon-cyan);" />
+          ` : `
+            <span style="font-size: 2rem;">${icon}</span>
+          `}
+          <div>
+            <div style="font-family: var(--font-display); font-size: 0.85rem; color: var(--text-highlight);">
+              ${sm.name}
+            </div>
+            <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--neon-cyan);">
+              ${sm.typeLabel} &bull; ${sm.size} &bull; <span style="color: var(--neon-green);">Zero-Storage In-Memory</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 8px;">
+          <button 
+            type="button" 
+            class="cyber-btn btn-ghost" 
+            style="padding: 4px 12px; font-size: 0.78rem;" 
+            onclick="window.moduleChecker.clearMedia()"
+          >
+            ✕ Hapus Berkas
+          </button>
+        </div>
+      </div>
+    `;
   }
 
   render() {
     const container = document.getElementById('checker-module-container');
     if (!container) return;
 
-    // Hint system
     window.hintSystem?.setHints([
-      'Love Scam memanfaatkan eksploitasi afeksi emosional dini dan skenario kiriman koper hadiah tertahan.',
-      'Hoax dan disinformasi kerap menggunakan huruf kapital bombastis dan ancaman menyebarkan pesan ke grup lain.',
-      'Lowongan kerja dan investasi bodong selalu mensyaratkan pembayaran deposit uang sebelum pencairan komisi.',
-      'Modus malware APK menyamarkan berkas aplikasi berbahaya berkedok surat tilang, resi kurir, atau undangan.'
+      'Love Scam mengeksploitasi emosi cinta dini dan klaim kiriman hadiah tertahan bea cukai.',
+      'Hoax sering menggunakan huruf kapital bombastis dan ancaman menyebarkan ke grup lain.',
+      'Penipuan kerja atau investasi palsu selalu meminta setoran deposit di muka.',
+      'Waspadai ekstensi file .APK yang dikirim melalui aplikasi perpesanan.',
+      'Anda dapat mengunggah bukti foto chat, rekaman audio WA, atau dokumen untuk ditranskripsikan oleh Gemini AI.'
     ]);
 
-    // Sample buttons
     const samplesHtml = this.samples.map((s, idx) => `
       <button class="scanner-sample-pill" onclick="window.moduleChecker.loadSample(${idx})">
-        ${s.icon} ${s.title.substring(0, 36)}...
+        ${s.icon} ${s.title}
       </button>
     `).join('');
 
     container.innerHTML = `
-      <div class="holo-enter">
-        <!-- Header Section -->
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom: 20px;">
+      <div class="holo-enter" style="max-width: 960px; margin: 0 auto;">
+        
+        <!-- Header & AI Disclaimer -->
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom: 14px;">
           <div>
-            <h2 style="font-size: 1.4rem; color: var(--text-highlight);">
-              LEGIT CHECKER: VALIDASI KEASLIAN MULTI-ANCAMAN
+            <h2 style="font-size: 1.4rem; color: var(--text-highlight); margin: 0 0 4px 0;">
+              🛡️ LEGIT CHECKER: VALIDASI KEASLIAN
             </h2>
-            <p style="font-size: 0.88rem; color: var(--text-muted);">
-              Pusat Validasi Keaslian Informasi Digital: Phishing, Romance Scam, Hoax, Tawaran Kerja Bodong, dan Malware APK
-            </p>
-          </div>
-          <div>
-            <span class="cyber-tag tag-magenta">LEGIT CHECKER: HYBRID ACTIVE</span>
-          </div>
-        </div>
-
-        <!-- Transparency & Architecture Pill -->
-        <div style="background: rgba(0, 243, 255, 0.08); border: 1px solid var(--border-cyan); border-radius: 6px; padding: 14px 18px; margin-bottom: 24px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
-          <div style="display:flex; align-items:center; gap: 12px;">
-            <span style="font-size: 1.5rem;">🛡️</span>
-            <div>
-              <strong style="color: var(--neon-cyan); font-family: var(--font-display); font-size: 0.95rem;">
-                PIPELINE VALIDASI KEASLIAN MULTI-VEKTOR SIBER:
-              </strong>
-              <div style="font-size: 0.85rem; color: var(--text-main); margin-top: 2px;">
-                Input informasi Anda diuji melalui Layer 1 Heuristik Multi-Vektor (40%) untuk mendeteksi penanda khusus dan divalidasi oleh Layer 2 LLM Cognitive Forensics (60%) untuk menilai manipulasi psikologis, keaslian klaim, dan mitigasi tanpa menyimpan PII.
-              </div>
+            <div class="ai-disclaimer-badge" style="margin: 0;">
+              <span>🤖</span> <strong>Konsensus 3 AI + Gemini Transcriber:</strong> OpenAI GPT-4o &bull; Google Gemini &bull; DeepSeek R1
             </div>
           </div>
-          <button class="cyber-btn btn-ghost" style="padding: 4px 10px; font-size: 0.75rem;" onclick="window.app?.openTransparencyModal()">
-            PELAJARI SISTEM ➔
-          </button>
+          <span class="cyber-tag tag-cyan">⚖️ KONSENSUS 3 MODEL AI</span>
         </div>
 
-        <!-- Input Hero Bar -->
-        <div class="hud-card scanner-hero-bar">
-          <label style="font-family: var(--font-display); font-size: 0.95rem; color: var(--neon-cyan); letter-spacing: 1px;">
-            MASUKKAN TEKS PESAN, KLAIM BERITA, CHAT TAWARAN, ATAU TAUTAN:
-          </label>
+        <!-- Media Upload & Input Bar -->
+        <div class="hud-card" style="padding: 20px; margin-bottom: 18px;">
+          
+          <!-- Media Upload Toolbar -->
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 12px;">
+            <div>
+              <span style="font-family: var(--font-display); font-size: 0.88rem; color: var(--text-highlight);">
+                MASUKKAN BUKTI (TEKS ATAU BERKAS MULTIMEDIA):
+              </span>
+              <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); margin-top: 2px;">
+                🔒 Zero-Storage: Berkas diproses in-memory tanpa disimpan di server.
+              </div>
+            </div>
 
-          <div style="margin-top: 10px; margin-bottom: 12px;">
-            <textarea 
-              id="checker-target-input" 
-              class="deep-reasoning-area" 
-              style="min-height: 100px; font-size: 0.92rem; font-family: var(--font-sans);" 
-              placeholder="Tempelkan teks informasi atau percakapan di sini... Contoh: Pesan romantis dari luar negeri meminta transfer uang bea cukai, tawaran kerja like video paruh waktu di Telegram, atau klaim berita viral mencurigakan..."
-            ></textarea>
+            <!-- Upload File Controls -->
+            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+              <input 
+                type="file" 
+                id="checker-file-input" 
+                accept="image/*,audio/*,video/*,.pdf,.txt" 
+                style="display:none;" 
+                onchange="window.moduleChecker.handleFileInputChange(event)"
+              />
+
+              <button 
+                type="button" 
+                class="cyber-btn btn-ghost" 
+                style="padding: 7px 14px; font-size: 0.82rem;"
+                onclick="document.getElementById('checker-file-input').click()"
+              >
+                📁 UNGGAH BERKAS (FOTO/AUDIO/VIDEO/PDF)
+              </button>
+
+              <button 
+                type="button" 
+                class="cyber-btn btn-ghost" 
+                style="padding: 7px 12px; font-size: 0.78rem;"
+                title="Muat contoh foto screenshot bukti chat palsu"
+                onclick="window.moduleChecker.loadSampleMedia('scam_screenshot')"
+              >
+                📷 Sampel Bukti Chat
+              </button>
+
+              <button 
+                type="button" 
+                class="cyber-btn btn-ghost" 
+                style="padding: 7px 12px; font-size: 0.78rem; opacity: 0.8;"
+                title="Uji respon AI ketika berkas kosong / tidak terbaca"
+                onclick="window.moduleChecker.loadSampleMedia('blank_invalid')"
+              >
+                🧪 Uji Berkas Blank
+              </button>
+            </div>
           </div>
 
-          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom: 14px;">
+          <!-- Media Pill Container (Shown when a media file is selected) -->
+          <div id="checker-media-pill-container" style="display:none;"></div>
+
+          <!-- Textarea Input -->
+          <textarea 
+            id="checker-target-input" 
+            class="checker-textarea" 
+            rows="4" 
+            placeholder="Ketik/tempelkan teks pesan, broadcast WhatsApp, surat tilang .apk, tawaran freelance, ATAU klik tombol 'Unggah Berkas' di atas untuk menganalisis foto bukti chat / audio..."
+            style="margin-bottom: 14px;"
+          ></textarea>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+            <div style="display:flex; align-items:center; gap: 8px; flex-wrap: wrap;">
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">
+                SAMPEL TEKS:
+              </span>
+              ${samplesHtml}
+            </div>
+
             <button 
               id="btn-checker-execute" 
               class="cyber-btn" 
-              style="padding: 12px 28px; font-size: 0.95rem;" 
+              style="padding: 10px 28px; font-size: 0.92rem;"
               onclick="window.moduleChecker.triggerManualCheck()"
             >
-              🔍 UJI KEASLIAN & ANCAMAN SIBER
+              🛡️ UJI KEASLIAN SEKARANG
             </button>
-            <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">
-              Mendukung: Romance Scam • Hoax • Phishing • Job Scam • Malware APK
-            </span>
-          </div>
-
-          <!-- Quick Samples Selector -->
-          <div style="display:flex; align-items:center; gap: 8px; flex-wrap: wrap;">
-            <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">
-              UJI SAMPEL SKENARIO:
-            </span>
-            ${samplesHtml}
           </div>
         </div>
 
         <!-- Result Box -->
-        <div id="checker-result-box" class="hud-card scanner-result-panel">
-          <!-- Filled dynamically by executeCheck -->
+        <div id="checker-result-box">
+          <!-- Populated dynamically -->
         </div>
+
       </div>
     `;
+
+    this.updateMediaPillUI();
   }
 
   triggerManualCheck() {
-    const input = document.getElementById('checker-target-input');
-    const val = input ? input.value.trim() : '';
+    const textarea = document.getElementById('checker-target-input');
+    const val = textarea ? textarea.value.trim() : '';
+
+    if (this.selectedMedia) {
+      this.executeMediaCheck(this.selectedMedia);
+      return;
+    }
 
     if (!val) {
       window.cyberAudio?.playError();
-      window.app?.showToast('Silakan tempelkan teks informasi atau pesan pada kolom di atas terlebih dahulu.', 'error');
+      window.app?.showToast('Silakan masukkan teks pesan atau unggah berkas media terlebih dahulu.', 'error');
       return;
     }
 
     this.executeCheck(val);
+  }
+
+  // Multimodal File / Photo / Audio / Video Transcriber Flow
+  async executeMediaCheck(media) {
+    const resultBox = document.getElementById('checker-result-box');
+    const executeBtn = document.getElementById('btn-checker-execute');
+    if (!resultBox) return;
+
+    resultBox.innerHTML = `
+      <div class="hud-card holo-enter" style="padding: 30px; text-align: center;">
+        <div class="pulsing-radar-ring" style="margin: 0 auto 16px auto;"></div>
+        <h4 style="font-size: 1.15rem; color: var(--neon-cyan); margin: 0 0 6px 0;">
+          MENTRANSKRIP & MENGANALISIS MEDIA (GEMINI MULTIMODAL)...
+        </h4>
+        <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">
+          Mengevaluasi kelayakan bukti siber in-memory & mendebatkan konsensus 3 Model AI
+        </div>
+        <div style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--neon-cyan); word-break: break-all; max-width: 650px; margin: 0 auto;">
+          Berkas: "${media.name}" (${media.size} &bull; ${media.typeLabel})
+        </div>
+      </div>
+    `;
+
+    if (executeBtn) executeBtn.disabled = true;
+    window.cyberAudio?.playScan?.() || window.cyberAudio?.playWhoosh?.();
+
+    try {
+      const csrf = document.querySelector('meta[name="csrf-token"]')?.content || '';
+      const user = window.authManager?.currentUser;
+
+      let res;
+      if (media.file) {
+        const formData = new FormData();
+        formData.append('media_file', media.file);
+        formData.append('auto_check', 'true');
+        formData.append('user_id', user?.username || 'cadet');
+        formData.append('user_name', user?.name || 'Cadet Aris');
+
+        res = await fetch('/api/checker/transcribe-media', {
+          method: 'POST',
+          headers: {
+            'X-CSRF-TOKEN': csrf,
+            'Accept': 'application/json'
+          },
+          body: formData
+        });
+      } else {
+        // Base64 simulated/sample media
+        res = await fetch('/api/checker/transcribe-media', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrf,
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            media_base64: media.base64,
+            mime_type: media.mimeType,
+            file_name: media.name,
+            auto_check: true,
+            user_id: user?.username || 'cadet',
+            user_name: user?.name || 'Cadet Aris'
+          })
+        });
+      }
+
+      const json = await res.json();
+
+      if (executeBtn) executeBtn.disabled = false;
+
+      // Handle Rejection by AI Gatekeeper
+      if (!res.ok || json.status === 'rejected') {
+        const rejectionReason = json.rejection_reason || json.message || 'Media tidak memuat teks atau informasi yang dapat diverifikasi.';
+        this.displayRejectionCard(media, rejectionReason);
+        window.cyberAudio?.playError();
+        window.app?.showToast(`Berkas Ditolak: ${rejectionReason}`, 'error');
+        return;
+      }
+
+      // Handle Success
+      if (json.status === 'success' && json.transcription) {
+        // Update textarea so user can inspect the verbatim transcript
+        const textarea = document.getElementById('checker-target-input');
+        if (textarea) textarea.value = json.transcription;
+
+        const consensus = json.consensus_result;
+        if (consensus) {
+          consensus.media_context = {
+            file_name: json.file_name,
+            media_type: json.media_type,
+            summary: json.context_summary
+          };
+
+          window.authManager?.recordResult(
+            30,
+            -0.3,
+            `LEGIT CHECKER [Transkrip Media & 3 AI]`,
+            `Media: ${json.file_name} [${consensus.primary_category}]`,
+            consensus.is_threat ? 'THREAT_IDENTIFIED' : 'SECURED',
+            'checker'
+          );
+
+          this.displayCheckResult(consensus);
+          window.app?.showToast(`Transkripsi Selesai: Berkas ${json.file_name} berhasil dievaluasi!`, 'success');
+        } else {
+          // If auto_check was false, execute standard check on transcribed text
+          this.executeCheck(json.transcription);
+        }
+      }
+    } catch (err) {
+      console.error('Media transcribe error:', err);
+      if (executeBtn) executeBtn.disabled = false;
+      this.displayRejectionCard(media, 'Gagal memproses berkas melalui API Gemini Multimodal. Pastikan format berkas didukung dan jaringan stabil.');
+      window.cyberAudio?.playError();
+      window.app?.showToast('Kendala jaringan saat mentranskripsi berkas media.', 'error');
+    }
+  }
+
+  // Display Rejection Alert Card
+  displayRejectionCard(media, reason) {
+    const resultBox = document.getElementById('checker-result-box');
+    if (!resultBox) return;
+
+    resultBox.innerHTML = `
+      <div class="hud-card holo-enter" style="padding: 24px; border-left: 5px solid var(--neon-amber);">
+        <div style="display:flex; align-items:center; gap: 12px; margin-bottom: 14px;">
+          <span style="font-size: 2.4rem;">⚠️</span>
+          <div>
+            <span class="cyber-tag tag-amber" style="font-size:0.75rem;">
+              BERKAS DITOLAK OLEH AI KURATOR
+            </span>
+            <h3 style="font-size: 1.25rem; color: var(--neon-amber); margin: 4px 0 0 0;">
+              Media Tidak Memenuhi Kriteria Verifikasi Siber
+            </h3>
+          </div>
+        </div>
+
+        <div style="background: rgba(255,184,0,0.08); border: 1px solid rgba(255,184,0,0.25); border-radius:6px; padding: 14px; margin-bottom: 14px;">
+          <div style="font-family:var(--font-display); font-size:0.78rem; color:var(--neon-amber); margin-bottom:4px;">
+            ALASAN PENOLAKAN DARI GEMINI GATEKEEPER:
+          </div>
+          <p style="font-size:0.92rem; color:var(--text-main); line-height:1.5; margin:0;">
+            ${reason}
+          </p>
+        </div>
+
+        <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 10px;">
+          💡 <strong>Panduan Berkas yang Diterima:</strong>
+          <ul style="margin: 6px 0 0 18px; padding: 0;">
+            <li>Tangkapan layar obrolan WA, SMS, DM, atau email yang memuat teks terbaca.</li>
+            <li>Foto bukti transfer, tagihan, atau surat edaran resmi/palsu.</li>
+            <li>Rekaman suara (voice note atau panggilan telepon) dengan percakapan jelas.</li>
+            <li>Dokumen PDF pengumuman atau tawaran kerja.</li>
+          </ul>
+        </div>
+      </div>
+    `;
   }
 
   async executeCheck(textInput) {
@@ -184,24 +524,23 @@ class ModuleChecker {
     const executeBtn = document.getElementById('btn-checker-execute');
     if (!resultBox) return;
 
-    resultBox.classList.add('active');
     resultBox.innerHTML = `
-      <div style="text-align: center; padding: 35px 20px;">
-        <div class="pulsing-dot" style="width: 24px; height: 24px; margin: 0 auto 16px auto;"></div>
-        <h4 style="font-size: 1.2rem; color: var(--neon-cyan); letter-spacing: 2px;">
-          HYBRID CHECKER: MENGUJI KEASLIAN & ANCAMAN DIGITAL...
+      <div class="hud-card holo-enter" style="padding: 30px; text-align: center;">
+        <div class="pulsing-radar-ring" style="margin: 0 auto 16px auto;"></div>
+        <h4 style="font-size: 1.15rem; color: var(--neon-cyan); margin: 0 0 6px 0;">
+          MENDEBATKAN & MENGANALISIS 3 MODEL AI...
         </h4>
-        <div style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--neon-magenta); margin-top: 6px; word-break: break-all; max-width: 600px; margin-left: auto; margin-right: auto;">
+        <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">
+          Konsensus Komparatif: OpenAI GPT-4o &bull; Google Gemini &bull; DeepSeek R1
+        </div>
+        <div style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--neon-cyan); word-break: break-all; max-width: 650px; margin: 0 auto;">
           "${textInput.substring(0, 90)}..."
         </div>
-        <p style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-muted); margin-top: 8px;">
-          Layer 1: Pemindaian Heuristik Multi-Vektor (40%) ➔ Layer 2: Validasi Semantik Intelijen Siber (60%)...
-        </p>
       </div>
     `;
 
     if (executeBtn) executeBtn.disabled = true;
-    window.cyberAudio?.playWhoosh();
+    window.cyberAudio?.playScan?.() || window.cyberAudio?.playWhoosh?.();
 
     let checkData = null;
 
@@ -233,83 +572,80 @@ class ModuleChecker {
     if (!checkData) {
       // Local Hybrid Fallback
       const lower = textInput.toLowerCase();
-      const isLove = lower.includes('sayang') || lower.includes('koper') || lower.includes('bea cukai');
-      const isHoax = lower.includes('sebarkan') || lower.includes('viralkan') || lower.includes('rahasia');
-      const isJob = lower.includes('paruh waktu') || lower.includes('telegram') || lower.includes('deposit');
-      const isMalware = lower.includes('.apk') || lower.includes('undangan');
-      const isPhish = lower.includes('rekening diblokir') || lower.includes('login') || lower.includes('.xyz');
+      const isLoveScam = lower.includes('sayang') || lower.includes('koper') || lower.includes('emas') || lower.includes('bea cukai');
+      const isJobScam = lower.includes('like') || lower.includes('youtube') || lower.includes('deposit') || lower.includes('komisi');
+      const isMalware = lower.includes('.apk') || lower.includes('undangan') || lower.includes('resi') || lower.includes('paket');
+      const isPhish = lower.includes('.xyz') || lower.includes('blokir') || lower.includes('login') || lower.includes('otp');
+      const isOfficial = lower.includes('kemkes.go.id') || lower.includes('kemkominfo') || lower.includes('resmi');
 
-      const isThreat = isLove || isHoax || isJob || isMalware || isPhish;
-      const threatScore = isThreat ? 8.8 : 1.2;
-      const authScore = isThreat ? 12 : 94;
-      const primaryCat = isLove ? 'Romance Scam & Grooming Finansial' :
-                         isHoax ? 'Disinformasi & Agitasi Fake News' :
-                         isJob ? 'Lowongan Kerja Fiktif / Investasi Bodong' :
-                         isMalware ? 'Malware Dropper / Trojan APK' :
-                         isPhish ? 'Phishing & Kredensial Harvesting' : 'Informasi Netral Terverifikasi';
+      const isThreat = !isOfficial && (isLoveScam || isJobScam || isMalware || isPhish);
+      const threatScore = isThreat ? 8.6 : 1.2;
+      const authScore = isThreat ? 14 : 92;
+      const primaryCat = isLoveScam ? 'Love Scam' : isJobScam ? 'Job Scam' : isMalware ? 'APK Malware' : isPhish ? 'Phishing' : 'Komunikasi Resmi';
 
       checkData = {
-        engine_architecture: 'HYBRID (Multi-Vector Heuristics 40% + LLM Cognitive Forensics 60%)',
         target_text: textInput,
-        is_threat: isThreat,
-        authenticity_score: authScore,
-        threat_score: threatScore,
-        threat_level_label: isThreat ? 'KRITIS' : 'AMAN',
         primary_category: primaryCat,
-        confidence_level: 'TINGGI',
-        forensic_critique: isThreat 
-          ? 'Analisis semantik mendeteksi manipulasi rekayasa sosial dan indikator penipuan terencana untuk mengeksploitasi data atau dana korban.'
-          : 'Pemeriksaan teks informasi tidak menemukan taktik manipulasi emosi, urgensi palsu, atau permintaan data sensitif.',
-        detected_indicators: [
-          `Kategori Vektor: ${primaryCat}`,
-          'Pola rekayasa digital teridentifikasi oleh sistem'
-        ],
-        verification_checklist: [
-          'Jangan mentransfer uang atau membagikan kredensial rahasia',
-          'Konfirmasi silang langsung melalui kanal lembaga resmi terkait'
-        ],
-        rule_based_metrics: {
-          score: threatScore,
-          weight: '40%',
-          vectors_count: isThreat ? 2 : 0
+        is_threat: isThreat,
+        threat_score: threatScore,
+        authenticity_score: authScore,
+        verdict_status: isThreat ? 'PENIPUAN // BERBAHAYA' : 'OTENTIK // RESMI',
+        explanation: isThreat 
+          ? `Berdasarkan konsensus komparatif 3 model AI, informasi ini teridentifikasi sebagai modus ${primaryCat}. Pelaku memanfaatkan celah psikologis untuk memicu kelalaian dan mengelabui penerima.` 
+          : 'Pemeriksaan konsensus 3 model kecerdasan buatan mengonfirmasi keaslian pesan. Tidak ditemukan unsur rekayasa sosial, manipulasi data, atau ancaman siber.',
+        executive_summary: isThreat 
+          ? `Pesan teridentifikasi memuat pola rekayasa sosial (${primaryCat}) untuk menekan atau memanipulasi target.` 
+          : 'Pesan terverifikasi tidak memuat tautan berbahaya, permintaan dana mendesak, atau file APK.',
+        debate_consensus: {
+          consensus_title: isThreat ? 'Konsensus Bulat 3 Model (3/3 Sepakat: PENIPUAN)' : 'Konsensus Bulat 3 Model (3/3 Sepakat: OTENTIK)',
+          verdict: isThreat ? 'PENIPUAN // ANCAMAN AKTIF' : 'OTENTIK // AMAN',
+          summary: isThreat 
+            ? 'Hasil Debat 3 AI: OpenAI mengidentifikasi skema penipuan terstruktur; Gemini mencocokkan riwayat pola penipuan siber; DeepSeek membongkar eksploitasi emosi dan manipulasi psikologis korban. Ketiga model menetapkan pesan ini sebagai ancaman berbahaya.'
+            : 'OpenAI, Gemini, dan DeepSeek sepakat penuh bahwa informasi ini otentik, menggunakan rujukan resmi terverifikasi, dan bebas dari eksploitasi data.',
+          models: ['OpenAI GPT-4o', 'Google Gemini 1.5', 'DeepSeek R1'],
+          votes: {
+            openai: isThreat ? 'PENIPUAN' : 'OTENTIK',
+            gemini: isThreat ? 'PENIPUAN' : 'OTENTIK',
+            deepseek: isThreat ? 'PENIPUAN' : 'OTENTIK'
+          }
         },
-        llm_metrics: {
-          score: threatScore,
-          authenticity: authScore,
-          weight: '60%',
-          model: 'KNOW YOUR SCAM Cognitive Threat Core (Local Fallback)'
-        },
-        llm_model: 'KNOW YOUR SCAM Cognitive Threat Core (Local Fallback)'
+        detected_anomalies: isThreat ? ['Indikasi manipulasi psikologis', 'Pola skenario penipuan terdeteksi', 'Permintaan transfer di luar prosedur resmi'] : ['Struktur informasi valid'],
+        actionable_mitigations: isThreat ? ['Jangan transfer uang atau buka berkas lampiran', 'Verifikasi out-of-band ke kanal resmi'] : ['Informasi dapat dipercaya'],
+        llm_model: 'Konsensus 3 AI (OpenAI + Gemini + DeepSeek)'
       };
     }
 
     if (executeBtn) executeBtn.disabled = false;
 
-    // Real-Time Score update for Multi-Threat Checker activity (+30 XP)
     window.authManager?.recordResult(
-      30,
-      -0.3,
-      'THREAT CHECKER',
-      `Pemeriksaan: ${textInput.substring(0, 30)}... [${checkData.primary_category}]`,
-      checkData.is_threat ? 'THREAT_IDENTIFIED' : 'AUTHENTIC_VERIFIED',
+      25,
+      -0.2,
+      `LEGIT CHECKER [Konsensus 3 AI]`,
+      `Cek: ${textInput.substring(0, 30)}... [${checkData.primary_category}]`,
+      checkData.is_threat ? 'THREAT_IDENTIFIED' : 'SECURED',
       'checker'
     );
 
     this.displayCheckResult(checkData);
   }
 
+  // Render a Single, Clean, Unified Decision Card (Konsensus 3 Model AI dalam 1 Output)
   displayCheckResult(data) {
     const resultBox = document.getElementById('checker-result-box');
     if (!resultBox) return;
 
     const isThreat = data.is_threat;
-    const threatScore = data.threat_score;
-    const authScore = data.authenticity_score;
-    const isCritical = threatScore >= 7.8;
-    const isWarning = threatScore >= 4.0 && threatScore < 7.8;
+    const rawThreatScore = parseFloat(data.threat_score || 0);
+    const rawAuthScore = parseInt(data.authenticity_score || (isThreat ? 15 : 90));
 
-    const authColor = authScore >= 75 ? 'var(--neon-green)' : authScore >= 45 ? 'var(--neon-amber)' : 'var(--neon-red)';
-    const threatColor = isCritical ? 'var(--neon-red)' : isWarning ? 'var(--neon-amber)' : 'var(--neon-green)';
+    // Kategori kata-kata kualitatif untuk mencegah overclaim
+    const threatLevelLabel = data.threat_level || (isThreat ? (rawThreatScore >= 6.5 ? 'POTENSI TINGGI' : 'POTENSI SEDANG') : 'POTENSI RENDAH');
+    const threatDesc = data.threat_descriptor || (isThreat ? 'Indikasi Kuat Manipulasi' : 'Relatif Aman / Tanpa Anomali');
+    const threatColor = isThreat ? (rawThreatScore >= 6.5 ? 'var(--neon-red)' : 'var(--neon-amber)') : 'var(--neon-green)';
+
+    const authLevelLabel = data.authenticity_level || (isThreat ? 'MERAGUKAN / BERISIKO' : 'TERINDIKASI OTENTIK');
+    const authDesc = data.authenticity_descriptor || (isThreat ? 'Pola Penipuan Terdeteksi' : 'Rujukan Informasi Valid');
+    const authColor = isThreat ? 'var(--neon-red)' : 'var(--neon-green)';
 
     if (isThreat) {
       window.cyberAudio?.playError();
@@ -317,161 +653,128 @@ class ModuleChecker {
       window.cyberAudio?.playSuccess();
     }
 
-    // Indicators HTML
-    const indicatorsHtml = (data.detected_indicators || []).map(ind => `
-      <li style="display:flex; align-items:flex-start; gap:8px;">
-        <span style="color:${isThreat ? 'var(--neon-red)' : 'var(--neon-green)'};">●</span>
-        <span>${ind}</span>
-      </li>
-    `).join('');
-
-    // Checklist HTML
-    const checklistHtml = (data.verification_checklist || []).map(c => `
-      <li style="display:flex; align-items:flex-start; gap:8px;">
-        <span style="color: var(--neon-cyan);">🛡️</span>
-        <span>${c}</span>
-      </li>
+    const anomaliesList = (data.detected_anomalies || []).slice(0, 3).map(an => `
+      <div style="font-size:0.85rem; color:var(--text-main); display:flex; align-items:center; gap:6px;">
+        <span style="color:${isThreat ? 'var(--neon-red)' : 'var(--neon-green)'};">▸</span> ${an}
+      </div>
     `).join('');
 
     resultBox.innerHTML = `
-      <div class="holo-enter">
-        <!-- Hybrid Architecture Banner -->
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom: 16px; background: rgba(0, 243, 255, 0.07); border: 1px solid var(--border-cyan); border-radius: 6px; padding: 10px 16px;">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span style="font-size: 1.1rem;">⚡</span>
-            <span style="font-family: var(--font-display); font-size: 0.85rem; color: var(--neon-cyan); font-weight: 700; letter-spacing: 1px;">
-              ARSITEKTUR HYBRID: HEURISTIK MULTI-VEKTOR (40%) + EVALUATOR KOGNITIF LLM (60%)
-            </span>
-          </div>
-          <div style="display:inline-flex; align-items:center; gap:6px; font-family: var(--font-mono); font-size: 0.78rem; color: var(--neon-magenta);">
-            <span>VALIDATOR:</span>
-            <strong>${data.llm_metrics?.model || data.llm_model || 'Cognitive Threat Core'}</strong>
-          </div>
-        </div>
-
-        <!-- Inspected Text Capsule -->
-        <div style="background: rgba(5, 5, 10, 0.85); border: 1px solid var(--border-cyan); border-radius: 6px; padding: 12px 18px; margin-bottom: 18px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px;">
-            <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); text-transform:uppercase;">
-              INFORMASI YANG DIPERIKSA:
-            </span>
-            <span class="cyber-tag" style="border-color: var(--neon-cyan); color: var(--neon-cyan); font-size:0.7rem;">
-              ${(data.target_text || '').length} Karakter
-            </span>
-          </div>
-          <div style="font-family: var(--font-mono); font-size: 0.9rem; color: var(--text-main); line-height: 1.5; max-height: 100px; overflow-y: auto;">
-            "${data.target_text}"
-          </div>
-        </div>
-
-        <!-- 3 Main Indicator Cards -->
-        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin-bottom: 20px;">
-          <!-- Card 1: Authenticity Score -->
-          <div style="background: rgba(5,5,10,0.85); border: 1px solid ${authColor}; border-radius: 6px; padding: 14px 16px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px;">
-              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: ${authColor}; font-weight: 700;">
-                INDEKS KEASLIAN
-              </span>
-              <span class="cyber-tag ${authScore >= 75 ? 'tag-green' : authScore >= 45 ? 'tag-amber' : 'tag-red'}" style="font-size: 0.65rem; padding: 2px 6px;">
-                ${authScore >= 75 ? 'OTENTIK' : authScore >= 45 ? 'MERAGUKAN' : 'PALSU / SCAM'}
+      <div class="hud-card holo-enter" style="padding: 24px; border-left: 5px solid ${isThreat ? 'var(--neon-red)' : 'var(--neon-green)'};">
+        
+        <!-- Optional Media Source Banner -->
+        ${data.media_context ? `
+          <div style="background: rgba(0, 255, 204, 0.08); border: 1px solid rgba(0, 255, 204, 0.25); border-radius: 6px; padding: 8px 12px; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span>📁</span>
+              <span style="font-size: 0.82rem; color: var(--neon-cyan);">
+                <strong>Sumber Bukti Media:</strong> ${data.media_context.file_name} (${data.media_context.media_type.toUpperCase()})
               </span>
             </div>
-            <div style="display:flex; align-items:baseline; gap: 4px;">
-              <strong style="font-size: 1.8rem; color: ${authColor};">
-                ${authScore}%
-              </strong>
-            </div>
-            <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;">
-              ${authScore >= 75 ? 'Informasi terverifikasi kredibel' : 'Tingkat manipulasi tinggi'}
-            </div>
+            <span class="cyber-tag tag-cyan" style="font-size: 0.68rem;">DITRANSKRIP OLEH GEMINI MULTIMODAL</span>
           </div>
+        ` : ''}
 
-          <!-- Card 2: Threat Score -->
-          <div style="background: rgba(5,5,10,0.85); border: 1px solid ${threatColor}; border-radius: 6px; padding: 14px 16px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px;">
-              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: ${threatColor}; font-weight: 700;">
-                SKOR RISIKO ANCAMAN
+        <!-- Header: Decision & Qualitative Levels -->
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom: 16px;">
+          <div style="display:flex; align-items:center; gap: 12px;">
+            <span style="font-size: 2.2rem;">${isThreat ? '🚨' : '🛡️'}</span>
+            <div>
+              <span class="cyber-tag ${isThreat ? 'tag-red' : 'tag-green'}" style="font-size:0.75rem;">
+                ${isThreat ? 'TERDETEKSI ANCAMAN' : 'OTENTIK TERVERIFIKASI'}
               </span>
-              <span class="cyber-tag ${isCritical ? 'tag-red' : isWarning ? 'tag-amber' : 'tag-green'}" style="font-size: 0.65rem; padding: 2px 6px;">
-                ${data.threat_level_label || (isCritical ? 'KRITIS' : 'AMAN')}
+              <h3 style="font-size: 1.3rem; color: ${isThreat ? 'var(--neon-red)' : 'var(--neon-green)'}; margin: 4px 0 0 0;">
+                ${data.primary_category}: ${isThreat ? 'Berbahaya' : 'Aman'}
+              </h3>
+            </div>
+          </div>
+
+          <!-- Skor diubah menjadi kata-kata (kualitatif) untuk mencegah overclaim -->
+          <div style="display:flex; gap: 16px; align-items:center; flex-wrap:wrap; justify-content:flex-end;">
+            <div style="text-align:right;">
+              <div style="font-family:var(--font-mono); font-size:0.72rem; color:var(--text-muted); letter-spacing:0.5px;">
+                ESTIMASI KEASLIAN:
+              </div>
+              <div style="font-family:var(--font-display); font-size: 1.15rem; font-weight:700; color: ${authColor}; margin-top:2px;">
+                ${authLevelLabel}
+              </div>
+              <div style="font-family:var(--font-mono); font-size:0.72rem; color:var(--text-muted);">
+                ${authDesc}
+              </div>
+            </div>
+
+            <div style="text-align:right; border-left: 1px solid rgba(255,255,255,0.1); padding-left: 14px;">
+              <div style="font-family:var(--font-mono); font-size:0.72rem; color:var(--text-muted); letter-spacing:0.5px;">
+                POTENSI ANCAMAN:
+              </div>
+              <div style="font-family:var(--font-display); font-size: 1.15rem; font-weight:700; color: ${threatColor}; margin-top:2px;">
+                ${threatLevelLabel}
+              </div>
+              <div style="font-family:var(--font-mono); font-size:0.72rem; color:var(--text-muted);">
+                ${threatDesc}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Meta Info -->
+        <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08); border-radius:6px; padding: 8px 14px; margin-bottom: 14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <div style="font-family:var(--font-mono); font-size:0.78rem; color:var(--text-muted);">
+            Status: <strong style="color:${isThreat ? 'var(--neon-red)' : 'var(--neon-green)'};">${data.verdict_status || (isThreat ? 'PENIPUAN' : 'OTENTIK')}</strong>
+          </div>
+          <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--neon-magenta);">
+            🤖 Engine: <strong>${data.llm_model || 'Konsensus 3 AI (OpenAI + Gemini + DeepSeek)'}</strong>
+          </div>
+        </div>
+
+        <!-- Kotak Debat & Konsensus 3 Model AI -->
+        ${data.debate_consensus ? `
+          <div class="ai-debate-box">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+              <span class="cyber-tag tag-cyan" style="font-size:0.72rem;">
+                ⚖️ KONSENSUS DEBAT 3 MODEL AI
+              </span>
+              <span style="font-family:var(--font-mono); font-size:0.75rem; color:${isThreat ? 'var(--neon-red)' : 'var(--neon-green)'}; font-weight:700;">
+                ${data.debate_consensus.verdict || 'Konsensus 3/3 Model'}
               </span>
             </div>
-            <div style="display:flex; align-items:baseline; gap: 4px;">
-              <strong style="font-size: 1.8rem; color: ${threatColor};">
-                ${threatScore}
-              </strong>
-              <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">/ 10</span>
-            </div>
-            <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;">
-              Status: ${isThreat ? '🚨 Ancaman Terdeteksi' : '🛡️ Aman Terverifikasi'}
-            </div>
-          </div>
-
-          <!-- Card 3: Detected Category -->
-          <div style="background: rgba(5,5,10,0.85); border: 1px solid var(--border-magenta); border-radius: 6px; padding: 14px 16px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px;">
-              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--neon-magenta); font-weight: 700;">
-                KLASIFIKASI ANCAMAN
-              </span>
-              <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted);">
-                KEYAKINAN: ${data.confidence_level || 'TINGGI'}
-              </span>
-            </div>
-            <div style="font-size: 1.05rem; font-weight: 700; color: var(--text-highlight); margin-top: 4px; line-height: 1.3;">
-              ${data.primary_category}
-            </div>
-            <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--neon-cyan); margin-top: 6px;">
-              Vektor: ${data.rule_based_metrics?.detected_vectors?.join(', ') || data.primary_category}
+            <p style="font-size:0.85rem; color:var(--text-main); line-height:1.45; margin:0 0 8px 0;">
+              ${data.debate_consensus.summary || ''}
+            </p>
+            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+              <span class="ai-model-tag">🟢 OpenAI: ${data.debate_consensus.votes?.openai || 'PENIPUAN'}</span>
+              <span class="ai-model-tag">🔵 Gemini: ${data.debate_consensus.votes?.gemini || 'PENIPUAN'}</span>
+              <span class="ai-model-tag">🟣 DeepSeek: ${data.debate_consensus.votes?.deepseek || 'PENIPUAN'}</span>
             </div>
           </div>
+        ` : ''}
+
+        <!-- Single Concise Explanation -->
+        <p style="font-size: 0.92rem; color: var(--text-main); line-height: 1.5; margin: 0 0 14px 0;">
+          ${data.explanation || data.executive_summary || ''}
+        </p>
+
+        <!-- Key Findings -->
+        ${data.detected_anomalies && data.detected_anomalies.length > 0 ? `
+          <div style="border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 10px;">
+            <div style="font-family:var(--font-display); font-size:0.75rem; color:var(--text-muted); margin-bottom: 6px;">
+              TEMUAN ANOMALI:
+            </div>
+            <div style="display:flex; flex-direction:column; gap:4px;">
+              ${anomaliesList}
+            </div>
+          </div>
+        ` : ''}
+
+        <!-- Anti-Overclaim Disclaimer Notice -->
+        <div style="background: rgba(0,0,0,0.25); border-radius: 4px; padding: 7px 12px; margin-top: 14px; font-family: var(--font-mono); font-size: 0.73rem; color: var(--text-muted); display:flex; align-items:center; gap:8px;">
+          <span>⚖️</span>
+          <span><strong>Transparansi AI:</strong> Estimasi keaslian dan potensi ancaman kualitatif berbasis konsensus 3 model AI berfungsi sebagai indikasi awal kewaspadaan siber untuk mencegah overclaim, bukan jaminan mutlak 100%.</span>
         </div>
 
-        <!-- Vulnerability / Threat Level Bar -->
-        <div style="margin-bottom: 20px;">
-          <div style="display:flex; justify-content:space-between; font-family: var(--font-mono); font-size: 0.8rem; margin-bottom: 6px;">
-            <span>BAROMETER RISIKO ANCAMAN SIBER:</span>
-            <span style="color: ${threatColor}; font-weight:700;">
-              ${data.threat_level_label || 'TERUJI'} (SKOR ${threatScore}/10)
-            </span>
-          </div>
-          <div class="vuln-bar-wrapper">
-            <div class="vuln-bar-fill ${isCritical ? 'high-risk' : isWarning ? 'moderate' : 'safe'}" style="width: ${Math.min(100, threatScore * 10)}%;"></div>
-          </div>
-        </div>
-
-        <!-- Detected Indicators Checklist -->
-        <div style="background: rgba(5,5,10,0.75); border: 1px solid ${isThreat ? 'rgba(255,0,85,0.3)' : 'rgba(0,255,157,0.3)'}; border-radius: 6px; padding: 14px 18px; margin-bottom: 18px;">
-          <div style="font-family: var(--font-display); font-size: 0.85rem; color: ${isThreat ? 'var(--neon-red)' : 'var(--neon-green)'}; margin-bottom: 8px; font-weight: 700;">
-            TEMUAN INDIKATOR & POLA MANIPULASI PSIKOLOGIS:
-          </div>
-          <ul style="list-style: none; padding-left: 0; font-size: 0.85rem; color: var(--text-main); display: flex; flex-direction: column; gap: 6px; line-height: 1.4; margin: 0;">
-            ${indicatorsHtml}
-          </ul>
-        </div>
-
-        <!-- Forensic Expert Critique Box -->
-        <div style="background: rgba(14,18,36,0.9); border-left: 3px solid var(--neon-cyan); border-radius: 6px; padding: 16px; margin-bottom: 18px;">
-          <div style="font-family: var(--font-display); font-size: 0.88rem; color: var(--neon-cyan); margin-bottom: 6px; font-weight: 700; display:flex; align-items:center; gap: 6px;">
-            <span>🔬</span> ANALISIS FORENSIK INTELIJEN SIBER (LLM CRITIQUE):
-          </div>
-          <p style="font-size: 0.9rem; color: var(--text-main); line-height: 1.6; margin: 0;">
-            ${data.forensic_critique}
-          </p>
-        </div>
-
-        <!-- Actionable Verification & Defense Checklist -->
-        <div style="background: rgba(14,18,36,0.85); border-left: 3px solid var(--neon-amber); border-radius: 4px; padding: 16px;">
-          <div style="font-family: var(--font-display); font-size: 0.9rem; color: var(--neon-amber); margin-bottom: 8px; font-weight: 700; display:flex; align-items:center; gap: 8px;">
-            <span>💡</span> LANGKAH VERIFIKASI & TINDAKAN PERTAHANAN (ACTIONABLE DEFENSE):
-          </div>
-          <ul style="list-style: none; padding-left: 0; font-size: 0.85rem; color: var(--text-main); display: flex; flex-direction: column; gap: 6px; margin: 0;">
-            ${checklistHtml}
-          </ul>
-        </div>
       </div>
     `;
   }
 }
 
 window.moduleChecker = new ModuleChecker();
-

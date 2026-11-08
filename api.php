@@ -39,7 +39,10 @@ function saveDatabase($path, $data) {
 
 $action = isset($_GET['action']) ? trim($_GET['action']) : '';
 $rawInput = file_get_contents('php://input');
-$input = json_decode($rawInput, true) ?: [];
+$input = json_decode($rawInput, true);
+if (!is_array($input)) {
+    $input = !empty($_POST) ? $_POST : [];
+}
 
 switch ($action) {
     case 'ping':
@@ -55,6 +58,60 @@ switch ($action) {
         echo json_encode([
             'status' => 'success',
             'data' => $db
+        ]);
+        break;
+
+    case 'register':
+        $db = getDatabase($dbFile);
+        $name = isset($input['name']) ? trim($input['name']) : '';
+        $username = isset($input['username']) ? strtolower(trim($input['username'])) : '';
+        $email = isset($input['email']) ? strtolower(trim($input['email'])) : '';
+        $password = isset($input['password']) ? trim($input['password']) : '';
+
+        if (empty($name) || empty($username) || empty($password)) {
+            http_response_code(422);
+            echo json_encode(['status' => 'error', 'message' => 'Semua kolom wajib diisi.']);
+            break;
+        }
+
+        foreach ($db['users'] as $u) {
+            if (strtolower($u['username']) === $username) {
+                http_response_code(422);
+                echo json_encode(['status' => 'error', 'message' => 'Username siber sudah terdaftar. Silakan pilih username lain.']);
+                break 2;
+            }
+        }
+
+        $newId = 'USR-' . rand(100, 999);
+        $newUser = [
+            'id' => $newId,
+            'user_code' => $newId,
+            'name' => $name,
+            'username' => $username,
+            'email' => $email ?: ($username . '@knowyourscam.local'),
+            'password' => password_hash($password, PASSWORD_BCRYPT),
+            'role' => 'user',
+            'score' => 0,
+            'vulnerability' => 5.0,
+            'rank' => 'Cyber Trainee',
+            'modules_completed' => 0,
+            'game_scores' => [
+                'kasus' => 0,
+                'diff' => 0,
+                'criminal' => 0,
+                'deeplearn' => 0,
+                'scanner' => 0,
+                'checker' => 0
+            ]
+        ];
+
+        $db['users'][] = $newUser;
+        saveDatabase($dbFile, $db);
+
+        echo json_encode([
+            'status' => 'success',
+            'message' => 'Pendaftaran akun berhasil!',
+            'user' => $newUser
         ]);
         break;
 
@@ -85,26 +142,38 @@ switch ($action) {
             }
         }
 
-        if ($foundUser) {
-            if (!empty($password) && isset($validPasswords[$username]) && !in_array($password, $validPasswords[$username])) {
-                http_response_code(401);
-                echo json_encode(['status' => 'error', 'message' => 'Sandi tidak valid. Gunakan "cadet123" untuk cadet atau "admin123" untuk admin.']);
-                break;
+        if (!$foundUser) {
+            http_response_code(401);
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Username atau password salah! Otentikasi gagal.'
+            ]);
+            break;
+        }
+
+        // Validate password against user record or demo credentials
+        $userPass = $foundUser['password'] ?? '';
+        $isPasswordValid = false;
+
+        if (!empty($userPass)) {
+            if ($password === $userPass) {
+                $isPasswordValid = true;
+            } elseif (password_verify($password, $userPass)) {
+                $isPasswordValid = true;
             }
-        } else {
-            // Register auto for demo / quick play
-            $foundUser = [
-                'id' => 'USR-' . strtoupper(substr(md5(uniqid()), 0, 6)),
-                'username' => $username,
-                'name' => isset($input['name']) && $input['name'] ? trim($input['name']) : 'Cadet ' . ucfirst($username),
-                'role' => ($role === 'admin' || $username === 'admin') ? 'admin' : 'user',
-                'score' => 500,
-                'vulnerability' => 5.0,
-                'rank' => ($role === 'admin' || $username === 'admin') ? 'Security Architect' : 'Cyber Trainee',
-                'modules_completed' => 0
-            ];
-            $db['users'][] = $foundUser;
-            saveDatabase($dbFile, $db);
+        }
+
+        if (!$isPasswordValid && isset($validPasswords[$username]) && in_array($password, $validPasswords[$username])) {
+            $isPasswordValid = true;
+        }
+
+        if (!$isPasswordValid) {
+            http_response_code(401);
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Username atau password salah! Otentikasi gagal.'
+            ]);
+            break;
         }
 
         // Add login log
