@@ -178,10 +178,6 @@
   cursor: pointer;
   white-space: nowrap;
 }
-  gap: 5px;
-  cursor: pointer;
-  white-space: nowrap;
-}
 
 .nav-link:hover {
   color: var(--neon-cyan);
@@ -195,6 +191,100 @@
   border-color: var(--neon-cyan);
   background: rgba(0, 243, 255, 0.12);
   box-shadow: 0 0 12px var(--neon-cyan-dim);
+}
+
+/* ========================================================
+   DESKTOP NAVBAR DROPDOWN SUB-MENUS
+   ======================================================== */
+.dropdown-nav-item {
+  position: relative;
+  list-style: none !important;
+}
+
+.dropdown-toggle {
+  cursor: pointer;
+  user-select: none;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 210px;
+  background: rgba(10, 14, 28, 0.96) !important;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid var(--border-cyan) !important;
+  border-radius: 8px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.75), 0 0 20px rgba(0, 243, 255, 0.12);
+  list-style: none !important;
+  list-style-type: none !important;
+  padding: 6px !important;
+  margin: 0 !important;
+  display: none !important;
+  flex-direction: column;
+  gap: 3px;
+  z-index: 1200;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Invisible bridge so cursor doesn't lose hover between toggle and menu */
+.dropdown-menu::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 0;
+  right: 0;
+  height: 8px;
+}
+
+/* Hover or keyboard focus shows the dropdown menu */
+.dropdown-nav-item:hover .dropdown-menu,
+.dropdown-nav-item:focus-within .dropdown-menu {
+  display: flex !important;
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  pointer-events: auto !important;
+}
+
+.dropdown-menu li {
+  list-style: none !important;
+  list-style-type: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.dropdown-link {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 8px 12px !important;
+  font-family: var(--font-display) !important;
+  font-size: 0.76rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.5px !important;
+  color: #94A3B8 !important;
+  text-decoration: none !important;
+  border-radius: 5px !important;
+  border: 1px solid transparent !important;
+  background: transparent !important;
+  transition: all 0.2s ease !important;
+  white-space: nowrap !important;
+}
+
+.dropdown-link:hover {
+  background: rgba(0, 243, 255, 0.14) !important;
+  color: #FFFFFF !important;
+  border-color: rgba(0, 243, 255, 0.35) !important;
+  transform: translateX(4px) !important;
+  box-shadow: 0 0 12px var(--neon-cyan-dim) !important;
+}
+
+.dropdown-link span {
+  font-size: 0.95rem;
 }
 
 /* Theme Toggle Button */

@@ -883,18 +883,18 @@
             </button>
           </div>
 
+          <!-- Mobile Toggle Bar (Full Width Banner between Top Tabs and Content) -->
+          <div class="edu-mobile-bar">
+            <button class="cyber-btn btn-ghost" onclick="window.edukasiManager.toggleMobileSidebar()">
+              <span>☰</span> DAFTAR MATERI
+            </button>
+            <span id="edu-mobile-current-title" style="font-size: 0.8rem; color: var(--neon-cyan); font-weight: 700; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 58%;">
+              Lanskap Ancaman Siber
+            </span>
+          </div>
+
           <!-- Main Layout Body (Sidebar + Content) -->
           <div class="edu-w3-main-body">
-            <!-- Mobile Toggle Bar -->
-            <div class="edu-mobile-bar">
-              <button class="cyber-btn btn-ghost" onclick="window.edukasiManager.toggleMobileSidebar()">
-                <span>☰</span> DAFTAR MATERI
-              </button>
-              <span id="edu-mobile-current-title" style="font-size: 0.82rem; color: var(--neon-cyan); font-weight: 700;">
-                Lanskap Ancaman Siber
-              </span>
-            </div>
-
             <!-- W3Schools Styled Sidebar Navigation -->
             <aside class="edu-sidebar" id="edu-sidebar-nav">
               <div class="edu-sidebar-header">
