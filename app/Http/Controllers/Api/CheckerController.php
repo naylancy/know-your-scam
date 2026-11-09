@@ -513,7 +513,7 @@ PROMPT;
             ];
         }
 
-        $rawKey = env('DEEPSEEK_GEMINI_API_KEY') ?: base64_decode('QVEuQWI4Uk42SlYyRFRyT3Z3a1ZsbHFBaHhXMERicks0MzZ0VFNJeGlCbjdUVmt1enVoUQ==');
+        $rawKey = env('DEEPSEEK_GEMINI_API_KEY') ?: base64_decode('QVEuQWI4Uk42SlYyRFRyT3Z3a1ZabGxxQWh4VzBEYnJLNDM2dFRTSXhpQm43VFZrdXp1aFE=');
         $apiKey = trim($rawKey, " \t\n\r\0\x0B\"'");
 
         if (!empty($apiKey)) {
