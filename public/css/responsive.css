@@ -264,19 +264,21 @@
     overflow: hidden !important;
     text-overflow: ellipsis !important;
   }
+  .logout-btn-label {
+    display: none !important;
+  }
   #btn-header-logout {
-    padding: 4px 6px !important;
-    font-size: 0 !important;
-    min-width: 28px !important;
-    height: 28px !important;
+    padding: 4px 8px !important;
+    min-width: 30px !important;
+    height: 30px !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
     flex-shrink: 0 !important;
     border-radius: 4px !important;
   }
-  #btn-header-logout span {
-    font-size: 0.85rem !important;
+  #btn-header-logout span:first-child {
+    font-size: 0.95rem !important;
     margin: 0 !important;
     display: inline-block !important;
   }
@@ -287,15 +289,15 @@
     width: 34px !important;
     height: 34px !important;
     min-width: 34px !important;
-    font-size: 1.2rem !important;
+    font-size: 1.25rem !important;
     padding: 0 !important;
     flex-shrink: 0 !important;
-    order: 99 !important;
-    margin-left: 2px !important;
-    background: rgba(0, 243, 255, 0.12) !important;
+    order: 999 !important;
+    margin-left: 4px !important;
+    background: rgba(0, 243, 255, 0.16) !important;
     border: 1px solid var(--neon-cyan) !important;
-    box-shadow: 0 0 10px rgba(0, 243, 255, 0.25) !important;
-    z-index: 100 !important;
+    box-shadow: 0 0 12px rgba(0, 243, 255, 0.3) !important;
+    z-index: 1000 !important;
   }
 
   /* --------------------------------------------------------
@@ -598,15 +600,8 @@
     justify-content: center !important;
     font-size: 0.75rem !important;
   }
+  /* Hide audio capsule on smartphones to guarantee zero navbar overflow */
   .audio-ctrl-capsule {
-    padding: 1px 3px !important;
-  }
-  .audio-btn {
-    padding: 2px 4px !important;
-    font-size: 0.75rem !important;
-  }
-  /* Hide drone sound toggle on ultra-compact screens */
-  #btn-toggle-drone {
     display: none !important;
   }
 
@@ -625,12 +620,11 @@
   }
   #btn-header-logout {
     padding: 3px 5px !important;
-    font-size: 0 !important;
-    min-width: 26px !important;
-    height: 26px !important;
+    min-width: 28px !important;
+    height: 28px !important;
   }
-  #btn-header-logout span {
-    font-size: 0.8rem !important;
+  #btn-header-logout span:first-child {
+    font-size: 0.85rem !important;
     margin: 0 !important;
   }
 
@@ -639,10 +633,8 @@
     height: 32px !important;
     min-width: 32px !important;
     font-size: 1.15rem !important;
-    order: 99 !important;
+    order: 999 !important;
     flex-shrink: 0 !important;
-  }
-    font-size: 1.05rem !important;
   }
 
   /* Mobile Drawer Width */

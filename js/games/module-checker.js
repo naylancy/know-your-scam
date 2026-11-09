@@ -728,17 +728,19 @@ class ModuleChecker {
           </div>
         </div>
 
-        <!-- Kotak Konsensus Hibrida: Gemini AI + Heuristik Siber -->
+        <!-- Kotak Konsensus Multi-LLM Debate: Gemini + OpenAI + DeepSeek + Heuristik -->
         ${data.debate_consensus ? (() => {
           const engines = data.debate_consensus.engines || {};
           const gemini = engines.gemini || {};
+          const openai = engines.openai || {};
+          const deepseek = engines.deepseek || {};
           const heuristics = engines.heuristics || {};
 
           return `
           <div class="ai-debate-box">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:6px;">
               <span class="cyber-tag tag-cyan" style="font-size:0.72rem;">
-                ⚖️ ${data.debate_consensus.consensus_title || 'KONSENSUS HIBRIDA (AI + HEURISTIK)'}
+                ⚖️ ${data.debate_consensus.consensus_title || 'KONSENSUS 3 MODEL AI + HEURISTIK'}
               </span>
               <span style="font-family:var(--font-mono); font-size:0.78rem; color:${isThreat ? 'var(--neon-red)' : 'var(--neon-green)'}; font-weight:700;">
                 ${data.debate_consensus.verdict || (isThreat ? 'PENIPUAN // ANCAMAN AKTIF' : 'OTENTIK // AMAN')}
@@ -747,29 +749,59 @@ class ModuleChecker {
             <p style="font-size:0.86rem; color:var(--text-main); line-height:1.45; margin:0 0 10px 0;">
               ${data.debate_consensus.summary || ''}
             </p>
-            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:8px;">
-              <div style="background:rgba(0,0,0,0.3); border:1px solid rgba(0,243,255,0.25); border-radius:6px; padding:8px 12px;">
-                <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--neon-cyan); margin-bottom:3px; display:flex; justify-content:space-between; align-items:center;">
-                  <span>🤖 GOOGLE GEMINI 3.5 AI</span>
-                  <span class="cyber-tag ${gemini.status === 'LIVE' ? 'tag-green' : 'tag-cyan'}" style="font-size:0.65rem;">${gemini.status === 'LIVE' ? '🟢 LIVE CLOUD' : 'TERVERIFIKASI'}</span>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:8px;">
+              <!-- Engine 1: Google Gemini -->
+              <div style="background:rgba(0,0,0,0.35); border:1px solid rgba(0,243,255,0.3); border-radius:6px; padding:10px 12px;">
+                <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--neon-cyan); margin-bottom:4px; display:flex; justify-content:space-between; align-items:center;">
+                  <span>🤖 GOOGLE GEMINI 3.5</span>
+                  <span class="cyber-tag ${gemini.status === 'LIVE' ? 'tag-green' : 'tag-cyan'}" style="font-size:0.62rem;">${gemini.status === 'LIVE' ? '🟢 LIVE' : 'READY'}</span>
                 </div>
                 <div style="font-size:0.82rem; color:var(--text-main);">
                   Keputusan: <strong style="color:${gemini.verdict === 'PENIPUAN' ? 'var(--neon-red)' : 'var(--neon-green)'};">${gemini.verdict || (isThreat ? 'PENIPUAN' : 'OTENTIK')}</strong>
                 </div>
-                <div style="font-size:0.72rem; color:var(--text-muted); margin-top:2px;">
+                <div style="font-size:0.72rem; color:var(--text-muted); margin-top:3px; line-height:1.35;">
                   ${gemini.note || 'Penalaran model generatif AI cloud aktif'}
                 </div>
               </div>
 
-              <div style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,0,85,0.25); border-radius:6px; padding:8px 12px;">
-                <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--neon-magenta); margin-bottom:3px; display:flex; justify-content:space-between; align-items:center;">
-                  <span>🛡️ ENGINE HEURISTIK SIBER</span>
-                  <span class="cyber-tag tag-magenta" style="font-size:0.65rem;">DETERMINISTIK</span>
+              <!-- Engine 2: OpenAI GPT-4o -->
+              <div style="background:rgba(0,0,0,0.35); border:1px solid rgba(16,185,129,0.3); border-radius:6px; padding:10px 12px;">
+                <div style="font-family:var(--font-mono); font-size:0.75rem; color:#10B981; margin-bottom:4px; display:flex; justify-content:space-between; align-items:center;">
+                  <span>🧠 OPENAI GPT-4o</span>
+                  <span class="cyber-tag ${openai.status === 'LIVE' ? 'tag-green' : 'tag-cyan'}" style="font-size:0.62rem;">${openai.status === 'LIVE' ? '🟢 LIVE' : 'READY'}</span>
+                </div>
+                <div style="font-size:0.82rem; color:var(--text-main);">
+                  Keputusan: <strong style="color:${openai.verdict === 'PENIPUAN' ? 'var(--neon-red)' : 'var(--neon-green)'};">${openai.verdict || (isThreat ? 'PENIPUAN' : 'OTENTIK')}</strong>
+                </div>
+                <div style="font-size:0.72rem; color:var(--text-muted); margin-top:3px; line-height:1.35;">
+                  ${openai.note || 'Analisis psikologis rekayasa sosial OpenAI aktif'}
+                </div>
+              </div>
+
+              <!-- Engine 3: DeepSeek-R1 -->
+              <div style="background:rgba(0,0,0,0.35); border:1px solid rgba(79,70,229,0.35); border-radius:6px; padding:10px 12px;">
+                <div style="font-family:var(--font-mono); font-size:0.75rem; color:#818CF8; margin-bottom:4px; display:flex; justify-content:space-between; align-items:center;">
+                  <span>⚡ DEEPSEEK-R1</span>
+                  <span class="cyber-tag ${deepseek.status === 'LIVE' ? 'tag-green' : 'tag-cyan'}" style="font-size:0.62rem;">${deepseek.status === 'LIVE' ? '🟢 LIVE' : 'READY'}</span>
+                </div>
+                <div style="font-size:0.82rem; color:var(--text-main);">
+                  Keputusan: <strong style="color:${deepseek.verdict === 'PENIPUAN' ? 'var(--neon-red)' : 'var(--neon-green)'};">${deepseek.verdict || (isThreat ? 'PENIPUAN' : 'OTENTIK')}</strong>
+                </div>
+                <div style="font-size:0.72rem; color:var(--text-muted); margin-top:3px; line-height:1.35;">
+                  ${deepseek.note || 'Penalaran logis mendalam DeepSeek R1 aktif'}
+                </div>
+              </div>
+
+              <!-- Engine 4: Heuristik Deterministik -->
+              <div style="background:rgba(0,0,0,0.35); border:1px solid rgba(255,0,85,0.25); border-radius:6px; padding:10px 12px;">
+                <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--neon-magenta); margin-bottom:4px; display:flex; justify-content:space-between; align-items:center;">
+                  <span>🛡️ HEURISTIK SIBER</span>
+                  <span class="cyber-tag tag-magenta" style="font-size:0.62rem;">DETERMINISTIK</span>
                 </div>
                 <div style="font-size:0.82rem; color:var(--text-main);">
                   Pola: <strong style="color:${heuristics.verdict === 'PENIPUAN' ? 'var(--neon-red)' : 'var(--neon-green)'};">${heuristics.verdict || (isThreat ? 'PENIPUAN' : 'OTENTIK')}</strong>
                 </div>
-                <div style="font-size:0.72rem; color:var(--text-muted); margin-top:2px;">
+                <div style="font-size:0.72rem; color:var(--text-muted); margin-top:3px; line-height:1.35;">
                   ${heuristics.note || 'Taksonomi rekayasa sosial, love scam, dan malware'}
                 </div>
               </div>

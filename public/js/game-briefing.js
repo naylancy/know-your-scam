@@ -458,31 +458,24 @@
             <span class="cyber-tag" style="font-size:0.75rem;">${b ? b.badge : 'GAME ACTIVE'}</span>
           </div>
 
-          <!-- Row 2: Sub-HUD Controls (Far Left Hint & Right Aligned Scores) -->
-          <div style="display:flex; justify-content:space-between; align-items:center; gap: 12px; flex-wrap:wrap; margin-top: 10px; width: 100%;">
-            <!-- Far Left Edge: HINT Button (Sebelah Kiri Ujung) -->
-            <div style="display:flex; align-items:center; gap: 8px;">
-              <button class="btn-intel-hint" onclick="window.hintSystem?.openHintModal()" title="Minta petunjuk intelijen pertahanan">
-                <span>💡</span> HINT
+          <!-- Center/Right: Live Score Badges -->
+          <div style="display:flex; align-items:center; gap: 12px; flex-wrap:wrap;">
+            <div class="game-score-badge">
+              <span>🎮 SKOR GAME INI:</span>
+              <strong id="live-score-${gameKey}">${gameScore} XP</strong>
+            </div>
+            <div class="game-score-badge badge-total">
+              <span>🏆 TOTAL AKUMULASI:</span>
+              <strong id="live-total-score-${gameKey}">${totalScore} XP</strong>
+            </div>
+            ${!user ? `
+              <button type="button" class="cyber-btn btn-ghost" style="padding: 4px 10px; font-size: 0.72rem; border-color: var(--border-cyan); color: var(--neon-cyan);" onclick="window.authManager.openLoginModal()" title="Login opsional untuk mencatat progress ke leaderboard">
+                🏆 Leaderboard
               </button>
-            </div>
-
-            <!-- Right Edge: Live Score Badges -->
-            <div style="display:flex; align-items:center; gap: 12px; flex-wrap:wrap;">
-              <div class="game-score-badge">
-                <span>🎮 SKOR GAME INI:</span>
-                <strong id="live-score-${gameKey}">${gameScore} XP</strong>
-              </div>
-              <div class="game-score-badge badge-total">
-                <span>🏆 TOTAL AKUMULASI:</span>
-                <strong id="live-total-score-${gameKey}">${totalScore} XP</strong>
-              </div>
-              ${!user ? `
-                <button type="button" class="cyber-btn btn-ghost" style="padding: 4px 10px; font-size: 0.72rem; border-color: var(--border-cyan); color: var(--neon-cyan);" onclick="window.authManager.openLoginModal()" title="Login opsional untuk mencatat progress ke leaderboard">
-                  🏆 Leaderboard
-                </button>
-              ` : ''}
-            </div>
+            ` : ''}
+            <button class="btn-intel-hint" onclick="window.hintSystem?.openHintModal()" title="Minta petunjuk intelijen pertahanan">
+              <span>💡</span> HINT
+            </button>
           </div>
         </div>
       `;

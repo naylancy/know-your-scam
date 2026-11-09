@@ -99,6 +99,24 @@
   padding: 0;
 }
 
+/* Strict Global Resets for Clean Cyber UI */
+ul, ol {
+  list-style: none !important;
+  list-style-type: none !important;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  list-style: none !important;
+  list-style-type: none !important;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
 html, body {
   width: 100%;
   min-height: 100%;
@@ -574,11 +592,6 @@ h1, h2, h3, h4 {
   transition: var(--transition-smooth);
   position: relative;
   color: var(--text-main);
-}
-
-#modal-general-box .cyber-modal-box {
-  max-width: min(840px, 94vw);
-  border-radius: 10px;
 }
 
 .cyber-modal-backdrop.active .cyber-modal-box {

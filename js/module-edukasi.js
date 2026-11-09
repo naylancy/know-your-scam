@@ -913,13 +913,13 @@
             <!-- Main Article Content Area -->
             <main class="edu-main-content">
               <div class="edu-content-top-nav">
-                <button class="cyber-btn btn-ghost w3-nav-btn" id="btn-edu-prev" onclick="window.edukasiManager.prevTopic()" title="Navigasi ke topik sebelumnya">
+                <button class="cyber-btn btn-ghost w3-nav-btn" id="btn-edu-prev" onclick="window.edukasiManager.prevTopic()">
                   ❮ Previous
                 </button>
                 <div class="edu-progress-tag" id="edu-topic-indicator">
                   Topik 1 dari 4 (1. PENDAHULUAN)
                 </div>
-                <button class="cyber-btn w3-nav-btn" style="background:#04AA6D; border-color:#04AA6D; color:#FFFFFF;" id="btn-edu-next" onclick="window.edukasiManager.nextTopic()" title="Lanjut ke topik berikutnya">
+                <button class="cyber-btn btn-ghost w3-nav-btn" id="btn-edu-next" onclick="window.edukasiManager.nextTopic()">
                   Next ❯
                 </button>
               </div>
@@ -929,10 +929,10 @@
               </div>
 
               <div class="edu-content-bottom-nav">
-                <button class="cyber-btn btn-ghost w3-nav-btn" id="btn-edu-prev-bottom" onclick="window.edukasiManager.prevTopic()" title="Navigasi ke topik sebelumnya">
+                <button class="cyber-btn btn-ghost w3-nav-btn" id="btn-edu-prev-bottom" onclick="window.edukasiManager.prevTopic()">
                   ❮ Previous
                 </button>
-                <button class="cyber-btn w3-nav-btn" style="background:#04AA6D; border-color:#04AA6D; color:#FFFFFF;" id="btn-edu-next-bottom" onclick="window.edukasiManager.nextTopic()" title="Lanjut ke topik berikutnya">
+                <button class="cyber-btn w3-nav-btn" style="background:#04AA6D; border-color:#04AA6D; color:#FFFFFF;" id="btn-edu-next-bottom" onclick="window.edukasiManager.nextTopic()">
                   Next ❯
                 </button>
               </div>
@@ -1064,13 +1064,13 @@
         articleBox.innerHTML = topic.html;
       }
 
-      // Smooth scroll viewport so the edu-w3-wrapper and top nav are cleanly visible
+      // Smooth scroll viewport to top of article if user is scrolled down
       const eduWrapper = document.querySelector('.edu-w3-wrapper');
       if (eduWrapper) {
-        const headerOffset = 64;
+        const headerOffset = 76;
         const targetY = eduWrapper.getBoundingClientRect().top + window.pageYOffset - headerOffset;
-        if (Math.abs(window.pageYOffset - targetY) > 80) {
-          window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+        if (window.pageYOffset > targetY + 50) {
+          window.scrollTo({ top: targetY, behavior: 'smooth' });
         }
       }
 

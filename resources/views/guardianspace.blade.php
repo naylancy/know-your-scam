@@ -9,11 +9,11 @@
   <meta name="description" content="KNOW YOUR SCAM - Platform edukasi dan simulasi pertahanan siber multi-level bertenaga Laravel dan AI Cognitive Core.">
 
   <!-- Core Cyber CSS Files -->
-  <link rel="stylesheet" href="{{ asset('css/hud-layout.css') }}?v=2.9">
-  <link rel="stylesheet" href="{{ asset('css/games.css') }}?v=2.9">
-  <link rel="stylesheet" href="{{ asset('css/edukasi.css') }}?v=2.9">
-  <link rel="stylesheet" href="{{ asset('css/cyber-theme.css') }}?v=2.9">
-  <link rel="stylesheet" href="{{ asset('css/responsive.css') }}?v=2.9">
+  <link rel="stylesheet" href="{{ asset('css/hud-layout.css') }}?v=3.0">
+  <link rel="stylesheet" href="{{ asset('css/games.css') }}?v=3.0">
+  <link rel="stylesheet" href="{{ asset('css/edukasi.css') }}?v=3.0">
+  <link rel="stylesheet" href="{{ asset('css/cyber-theme.css') }}?v=3.0">
+  <link rel="stylesheet" href="{{ asset('css/responsive.css') }}?v=3.0">
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
 </head>
@@ -93,12 +93,12 @@
           <!-- GUEST VIEW: MASUK / DAFTAR AKUN BUTTON -->
           <div id="hud-guest-actions" class="hud-guest-actions">
             <button id="btn-header-login" class="cyber-btn" onclick="window.authManager.openLoginModal()" style="padding: 7px 16px; font-size: 0.8rem; box-shadow: 0 0 15px var(--neon-cyan-dim);">
-              <span>🔑</span> MASUK / DAFTAR
+              <span>🔑</span> <span class="login-btn-label">MASUK / DAFTAR</span>
             </button>
           </div>
 
           <!-- AUTHENTICATED VIEW: USER PROFILE CAPSULE & LOGOUT -->
-          <div id="hud-auth-actions" class="hud-auth-actions" style="display:none; align-items:center; gap: 10px;">
+          <div id="hud-auth-actions" class="hud-auth-actions" style="display:none; align-items:center; gap: 8px;">
             <div class="user-capsule">
               <div id="hud-user-avatar" class="user-avatar">⚡</div>
               <div class="user-info">
@@ -110,9 +110,9 @@
               </div>
             </div>
 
-            <!-- Logout Button -->
-            <button id="btn-header-logout" class="cyber-btn btn-ghost" style="padding: 6px 12px; font-size: 0.75rem; border-color: rgba(255,0,85,0.4); color: var(--neon-red);" onclick="window.authManager.logout()" title="Keluar dari Akun">
-              <span>⏻</span> KELUAR
+            <!-- Logout Button (Icon Only on Mobile via .logout-btn-label) -->
+            <button id="btn-header-logout" class="cyber-btn btn-ghost" style="padding: 6px 10px; font-size: 0.75rem; border-color: rgba(255,0,85,0.4); color: var(--neon-red);" onclick="window.authManager.logout()" title="Keluar dari Akun">
+              <span>⏻</span> <span class="logout-btn-label">KELUAR</span>
             </button>
           </div>
 
@@ -934,26 +934,26 @@
   </script>
 
   <!-- Core Scripts -->
-  <script src="{{ asset('js/audio-engine.js') }}?v=2.9"></script>
-  <script src="{{ asset('js/particle-canvas.js') }}?v=2.9"></script>
-  <script src="{{ asset('js/ai-wave-canvas.js') }}?v=2.9"></script>
-  <script src="{{ asset('js/hint-system.js') }}?v=2.9"></script>
-  <script src="{{ asset('js/game-briefing.js') }}?v=2.9"></script>
-  <script src="{{ asset('js/auth.js') }}?v=2.9"></script>
-  <script src="{{ asset('js/welcome-interactive.js') }}?v=2.9"></script>
-  <script src="{{ asset('js/module-edukasi.js') }}?v=2.9"></script>
-  <script src="{{ asset('js/leaderboard.js') }}?v=2.9"></script>
-  <script src="{{ asset('js/admin.js') }}?v=2.9"></script>
+  <script src="{{ asset('js/audio-engine.js') }}?v=3.0"></script>
+  <script src="{{ asset('js/particle-canvas.js') }}?v=3.0"></script>
+  <script src="{{ asset('js/ai-wave-canvas.js') }}?v=3.0"></script>
+  <script src="{{ asset('js/hint-system.js') }}?v=3.0"></script>
+  <script src="{{ asset('js/game-briefing.js') }}?v=3.0"></script>
+  <script src="{{ asset('js/auth.js') }}?v=3.0"></script>
+  <script src="{{ asset('js/welcome-interactive.js') }}?v=3.0"></script>
+  <script src="{{ asset('js/module-edukasi.js') }}?v=3.0"></script>
+  <script src="{{ asset('js/leaderboard.js') }}?v=3.0"></script>
+  <script src="{{ asset('js/admin.js') }}?v=3.0"></script>
 
   <!-- Game Modules -->
-  <script src="{{ asset('js/games/module-kasus.js') }}?v=2.9"></script>
-  <script src="{{ asset('js/games/module-diff.js') }}?v=2.9"></script>
-  <script src="{{ asset('js/games/module-criminal.js') }}?v=2.9"></script>
-  <script src="{{ asset('js/games/module-deeplearn.js') }}?v=2.9"></script>
-  <script src="{{ asset('js/games/module-scanner.js') }}?v=2.9"></script>
-  <script src="{{ asset('js/games/module-checker.js') }}?v=2.9"></script>
+  <script src="{{ asset('js/games/module-kasus.js') }}?v=3.0"></script>
+  <script src="{{ asset('js/games/module-diff.js') }}?v=3.0"></script>
+  <script src="{{ asset('js/games/module-criminal.js') }}?v=3.0"></script>
+  <script src="{{ asset('js/games/module-deeplearn.js') }}?v=3.0"></script>
+  <script src="{{ asset('js/games/module-scanner.js') }}?v=3.0"></script>
+  <script src="{{ asset('js/games/module-checker.js') }}?v=3.0"></script>
 
   <!-- Application Main Controller -->
-  <script src="{{ asset('js/app.js') }}?v=2.9"></script>
+  <script src="{{ asset('js/app.js') }}?v=3.0"></script>
 </body>
 </html>
