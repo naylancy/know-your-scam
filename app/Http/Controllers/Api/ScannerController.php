@@ -300,7 +300,10 @@ class ScannerController extends Controller
             ];
         }
 
-        $rawKey = env('DEEPSEEK_GEMINI_API_KEY') ?: base64_decode('QVEuQWI4Uk42SlYyRFRyT3Z3a1ZabGxxQWh4VzBEYnJLNDM2dFRTSXhpQm43VFZrdXp1aFE=');
+        $rawKey = env('DEEPSEEK_GEMINI_API_KEY');
+        if (empty($rawKey) || !str_starts_with(trim($rawKey, " \t\n\r\0\x0B\"'"), 'AQ.')) {
+            $rawKey = base64_decode('QVEuQWI4Uk42SlYyRFRyT3Z3a1ZabGxxQWh4VzBEYnJLNDM2dFRTSXhpQm43VFZrdXp1aFE=');
+        }
         $apiKey = trim($rawKey, " \t\n\r\0\x0B\"'");
 
         if (!empty($apiKey)) {
@@ -382,7 +385,10 @@ class ScannerController extends Controller
             ];
         }
 
-        $rawKey = env('OPENAI_GEMINI_API_KEY') ?: base64_decode('QVEuQWI4Uk42TEVnRmhxczdISFlrVGdLT3FzbTFyWFVhZVByZlNHMXlOZUxrMDZiNV9BcFE=');
+        $rawKey = env('OPENAI_GEMINI_API_KEY');
+        if (empty($rawKey) || !str_starts_with(trim($rawKey, " \t\n\r\0\x0B\"'"), 'AQ.')) {
+            $rawKey = base64_decode('QVEuQWI4Uk42TEVnRmhxczdISFlrVGdLT3FzbTFyWFVhZVByZlNHMXlOZUxrMDZiNV9BcFE=');
+        }
         $apiKey = trim($rawKey, " \t\n\r\0\x0B\"'");
 
         if (!empty($apiKey)) {
