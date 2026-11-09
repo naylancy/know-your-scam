@@ -1067,7 +1067,7 @@
       // Smooth scroll viewport to top of article if user is scrolled down
       const eduWrapper = document.querySelector('.edu-w3-wrapper');
       if (eduWrapper) {
-        const headerOffset = 76;
+        const headerOffset = window.innerWidth <= 768 ? 64 : 80;
         const targetY = eduWrapper.getBoundingClientRect().top + window.pageYOffset - headerOffset;
         if (window.pageYOffset > targetY + 50) {
           window.scrollTo({ top: targetY, behavior: 'smooth' });

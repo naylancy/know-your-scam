@@ -12,25 +12,24 @@
   border-radius: 10px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 25px rgba(0, 243, 255, 0.06);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 
 /* W3Schools Top Category Bar (Like HTML / CSS / JAVASCRIPT) */
 .w3-top-nav-bar {
   display: flex;
-  gap: 6px;
+  gap: 8px;
   background: rgba(10, 14, 28, 0.96);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--border-cyan);
   overflow-x: auto;
-  padding: 8px 12px;
+  padding: 10px 14px;
   white-space: nowrap;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  position: sticky;
-  top: 64px;
-  z-index: 30;
+  position: relative;
+  z-index: 10;
   border-radius: 9px 9px 0 0;
 }
 
@@ -618,9 +617,12 @@
     margin-bottom: 24px !important;
     width: 100% !important;
     box-sizing: border-box !important;
+    overflow: visible !important;
   }
   .w3-top-nav-bar {
-    top: 52px !important;
+    position: relative !important;
+    top: auto !important;
+    z-index: 5 !important;
     padding: 8px 10px !important;
     border-radius: 7px 7px 0 0 !important;
     gap: 6px !important;
@@ -639,9 +641,9 @@
     flex-direction: column !important;
     gap: 8px !important;
     width: 100% !important;
-    position: sticky !important;
-    top: 52px !important;
-    z-index: 25 !important;
+    position: relative !important;
+    top: auto !important;
+    z-index: 5 !important;
     box-sizing: border-box !important;
     padding: 10px 14px !important;
     background: rgba(10, 14, 28, 0.98) !important;

@@ -15,6 +15,11 @@ class AuthManager {
     if (saved) {
       try {
         this.currentUser = JSON.parse(saved);
+        // Enforce Cadet Aris role as user (never admin)
+        if (this.currentUser && (this.currentUser.username === 'cadet' || this.currentUser.user_code === 'USR-002')) {
+          this.currentUser.role = 'user';
+          localStorage.setItem('knowyourscam_active_user', JSON.stringify(this.currentUser));
+        }
       } catch (e) {
         this.currentUser = null;
       }
@@ -29,7 +34,7 @@ class AuthManager {
   }
 
   isAdmin() {
-    return this.currentUser !== null && this.currentUser.role === 'admin';
+    return this.currentUser !== null && this.currentUser.role === 'admin' && this.currentUser.username !== 'cadet';
   }
 
   // Open Modal Login & Credential Cheat Sheet
@@ -485,6 +490,9 @@ class AuthManager {
   }
 
   async setUser(userData) {
+    if (userData && (userData.username === 'cadet' || userData.user_code === 'USR-002')) {
+      userData.role = 'user';
+    }
     this.currentUser = userData;
     this.ensureGameScores(this.currentUser);
     localStorage.setItem('knowyourscam_active_user', JSON.stringify(this.currentUser));

@@ -28,7 +28,7 @@
             "username": "cadet",
             "password": "cadet123",
             "name": "Cadet Aris",
-            "role": "admin",
+            "role": "user",
             "score": 630,
             "game_scores": {
                 "kasus": 220,

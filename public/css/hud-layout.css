@@ -197,7 +197,7 @@
    DESKTOP NAVBAR DROPDOWN SUB-MENUS
    ======================================================== */
 .dropdown-nav-item {
-  position: relative;
+  position: relative !important;
   list-style: none !important;
 }
 
@@ -206,25 +206,27 @@
   user-select: none;
 }
 
-.dropdown-menu {
-  position: absolute;
-  top: calc(100% + 6px);
-  left: 0;
-  min-width: 210px;
+.dropdown-menu,
+.hud-nav .dropdown-menu,
+ul.dropdown-menu {
+  position: absolute !important;
+  top: calc(100% + 6px) !important;
+  left: 0 !important;
+  min-width: 210px !important;
   background: rgba(10, 14, 28, 0.96) !important;
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px) !important;
+  -webkit-backdrop-filter: blur(18px) !important;
   border: 1px solid var(--border-cyan) !important;
-  border-radius: 8px;
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.75), 0 0 20px rgba(0, 243, 255, 0.12);
+  border-radius: 8px !important;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.75), 0 0 20px rgba(0, 243, 255, 0.12) !important;
   list-style: none !important;
   list-style-type: none !important;
   padding: 6px !important;
   margin: 0 !important;
   display: none !important;
-  flex-direction: column;
-  gap: 3px;
-  z-index: 1200;
+  flex-direction: column !important;
+  gap: 3px !important;
+  z-index: 1200 !important;
   pointer-events: none;
   opacity: 0;
   transform: translateY(-6px);
@@ -250,14 +252,19 @@
   pointer-events: auto !important;
 }
 
-.dropdown-menu li {
+.dropdown-menu li,
+.hud-nav .dropdown-menu li,
+ul.dropdown-menu > li {
   list-style: none !important;
   list-style-type: none !important;
   margin: 0 !important;
   padding: 0 !important;
 }
 
-.dropdown-link {
+.dropdown-link,
+.dropdown-menu a,
+.dropdown-menu a:link,
+.dropdown-menu a:visited {
   display: flex !important;
   align-items: center !important;
   gap: 10px !important;
@@ -275,7 +282,8 @@
   white-space: nowrap !important;
 }
 
-.dropdown-link:hover {
+.dropdown-link:hover,
+.dropdown-menu a:hover {
   background: rgba(0, 243, 255, 0.14) !important;
   color: #FFFFFF !important;
   border-color: rgba(0, 243, 255, 0.35) !important;

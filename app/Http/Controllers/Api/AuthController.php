@@ -40,6 +40,11 @@ class AuthController extends Controller
                     'rank' => $role === 'admin' ? 'Grand Cyber Sentinel' : 'Security Cadet',
                     'modules_completed' => $role === 'admin' ? 15 : 5,
                 ]);
+            } else {
+                if ($user->username === 'cadet' && $user->role !== 'user') {
+                    $user->role = 'user';
+                    $user->save();
+                }
             }
 
             // Record log
@@ -118,6 +123,12 @@ class AuthController extends Controller
                     'status' => 'error',
                     'message' => 'Username atau password salah! Otentikasi gagal.'
                 ], 401);
+            }
+
+            // Enforce cadet role is always 'user'
+            if ($user->username === 'cadet' && $user->role !== 'user') {
+                $user->role = 'user';
+                $user->save();
             }
 
             // Verify password safely (support both plain & bcrypt hashes without throwing RuntimeException)

@@ -8,11 +8,11 @@
   <meta name="description" content="KNOW YOUR SCAM - Platform edukasi dan simulasi pertahanan siber multi-level bertenaga Laravel dan AI Cognitive Core.">
 
   <!-- Core Cyber CSS Files -->
-  <link rel="stylesheet" href="css/hud-layout.css?v=2.2">
-  <link rel="stylesheet" href="css/games.css?v=2.2">
-  <link rel="stylesheet" href="css/edukasi.css?v=2.2">
-  <link rel="stylesheet" href="css/cyber-theme.css?v=2.2">
-  <link rel="stylesheet" href="css/responsive.css?v=2.2">
+  <link rel="stylesheet" href="css/hud-layout.css?v=3.1">
+  <link rel="stylesheet" href="css/games.css?v=3.1">
+  <link rel="stylesheet" href="css/edukasi.css?v=3.1">
+  <link rel="stylesheet" href="css/cyber-theme.css?v=3.1">
+  <link rel="stylesheet" href="css/responsive.css?v=3.1">
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
 </head>
@@ -92,12 +92,12 @@
           <!-- GUEST VIEW: MASUK / DAFTAR AKUN BUTTON -->
           <div id="hud-guest-actions" class="hud-guest-actions">
             <button id="btn-header-login" class="cyber-btn" onclick="window.authManager.openLoginModal()" style="padding: 7px 16px; font-size: 0.8rem; box-shadow: 0 0 15px var(--neon-cyan-dim);">
-              <span>🔑</span> MASUK / DAFTAR
+              <span>🔑</span> <span class="login-btn-label">MASUK / DAFTAR</span>
             </button>
           </div>
 
           <!-- AUTHENTICATED VIEW: USER PROFILE CAPSULE & LOGOUT -->
-          <div id="hud-auth-actions" class="hud-auth-actions" style="display:none; align-items:center; gap: 10px;">
+          <div id="hud-auth-actions" class="hud-auth-actions" style="display:none; align-items:center; gap: 8px;">
             <div class="user-capsule">
               <div id="hud-user-avatar" class="user-avatar">⚡</div>
               <div class="user-info">
@@ -110,8 +110,8 @@
             </div>
 
             <!-- Logout Button -->
-            <button id="btn-header-logout" class="cyber-btn btn-ghost" style="padding: 6px 12px; font-size: 0.75rem; border-color: rgba(255,0,85,0.4); color: var(--neon-red);" onclick="window.authManager.logout()" title="Keluar dari Akun">
-              <span>⏻</span> KELUAR
+            <button id="btn-header-logout" class="cyber-btn btn-ghost" style="padding: 6px 10px; font-size: 0.75rem; border-color: rgba(255,0,85,0.4); color: var(--neon-red);" onclick="window.authManager.logout()" title="Keluar dari Akun">
+              <span>⏻</span> <span class="logout-btn-label">KELUAR</span>
             </button>
           </div>
 
@@ -521,65 +521,105 @@
           </div>
 
           <div class="games-hub-grid">
-            <!-- Game 1: Kasus -->
-            <div class="game-hub-card">
+            <!-- Game 1: Scam Simulator (Multi-POV) -->
+            <div class="game-hub-card card-cyan" onclick="window.app.navigateTo('kasus')">
               <div>
-                <div class="game-hub-badge">MODUL 1 // MULTI-POV</div>
-                <h3 class="game-hub-title">🎭 Scam Simulator</h3>
+                <div class="game-hub-badge-bar">
+                  <span class="game-hub-badge">MODUL 1 // MULTI-POV</span>
+                  <span class="game-hub-xp" style="color:var(--neon-cyan); background:rgba(0,243,255,0.1);">🎮 +100 XP</span>
+                </div>
+                <div class="game-hub-icon">🎭</div>
+                <h3 class="game-hub-title">Scam Simulator</h3>
                 <p class="game-hub-desc">
-                  Simulasi interaktif roleplay Scammer vs Victim dengan karakter hewan pixel dan alur chat bercabang.
+                  Simulasi interaktif roleplay berganti peran (Scammer vs Korban) dengan karakter hewan pixel, alur chat WhatsApp bercabang, dan simulasi audio telepon.
                 </p>
+                <div class="game-hub-tags">
+                  <span class="game-hub-tag">🐾 Pixel Avatars</span>
+                  <span class="game-hub-tag">💬 WhatsApp UI</span>
+                  <span class="game-hub-tag">📞 Audio Call</span>
+                  <span class="game-hub-tag">⚡ Multi-Branching</span>
+                </div>
               </div>
               <div>
-                <button class="cyber-btn" style="width:100%; font-size:0.92rem; padding:12px;" onclick="window.app.navigateTo('kasus')">
+                <button class="cyber-btn" style="width:100%; font-size:0.92rem; padding:12px; justify-content:center;" onclick="event.stopPropagation(); window.app.navigateTo('kasus')">
                   <span>⚡</span> MAINKAN SCAM SIMULATOR ➔
                 </button>
               </div>
             </div>
 
-            <!-- Game 2: Finding Diff -->
-            <div class="game-hub-card">
+            <!-- Game 2: Finding Diff (Real vs Fake) -->
+            <div class="game-hub-card card-amber" onclick="window.app.navigateTo('diff')">
               <div>
-                <div class="game-hub-badge">MODUL 2 // REAL VS FAKE</div>
-                <h3 class="game-hub-title">⚖️ Finding Diff</h3>
+                <div class="game-hub-badge-bar">
+                  <span class="game-hub-badge" style="color:var(--neon-amber); border-color:rgba(255,184,0,0.3); background:rgba(255,184,0,0.08);">MODUL 2 // REAL VS FAKE</span>
+                  <span class="game-hub-xp" style="color:var(--neon-amber); background:rgba(255,184,0,0.1);">⚖️ +80 XP</span>
+                </div>
+                <div class="game-hub-icon">⚖️</div>
+                <h3 class="game-hub-title">Finding Diff</h3>
                 <p class="game-hub-desc">
-                  Periksa domain dan visual web berdampingan untuk vonis Real vs Fake.
+                  Uji ketelitian visual Anda sebagai Hakim Siber menginspeksi web tiruan berdampingan dengan web asli. Cek domain typosquatting dan keabsahan sertifikat SSL.
                 </p>
+                <div class="game-hub-tags">
+                  <span class="game-hub-tag">🔍 Split Browser</span>
+                  <span class="game-hub-tag">🔒 SSL Audit</span>
+                  <span class="game-hub-tag">🔎 Zoom Inspector</span>
+                  <span class="game-hub-tag">⚖️ Vonis Hakim</span>
+                </div>
               </div>
               <div>
-                <button class="cyber-btn" style="width:100%; font-size:0.92rem; padding:12px;" onclick="window.app.navigateTo('diff')">
+                <button class="cyber-btn" style="width:100%; font-size:0.92rem; padding:12px; justify-content:center; color:#05050A; background:var(--neon-amber); border-color:var(--neon-amber);" onclick="event.stopPropagation(); window.app.navigateTo('diff')">
                   <span>⚡</span> MAINKAN FINDING DIFF ➔
                 </button>
               </div>
             </div>
 
-            <!-- Game 3: Criminal Case -->
-            <div class="game-hub-card card-magenta">
+            <!-- Game 3: Criminal Case (Forensik Owl) -->
+            <div class="game-hub-card card-magenta" onclick="window.app.navigateTo('criminal')">
               <div>
-                <div class="game-hub-badge" style="color:var(--neon-magenta); background:rgba(189,0,255,0.1);">MODUL 3 // FORENSIK</div>
-                <h3 class="game-hub-title">🦉 Criminal Case</h3>
+                <div class="game-hub-badge-bar">
+                  <span class="game-hub-badge" style="color:var(--neon-magenta); border-color:rgba(189,0,255,0.3); background:rgba(189,0,255,0.08);">MODUL 3 // FORENSIK TKP</span>
+                  <span class="game-hub-xp" style="color:var(--neon-magenta); background:rgba(189,0,255,0.1);">🕵️ +120 XP</span>
+                </div>
+                <div class="game-hub-icon">🦉</div>
+                <h3 class="game-hub-title">Criminal Case</h3>
                 <p class="game-hub-desc">
-                  Pecahkan teka-teki TKP digital bersama Detektif Owl dan gagalkan aksi penipuan.
+                  Pecahkan teka-teki TKP digital bersama Detektif Owl. Aktifkan senter UV X-Ray untuk mengungkap bukti tersembunyi dan berikan stempel vonis kejahatan.
                 </p>
+                <div class="game-hub-tags">
+                  <span class="game-hub-tag">🔦 Senter UV X-Ray</span>
+                  <span class="game-hub-tag">🦉 Detektif Owl</span>
+                  <span class="game-hub-tag">🔍 Hotspot TKP</span>
+                  <span class="game-hub-tag">💥 Stempel Vonis</span>
+                </div>
               </div>
               <div>
-                <button class="cyber-btn btn-magenta" style="width:100%; font-size:0.92rem; padding:12px;" onclick="window.app.navigateTo('criminal')">
+                <button class="cyber-btn btn-magenta" style="width:100%; font-size:0.92rem; padding:12px; justify-content:center;" onclick="event.stopPropagation(); window.app.navigateTo('criminal')">
                   <span>⚡</span> MULAI INVESTIGASI ➔
                 </button>
               </div>
             </div>
 
-            <!-- Game 4: Analyzer -->
-            <div class="game-hub-card">
+            <!-- Game 4: AI Analyzer (Zero-Day Cognitive) -->
+            <div class="game-hub-card card-green" onclick="window.app.navigateTo('deeplearn')">
               <div>
-                <div class="game-hub-badge" style="color:var(--neon-green); background:rgba(0,255,136,0.1);">MODUL 4 // AI EVALUATOR</div>
-                <h3 class="game-hub-title">🧠 AI Analyzer</h3>
+                <div class="game-hub-badge-bar">
+                  <span class="game-hub-badge" style="color:var(--neon-green); border-color:rgba(0,255,136,0.3); background:rgba(0,255,136,0.08);">MODUL 4 // AI COGNITIVE</span>
+                  <span class="game-hub-xp" style="color:var(--neon-green); background:rgba(0,255,136,0.1);">🧠 +150 XP</span>
+                </div>
+                <div class="game-hub-icon">🧠</div>
+                <h3 class="game-hub-title">AI Analyzer</h3>
                 <p class="game-hub-desc">
-                  Tulis analisis mitigasi ancaman Zero-Day untuk dievaluasi oleh Gemini AI.
+                  Tulis strategi mitigasi ancaman Zero-Day cyber crime dan dapatkan evaluasi telemetri mendalam dari Google Gemini AI & Engine Heuristik Siber.
                 </p>
+                <div class="game-hub-tags">
+                  <span class="game-hub-tag">🤖 Google Gemini AI</span>
+                  <span class="game-hub-tag">🛡️ Heuristik Siber</span>
+                  <span class="game-hub-tag">📊 Telemetri Skor</span>
+                  <span class="game-hub-tag">🎯 Zero-Day Threat</span>
+                </div>
               </div>
               <div>
-                <button class="cyber-btn" style="width:100%; font-size:0.92rem; padding:12px;" onclick="window.app.navigateTo('deeplearn')">
+                <button class="cyber-btn btn-green" style="width:100%; font-size:0.92rem; padding:12px; justify-content:center;" onclick="event.stopPropagation(); window.app.navigateTo('deeplearn')">
                   <span>⚡</span> BUKA ANALYZER ➔
                 </button>
               </div>
@@ -869,32 +909,32 @@
       cases_deeplearn: [{"id":"DEEP-01","title":"Evaluasi Insiden: Transmisi Peringatan Pembaruan Protokol Keamanan","scenario_text":"Dari: System Administrator <admin-update@nexus-security-patch.net.fake>\nKepada: Seluruh Personel Siber\nSubjek: [MANDATORI] Pembaruan Patch Enkripsi Kunci Sesi v9.42\n\nSistem utama mendeteksi celah kerentanan Zero-Day pada stasiun kerja Anda. Sesuai direktif keamanan nomor 09\/GS\/2026, Anda diwajibkan mengunggah file kunci sertifikat privat (private_key.pem) ke repositori sementara melalui: https:\/\/nexus-security-patch.net.fake\/upload-key dalam waktu 30 menit. Kegagalan melakukan pembaruan akan berakibat pemutusan akses jaringan dan pencabutan hak izin kerja secara permanen.","threat_level":"CRITICAL_SCAM","target_indicators":["Permintaan private key atau sertifikat enkripsi privat","Tekanan ancaman pemecatan \/ sanksi berat","Batas waktu sempit (30 menit) memanipulasi psikologis","Domain sender fiktif (.net.fake alih-alih repositori resmi)"],"min_keywords_required":["private key","domain","ancaman","urgensi","sanksi","phishing","palsu","sertifikat"]},{"id":"DEEP-02","title":"Evaluasi Insiden: Tawaran Airdrop Token Komunitas Inovator Siber","scenario_text":"Pesan Terusan dari Komunitas Antariksa:\n\"Pemberitahuan Komite Sentral Inovasi Siber 2026: Dapatkan 10.000 Token Tata Kelola Tata Surya gratis! Cukup tautkan dompet Web3 Anda dan setujui izin transaksi 'Unlimited Allowance \/ SetApprovalForAll' pada smart contract di tautan: https:\/\/claim-airdrop-sentinel.cloud.fake. Kuota tersisa hanya untuk 50 pendaftar tercepat!\"","threat_level":"CRITICAL_SCAM","target_indicators":["Permintaan otorisasi SetApprovalForAll \/ Unlimited Allowance (pembobol dompet)","Taktik kelangkaan buatan (hanya 50 pendaftar tercepat)","Domain gratisan cloud pihak ketiga (.cloud.fake)","Smart contract airdrop tanpa audit transparansi"],"min_keywords_required":["approval","allowance","drainer","dompet","kontrak","kelangkaan","phishing","izin"]}],
       cases_scanner: [{"type":"url","target":"https:\/\/secure-login.bank-neoartha.net.fake\/auth?redirect=home","title":"Portal Phishing Bank NeoArtha (Palsu)","is_malicious":true,"risk_score":9.4,"threat_type":"Credential Harvester \/ Typosquatting","explanation":"Domain menggunakan ekstensi .net.fake dengan subdomain menyesatkan 'bank-neoartha'. Form mengarah ke script pencuri password.","security_hints":["Periksa nama domain utama sebelum tanda slash pertama","Jangan memasukkan data otentikasi pada subdomain mencurigakan","Pastikan sertifikat SSL dikeluarkan atas nama legal korporasi"]},{"type":"url","target":"https:\/\/portal.bank-neoartha.mock\/dashboard","title":"Portal Resmi Bank NeoArtha (Simulasi Asli)","is_malicious":false,"risk_score":1.1,"threat_type":"Verified Secure Entity","explanation":"Domain resmi terdaftar pada top-level domain institusi perbankan resmi dengan enkripsi terverifikasi.","security_hints":["Simpan URL resmi pada bookmark browser untuk menghindari salah ketik","Gunakan otentikasi dua faktor berbasis token fisik\/aplikasi otentikator"]},{"type":"news","target":"GEMPAR! Dewan Antariksa Bagikan Subsidi 100 Juta Bagi Siapa Saja yang Mengisi Formulir Ini Hari Ini Juga!","title":"Berita Umpan Klik & Jebakan Data (Hoax Phishing)","is_malicious":true,"risk_score":8.9,"threat_type":"Clickbait Social Engineering & Data Scraping","explanation":"Menggunakan kata-kata bombastis (GEMPAR!), janji dana tanpa syarat, dan mendesak korban mengisi formulir data pribadi.","security_hints":["Waspadai judul berita berhuruf kapital penuh dengan tanda seru berlebih","Konfirmasi pengumuman resmi hanya di situs web otoritas berwenang"]},{"type":"news","target":"Penyelenggaraan KNOW YOUR SCAM Defense Workshop Keamanan Siber Terapan bagi Mahasiswa","title":"Siaran Pers Resmi KNOW YOUR SCAM Cyber Center","is_malicious":false,"risk_score":0.8,"threat_type":"Official Educational Broadcast","explanation":"Bahasa jurnalistik netral, mengedukasi, dan tidak menuntut input kredensial rahasia pengguna.","security_hints":["Pastikan informasi agenda sesuai jadwal akademik resmi"]}],
       cases_checker: [{"icon":"\ud83d\udc94","type":"love_scam","title":"Love Scam: Koper Hadiah Emas Tertahan Bea Cukai","text":"Halo sayangku, koper berisi hadiah emas, berlian, dan dokumen penting dari luar negeri tertahan di bea cukai bandara internasional. Petugas meminta biaya tebusan administrasi darurat 5 juta rupiah ke rekening pribadi petugas, tolong transfer sekarang agar paket tidak disita."},{"icon":"\ud83d\udce2","type":"hoax","title":"Hoax Viral: Sebarkan Sebelum Dihapus","text":"SEBARKAN SEBELUM DIHAPUS PEMERINTAH! Rahasia dokter spesialis terbongkar, jangan pernah mengonsumsi makanan kemasan ini karena terbukti secara gaib dan konspirasi mengandung racun sintetis berbahaya. Viralkan pesan ini ke 10 grup WhatsApp demi keselamatan keluarga!"},{"icon":"\ud83d\udcbc","type":"job_scam","title":"Job Scam: Kerja Paruh Waktu Like YouTube & Deposit Telegram","text":"Lowongan kerja paruh waktu resmi online tanpa syarat keahlian! Cukup like dan subscribe video YouTube dapat komisi 300 ribu hingga 1 juta rupiah per hari. Gabung grup tugas Telegram kami sekarang dan lakukan deposit awal 150 ribu rupiah untuk aktivasi ID member VIP Anda."},{"icon":"\ud83d\udce6","type":"malware","title":"Malware APK: Surat Undangan \/ Resi Kurir Paket","text":"Selamat siang kak, mohon maaf paket kiriman Anda tertahan di kurir karena nomor rumah tidak jelas. Silakan unduh dan pasang aplikasi Surat-Undangan-Paket.apk ini di ponsel Android Anda untuk melihat detail resi foto paket secara langsung."},{"icon":"\ud83c\udfe6","type":"phishing","title":"Phishing: Ancaman Pemblokiran Rekening Darurat","text":"Pemberitahuan Darurat Bank: Rekening Anda terindikasi aktivitas mencurigakan dan akan diblokir dalam 30 menit. Segera perbarui data kredensial serta nomor kartu debit Anda melalui formulir verifikasi: https:\/\/bca-klik-promo2026.xyz\/login"},{"icon":"\ud83c\udfdb\ufe0f","type":"official","title":"Info Resmi: Siaran Pers Imunisasi Nasional Kemkes","text":"Kementerian Kesehatan Republik Indonesia (Kemenkes RI) mengumumkan pembukaan posko Pekan Imunisasi Nasional untuk seluruh balita secara serentak di Puskesmas terdekat tanpa dipungut biaya. Kunjungi portal resmi kemkes.go.id untuk jadwal dan lokasi lengkap."}],
-      users: [{"id":"USR-001","username":"admin","password":"admin123","name":"Commander Vektor","role":"admin","score":1170,"game_scores":{"kasus":380,"diff":320,"criminal":300,"deeplearn":170},"vulnerability":1.2,"rank":"Grand Cyber Sentinel","modules_completed":15},{"id":"USR-002","username":"cadet","password":"cadet123","name":"Cadet Aris","role":"admin","score":630,"game_scores":{"kasus":220,"diff":180,"criminal":150,"deeplearn":80},"vulnerability":4.5,"rank":"Security Cadet","modules_completed":5},{"id":"USR-003","username":"kira_t","password":"kira123","name":"Sgt. Kira Thorne","role":"user","score":1060,"game_scores":{"kasus":350,"diff":290,"criminal":270,"deeplearn":150},"vulnerability":1.8,"rank":"Elite Vanguard","modules_completed":12},{"id":"USR-004","username":"nyx_shadow","name":"Specialist Nyx","role":"user","score":890,"game_scores":{"kasus":300,"diff":250,"criminal":220,"deeplearn":120},"vulnerability":2.4,"rank":"Threat Hunter","modules_completed":9},{"id":"USR-005","username":"cipher_zero","name":"Analyst Zero","role":"user","score":770,"game_scores":{"kasus":260,"diff":220,"criminal":190,"deeplearn":100},"vulnerability":3.1,"rank":"Incident Responder","modules_completed":7},{"id":"USR-679","user_code":"USR-679","name":"Kadet Penguji","username":"kadet_uji_91","email":"kadet_uji_91@knowyourscam.test","password":"$2y$12$m2uNwSEnjTmDHgQmTSAjvOGXvFH88snBqe.9Q3EFTMrDCCLFYardi","role":"user","score":0,"vulnerability":5,"rank":"Cyber Trainee","modules_completed":0,"game_scores":{"kasus":0,"diff":0,"criminal":0,"deeplearn":0}},{"id":"USR-858","user_code":"USR-858","name":"Baru 1","username":"satu","email":"satu@gmail.com","password":"$2y$12$tyCP6JYuG5bKhNSEO2yDvOvNlRG.st5rXuH8wnqxWNjOiAj0DQEwu","role":"user","score":0,"vulnerability":5,"rank":"Cyber Trainee","modules_completed":0,"game_scores":{"kasus":0,"diff":0,"criminal":0,"deeplearn":0}},{"id":"USR-374","user_code":"USR-374","name":"john pork","username":"john","email":"johnpork@gmail.com","password":"$2y$12$m4AUzfQC7EsADFmK8QaxwOctmOGoa8ZQ5UTGsHlG3DHydLGqW21FO","role":"user","score":0,"vulnerability":5,"rank":"Cyber Trainee","modules_completed":0,"game_scores":{"kasus":0,"diff":0,"criminal":0,"deeplearn":0,"scanner":0,"checker":0}},{"id":"USR-889","user_code":"USR-889","name":"john","username":"pork","email":"johnpork123@gmial.com","password":"$2y$12$\/35hCnJwMFNfoUdt35ZsoeruQTz9rJISIlCqT9jV\/My.7EQ4H\/SWy","role":"user","score":0,"vulnerability":5,"rank":"Cyber Trainee","modules_completed":0,"game_scores":{"kasus":0,"diff":0,"criminal":0,"deeplearn":0,"scanner":0,"checker":0}},{"id":"USR-913","user_code":"USR-913","name":"nayie","username":"nay","email":"nay@gmail.com","password":"$2y$12$zew1NKMyAXE8g4.lRlzFzeDzhWL26SP7WtjicDvz85UX6at59fz3i","role":"user","score":1286,"vulnerability":3.7,"rank":"Cyber Trainee","modules_completed":26,"game_scores":{"kasus":500,"diff":400,"criminal":200,"deeplearn":186}},{"id":"USR-510","user_code":"USR-510","name":"coba","username":"cobain","email":"coba@gmail.com","password":"$2y$12$A4IQC2VTbrSvlTMShjuTiO4j\/6AigzANkfPpwXMadw.svmDQQfH6q","role":"user","score":25,"vulnerability":5.6,"rank":"Cyber Trainee","modules_completed":8,"game_scores":{"kasus":0,"diff":0,"criminal":25,"deeplearn":0}},{"id":"USR-684","user_code":"USR-684","name":"coba","username":"coba1","email":"coba@gmail.com","password":"$2y$12$3I1uyJlHMHxO7Nbo89Vrlek64BQb4qjWTnvDtTIrcOLmOK2BXN\/cO","role":"user","score":0,"vulnerability":4.4,"rank":"Cyber Trainee","modules_completed":3,"game_scores":{"kasus":0,"diff":0,"criminal":0,"deeplearn":0}}],
+      users: [{"id":"USR-001","username":"admin","password":"admin123","name":"Commander Vektor","role":"admin","score":1170,"game_scores":{"kasus":380,"diff":320,"criminal":300,"deeplearn":170},"vulnerability":1.2,"rank":"Grand Cyber Sentinel","modules_completed":15},{"id":"USR-002","username":"cadet","password":"cadet123","name":"Cadet Aris","role":"user","score":630,"game_scores":{"kasus":220,"diff":180,"criminal":150,"deeplearn":80},"vulnerability":4.5,"rank":"Security Cadet","modules_completed":5},{"id":"USR-003","username":"kira_t","password":"kira123","name":"Sgt. Kira Thorne","role":"user","score":1060,"game_scores":{"kasus":350,"diff":290,"criminal":270,"deeplearn":150},"vulnerability":1.8,"rank":"Elite Vanguard","modules_completed":12},{"id":"USR-004","username":"nyx_shadow","name":"Specialist Nyx","role":"user","score":890,"game_scores":{"kasus":300,"diff":250,"criminal":220,"deeplearn":120},"vulnerability":2.4,"rank":"Threat Hunter","modules_completed":9},{"id":"USR-005","username":"cipher_zero","name":"Analyst Zero","role":"user","score":770,"game_scores":{"kasus":260,"diff":220,"criminal":190,"deeplearn":100},"vulnerability":3.1,"rank":"Incident Responder","modules_completed":7},{"id":"USR-679","user_code":"USR-679","name":"Kadet Penguji","username":"kadet_uji_91","email":"kadet_uji_91@knowyourscam.test","password":"$2y$12$m2uNwSEnjTmDHgQmTSAjvOGXvFH88snBqe.9Q3EFTMrDCCLFYardi","role":"user","score":0,"vulnerability":5,"rank":"Cyber Trainee","modules_completed":0,"game_scores":{"kasus":0,"diff":0,"criminal":0,"deeplearn":0}},{"id":"USR-858","user_code":"USR-858","name":"Baru 1","username":"satu","email":"satu@gmail.com","password":"$2y$12$tyCP6JYuG5bKhNSEO2yDvOvNlRG.st5rXuH8wnqxWNjOiAj0DQEwu","role":"user","score":0,"vulnerability":5,"rank":"Cyber Trainee","modules_completed":0,"game_scores":{"kasus":0,"diff":0,"criminal":0,"deeplearn":0}},{"id":"USR-374","user_code":"USR-374","name":"john pork","username":"john","email":"johnpork@gmail.com","password":"$2y$12$m4AUzfQC7EsADFmK8QaxwOctmOGoa8ZQ5UTGsHlG3DHydLGqW21FO","role":"user","score":0,"vulnerability":5,"rank":"Cyber Trainee","modules_completed":0,"game_scores":{"kasus":0,"diff":0,"criminal":0,"deeplearn":0,"scanner":0,"checker":0}},{"id":"USR-889","user_code":"USR-889","name":"john","username":"pork","email":"johnpork123@gmial.com","password":"$2y$12$\/35hCnJwMFNfoUdt35ZsoeruQTz9rJISIlCqT9jV\/My.7EQ4H\/SWy","role":"user","score":0,"vulnerability":5,"rank":"Cyber Trainee","modules_completed":0,"game_scores":{"kasus":0,"diff":0,"criminal":0,"deeplearn":0,"scanner":0,"checker":0}},{"id":"USR-913","user_code":"USR-913","name":"nayie","username":"nay","email":"nay@gmail.com","password":"$2y$12$zew1NKMyAXE8g4.lRlzFzeDzhWL26SP7WtjicDvz85UX6at59fz3i","role":"user","score":1286,"vulnerability":3.7,"rank":"Cyber Trainee","modules_completed":26,"game_scores":{"kasus":500,"diff":400,"criminal":200,"deeplearn":186}},{"id":"USR-510","user_code":"USR-510","name":"coba","username":"cobain","email":"coba@gmail.com","password":"$2y$12$A4IQC2VTbrSvlTMShjuTiO4j\/6AigzANkfPpwXMadw.svmDQQfH6q","role":"user","score":25,"vulnerability":5.6,"rank":"Cyber Trainee","modules_completed":8,"game_scores":{"kasus":0,"diff":0,"criminal":25,"deeplearn":0}},{"id":"USR-684","user_code":"USR-684","name":"coba","username":"coba1","email":"coba@gmail.com","password":"$2y$12$3I1uyJlHMHxO7Nbo89Vrlek64BQb4qjWTnvDtTIrcOLmOK2BXN\/cO","role":"user","score":0,"vulnerability":4.4,"rank":"Cyber Trainee","modules_completed":3,"game_scores":{"kasus":0,"diff":0,"criminal":0,"deeplearn":0}}],
       activity_logs: [{"id":"LOG-7991","timestamp":"2026-11-03 01:56:19","user_id":"USR-001","user_name":"Commander Vektor","module":"CRIMINAL CASE","decision":"Waktu investigasi habis! Korban mengalami kerugian finansial.","vulnerability_score":5.2,"status":"COMPROMISED"},{"id":"LOG-1586","timestamp":"2026-11-03 01:55:51","user_id":"USR-001","user_name":"Commander Vektor","module":"SYSTEM AUTH","decision":"Login protokol otentikasi (ADMIN)","vulnerability_score":3.2,"status":"SECURED"},{"id":"LOG-4079","timestamp":"2026-11-03 01:55:48","user_id":"USR-002","user_name":"Cadet Aris","module":"SYSTEM AUTH","decision":"Login protokol otentikasi (USER)","vulnerability_score":10,"status":"SECURED"},{"id":"LOG-5396","timestamp":"2026-11-03 01:52:33","user_id":"USR-002","user_name":"Cadet Aris","module":"SYSTEM AUTH","decision":"Login protokol otentikasi (USER)","vulnerability_score":10,"status":"SECURED"},{"id":"LOG-3503","timestamp":"2026-11-02 14:55:51","user_id":"USR-001","user_name":"Commander Vektor","module":"CRIMINAL CASE","decision":"Waktu investigasi habis! Korban mengalami kerugian finansial.","vulnerability_score":5.2,"status":"COMPROMISED"},{"id":"LOG-2815","timestamp":"2026-11-02 14:50:39","user_id":"USR-001","user_name":"Commander Vektor","module":"CRIMINAL CASE","decision":"Waktu investigasi habis! Korban mengalami kerugian finansial.","vulnerability_score":3.2,"status":"COMPROMISED"},{"id":"LOG-2290","timestamp":"2026-11-02 14:49:14","user_id":"USR-001","user_name":"Commander Vektor","module":"SYSTEM AUTH","decision":"Login protokol otentikasi (ADMIN)","vulnerability_score":1.2,"status":"SECURED"},{"id":"LOG-8599","timestamp":"2026-11-02 14:49:12","user_id":"USR-002","user_name":"Cadet Aris","module":"SYSTEM AUTH","decision":"Login protokol otentikasi (USER)","vulnerability_score":10,"status":"SECURED"},{"id":"LOG-5283","timestamp":"2026-11-02 14:45:53","user_id":"USR-002","user_name":"Cadet Aris","module":"SYSTEM AUTH","decision":"Login protokol otentikasi (USER)","vulnerability_score":10,"status":"SECURED"},{"id":"LOG-5275","timestamp":"2026-11-02 14:45:43","user_id":"USR-001","user_name":"Commander Vektor","module":"SYSTEM AUTH","decision":"Login protokol otentikasi (ADMIN)","vulnerability_score":1.2,"status":"SECURED"},{"id":"LOG-2200","timestamp":"2026-11-02 14:23:55","user_id":"USR-002","user_name":"Cadet Aris","module":"SYSTEM AUTH","decision":"Login protokol otentikasi (USER)","vulnerability_score":4.5,"status":"SECURED"},{"id":"LOG-1001","timestamp":"2026-11-02 20:15:30","user_id":"USR-002","user_name":"Cadet Aris","module":"KASUS (Phishing)","decision":"Memilih verifikasi via portal resmi Bank NeoArtha","vulnerability_score":2.1,"status":"SECURED"},{"id":"LOG-1002","timestamp":"2026-11-02 20:22:14","user_id":"USR-003","user_name":"Sgt. Kira Thorne","module":"FINDING DIFF","decision":"Menetapkan Portal B sebagai FAKE (Skor akurasi 100%)","vulnerability_score":1.4,"status":"SECURED"},{"id":"LOG-1003","timestamp":"2026-11-02 20:31:05","user_id":"USR-002","user_name":"Cadet Aris","module":"CRIMINAL CASE","decision":"Menyelesaikan Operasi Phantom Wire dalam 64 detik","vulnerability_score":2.8,"status":"BREACH_PREVENTED"},{"id":"LOG-1004","timestamp":"2026-11-02 20:41:48","user_id":"USR-004","user_name":"Specialist Nyx","module":"DEEP LEARNING","decision":"Analisis AI: Mendeteksi upaya ekstraksi Private Key","vulnerability_score":1.9,"status":"SECURED"}]
     };
   </script>
 
   <!-- Core Scripts -->
-  <script src="js/audio-engine.js?v=2.2"></script>
-  <script src="js/particle-canvas.js?v=2.2"></script>
-  <script src="js/ai-wave-canvas.js?v=2.2"></script>
-  <script src="js/hint-system.js?v=2.2"></script>
-  <script src="js/game-briefing.js?v=2.2"></script>
-  <script src="js/auth.js?v=2.2"></script>
-  <script src="js/welcome-interactive.js?v=2.2"></script>
-  <script src="js/module-edukasi.js?v=2.2"></script>
-  <script src="js/leaderboard.js?v=2.2"></script>
-  <script src="js/admin.js?v=2.2"></script>
+  <script src="js/audio-engine.js?v=3.1"></script>
+  <script src="js/particle-canvas.js?v=3.1"></script>
+  <script src="js/ai-wave-canvas.js?v=3.1"></script>
+  <script src="js/hint-system.js?v=3.1"></script>
+  <script src="js/game-briefing.js?v=3.1"></script>
+  <script src="js/auth.js?v=3.1"></script>
+  <script src="js/welcome-interactive.js?v=3.1"></script>
+  <script src="js/module-edukasi.js?v=3.1"></script>
+  <script src="js/leaderboard.js?v=3.1"></script>
+  <script src="js/admin.js?v=3.1"></script>
 
   <!-- Game Modules -->
-  <script src="js/games/module-kasus.js?v=2.2"></script>
-  <script src="js/games/module-diff.js?v=2.2"></script>
-  <script src="js/games/module-criminal.js?v=2.2"></script>
-  <script src="js/games/module-deeplearn.js?v=2.2"></script>
-  <script src="js/games/module-scanner.js?v=2.2"></script>
-  <script src="js/games/module-checker.js?v=2.2"></script>
+  <script src="js/games/module-kasus.js?v=3.1"></script>
+  <script src="js/games/module-diff.js?v=3.1"></script>
+  <script src="js/games/module-criminal.js?v=3.1"></script>
+  <script src="js/games/module-deeplearn.js?v=3.1"></script>
+  <script src="js/games/module-scanner.js?v=3.1"></script>
+  <script src="js/games/module-checker.js?v=3.1"></script>
 
   <!-- Application Main Controller -->
-  <script src="js/app.js?v=2.2"></script>
+  <script src="js/app.js?v=3.1"></script>
 </body>
 </html>

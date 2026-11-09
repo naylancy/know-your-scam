@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
                         'name' => $u['name'],
                         'email' => $u['username'] . '@guardianspace.mock',
                         'password' => Hash::make($rawPass),
-                        'role' => $u['role'],
+                        'role' => ($u['username'] === 'cadet') ? 'user' : $u['role'],
                         'score' => $u['score'],
                         'game_scores' => $u['game_scores'] ?? null,
                         'vulnerability' => $u['vulnerability'],
