@@ -809,170 +809,262 @@ class AdminManager {
       const step1 = existingCase?.story_steps?.[0] || {};
       const choices = step1.choices || [];
       categoryFields = `
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
-          <div>
-            <label style="display:block; font-size:0.75rem; color:var(--neon-cyan); margin-bottom:4px;">TIPE SKENARIO</label>
-            <select id="cb-kasus-type" class="cyber-input" style="width:100%;">
-              <option value="phishing" ${existingCase?.type === 'phishing' ? 'selected' : ''}>Phishing (Undian / Beasiswa)</option>
-              <option value="lovescam" ${existingCase?.type === 'lovescam' ? 'selected' : ''}>Love Scam (Manipulasi Romansa)</option>
-              <option value="jobscam" ${existingCase?.type === 'jobscam' ? 'selected' : ''}>Job Scam (Loker Palsu & Fee)</option>
-            </select>
+        <div style="background: rgba(0, 243, 255, 0.03); border: 1px solid rgba(0, 243, 255, 0.18); border-radius: 8px; padding: 14px; margin-bottom: 16px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+            <div>
+              <label style="display:flex; align-items:center; gap:6px; font-size:0.75rem; font-weight:700; color:var(--neon-cyan); margin-bottom:6px;">
+                <span>🎯</span> TIPE SERANGAN
+              </label>
+              <select id="cb-kasus-type" class="cyber-input" style="width:100%; padding:9px 12px;">
+                <option value="phishing" ${existingCase?.type === 'phishing' ? 'selected' : ''}>🎣 Phishing (Rekayasa Tautan & Hadiah)</option>
+                <option value="lovescam" ${existingCase?.type === 'lovescam' ? 'selected' : ''}>💔 Love Scam (Manipulasi Asmara)</option>
+                <option value="jobscam" ${existingCase?.type === 'jobscam' ? 'selected' : ''}>💼 Job Scam (Loker Palsu & Fee Deposit)</option>
+              </select>
+            </div>
+            <div>
+              <label style="display:flex; align-items:center; gap:6px; font-size:0.75rem; font-weight:700; color:var(--neon-cyan); margin-bottom:6px;">
+                <span>👤</span> IDENTITAS PENGIRIM
+              </label>
+              <input type="text" id="cb-kasus-sender" class="cyber-input" value="${step1.sender || ''}" placeholder="contoh: Beasiswa Global <alert@scholarship-id.mock>" style="width:100%; padding:9px 12px;" required>
+            </div>
           </div>
-          <div>
-            <label style="display:block; font-size:0.75rem; color:var(--neon-cyan); margin-bottom:4px;">PENGIRIM PESAN</label>
-            <input type="text" id="cb-kasus-sender" class="cyber-input" value="${step1.sender || ''}" placeholder="contoh: Beasiswa Global <scholarship@global-edu.mock>" style="width:100%;" required>
+          <div style="margin-bottom: 14px;">
+            <label style="display:flex; align-items:center; gap:6px; font-size:0.75rem; font-weight:700; color:var(--neon-cyan); margin-bottom:6px;">
+              <span>💬</span> TRANSMISI PESAN PENYERANG (PAYLOAD)
+            </label>
+            <textarea id="cb-kasus-message" class="cyber-input" style="width:100%; height:80px; line-height:1.45; font-size:0.88rem; padding:10px 12px;" placeholder="Tuliskan pesan manipulasi psikologis / urgency yang dikirim pelaku..." required>${step1.message || ''}</textarea>
           </div>
-        </div>
-        <div style="margin-bottom: 12px;">
-          <label style="display:block; font-size:0.75rem; color:var(--neon-cyan); margin-bottom:4px;">PESAN MANIPULASI SIBER</label>
-          <textarea id="cb-kasus-message" class="cyber-input" style="width:100%; height:75px;" placeholder="Tuliskan pesan rekayasa sosial penyerang..." required>${step1.message || ''}</textarea>
-        </div>
-        <div style="margin-bottom: 12px;">
-          <label style="display:block; font-size:0.75rem; color:var(--neon-magenta); margin-bottom:4px;">OPSI A (PILIHAN BERISIKO / SALAH)</label>
-          <input type="text" id="cb-kasus-choice-a" class="cyber-input" value="${choices[0]?.text || ''}" placeholder="contoh: Buka tautan dan verifikasi password akun" style="width:100%; margin-bottom:4px;" required>
-          <input type="text" id="cb-kasus-feedback-a" class="cyber-input" value="${choices[0]?.feedback || ''}" placeholder="Feedback kesalahan untuk pemain..." style="width:100%;">
-        </div>
-        <div style="margin-bottom: 12px;">
-          <label style="display:block; font-size:0.75rem; color:var(--neon-green); margin-bottom:4px;">OPSI B (PILIHAN AMAN / TEPAT)</label>
-          <input type="text" id="cb-kasus-choice-b" class="cyber-input" value="${choices[1]?.text || ''}" placeholder="contoh: Laporkan dan verifikasi via kanal resmi" style="width:100%; margin-bottom:4px;" required>
-          <input type="text" id="cb-kasus-feedback-b" class="cyber-input" value="${choices[1]?.feedback || ''}" placeholder="Feedback keberhasilan pertahanan..." style="width:100%;">
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div style="background: rgba(255, 51, 102, 0.05); border: 1px solid rgba(255, 51, 102, 0.3); border-radius: 6px; padding: 12px;">
+              <label style="display:flex; align-items:center; gap:6px; font-size:0.75rem; font-weight:700; color:var(--neon-red); margin-bottom:6px;">
+                <span>⚠️</span> OPSI A (KEPUTUSAN BERISIKO / JEBAKAN)
+              </label>
+              <input type="text" id="cb-kasus-choice-a" class="cyber-input" value="${choices[0]?.text || ''}" placeholder="contoh: Klik tautan dan verifikasi password akun" style="width:100%; margin-bottom:6px; font-size:0.86rem;" required>
+              <input type="text" id="cb-kasus-feedback-a" class="cyber-input" value="${choices[0]?.feedback || ''}" placeholder="Debrief kesalahan: Akun berhasil disusupi hacker!" style="width:100%; font-size:0.82rem; color:var(--text-muted);">
+            </div>
+            <div style="background: rgba(0, 255, 136, 0.05); border: 1px solid rgba(0, 255, 136, 0.3); border-radius: 6px; padding: 12px;">
+              <label style="display:flex; align-items:center; gap:6px; font-size:0.75rem; font-weight:700; color:var(--neon-green); margin-bottom:6px;">
+                <span>🛡️</span> OPSI B (KEPUTUSAN AMAN / TEPAT)
+              </label>
+              <input type="text" id="cb-kasus-choice-b" class="cyber-input" value="${choices[1]?.text || ''}" placeholder="contoh: Abaikan pesan dan verifikasi via kanal resmi" style="width:100%; margin-bottom:6px; font-size:0.86rem;" required>
+              <input type="text" id="cb-kasus-feedback-b" class="cyber-input" value="${choices[1]?.feedback || ''}" placeholder="Debrief keberhasilan: Pertahanan Zero-Trust berhasil!" style="width:100%; font-size:0.82rem; color:var(--text-muted);">
+            </div>
+          </div>
         </div>
       `;
     } else if (category === 'diff') {
       const left = existingCase?.left_card || {};
       const right = existingCase?.right_card || {};
       categoryFields = `
-        <div style="margin-bottom: 12px;">
-          <label style="display:block; font-size:0.75rem; color:var(--neon-cyan); margin-bottom:4px;">DESKRIPSI SKENARIO PERBANDINGAN</label>
-          <input type="text" id="cb-diff-scenario" class="cyber-input" value="${existingCase?.scenario || ''}" placeholder="contoh: Dua notifikasi konfirmasi perubahan kata sandi perbankan." style="width:100%;" required>
-        </div>
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
-          <div style="background: rgba(0,243,255,0.06); padding: 10px; border-radius: 4px; border: 1px solid var(--border-cyan);">
-            <strong style="color:var(--neon-cyan); font-size:0.8rem;">SKENARIO KIRI (A)</strong>
-            <input type="text" id="cb-diff-left-title" class="cyber-input" value="${left.title || ''}" placeholder="Judul Dokumen A" style="width:100%; margin: 6px 0;" required>
-            <input type="text" id="cb-diff-left-sender" class="cyber-input" value="${left.sender || ''}" placeholder="Pengirim A" style="width:100%; margin-bottom: 6px;" required>
-            <textarea id="cb-diff-left-content" class="cyber-input" placeholder="Isi pesan Skenario A..." style="width:100%; height:55px;">${left.content || ''}</textarea>
+        <div style="background: rgba(0, 243, 255, 0.03); border: 1px solid rgba(0, 243, 255, 0.18); border-radius: 8px; padding: 14px; margin-bottom: 16px;">
+          <div style="margin-bottom: 14px;">
+            <label style="display:flex; align-items:center; gap:6px; font-size:0.75rem; font-weight:700; color:var(--neon-cyan); margin-bottom:6px;">
+              <span>⚖️</span> DESKRIPSI SKENARIO PERBANDINGAN
+            </label>
+            <input type="text" id="cb-diff-scenario" class="cyber-input" value="${existingCase?.scenario || ''}" placeholder="contoh: Dua notifikasi konfirmasi perubahan kata sandi perbankan." style="width:100%; padding:9px 12px;" required>
           </div>
-          <div style="background: rgba(189,0,255,0.06); padding: 10px; border-radius: 4px; border: 1px solid var(--border-magenta);">
-            <strong style="color:var(--neon-magenta); font-size:0.8rem;">SKENARIO KANAN (B)</strong>
-            <input type="text" id="cb-diff-right-title" class="cyber-input" value="${right.title || ''}" placeholder="Judul Dokumen B" style="width:100%; margin: 6px 0;" required>
-            <input type="text" id="cb-diff-right-sender" class="cyber-input" value="${right.sender || ''}" placeholder="Pengirim B" style="width:100%; margin-bottom: 6px;" required>
-            <textarea id="cb-diff-right-content" class="cyber-input" placeholder="Isi pesan Skenario B..." style="width:100%; height:55px;">${right.content || ''}</textarea>
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+            <div style="background: rgba(0,243,255,0.06); padding: 12px; border-radius: 6px; border: 1px solid var(--border-cyan);">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+                <strong style="color:var(--neon-cyan); font-size:0.82rem; letter-spacing:0.5px;">DOKUMEN KIRI (A)</strong>
+                <span class="cyber-tag tag-cyan" style="font-size:0.65rem;">SISI A</span>
+              </div>
+              <input type="text" id="cb-diff-left-title" class="cyber-input" value="${left.title || ''}" placeholder="Judul Dokumen A" style="width:100%; margin-bottom: 8px;" required>
+              <input type="text" id="cb-diff-left-sender" class="cyber-input" value="${left.sender || ''}" placeholder="Alamat Pengirim / URL A" style="width:100%; margin-bottom: 8px;" required>
+              <textarea id="cb-diff-left-content" class="cyber-input" placeholder="Rincian konten atau elemen Skenario A..." style="width:100%; height:65px; font-size:0.84rem;">${left.content || ''}</textarea>
+            </div>
+            <div style="background: rgba(189,0,255,0.06); padding: 12px; border-radius: 6px; border: 1px solid var(--border-magenta);">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+                <strong style="color:var(--neon-magenta); font-size:0.82rem; letter-spacing:0.5px;">DOKUMEN KANAN (B)</strong>
+                <span class="cyber-tag tag-magenta" style="font-size:0.65rem;">SISI B</span>
+              </div>
+              <input type="text" id="cb-diff-right-title" class="cyber-input" value="${right.title || ''}" placeholder="Judul Dokumen B" style="width:100%; margin-bottom: 8px;" required>
+              <input type="text" id="cb-diff-right-sender" class="cyber-input" value="${right.sender || ''}" placeholder="Alamat Pengirim / URL B" style="width:100%; margin-bottom: 8px;" required>
+              <textarea id="cb-diff-right-content" class="cyber-input" placeholder="Rincian konten atau elemen Skenario B..." style="width:100%; height:65px; font-size:0.84rem;">${right.content || ''}</textarea>
+            </div>
           </div>
-        </div>
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
-          <div>
-            <label style="display:block; font-size:0.75rem; color:var(--neon-amber); margin-bottom:4px;">MANA YANG MERUPAKAN ASLI (REAL)?</label>
-            <select id="cb-diff-correct" class="cyber-input" style="width:100%;">
-              <option value="left" ${existingCase?.correct_choice === 'left' ? 'selected' : ''}>Sisi Kiri (A) adalah REAL, Sisi Kanan (B) adalah FAKE</option>
-              <option value="right" ${existingCase?.correct_choice === 'right' ? 'selected' : ''}>Sisi Kanan (B) adalah REAL, Sisi Kiri (A) adalah FAKE</option>
-            </select>
-          </div>
-          <div>
-            <label style="display:block; font-size:0.75rem; color:var(--text-muted); margin-bottom:4px;">PENJELASAN FORENSIK</label>
-            <input type="text" id="cb-diff-explanation" class="cyber-input" value="${existingCase?.explanation || ''}" placeholder="Alasan mengapa dokumen fake terdeteksi penipuan..." style="width:100%;">
+          <div style="display:grid; grid-template-columns: 1.2fr 1.8fr; gap: 12px;">
+            <div>
+              <label style="display:flex; align-items:center; gap:6px; font-size:0.75rem; font-weight:700; color:var(--neon-amber); margin-bottom:6px;">
+                <span>🎯</span> KUNCI JAWABAN BENAR
+              </label>
+              <select id="cb-diff-correct" class="cyber-input" style="width:100%; padding:9px 12px;">
+                <option value="left" ${existingCase?.correct_choice === 'left' ? 'selected' : ''}>Sisi Kiri (A) adalah REAL, Kanan (B) FAKE</option>
+                <option value="right" ${existingCase?.correct_choice === 'right' ? 'selected' : ''}>Sisi Kanan (B) adalah REAL, Kiri (A) FAKE</option>
+              </select>
+            </div>
+            <div>
+              <label style="display:flex; align-items:center; gap:6px; font-size:0.75rem; font-weight:700; color:var(--text-muted); margin-bottom:6px;">
+                <span>🔬</span> PENJELASAN FORENSIK PEMBEDA
+              </label>
+              <input type="text" id="cb-diff-explanation" class="cyber-input" value="${existingCase?.explanation || ''}" placeholder="Alasan taktis mengapa dokumen fake terdeteksi penipuan..." style="width:100%; padding:9px 12px;">
+            </div>
           </div>
         </div>
       `;
     } else if (category === 'criminal') {
       const clues = existingCase?.clues || [];
       categoryFields = `
-        <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 12px;">
-          <div>
-            <label style="display:block; font-size:0.75rem; color:var(--neon-cyan); margin-bottom:4px;">TARGET KORBAN</label>
-            <input type="text" id="cb-crim-victim" class="cyber-input" value="${existingCase?.victim || ''}" placeholder="contoh: Mahasiswa Penerima Beasiswa" style="width:100%;" required>
+        <div style="background: rgba(0, 243, 255, 0.03); border: 1px solid rgba(0, 243, 255, 0.18); border-radius: 8px; padding: 16px; margin-bottom: 16px;">
+          <!-- Metadata Operasi -->
+          <div style="display:grid; grid-template-columns: 1.4fr 1.2fr 0.9fr; gap: 12px; margin-bottom: 16px;">
+            <div>
+              <label style="display:flex; align-items:center; gap:5px; font-size:0.75rem; font-weight:700; color:var(--neon-cyan); margin-bottom:6px;">
+                <span>🎯</span> TARGET KORBAN
+              </label>
+              <input type="text" id="cb-crim-victim" class="cyber-input" value="${existingCase?.victim || ''}" placeholder="contoh: PT Orion Logistik Semesta (Finance Dept)" style="width:100%; padding:9px 12px;" required>
+            </div>
+            <div>
+              <label style="display:flex; align-items:center; gap:5px; font-size:0.75rem; font-weight:700; color:var(--neon-red); margin-bottom:6px;">
+                <span>💰</span> POTENSI KERUGIAN
+              </label>
+              <input type="text" id="cb-crim-loss" class="cyber-input" value="${existingCase?.potential_loss || 'Rp 45.000.000'}" placeholder="Rp 45.000.000" style="width:100%; padding:9px 12px; border-color: rgba(255,51,102,0.4);" required>
+            </div>
+            <div>
+              <label style="display:flex; align-items:center; gap:5px; font-size:0.75rem; font-weight:700; color:var(--neon-amber); margin-bottom:6px;">
+                <span>⏱️</span> WAKTU (DETIK)
+              </label>
+              <input type="number" id="cb-crim-timer" class="cyber-input" value="${existingCase?.timer_seconds || 90}" min="30" max="300" style="width:100%; padding:9px 12px; border-color: rgba(255,184,0,0.4);" required>
+            </div>
           </div>
-          <div>
-            <label style="display:block; font-size:0.75rem; color:var(--neon-red); margin-bottom:4px;">POTENSI KERUGIAN</label>
-            <input type="text" id="cb-crim-loss" class="cyber-input" value="${existingCase?.potential_loss || 'Rp 45.000.000'}" placeholder="Rp 45.000.000" style="width:100%;" required>
+
+          <!-- 4 Kunci Dakwaan Forensik Cards -->
+          <div style="margin-top: 14px; border-top: 1px dashed rgba(0, 243, 255, 0.2); padding-top: 14px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px;">
+              <div style="font-size:0.78rem; color:var(--neon-cyan); font-weight:700; letter-spacing:0.6px; display:flex; align-items:center; gap:6px;">
+                <span>🔍</span> 4 KUNCI DAKWAAN FORENSIK (WAJIB LENGKAP)
+              </div>
+              <span style="font-size:0.7rem; color:var(--text-muted); font-family:var(--font-mono);">4 Elemen Rantai Bukti Digital</span>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 9px;">
+              <div style="display:flex; align-items:center; gap: 10px; background: rgba(5,5,10,0.5); padding: 7px 12px; border-radius: 6px; border: 1px solid rgba(0,243,255,0.2);">
+                <span class="cyber-tag tag-cyan" style="font-size:0.68rem; min-width: 95px; text-align:center; padding: 4px 6px;">01 // AKTOR</span>
+                <input type="text" id="cb-crim-clue-actor" class="cyber-input" value="${clues[0]?.description || ''}" placeholder="Sumber / Aktor (contoh: Log koneksi berasal dari proxy terbuka: 198.51.100.42)" style="width:100%;" required>
+              </div>
+              <div style="display:flex; align-items:center; gap: 10px; background: rgba(5,5,10,0.5); padding: 7px 12px; border-radius: 6px; border: 1px solid rgba(189,0,255,0.25);">
+                <span class="cyber-tag tag-magenta" style="font-size:0.68rem; min-width: 95px; text-align:center; padding: 4px 6px;">02 // VEKTOR</span>
+                <input type="text" id="cb-crim-clue-vector" class="cyber-input" value="${clues[1]?.description || ''}" placeholder="Vektor Serangan (contoh: Surel spoofing display name 'Direktur Utama')" style="width:100%;" required>
+              </div>
+              <div style="display:flex; align-items:center; gap: 10px; background: rgba(5,5,10,0.5); padding: 7px 12px; border-radius: 6px; border: 1px solid rgba(255,51,102,0.25);">
+                <span class="cyber-tag tag-red" style="font-size:0.68rem; min-width: 95px; text-align:center; padding: 4px 6px;">03 // ANOMALI</span>
+                <input type="text" id="cb-crim-clue-redflag" class="cyber-input" value="${clues[2]?.description || ''}" placeholder="Red Flag Kritis (contoh: Invoice melampirkan rekening baru di Bank Gelap)" style="width:100%;" required>
+              </div>
+              <div style="display:flex; align-items:center; gap: 10px; background: rgba(5,5,10,0.5); padding: 7px 12px; border-radius: 6px; border: 1px solid rgba(0,255,136,0.25);">
+                <span class="cyber-tag tag-green" style="font-size:0.68rem; min-width: 95px; text-align:center; padding: 4px 6px;">04 // MITIGASI</span>
+                <input type="text" id="cb-crim-clue-mitigation" class="cyber-input" value="${clues[3]?.description || ''}" placeholder="Tindakan Mitigasi (contoh: Lakukan konfirmasi langsung via telepon terenkripsi)" style="width:100%;" required>
+              </div>
+            </div>
           </div>
-          <div>
-            <label style="display:block; font-size:0.75rem; color:var(--neon-amber); margin-bottom:4px;">WAKTU (DETIK)</label>
-            <input type="number" id="cb-crim-timer" class="cyber-input" value="${existingCase?.timer_seconds || 90}" min="30" max="300" style="width:100%;" required>
+
+          <!-- Debrief Resmi -->
+          <div style="margin-top: 14px;">
+            <label style="display:flex; align-items:center; gap:6px; font-size:0.75rem; font-weight:700; color:var(--text-muted); margin-bottom:6px;">
+              <span>📋</span> DEBRIEF RESMI & ANALISIS TAKTIS
+            </label>
+            <textarea id="cb-crim-debrief" class="cyber-input" placeholder="Ringkasan ulasan evaluasi setelah dakwaan forensik berhasil dipecahkan..." style="width:100%; height:75px; line-height: 1.45; font-size:0.86rem; padding: 10px 12px;">${existingCase?.debrief || ''}</textarea>
           </div>
-        </div>
-        <div style="background: rgba(5,5,10,0.6); padding: 10px; border-radius: 4px; border: 1px solid var(--border-cyan); margin-bottom: 12px;">
-          <div style="font-size:0.75rem; color:var(--neon-cyan); font-weight:700; margin-bottom: 6px;">4 KUNCI DAKWAAN FORENSIK:</div>
-          <input type="text" id="cb-crim-clue-actor" class="cyber-input" value="${clues[0]?.description || ''}" placeholder="1. Sumber/Aktor (contoh: IP Relay Luar Negeri)" style="width:100%; margin-bottom:5px;" required>
-          <input type="text" id="cb-crim-clue-vector" class="cyber-input" value="${clues[1]?.description || ''}" placeholder="2. Vektor Serangan (contoh: Phishing Token Perbankan)" style="width:100%; margin-bottom:5px;" required>
-          <input type="text" id="cb-crim-clue-redflag" class="cyber-input" value="${clues[2]?.description || ''}" placeholder="3. Red Flag Kritis (contoh: Permintaan OTP Instan)" style="width:100%; margin-bottom:5px;" required>
-          <input type="text" id="cb-crim-clue-mitigation" class="cyber-input" value="${clues[3]?.description || ''}" placeholder="4. Mitigasi (contoh: Freeze Rekening & Lapor Bank)" style="width:100%;" required>
-        </div>
-        <div style="margin-bottom: 12px;">
-          <label style="display:block; font-size:0.75rem; color:var(--text-muted); margin-bottom:4px;">DEBRIEF RESMI</label>
-          <textarea id="cb-crim-debrief" class="cyber-input" placeholder="Ringkasan ulasan setelah dakwaan berhasil..." style="width:100%; height:50px;">${existingCase?.debrief || ''}</textarea>
         </div>
       `;
     } else if (category === 'deeplearn') {
       categoryFields = `
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
-          <div>
-            <label style="display:block; font-size:0.75rem; color:var(--neon-magenta); margin-bottom:4px;">TINGKAT BAHAYA</label>
-            <select id="cb-deep-threat" class="cyber-input" style="width:100%;">
-              <option value="CRITICAL_SCAM" ${existingCase?.threat_level === 'CRITICAL_SCAM' ? 'selected' : ''}>CRITICAL_SCAM (Penipuan Kritis)</option>
-              <option value="SUSPICIOUS" ${existingCase?.threat_level === 'SUSPICIOUS' ? 'selected' : ''}>SUSPICIOUS (Mencurigakan)</option>
-              <option value="SAFE" ${existingCase?.threat_level === 'SAFE' ? 'selected' : ''}>SAFE (Aman / Sah)</option>
-            </select>
+        <div style="background: rgba(0, 243, 255, 0.03); border: 1px solid rgba(0, 243, 255, 0.18); border-radius: 8px; padding: 14px; margin-bottom: 16px;">
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+            <div>
+              <label style="display:flex; align-items:center; gap:6px; font-size:0.75rem; font-weight:700; color:var(--neon-magenta); margin-bottom:6px;">
+                <span>⚠️</span> TINGKAT ANCAMAN
+              </label>
+              <select id="cb-deep-threat" class="cyber-input" style="width:100%; padding:9px 12px;">
+                <option value="CRITICAL_SCAM" ${existingCase?.threat_level === 'CRITICAL_SCAM' ? 'selected' : ''}>🔴 CRITICAL_SCAM (Penipuan Berbahaya)</option>
+                <option value="SUSPICIOUS" ${existingCase?.threat_level === 'SUSPICIOUS' ? 'selected' : ''}>🟡 SUSPICIOUS (Mencurigakan)</option>
+                <option value="SAFE" ${existingCase?.threat_level === 'SAFE' ? 'selected' : ''}>🟢 SAFE (Aman / Sah)</option>
+              </select>
+            </div>
+            <div>
+              <label style="display:flex; align-items:center; gap:6px; font-size:0.75rem; font-weight:700; color:var(--neon-cyan); margin-bottom:6px;">
+                <span>🔑</span> KATA KUNCI WAJIB (PISAHKAN KOMA)
+              </label>
+              <input type="text" id="cb-deep-keywords" class="cyber-input" value="${(existingCase?.min_keywords_required || []).join(', ')}" placeholder="contoh: private key, domain, urgensi" style="width:100%; padding:9px 12px;" required>
+            </div>
+          </div>
+          <div style="margin-bottom: 14px;">
+            <label style="display:flex; align-items:center; gap:6px; font-size:0.75rem; font-weight:700; color:var(--neon-cyan); margin-bottom:6px;">
+              <span>📄</span> DOKUMEN TRANSMISI ANALISIS
+            </label>
+            <textarea id="cb-deep-text" class="cyber-input" style="width:100%; height:95px; line-height:1.45; font-size:0.86rem; padding:10px 12px;" placeholder="Tuliskan isi email atau pesan siber yang harus dievaluasi oleh Gemini AI..." required>${existingCase?.scenario_text || ''}</textarea>
           </div>
           <div>
-            <label style="display:block; font-size:0.75rem; color:var(--neon-cyan); margin-bottom:4px;">KATA KUNCI WAJIB (PISAHKAN KOMA)</label>
-            <input type="text" id="cb-deep-keywords" class="cyber-input" value="${(existingCase?.min_keywords_required || []).join(', ')}" placeholder="contoh: private key, domain, urgensi" style="width:100%;" required>
+            <label style="display:flex; align-items:center; gap:6px; font-size:0.75rem; font-weight:700; color:var(--text-muted); margin-bottom:6px;">
+              <span>🚩</span> INDIKATOR RED FLAG (PISAHKAN KOMA)
+            </label>
+            <input type="text" id="cb-deep-indicators" class="cyber-input" value="${(existingCase?.target_indicators || []).join(', ')}" placeholder="contoh: Permintaan kredensial, Batas waktu panik, Domain palsu" style="width:100%; padding:9px 12px;">
           </div>
-        </div>
-        <div style="margin-bottom: 12px;">
-          <label style="display:block; font-size:0.75rem; color:var(--neon-cyan); margin-bottom:4px;">DOKUMEN TRANSMISI ANALISIS</label>
-          <textarea id="cb-deep-text" class="cyber-input" style="width:100%; height:90px;" placeholder="Tuliskan isi email atau pesan siber yang harus dievaluasi..." required>${existingCase?.scenario_text || ''}</textarea>
-        </div>
-        <div style="margin-bottom: 12px;">
-          <label style="display:block; font-size:0.75rem; color:var(--text-muted); margin-bottom:4px;">INDIKATOR RED FLAG (PISAHKAN KOMA)</label>
-          <input type="text" id="cb-deep-indicators" class="cyber-input" value="${(existingCase?.target_indicators || []).join(', ')}" placeholder="contoh: Permintaan kredensial, Batas waktu panik, Domain palsu" style="width:100%;">
         </div>
       `;
     }
 
+    // Apply roomy responsive container sizing to modal box
+    const modalBoxContainer = modalBox.querySelector('.cyber-modal-box');
+    if (modalBoxContainer) {
+      modalBoxContainer.style.maxWidth = 'min(860px, 94vw)';
+      modalBoxContainer.style.width = '100%';
+      modalBoxContainer.style.padding = '24px 28px';
+    }
+
     modalContent.innerHTML = `
-      <div style="max-height: 80vh; overflow-y: auto; padding: 4px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom: 1px solid var(--border-cyan); padding-bottom: 10px; margin-bottom: 14px;">
-          <div style="display:flex; align-items:center; gap: 8px;">
-            <span style="font-size: 1.4rem;">⚙️</span>
+      <div style="max-height: 84vh; overflow-y: auto; padding: 2px 4px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom: 1px solid var(--border-cyan); padding-bottom: 12px; margin-bottom: 16px;">
+          <div style="display:flex; align-items:center; gap: 12px;">
+            <div style="width: 40px; height: 40px; border-radius: 8px; background: rgba(0,243,255,0.1); border: 1px solid var(--neon-cyan); display:flex; align-items:center; justify-content:center; font-size: 1.35rem; box-shadow: 0 0 15px rgba(0,243,255,0.2);">
+              ⚙️
+            </div>
             <div>
-              <h3 style="font-size: 1.15rem; color: var(--neon-cyan); margin:0;">
+              <h3 style="font-size: 1.22rem; font-family: var(--font-display); letter-spacing: 0.8px; color: var(--neon-cyan); margin:0;">
                 ${existingCase ? 'EDIT SKENARIO KASUS' : 'TAMBAH KASUS BARU'}
               </h3>
-              <span class="cyber-tag tag-magenta" style="font-size:0.65rem;">GIM: ${category.toUpperCase()}</span>
+              <div style="display:flex; gap:6px; align-items:center; margin-top: 3px;">
+                <span class="cyber-tag tag-magenta" style="font-size:0.68rem; font-weight:700;">GIM: ${category.toUpperCase()}</span>
+                <span class="cyber-tag" style="font-size:0.68rem; border-color: rgba(255,255,255,0.2); color: var(--text-muted);">${caseId ? 'ID: ' + caseId : 'DRAFT KUSTOM'}</span>
+              </div>
             </div>
           </div>
-          <button class="cyber-btn btn-ghost" style="padding: 4px 10px;" onclick="document.getElementById('modal-general-box').classList.remove('active')">✕</button>
+          <button type="button" class="cyber-btn btn-ghost" style="padding: 6px 12px; font-size: 1.1rem; border-radius: 6px;" onclick="document.getElementById('modal-general-box').classList.remove('active')">✕</button>
         </div>
 
         <form id="form-case-builder" onsubmit="window.adminManager.submitCaseBuilder(event, '${category}', '${caseId || ''}')">
-          <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px; margin-bottom: 12px;">
+          <div style="display: grid; grid-template-columns: 2.2fr 1fr; gap: 12px; margin-bottom: 14px;">
             <div>
-              <label style="display:block; font-size:0.75rem; color:var(--text-highlight); margin-bottom:4px;">JUDUL SKENARIO</label>
-              <input type="text" id="cb-common-title" class="cyber-input" value="${existingCase?.title || ''}" placeholder="contoh: Phishing Berkedok Bantuan Operasional" style="width:100%;" required>
+              <label style="display:flex; align-items:center; gap:6px; font-size:0.75rem; font-weight:700; color:var(--text-highlight); margin-bottom:6px; letter-spacing:0.5px;">
+                <span>🏷️</span> JUDUL SKENARIO
+              </label>
+              <input type="text" id="cb-common-title" class="cyber-input" value="${existingCase?.title || ''}" placeholder="contoh: Operasi Phantom Wire. Pembobolan Transaksi Korporat" style="width:100%; font-size: 0.92rem; padding: 10px 12px;" required>
             </div>
             <div>
-              <label style="display:block; font-size:0.75rem; color:var(--text-highlight); margin-bottom:4px;">TINGKAT KESULITAN</label>
-              <select id="cb-common-difficulty" class="cyber-input" style="width:100%;">
-                <option value="Mudah" ${existingCase?.difficulty === 'Mudah' ? 'selected' : ''}>Mudah</option>
-                <option value="Sedang" ${!existingCase || existingCase?.difficulty === 'Sedang' ? 'selected' : ''}>Sedang</option>
-                <option value="Sulit" ${existingCase?.difficulty === 'Sulit' ? 'selected' : ''}>Sulit</option>
+              <label style="display:flex; align-items:center; gap:6px; font-size:0.75rem; font-weight:700; color:var(--text-highlight); margin-bottom:6px; letter-spacing:0.5px;">
+                <span>📊</span> TINGKAT KESULITAN
+              </label>
+              <select id="cb-common-difficulty" class="cyber-input" style="width:100%; font-size: 0.92rem; padding: 10px 12px;">
+                <option value="Mudah" ${existingCase?.difficulty === 'Mudah' ? 'selected' : ''}>🟢 Mudah</option>
+                <option value="Sedang" ${!existingCase || existingCase?.difficulty === 'Sedang' ? 'selected' : ''}>🟡 Sedang</option>
+                <option value="Sulit" ${existingCase?.difficulty === 'Sulit' ? 'selected' : ''}>🔴 Sulit</option>
               </select>
             </div>
           </div>
 
-          <div style="margin-bottom: 12px;">
-            <label style="display:block; font-size:0.75rem; color:var(--text-muted); margin-bottom:4px;">DESKRIPSI RINGKAS</label>
-            <input type="text" id="cb-common-subtitle" class="cyber-input" value="${existingCase?.subtitle || existingCase?.scenario || ''}" placeholder="contoh: Skenario investigasi taktis oleh Administrator" style="width:100%;" required>
+          <div style="margin-bottom: 14px;">
+            <label style="display:flex; align-items:center; gap:6px; font-size:0.75rem; font-weight:700; color:var(--text-muted); margin-bottom:6px; letter-spacing:0.5px;">
+              <span>📝</span> DESKRIPSI RINGKAS SKENARIO
+            </label>
+            <input type="text" id="cb-common-subtitle" class="cyber-input" value="${existingCase?.subtitle || existingCase?.scenario || ''}" placeholder="contoh: Skenario investigasi taktis oleh Administrator" style="width:100%; padding: 10px 12px;" required>
           </div>
 
           ${categoryFields}
 
-          <div style="display:flex; justify-content:flex-end; gap: 10px; margin-top: 14px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 12px;">
-            <button type="button" class="cyber-btn btn-ghost" onclick="document.getElementById('modal-general-box').classList.remove('active')">
-              Batal
+          <div style="display:flex; justify-content:flex-end; gap: 12px; margin-top: 18px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 14px; flex-wrap:wrap;">
+            <button type="button" class="cyber-btn btn-ghost" style="padding: 10px 20px; font-size: 0.88rem;" onclick="document.getElementById('modal-general-box').classList.remove('active')">
+              ✕ Batal
             </button>
-            <button type="submit" class="cyber-btn" style="background: var(--neon-cyan); color: #05050A;">
+            <button type="submit" class="cyber-btn" style="background: var(--neon-cyan); color: #05050A; font-weight: 700; padding: 10px 24px; font-size: 0.88rem; box-shadow: 0 0 20px var(--neon-cyan-dim);">
               💾 ${existingCase ? 'Perbarui Skenario Kasus' : 'Simpan Skenario Kasus'}
             </button>
           </div>

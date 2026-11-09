@@ -576,6 +576,11 @@ h1, h2, h3, h4 {
   color: var(--text-main);
 }
 
+#modal-general-box .cyber-modal-box {
+  max-width: min(840px, 94vw);
+  border-radius: 10px;
+}
+
 .cyber-modal-backdrop.active .cyber-modal-box {
   transform: translateY(0) scale(1);
 }
