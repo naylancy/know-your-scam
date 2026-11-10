@@ -1,7 +1,7 @@
 # 🛡️ KNOW YOUR SCAM: ANTI-GRAVITY CYBER DEFENSE
 ### 🚀 Platform Edukasi & Simulasi Taktis Rekayasa Sosial Siber Berbasis Laravel & Hybrid AI
 
-**KNOW YOUR SCAM** adalah platform edukasi dan simulasi pertahanan siber multi-level bertenaga **Laravel Framework (v10)** dengan arsitektur MVC, integrasi basis data relasional (SQLite, MySQL, dan Neon PostgreSQL), serta mesin kecerdasan buatan hibrida (**Google Gemini Cloud AI + Local Cognitive Core**).
+**KNOW YOUR SCAM** adalah platform edukasi dan simulasi pertahanan siber multi-level bertenaga **Laravel Framework (v10)** dengan arsitektur MVC, integrasi basis data relasional (PostgreSQL), serta mesin kecerdasan buatan hibrida (**Google Gemini Cloud AI + Local Cognitive Core**).
 
 Platform ini dirancang untuk melatih nalar kritis mahasiswa dan masyarakat umum dalam mengenali ragam penipuan digital, menganalisis manipulasi psikologis, mengambil keputusan aman, dan melakukan tindakan perlindungan diri secara terstruktur.
 
